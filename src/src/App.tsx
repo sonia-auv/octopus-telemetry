@@ -1,12 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import Layout from './Layout';
+import ScreenLayout from './layout/screenlayout/ScreenLayout';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <Layout />
+      <h1>SONIA</h1>
+      <ScreenLayout />
     </div>
   );
 }

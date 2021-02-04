@@ -1,5 +1,5 @@
 {
-	"name": "Octupus Telemetry",
+	"name": "Octupus-Telemetry",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {

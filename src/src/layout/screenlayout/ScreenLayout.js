@@ -1,25 +1,24 @@
 import React from 'react';
-import Draggable from 'react-draggable';
-import TabPane from './TabPane';
+import TabPane from '../tabpane/TabPane';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
-const Layout = (props) => (
+const ScreenLayout = (props) => (
+  // Tabs of the layout for navigation
   <Tabs>
     <TabList>
-      <Tab>View 1</Tab>
+      <Tab>Default view</Tab>
       <Tab>View 2</Tab>
     </TabList>
 
     <TabPanel>
-      <h2>View 1</h2>
       <TabPane />
     </TabPanel>
     <TabPanel>
-      <h2>View 2</h2>
+      <TabPane />
     </TabPanel>
   </Tabs>
 );
 
-export default Layout;
+export default ScreenLayout;

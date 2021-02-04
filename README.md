@@ -17,3 +17,8 @@ npm install
 cd src
 npm run start
 ```
+
+## Credits / references
+
+- [Slider / switch](https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch) from w3 schools
+- [React Grid Layout](https://github.com/STRML/react-grid-layout) for the resizable panes in the window

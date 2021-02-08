@@ -3,6 +3,8 @@ import * as ROSLIB from 'roslib';
 import Slider from '@material-ui/core/Slider'
 import GridLayout from 'react-grid-layout'
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
+import {ThrustersForm} from './ThrustersForm'
+
 
 export const App = () => {
 
@@ -34,9 +36,9 @@ export const App = () => {
         []
     )
 
-    useROSTopicSubscriber<any>(thrusterEffortCallback, "/testPublisher", "std_msgs/String") // TODO Set message type
+    useROSTopicSubscriber<any>(thrusterEffortCallback, "/testSubscribe", "std_msgs/String") // TODO Set message type
 
-
+    const formRef = React.useRef()
 
     const style = { height: 'calc(100% - 55px)' };
     console.log(thrusters)
@@ -128,53 +130,11 @@ export const App = () => {
                         marks={marks}
                     />
                 </div>
-
-
                 <div key="b"
-                     data-grid={{x: 4, y: 0, w: 4, h: 4}}
-                     style={{height: 400}}>
-                    <Slider
-                        orientation= "vertical"
-                        value={thrusters[0].effort}
-                        min={-100}
-                        max={100}
-                        valueLabelDisplay="on"
-                        marks={marks}
-                    />
-                    <Slider
-                        orientation= "vertical"
-                        value={thrusters[1].effort}
-                        min={-100}
-                        max={100}
-                        valueLabelDisplay="on"
-                        marks={marks}
-                    />
-                    <Slider
-                        orientation= "vertical"
-                        value={thrusters[2].effort}
-                        min={-100}
-                        max={100}
-                        valueLabelDisplay="on"
-                        marks={marks}
-                    />
-                    <Slider
-                        orientation= "vertical"
-                        value={thrusters[3].effort}
-                        min={-100}
-                        max={100}
-                        valueLabelDisplay="on"
-                        marks={marks}
-                    />
-                    <Slider
-                        orientation= "vertical"
-                        value={thrusters[4].effort}
-                        min={-100}
-                        max={100}
-                        valueLabelDisplay="on"
-                        marks={marks}
-                    />
+                    data-grid={{x: 0, y: 0, w: 1, h: 1}}
+                    style={{height: 600}}>
+                    <ThrustersForm />
                 </div>
-
             </GridLayout>
 
 

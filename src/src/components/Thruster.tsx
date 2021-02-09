@@ -3,15 +3,12 @@ import Slider from "@material-ui/core/Slider";
 
 
 type ThrusterLevel = {
-    id: number
-    level: number,
+    identification: number
+    effort: number,
 }
 
-export const Thruster = ({ id, level }: ThrusterLevel) => {
+export const Thruster = ({ identification, effort }: ThrusterLevel) => {
 
-
-
-    const style = { height: 'calc(100% - 55px)' };
     const marks = [
         {
             value: -100,
@@ -53,7 +50,7 @@ export const Thruster = ({ id, level }: ThrusterLevel) => {
     return (
         <Slider
             orientation= "vertical"
-            value={level}
+            value={effort}
             min={-100}
             max={100}
             valueLabelDisplay="on"

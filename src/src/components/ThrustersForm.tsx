@@ -1,20 +1,19 @@
 import {useForm} from "react-hook-form";
 import React from "react";
 import ROSLIB from "roslib";
-import { useROSTopicPublisher } from './hooks/useROSTopicPublisher'
+import { useROSTopicPublisher } from '../hooks/useROSTopicPublisher'
 
 export const ThrustersForm = () => {
 
-    type thrustersLevel = {
+    type ThrustersLevel = {
         t1: string;
         t2: string;
         t3: string;
         t4: string
     };
-    const { register, handleSubmit } = useForm<thrustersLevel>();
+    const { register, handleSubmit } = useForm<ThrustersLevel>();
     const thrusterEffortPublisher = useROSTopicPublisher<any>("/testPublish2", "std_msgs/Int16")
-    const onSubmit = (data: thrustersLevel) => {
-        console.log("data", data);
+    const onSubmit = (data: ThrustersLevel) => {
         var test = parseInt(data.t1)
         var toPublish = new ROSLIB.Message({
             data: test

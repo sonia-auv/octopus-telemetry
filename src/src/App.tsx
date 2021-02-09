@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback} from "react";
-import * as ROSLIB from 'roslib';
-import Slider from '@material-ui/core/Slider'
 import GridLayout from 'react-grid-layout'
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
-import {ThrustersForm} from './ThrustersForm'
+import {ThrustersForm} from './components/ThrustersForm'
 import {Thruster} from './components/Thruster'
 
 
@@ -37,49 +35,9 @@ export const App = () => {
         []
     )
 
-    useROSTopicSubscriber<any>(thrusterEffortCallback, "/testSubscribe", "std_msgs/String") // TODO Set message type
-
-    const formRef = React.useRef()
+    useROSTopicSubscriber<any>(thrusterEffortCallback, "/testSubscribe", "std_msgs/String")
 
     const style = { height: 'calc(100% - 55px)' };
-    console.log(thrusters)
-    const marks = [
-        {
-            value: -100,
-            label: 100
-        },
-        {
-            value: -75,
-            label: -75
-        },
-        {
-            value: -50,
-            label: -50
-        },
-        {
-            value: -25,
-            label: -25
-        },
-        {
-            value: 0,
-            label: 0
-        },
-        {
-            value: 25,
-            label: 25
-        },
-        {
-            value: 50,
-            label: 50
-        },
-        {
-            value: 75,
-            label: 75
-        },
-        {
-            value: 100,
-            label: 100
-        }]
     return (
         <div className="margin-top" style={style} >
             <GridLayout className="layout"
@@ -90,44 +48,18 @@ export const App = () => {
                 <div key="a"
                      data-grid={{x: 4, y: 0, w: 4, h: 4}}
                      style={{height: 400}}>
-                    <Thruster id={1} level={thrusters[0].effort}/>
-                    <Slider
-                        orientation= "vertical"
-                        value={thrusters[1].effort}
-                        min={-100}
-                        max={100}
-                        valueLabelDisplay="on"
-                        marks={marks}
-                    />
-                    <Slider
-                        orientation= "vertical"
-                        value={thrusters[2].effort}
-                        min={-100}
-                        max={100}
-                        valueLabelDisplay="on"
-                        marks={marks}
-                    />
-                    <Slider
-                        orientation= "vertical"
-                        value={thrusters[3].effort}
-                        min={-100}
-                        max={100}
-                        valueLabelDisplay="on"
-                        marks={marks}
-                    />
-                    <Slider
-                        orientation= "vertical"
-                        value={thrusters[4].effort}
-                        min={-100}
-                        max={100}
-                        valueLabelDisplay="on"
-                        marks={marks}
-                    />
+                    {thrusters.map((thruster, id) =>{
+                        return (
+                            <Thruster key={id}
+                                  effort={thruster.effort}
+                                  identification={thruster.ID} />
+                        )
+                    })}
                 </div>
                 <div key="b"
                     data-grid={{x: 0, y: 0, w: 1, h: 1}}
                     style={{height: 600}}>
-                    <ThrustersForm />
+                    <ThrustersForm /> //TODO replace with the right component
                 </div>
             </GridLayout>
 

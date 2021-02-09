@@ -4,6 +4,7 @@ import Slider from '@material-ui/core/Slider'
 import GridLayout from 'react-grid-layout'
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {ThrustersForm} from './ThrustersForm'
+import {Thruster} from './components/Thruster'
 
 
 export const App = () => {
@@ -89,14 +90,7 @@ export const App = () => {
                 <div key="a"
                      data-grid={{x: 4, y: 0, w: 4, h: 4}}
                      style={{height: 400}}>
-                    <Slider
-                        orientation= "vertical"
-                        value={thrusters[0].effort}
-                        min={-100}
-                        max={100}
-                        valueLabelDisplay="on"
-                        marks={marks}
-                    />
+                    <Thruster id={1} level={thrusters[0].effort}/>
                     <Slider
                         orientation= "vertical"
                         value={thrusters[1].effort}

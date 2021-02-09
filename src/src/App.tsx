@@ -4,7 +4,7 @@ import Slider from '@material-ui/core/Slider'
 import GridLayout from 'react-grid-layout'
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {ThrustersForm} from './ThrustersForm'
-
+import {withStyles} from "@material-ui/core";
 
 export const App = () => {
 
@@ -16,9 +16,8 @@ export const App = () => {
             {ID: 3, effort: 0},
             {ID: 4, effort: 0},
             {ID: 5, effort: 0},
-
-
         ]);
+    const [value, setValue] = React.useState<number[]>([50, 0]);
 
     const thrusterEffortCallback = useCallback(
         (x: any) => {
@@ -91,11 +90,12 @@ export const App = () => {
                      style={{height: 400}}>
                     <Slider
                         orientation= "vertical"
-                        value={thrusters[0].effort}
+                        value={[thrusters[0].effort, 10]}
                         min={-100}
                         max={100}
                         valueLabelDisplay="on"
                         marks={marks}
+                        defaultValue={[20, 37]}
                     />
                     <Slider
                         orientation= "vertical"

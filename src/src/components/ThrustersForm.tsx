@@ -3,6 +3,10 @@ import React from "react";
 import ROSLIB from "roslib";
 import { useROSTopicPublisher } from '../hooks/useROSTopicPublisher'
 
+/*
+Ceci est un composant de test.
+ */
+
 export const ThrustersForm = () => {
 
     type ThrustersLevel = {

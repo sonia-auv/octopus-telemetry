@@ -59,7 +59,7 @@ export const App = () => {
                 <div key="b"
                     data-grid={{x: 0, y: 0, w: 1, h: 1}}
                     style={{height: 600}}>
-                    <ThrustersForm /> //TODO replace with the right component
+                    <ThrustersForm />
                 </div>
             </GridLayout>
 

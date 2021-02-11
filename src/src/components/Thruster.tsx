@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "@material-ui/core/Slider";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import { useROSTopicPublisher } from '../hooks/useROSTopicPublisher'
 import RedButtonImg from './image/redButton.png';
+import ROSLIB from "roslib";
 
 const marks = [
     {
@@ -207,6 +209,9 @@ const getMarks = (from: number, to: number, step: number) => {
 
 export const Thruster = ({ identification, effort, minMark, maxMark, step, thumbEnabled }: ThrusterLevel) => {
 
+    // TODO: METTRE LE BON TOPIC
+    const thrusterEffortPublisher = useROSTopicPublisher<any>("/provider_thruster/thruster_effort", "std_msgs/String")
+
     function ThrusterControlThumbComponent(props: any) {
         return (
             <span {...props}>
@@ -230,6 +235,13 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
 
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
+
+        // TODO: FORMATAGE DES DONNES PAS CERTAIN DU FORMAT
+        var msg = JSON.stringify({ ID:identification, effort:newValue})
+        var toPublish = new ROSLIB.Message({
+            data: msg
+        })
+        thrusterEffortPublisher(toPublish)
     };
 
     let markValues = getMarks(minMark, maxMark, step)

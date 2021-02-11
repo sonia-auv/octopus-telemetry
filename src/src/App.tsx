@@ -51,8 +51,11 @@ export const App = () => {
                     {thrusters.map((thruster, id) =>{
                         return (
                             <Thruster key={id}
-                                  effort={thruster.effort}
-                                  identification={thruster.ID} />
+                                      effort={thruster.effort}
+                                      identification={thruster.ID}
+                                      minMark = {-100}
+                                      maxMark={100}
+                                      step={15}/>
                         )
                     })}
                 </div>

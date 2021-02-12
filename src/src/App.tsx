@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import GridLayout from 'react-grid-layout'
-import { ThrustersForm } from './components/ThrustersForm'
 import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 
 export const App = () => {
-
     const [thrusters, setThrusters] = useState<{ ID: number, effort: number, thumbEnabled: boolean }[]>(
         [
             { ID: 1, effort: 0, thumbEnabled: true },
@@ -59,11 +57,7 @@ export const App = () => {
                         )
                     })}
                 </div>
-                <div key="b"
-                    data-grid={{ x: 0, y: 0, w: 2, h: 2 }}
-                    style={{ height: 600 }}>
-                    <ThrustersForm />
-                </div>
+
             </GridLayout>
         </div>
     );

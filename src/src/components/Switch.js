@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './switch.css';
+import {useGeneral} from "../context/testContext";
 
 const selectedTextStyle = {
   fontWeight: 'bold',
@@ -13,6 +14,9 @@ const unselectedTextStyle = {
 
 const Switch = (props) => {
   let [isOn, toggle] = useState(false);
+  const {isDryRunMode, setDryMode} = useGeneral()
+    console.log("--------")
+    console.log(isDryRunMode)
 
   return (
     <div className={`Switch__container ${props.vertical ? 'vertical' : ''}`}>
@@ -20,7 +24,7 @@ const Switch = (props) => {
         {props.onLabel}
       </p>
       <label className={`switch ${props.vertical ? 'vertical' : ''}`}>
-        <input type="checkbox" checked={isOn} onChange={() => toggle(!isOn)} />
+        <input type="checkbox" checked={isDryRunMode} onChange={() => setDryMode(true)} />
         <span className="slider round"></span>
       </label>
       <p style={!isOn ? selectedTextStyle : unselectedTextStyle}>

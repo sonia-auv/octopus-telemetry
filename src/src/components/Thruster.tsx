@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Slider from "@material-ui/core/Slider";
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { useROSTopicPublisher } from '../hooks/useROSTopicPublisher'
 import RedButtonImg from './image/redButton.png';

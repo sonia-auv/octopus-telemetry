@@ -3,8 +3,10 @@ import GridLayout from 'react-grid-layout'
 import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
+import {GeneralContext} from "./context/generalContext";
 
 export const App = () => {
+
     const [thrusters, setThrusters] = useState<{ ID: number, effort: number, thumbEnabled: boolean }[]>(
         [
             { ID: 1, effort: 0, thumbEnabled: true },
@@ -32,6 +34,8 @@ export const App = () => {
     useROSTopicSubscriber<any>(thrusterEffortCallback, "/testSubscribe", "std_msgs/String")
 
     const style = { height: 'calc(100% - 55px)' };
+    const [isDryRunMode, setIsDryRunMode] = React.useState(false);
+    const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
     return (
         <div className="margin-top" style={style} >
             <GridLayout className="layout"
@@ -43,7 +47,10 @@ export const App = () => {
                 <div key="a"
                     data-grid={{ x: 2, y: 0, w: 8, h: 5, minW: 8, maxW: 12, minH: 3, maxH: 6 }}
                     style={{ display: 'flex' }}>
-                    <ThrustersModule />
+                    <GeneralContext.Provider value={{isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits}}>
+                        <ThrustersModule />
+                    </GeneralContext.Provider>
+
                     {thrusters.map((thruster, id) => {
                         return (
                             <Thruster key={id}

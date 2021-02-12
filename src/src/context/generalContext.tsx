@@ -1,16 +1,16 @@
 import React, {createContext, useContext} from 'react';
 
 export type GeneralContextType = {
-    isDryMode: boolean,
+    isDryRunMode: boolean,
     isRelativeUnits: boolean,
 
-    setDryMode: (mode: boolean) => void,
-    setUnits: (units: boolean) => void
+    setIsDryRunMode: (mode: boolean) => void,
+    setIsRelativeUnits: (units: boolean) => void
 }
 
 export const GeneralContext = createContext<GeneralContextType>({
-    isDryMode: false,
+    isDryRunMode: false,
     isRelativeUnits: false,
-    setUnits: units => console.warn('changing units'),
-    setDryMode: mode => console.warn('changing mode')});
+    setIsRelativeUnits: units => console.warn('changing units'),
+    setIsDryRunMode: mode => console.warn('changing mode')});
 export const useGeneral = () => useContext(GeneralContext);

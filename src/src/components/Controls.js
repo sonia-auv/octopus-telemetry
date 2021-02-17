@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
 import Switch from './Switch';
-import {useGeneral} from "../context/generalContext";
+import {GeneralContext} from "../context/generalContext";
 
 const Controls = (props) => {
-    const {isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits} = useGeneral()
     return (
-    <div style={{ flexDirection: 'row' }}>
-      <Switch onLabel="Normal" offLabel="Dry Run" vertical={true} value={isDryRunMode} handler={setIsDryRunMode}/>
-      <Switch onLabel="PWM" offLabel="Rel. (%)" vertical={false} value={isRelativeUnits} handler={setIsRelativeUnits}/>
-    </div>
+        <GeneralContext.Consumer>
+            {context => context &&(
+                <div style={{ flexDirection: 'row' }}>
+                    <Switch onLabel="Normal"
+                            offLabel="Dry Run"
+                            vertical={true}
+                            value={context.isDryRunMode}
+                            handler={()=>context.setIsDryRunMode(!context.isDryRunMode)}/>
+
+                    <Switch onLabel="PWM"
+                            offLabel="Rel. (%)"
+                            vertical={false}
+                            value={context.isRelativeUnits}
+                            handler={() => context.setIsRelativeUnits(!context.isRelativeUnits)}/>
+                </div>
+            )}
+        </GeneralContext.Consumer>
   );
 };
 

@@ -44,6 +44,7 @@ export const App = () => {
                 width={1200}
                 verticalCompact={false}
                 draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb"}>
+
                 <div key="a"
                     data-grid={{ x: 2, y: 0, w: 8, h: 5, minW: 8, maxW: 12, minH: 3, maxH: 6 }}
                     style={{ display: 'flex' }}>
@@ -59,7 +60,7 @@ export const App = () => {
                                 minMark={-100}
                                 maxMark={100}
                                 step={25}
-                                thumbEnabled={thruster.thumbEnabled}
+                                thumbEnabled={isDryRunMode}
                             />
                         )
                     })}

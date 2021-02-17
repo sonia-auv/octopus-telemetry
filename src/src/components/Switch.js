@@ -18,7 +18,7 @@ const Switch = (props) => {
                 {props.onLabel}
             </p>
             <label className={`switch ${props.vertical ? 'vertical' : ''}`}>
-                <input type="checkbox" checked={props.value} onChange={() => props.handler(!props.value)} />
+                <input type="checkbox" checked={props.value} onChange={() => props.handler(props.value)} />
                 <span className="slider round"></span>
             </label>
             <p style={!props.value ? selectedTextStyle : unselectedTextStyle}>

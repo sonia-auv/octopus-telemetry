@@ -11,6 +11,6 @@ export type GeneralContextType = {
 export const GeneralContext = createContext<GeneralContextType>({
     isDryRunMode: false,
     isRelativeUnits: false,
-    setIsRelativeUnits: units => console.warn('changing units'),
-    setIsDryRunMode: mode => console.warn('changing mode')});
+    setIsRelativeUnits: units => {},
+    setIsDryRunMode: mode => {}});
 export const useGeneral = () => useContext(GeneralContext);

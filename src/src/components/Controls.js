@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Switch from './Switch';
 import {GeneralContext} from "../context/generalContext";
 
@@ -11,7 +11,7 @@ const Controls = (props) => {
                             offLabel="Dry Run"
                             vertical={true}
                             value={context.isDryRunMode}
-                            handler={()=>context.setIsDryRunMode(!context.isDryRunMode)}/>
+                            handler={() => context.setIsDryRunMode(!context.isDryRunMode)}/>
 
                     <Switch onLabel="PWM"
                             offLabel="Rel. (%)"

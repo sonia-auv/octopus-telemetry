@@ -2,13 +2,13 @@ import React from 'react';
 import './switch.css';
 
 const selectedTextStyle = {
-  fontWeight: 'bold',
-  opacity: 0.95,
+    fontWeight: 'bold',
+    opacity: 0.95,
 };
 
 const unselectedTextStyle = {
-  fontWeight: 'normal',
-  opacity: 0.8,
+    fontWeight: 'normal',
+    opacity: 0.8,
 };
 
 const Switch = (props) => {

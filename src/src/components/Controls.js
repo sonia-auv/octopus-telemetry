@@ -21,7 +21,7 @@ const Controls = (props) => {
                 </div>
             )}
         </GeneralContext.Consumer>
-  );
+    );
 };
 
 export default Controls;

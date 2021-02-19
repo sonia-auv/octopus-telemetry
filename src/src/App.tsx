@@ -61,7 +61,7 @@ export const App = () => {
                                 minMark={-100}
                                 maxMark={100}
                                 step={25}
-                                thumbEnabled={isDryRunMode}
+                                thumbEnabled={!isDryRunMode}
                             />
                         )
                     })}

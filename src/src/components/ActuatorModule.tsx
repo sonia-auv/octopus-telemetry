@@ -19,7 +19,6 @@ const ActuatorModule = () => {
     // Reponse en retour a l appel du service
     const actuactorServiceCallback = useCallback(
         (x: any) => {
-            console.log(x)
         }, []
     )
 
@@ -27,9 +26,6 @@ const ActuatorModule = () => {
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const HandleChangeSwitch = (value: any) => {
-
-        console.log('value:', value)
-
         var request = new ROSLIB.ServiceRequest({
             ELEMENT_ARM: 2,
             ARM_OPEN: !value,

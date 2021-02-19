@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import Switch from './Switch';
 import { GeneralContext } from "../context/generalContext";
 import { Button } from '@material-ui/core';
@@ -7,8 +7,6 @@ import { useROSService } from '../hooks/useROSService'
 import ROSLIB from "roslib";
 
 const ActuatorModule = () => {
-
-    const c = useContext(GeneralContext);
 
     const ButtonStyle = withStyles({
         contained: {

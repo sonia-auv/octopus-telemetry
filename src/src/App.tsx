@@ -4,6 +4,7 @@ import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext} from "./context/generalContext";
+import Toolbar from "./components/Toolbar"
 
 export const App = () => {
 
@@ -38,6 +39,7 @@ export const App = () => {
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
     return (
         <div className="margin-top" style={style} >
+            <Toolbar />
             <GridLayout className="layout"
                 cols={12}
                 rowHeight={100}

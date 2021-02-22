@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback,useContext } from 'react';
 import Switch from './Switch';
 import { GeneralContext } from "../context/generalContext";
 import { Button } from '@material-ui/core';
@@ -22,10 +22,13 @@ const ActuatorModule = () => {
         }, []
     )
 
+    const context = useContext(GeneralContext)
     const actuactorServiceCall = useROSService<any>(actuactorServiceCallback, "/provider_actuators/do_action_srv", "provider_actuators")
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const HandleChangeSwitch = (value: any) => {
+
+        context.setIsRoboticArmClosed(!context.isRoboticArmClosed)
         var request = new ROSLIB.ServiceRequest({
             ELEMENT_ARM: 2,
             ARM_OPEN: !value,
@@ -63,7 +66,7 @@ const ActuatorModule = () => {
                         offLabel="Closed"
                         vertical={false}
                         value={!context.isRoboticArmClosed}
-                        handler={() => {context.setIsRoboticArmClosed(!context.isRoboticArmClosed); HandleChangeSwitch(!context.isRoboticArmClosed)}} />
+                        handler={HandleChangeSwitch} />
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>TORPEDO</h1>
                     <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }} onClick={handleChangeButtonTorpedo}>LAUNCH</ButtonStyle>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>DROP OBJECT</h1>

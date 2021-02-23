@@ -5,9 +5,19 @@ import ThrustersModule from "./components/ThustersModule";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext} from "./context/generalContext";
 import Toolbar from "./components/Toolbar"
+import { ThemeProvider } from 'styled-components';
+import {lightTheme, darkTheme} from "./components/Theme"
+import {GlobalStyles} from "./components/global";
 
 export const App = () => {
-
+    const [theme, setTheme] = useState('dark');
+    const toggleTheme = () => {
+        if (theme === 'light') {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    }
     const [thrusters, setThrusters] = useState<{ ID: number, effort: number, thumbEnabled: boolean }[]>(
         [
             { ID: 1, effort: 0, thumbEnabled: true },
@@ -38,37 +48,39 @@ export const App = () => {
     const [isDryRunMode, setIsDryRunMode] = React.useState(false);
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
     return (
-        <div className="margin-top" style={style} >
-            <Toolbar />
-            <GridLayout className="layout"
-                cols={12}
-                rowHeight={100}
-                width={1200}
-                verticalCompact={false}
-                draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb"}>
-                <div key="a"
-                    data-grid={{ x: 2, y: 0, w: 8, h: 5, minW: 8, maxW: 12, minH: 3, maxH: 6 }}
-                    style={{ display: 'flex' }}>
-                    <GeneralContext.Provider value={{isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits}}>
-                        <ThrustersModule />
-                    </GeneralContext.Provider>
+        <GeneralContext.Provider value={{isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits}}>
+            <div className="margin-top" style={style} >
+                <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+                <GlobalStyles />
+                <Toolbar />
+                <GridLayout className="layout"
+                    cols={12}
+                    rowHeight={100}
+                    width={1200}
+                    verticalCompact={false}
+                    draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb"}>
+                    <div key="a"
+                        data-grid={{ x: 2, y: 0, w: 8, h: 5, minW: 8, maxW: 12, minH: 3, maxH: 6 }}
+                        style={{ display: 'flex' }}>
+                            <ThrustersModule />
+                        {thrusters.map((thruster, id) => {
+                            return (
+                                <Thruster key={id}
+                                    effort={thruster.effort}
+                                    identification={thruster.ID}
+                                    minMark={-100}
+                                    maxMark={100}
+                                    step={25}
+                                    thumbEnabled={!isDryRunMode}
+                                />
+                            )
+                        })}
 
-                    {thrusters.map((thruster, id) => {
-                        return (
-                            <Thruster key={id}
-                                effort={thruster.effort}
-                                identification={thruster.ID}
-                                minMark={-100}
-                                maxMark={100}
-                                step={25}
-                                thumbEnabled={!isDryRunMode}
-                            />
-                        )
-                    })}
-                </div>
-
-            </GridLayout>
-        </div>
+                    </div>
+                </GridLayout>
+                </ThemeProvider>
+            </div>
+        </GeneralContext.Provider>
     );
 }
 

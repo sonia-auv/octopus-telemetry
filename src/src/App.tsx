@@ -4,7 +4,7 @@ import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext} from "./context/generalContext";
-import Toolbar from "./components/Toolbar"
+import ToolbarModule from "./components/Toolbar"
 import { ThemeProvider } from 'styled-components';
 import {lightTheme, darkTheme} from "./components/Theme"
 import {GlobalStyles} from "./components/global";
@@ -52,7 +52,7 @@ export const App = () => {
             <div className="margin-top" style={style} >
                 <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
                 <GlobalStyles />
-                <Toolbar />
+                <ToolbarModule />
                 <GridLayout className="layout"
                     cols={12}
                     rowHeight={100}

@@ -1,31 +1,101 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from "@material-ui/core/Toolbar"
 import Button from "@material-ui/core/Button"
 import SimpleMenu from "./SimpleMenu"
 import IconButton from '@material-ui/core/IconButton';
+import { useROSService } from '../hooks/useROSService'
+import ROSLIB from "roslib";
 
-let handleAllAxisClicked = () => {
-    console.log("All axis is clicked")
-}
 
-let handleXYAxisClicked = () => {
-    console.log("XY axis was clicked")
-}
+const ToolbarModule = () => {
+    const toolbarServiceCallback = useCallback(
+        (x: any) => {
+        }, []
+    )
 
-let handleDepthAxisClicked = () => {
-    console.log("Z axis was clicked")
-}
+    //TODO Verifier le message type
+    const toolbarServicesCall = useROSService<any>(toolbarServiceCallback, "/proc_control/enable_control", "enable_controls")
 
-let handleStartFrontCameraClicked = () => {
-    console.log("Start front camera was clicked")
-}
+    let handleAllAxisClicked = () => {
+        const request = new ROSLIB.ServiceRequest({
+            X: 1,
+            Y:1,
+            Z: 1,
+            PITCH: 1,
+            ROLL: 1,
+            YAW: 1
+        });
+        toolbarServicesCall(request)
+    }
 
-let handleStartBottomCameraClicked = () => {
-    console.log("Start bottom camera was clicked")
-}
+    let handleXYAxisClicked = () => {
+        const request = new ROSLIB.ServiceRequest({
+            X: 1,
+            Y:1,
+            Z: -1,
+            PITCH: -1,
+            ROLL: -1,
+            YAW: -1
+        });
+        toolbarServicesCall(request)
+    }
 
-const myToolbar = (props: any) => {
+    let handleDepthAxisClicked = () => {
+        const request = new ROSLIB.ServiceRequest({
+            X:- 1,
+            Y: -1,
+            Z: 1,
+            PITCH: -1,
+            ROLL: -1,
+            YAW: -1
+        });
+        toolbarServicesCall(request)
+    }
+
+    let handleRollAxisClicked = () => {
+        const request = new ROSLIB.ServiceRequest({
+            X: -1,
+            Y: -1,
+            Z: -1,
+            PITCH: -1,
+            ROLL: 1,
+            YAW: -1
+        });
+        toolbarServicesCall(request)
+    }
+
+    let handleYawAxisClicked = () => {
+        const request = new ROSLIB.ServiceRequest({
+            X: -1,
+            Y: -1,
+            Z: -1,
+            PITCH: -1,
+            ROLL: -1,
+            YAW: 1
+        });
+        toolbarServicesCall(request)
+    }
+
+    let handlePitchAxisClicked = () => {
+        const request = new ROSLIB.ServiceRequest({
+            X:- 1,
+            Y: -1,
+            Z: -1,
+            PITCH: 1,
+            ROLL: -1,
+            YAW: -1
+        });
+        toolbarServicesCall(request)
+    }
+
+    let handleStartFrontCameraClicked = () => {
+        console.log("Start front camera was clicked")
+    }
+
+    let handleStartBottomCameraClicked = () => {
+        console.log("Start bottom camera was clicked")
+    }
 
     return (
         <AppBar position="static" style={{ background: '#2E3B55' }}>
@@ -42,13 +112,13 @@ const myToolbar = (props: any) => {
                 <Button variant="contained" style={{margin: '15px'}} onClick={handleDepthAxisClicked}>
                     Depth
                 </Button>
-                <Button variant="contained" style={{margin: '15px'}}>
+                <Button variant="contained" style={{margin: '15px'}} onClick={handleRollAxisClicked}>
                     Roll
                 </Button>
-                <Button variant="contained" style={{margin: '15px'}}>
+                <Button variant="contained" style={{margin: '15px'}} onClick={handlePitchAxisClicked}>
                     Pitch
                 </Button>
-                <Button variant="contained" style={{margin: '15px'}}>
+                <Button variant="contained" style={{margin: '15px'}} onClick={handleYawAxisClicked}>
                     Yaw
                 </Button>
 
@@ -74,4 +144,4 @@ const myToolbar = (props: any) => {
     )
 }
 
-export default myToolbar
+export default ToolbarModule

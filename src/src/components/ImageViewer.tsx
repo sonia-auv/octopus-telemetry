@@ -9,7 +9,9 @@ import ROSLIB from "roslib";
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import StopIcon from '@material-ui/icons/Stop';
 import Button from '@material-ui/core/Button';
+import CachedIcon from '@material-ui/icons/Cached';
 import { RosContext } from "../context/rosContext";
+import { useROSService } from '../hooks/useROSService'
 
 const ImageViewer = () => {
 
@@ -35,33 +37,31 @@ const ImageViewer = () => {
         },
     }));
 
+    const [topic, setTopic] = useState<ROSLIB.Topic | null>(null);
+    const [listTopic, setListTopic] = useState<[]>([]);
+
     const imageCallback = useCallback(
         (x: any) => {
 
-            var ImageData1 = "data:image/jpeg;base64," + x.data;
+            var im = "data:image/jpeg;base64," + x.data;
             var displayImage = document.getElementById("imageviewer");
             if (displayImage) {
-                displayImage.setAttribute('src', ImageData1);
+                displayImage.setAttribute('src', im);
             }
         },
         []
     )
 
-    const [topic, setTopic] = useState<ROSLIB.Topic | null>(null);
-    const listTopics = ["/provider_vision/Front_GigE/compressed", "/provider_vision/Bottom_GigE/compressed"]
-
     const handleChange = (x: any) => {
-
         if (topic) {
             topic.unsubscribe()
         }
-
-        if (x.target.value != "None") {
-
+        if (x.target.value != "None") 
+        {
             const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: "sensor_msgs/CompressedImage" })
             setTopic(newtopic)
-
-            if (newtopic) {
+            if (newtopic) 
+            {
                 newtopic.subscribe(imageCallback);
             }
         }
@@ -77,6 +77,28 @@ const ImageViewer = () => {
         if (topic) {
             topic.subscribe(imageCallback);
         }
+    }
+
+    //Filtre sur les types de message que le souhaite 
+    const messageFilter = ["sensor_msgs/CompressedImage"]
+
+    const serviceCallback = useCallback(
+        (x: any) => {
+            var tab: any = []
+            x.topics.map((value: any, index: any) => {
+                if (messageFilter.includes(x.types[index])) {
+                    tab.push(value);
+                }
+            })
+            setListTopic(tab)
+        }, []
+    )
+
+    const topicServiceCall = useROSService<any>(serviceCallback, "/rosapi/topics/", "rosapi/Topics")
+
+    const clickUpdate = () => {
+        var request = new ROSLIB.ServiceRequest({});
+        topicServiceCall(request)
     }
 
     const classes = useStyles();
@@ -97,11 +119,18 @@ const ImageViewer = () => {
                                 value={topic?.name ? topic.name : "None"}
                             >
                                 <MenuItem value={"None"}>None</MenuItem>
-                                {listTopics.map((value, index) => {
+                                {listTopic.map((value, index) => {
                                     return <MenuItem value={value}>{value}</MenuItem>
                                 })}
                             </Select>
                         </FormControl>
+                        <Button
+                            variant="contained"
+                            color="default"
+                            className={classes.button}
+                            startIcon={<CachedIcon />}
+                            onClick={clickUpdate}
+                        ></Button>
                         <br></br>
                         <Button
                             variant="contained"
@@ -117,7 +146,7 @@ const ImageViewer = () => {
                             startIcon={<PlayCircleFilledIcon />}
                             onClick={clickPlay}
                         ></Button>
-                        <div style={{width:"100%", height:"calc(100% - 140px)"}}><img id="imageviewer" width="100%" height="100%"></img></div>
+                        <div style={{ width: "100%", height: "calc(100% - 140px)" }}><img id="imageviewer" width="100%" height="100%"></img></div>
                     </div>
                 </div>
             )}

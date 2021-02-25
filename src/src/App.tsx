@@ -3,6 +3,7 @@ import GridLayout from 'react-grid-layout'
 import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
+import MissionManager from "./components/MissionManager";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext} from "./context/generalContext";
 
@@ -68,6 +69,11 @@ export const App = () => {
                         data-grid={{ x: 20, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
                         style={{ display: 'flex' }}>
                         <ActuatorModule />
+                    </div>
+                    <div key="c"
+                        data-grid={{ x: 40, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
+                        style={{ display: 'flex' }}>
+                        <MissionManager />
                     </div>
                 </GridLayout>
             </GeneralContext.Provider>

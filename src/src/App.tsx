@@ -4,6 +4,7 @@ import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
 import ImageViewer from "./components/ImageViewer";
+import Pfd from "./components/Pfd";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext} from "./context/generalContext";
 
@@ -74,6 +75,11 @@ export const App = () => {
                         data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                         style={{ display: 'flex' }}>
                         <ImageViewer />
+                    </div>
+                    <div key="d"
+                        data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                        style={{ display: 'flex' }}>
+                        <Pfd />
                     </div>
                 </GridLayout>
             </GeneralContext.Provider>

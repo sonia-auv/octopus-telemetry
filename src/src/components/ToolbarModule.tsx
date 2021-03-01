@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { useROSService } from '../hooks/useROSService'
 import BatterieLevelIndicator from "./BatterieLevelIndicatorModule";
 import ROSLIB from "roslib";
+import LabelAndValueModule from "./LabelAndValueModule";
 
 const ToolbarModule = () => {
     const toolbarServiceCallback = useCallback(
@@ -129,14 +130,23 @@ const ToolbarModule = () => {
                 <Button color="secondary"style={{margin: '15px'}} onClick={handleStartBottomCameraClicked}>
                     Start bottom
                 </Button>
-
-                <p style={{margin: '15px'}}> AUV 7: 10 C</p>
-                <p style={{margin: '15px'}}> AUV 8: 25 C</p>
-                <p style={{margin: '15px'}}>Batterie 1: 15.90 V</p>
+                <LabelAndValueModule
+                    label='AUV7'
+                    value={10}
+                    unity='C'/>
+                <LabelAndValueModule
+                    label='AUV7'
+                    value={19}
+                    unity='C'/>
                 <BatterieLevelIndicator
+                    value={15}
+                    label='Batterie 1'
+                    unity=''
                 />
-                <p style={{margin: '15px'}}>Batterie 2: 17 V</p>
                 <BatterieLevelIndicator
+                    value={25}
+                    label='Batterie 2'
+                    unity=''
                 />
                 <div style={{marginLeft: "auto"}}>
                     <Button variant="contained" color="secondary" className="right"style={{margin: '15px'}}>
@@ -146,8 +156,6 @@ const ToolbarModule = () => {
                     <Button variant="contained" color="secondary" style={{margin: '15px'}}>
                         kill switch
                     </Button>
-
-
 
                 </div>
 

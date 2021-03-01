@@ -2,11 +2,11 @@ import React, {useCallback} from 'react';
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from "@material-ui/core/Toolbar"
 import Button from "@material-ui/core/Button"
-import SimpleMenu from "./SimpleMenu"
+import MenuModule from "./MenuModule"
 import IconButton from '@material-ui/core/IconButton';
 import { useROSService } from '../hooks/useROSService'
+import BatterieLevelIndicator from "./BatterieLevelIndicatorModule";
 import ROSLIB from "roslib";
-
 
 const ToolbarModule = () => {
     const toolbarServiceCallback = useCallback(
@@ -101,7 +101,7 @@ const ToolbarModule = () => {
         <AppBar position="static" style={{ background: '#2E3B55' }}>
             <Toolbar>
                 <IconButton edge="start" color="inherit" aria-label="menu">
-                    <SimpleMenu />
+                    <MenuModule />
                 </IconButton>
                 <Button variant="contained" onClick={handleAllAxisClicked}>
                     All
@@ -129,6 +129,15 @@ const ToolbarModule = () => {
                 <Button color="secondary"style={{margin: '15px'}} onClick={handleStartBottomCameraClicked}>
                     Start bottom
                 </Button>
+
+                <p style={{margin: '15px'}}> AUV 7: 10 C</p>
+                <p style={{margin: '15px'}}> AUV 8: 25 C</p>
+                <p style={{margin: '15px'}}>Batterie 1: 15.90 V</p>
+                <BatterieLevelIndicator
+                />
+                <p style={{margin: '15px'}}>Batterie 2: 17 V</p>
+                <BatterieLevelIndicator
+                />
                 <div style={{marginLeft: "auto"}}>
                     <Button variant="contained" color="secondary" className="right"style={{margin: '15px'}}>
                         Mission switch
@@ -137,6 +146,9 @@ const ToolbarModule = () => {
                     <Button variant="contained" color="secondary" style={{margin: '15px'}}>
                         kill switch
                     </Button>
+
+
+
                 </div>
 
             </Toolbar>

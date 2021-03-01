@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const SimpleMenu = (props:any) => {
+const MenuModule = (props:any) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -36,4 +36,4 @@ const SimpleMenu = (props:any) => {
     );
 }
 
-export default SimpleMenu
+export default MenuModule

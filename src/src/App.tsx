@@ -4,20 +4,14 @@ import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext} from "./context/generalContext";
-import ToolbarModule from "./components/Toolbar"
 import { ThemeProvider } from 'styled-components';
 import {lightTheme, darkTheme} from "./components/Theme"
 import {GlobalStyles} from "./components/global";
+import ToolbarModule from "./components/ToolbarModule";
+
 
 export const App = () => {
     const [theme, setTheme] = useState('dark');
-    const toggleTheme = () => {
-        if (theme === 'light') {
-            setTheme('dark');
-        } else {
-            setTheme('light');
-        }
-    }
     const [thrusters, setThrusters] = useState<{ ID: number, effort: number, thumbEnabled: boolean }[]>(
         [
             { ID: 1, effort: 0, thumbEnabled: true },
@@ -56,7 +50,6 @@ export const App = () => {
                 <GridLayout className="layout"
                     cols={12}
                     rowHeight={100}
-                    width={1200}
                     verticalCompact={false}
                     draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb"}>
                     <div key="a"
@@ -75,7 +68,6 @@ export const App = () => {
                                 />
                             )
                         })}
-
                     </div>
                 </GridLayout>
                 </ThemeProvider>

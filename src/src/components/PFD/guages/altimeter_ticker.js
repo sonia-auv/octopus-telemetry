@@ -58,12 +58,13 @@ export function AltimeterTicker(ctx, location, data)
 
 	  	if (altitude < 0)
 	  	{
-	  		altitude = 0;
+	  		altitude = -altitude;
 	  	}
-  		var tens = altitude / 10
-  		var hundreds = (altitude / 100)
-  		var thousands = (altitude / 1000)
-  		var thenThousands = (altitude / 10000)
+
+		altitude = Math.round(altitude * 10) / 10
+
+  		var tens = altitude*10-Math.trunc(altitude)*10
+  		var hundreds = Math.trunc(altitude)
 
 	  	// Draw tens digit place
   		var loc = {}
@@ -72,12 +73,12 @@ export function AltimeterTicker(ctx, location, data)
   		loc.y = y
   		loc.height = hei
   		loc.width = boxWidth / 4
-  		elements.drawTickerDigit(this.ctx, tensList, tens, 1.0, 0, loc, 32);
+  		elements.drawTickerDigit(this.ctx, onesList, tens, 1.0, 0, loc, 42);
 
   		// Draw hundreds digit place
   		loc.x = x + boxWidth * (2 / 4)
-  		elements.drawTickerDigit(this.ctx, onesList, hundreds, 0.1, 30, loc, 32);
-
+  		elements.drawTickerDigit(this.ctx, onesList, hundreds, 1.0, 0, loc, 42);
+/*
   		// Draw thousands digit place
   		loc.x = x + boxWidth * (1 / 4)
   		elements.drawTickerDigit(this.ctx, onesList, thousands, 0.05, 20, loc, 55);
@@ -85,7 +86,14 @@ export function AltimeterTicker(ctx, location, data)
   		// Draw ten thousands digit place
   		loc.x = x
   		onesList[0] = ""
-  		elements.drawTickerDigit(this.ctx, onesList, thenThousands, 0.001, 20, loc, 55);
+  		elements.drawTickerDigit(this.ctx, onesList, thenThousands, 0.001, 20, loc, 55);*/
+
+		this.ctx.lineWidth = 2;
+		this.ctx.beginPath();
+		this.ctx.moveTo(x+105, y+52);
+		this.ctx.lineTo(x+107, y+52);
+		this.ctx.closePath();
+		this.ctx.stroke();
 	}
 	return this;
 }

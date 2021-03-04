@@ -16,8 +16,8 @@ export function AltimeterTape(ctx, location, data)
 
 	this.draw = function()
 	{
-		//       location, 		fontSize, leftAlign, bigTicks, smallTicks, negative,
-		elements.drawTape(this.ctx, this.loc,      20,      true,      10,     1,         false,    
+		//                location, 		    fontSize, leftAlign, bigTicks, smallTicks, negative,
+		elements.drawTape(this.ctx, this.loc,      20,      true,      10,     1,         true,    
 		//  scale, value,         bugValue 
 			40,    this.data.altitude, this.data.altitudeBug, true);
 

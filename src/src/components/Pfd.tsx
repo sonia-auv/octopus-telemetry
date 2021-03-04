@@ -27,8 +27,8 @@ const ActuatorModule = () => {
         "pitchAngle": 0,
         "bankAngle": 0,
         "turnCoordinationAngle": 0,
-        "altitude": 0,
-        "altitudeBug": 100,
+        "altitude": -10,
+        "altitudeBug": -5,
         "verticalSpeed": -2,
         "verticalSpeedBug": 1.5,
         "airspeed": -2.0,
@@ -36,12 +36,12 @@ const ActuatorModule = () => {
         "heading": 0,
         "trueCourse": 0,
         "headingBug": 0,
-        "velY": 1,
-        "posX": 2,
-        "posY": 3,
-        "velRoll": 5,
-        "velPitch": 6,
-        "velYaw": 7,
+        "velY": 2,
+        "posX": 232,
+        "posY": -100,
+        "velRoll": 90,
+        "velPitch": 270,
+        "velYaw": -90,
     }
 
     const draw = () => {
@@ -146,9 +146,9 @@ const ActuatorModule = () => {
             data.pitchAngle = data.pitchAngle + 1 // PITCH AXIS
             data.bankAngle = data.bankAngle + 1 //ROLL AXIS
             //data.turnCoordinationAngle = data.turnCoordinationAngle + 1 
-            data.altitude = data.altitude + 0.01 // Z POSITION
-            data.altitudeBug = 0 // Z POSITION TARGET
-            data.airspeed = data.airspeed + 0.05 // SPEED ROLL AXIS
+            data.altitude =  data.altitude + 0.1 // Z POSITION
+            //data.altitudeBug = 0 // Z POSITION TARGET
+            data.airspeed = data.airspeed + 0.1 // SPEED ROLL AXIS
             //data.airspeedBug = data.airspeedBug + 0.02 // SPEED ROLL AXIS COMMAND
             data.heading = data.heading + 1
             //data.trueCourse = data.trueCourse + 1 // YAW ANGLE

@@ -89,18 +89,23 @@ export function drawTape(ctx, location, fontSize, leftAlign, bigTicks, smallTick
 
 		var relValue = Math.floor((value - smallTicks * - i) / smallTicks) * smallTicks
 
-		if (inverted) console.log(relValue)
+		if (inverted) {
+			
+		}
 
 		var diff = (value - relValue) / smallTicks;
 		var newY = (y + hei / 2) + scale * (diff);
-		if (newY + fontSize > y && newY - fontSize < y + hei && (negative || relValue >= 0))
+		if (newY + fontSize > y && newY - fontSize < y + hei && (negative || relValue >= 0) && (!inverted || (inverted && relValue <= 0)))
 		{
 			if (relValue % bigTicks == 0)
 			{
 				ctx.font = (fontSize * 1.5) + "px Arial"
 				ctx.fillRect(x, newY - 1.5 * fontSize / 2 - 3, wid, 1)
 				ctx.fillRect(x, newY + 1.5 * fontSize / 2, wid, 1)
+				if (!inverted)
 				ctx.fillText(relValue, x + wid / 2, newY)
+				else
+				ctx.fillText(-relValue, x + wid / 2, newY)
 				ctx.font = fontSize + "px Arial"
 			}
 			else if (relValue % smallTicks == 0)
@@ -109,13 +114,19 @@ export function drawTape(ctx, location, fontSize, leftAlign, bigTicks, smallTick
 				{
 					var textWidth = ctx.measureText(relValue).width;
 					ctx.fillRect(x, newY, wid/2 - 15, 1)
+					if (!inverted)
 					ctx.fillText(relValue, x + wid - textWidth/2 - 5, newY)
+					else
+					ctx.fillText(-relValue, x + wid - textWidth/2 - 5, newY)
 				}
 				else
 				{
 					var textWidth = ctx.measureText(relValue).width;
 					ctx.fillRect(x + wid/2 + 15, newY, wid/2 - 15, 1)
+					if (!inverted)
 					ctx.fillText(relValue, x + textWidth/2 + 5, newY)
+					else
+					ctx.fillText(-relValue, x + textWidth/2 + 5, newY)
 				}
 			}
 		}

@@ -21,6 +21,16 @@ export function HorizontalSituationIndicator(ctx, location, fontSize, data)
 	{
 		this.drawBackground();
 		this.drawForeground(this.data.heading, this.data.trueCourse, this.data.headingBug);
+
+		this.ctx.save();
+		this.ctx.fillStyle = GUAGE_FOREGROUND;
+		this.ctx.font = 25 + "px Arial"
+		this.ctx.textAlign = "center";
+		this.ctx.textBaseline = "middle";
+		var text = "YAW"
+		var textWidth = ctx.measureText(text).width;
+		this.ctx.fillText(text, this.loc.x+ this.loc.width/2, this.loc.y + this.loc.height/2 + 20)
+		this.ctx.restore();
 	}
 
 	this.drawBackground = function()
@@ -43,13 +53,13 @@ export function HorizontalSituationIndicator(ctx, location, fontSize, data)
 		// Draw Arc
 		ctx.beginPath();
 		ctx.lineWidth = 1;
-		ctx.arc(0, 0, hei - 2, 0, 2*Math.PI);
+		ctx.arc(0, -hei/2, hei/2 - 2, 0, 2*Math.PI);
 		ctx.stroke();
 
 		// Draw plane cross icon
 		var planeWidth = 20;	
 		ctx.fillStyle = GUAGE_FOREGROUND;
-		ctx.fillRect(- planeWidth, -3, planeWidth * 2, planeWidth / 4);
+		ctx.fillRect(- planeWidth, -3 - hei/2, planeWidth * 2, planeWidth / 4);
 
 		ctx.restore();
 	}
@@ -62,14 +72,14 @@ export function HorizontalSituationIndicator(ctx, location, fontSize, data)
 		var hei = this.loc.height;
 
 		ctx.save();
-		ctx.translate(x + wid / 2, y + hei);
+		ctx.translate(x + wid / 2, y + hei / 2);
 
 		// Draw heading line
 		ctx.strokeStyle = GUAGE_FOREGROUND;
 		ctx.lineWidth = 3;
 		ctx.beginPath();
 		ctx.moveTo(0, 0);
-		ctx.lineTo(0, - hei + 3);
+		ctx.lineTo(0, - hei/2 + 3);
 		ctx.stroke();
 		
 		// Draw true course line
@@ -78,17 +88,18 @@ export function HorizontalSituationIndicator(ctx, location, fontSize, data)
 		ctx.setLineDash([20, 5]);
 		ctx.beginPath();
 		ctx.moveTo(0, 0);
-		var R = hei - 3; var theta = - (heading - trueCourse) * Math.PI / 180 - Math.PI / 2
+		var R = hei/2 - 3; 
+		var theta = - (heading - trueCourse) * Math.PI / 180 - Math.PI / 2
 		var newX = (R * Math.cos(theta));
 		var newY = (R * Math.sin(theta));
 		ctx.lineTo(newX, newY);
-		ctx.stroke();
+		//ctx.stroke();
 
 		// Draw true heading bug line
 		ctx.strokeStyle = BUG;
 		ctx.beginPath();
 		ctx.moveTo(0, 0);
-		R = hei - 3; 
+		R = hei/2 - 3; 
 		theta = - (heading - headingBug) * Math.PI / 180 - Math.PI / 2
 		newX = (R * Math.cos(theta));
 		newY = (R * Math.sin(theta));
@@ -104,14 +115,12 @@ export function HorizontalSituationIndicator(ctx, location, fontSize, data)
 		ctx.strokeStyle = GUAGE_FOREGROUND;
 		var boxHeight = this.fontSize;
 		var boxWidth = ctx.measureText("333").width + 10;
-		ctx.fillRect(- boxWidth / 2, - hei + 0.5 * boxHeight, boxWidth, boxHeight);
-		ctx.strokeRect(- boxWidth / 2, - hei + 0.5 * boxHeight, boxWidth, boxHeight);
+		ctx.fillRect(- boxWidth / 2, - hei/2 + 0.5 * boxHeight, boxWidth, boxHeight);
+		ctx.strokeRect(- boxWidth / 2, - hei/2 + 0.5 * boxHeight, boxWidth, boxHeight);
 
 		// Draw heading numbers
 		ctx.fillStyle = GUAGE_FOREGROUND;
-		ctx.fillText(Math.floor(heading), 0, - hei + boxHeight)
-
-
+		ctx.fillText(Math.floor(heading), 0, - hei/2 + boxHeight)
 
 		// Draw box around course numbers
 		ctx.font = 0.5 * fontSize + "px Arial";
@@ -121,12 +130,12 @@ export function HorizontalSituationIndicator(ctx, location, fontSize, data)
 		ctx.strokeStyle = SKY;
 		var boxHeight = this.fontSize;
 		var boxWidth = ctx.measureText("333").width + 10;
-		ctx.fillRect(- boxWidth / 2, - hei + 2.5 * boxHeight, boxWidth, boxHeight);
-		ctx.strokeRect(- boxWidth / 2, - hei + 2.5 * boxHeight, boxWidth, boxHeight);
+		//ctx.fillRect(- boxWidth / 2, - hei/2 + 2.5 * boxHeight - 20, boxWidth, boxHeight);
+		//ctx.strokeRect(- boxWidth / 2, - hei/2 + 2.5 * boxHeight - 20, boxWidth, boxHeight);
 
 		// Draw course numbers
 		ctx.fillStyle = SKY;
-		ctx.fillText(Math.floor(trueCourse), 0, - hei + 3 * boxHeight)
+		//ctx.fillText(Math.floor(trueCourse), 0, - hei/2 + 3 * boxHeight - 20)
 
 		ctx.restore();
 	}

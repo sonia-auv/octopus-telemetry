@@ -2,100 +2,31 @@
 import * as elements from '../elements.js'
 
 var GUAGE_FOREGROUND = "#FFFFFF";
-var GUAGE_BACKGROUND = "#191921";
 
-export function AirspeedTicker(ctx, location, data)
-{
+export function AirspeedTape(ctx, location, data) {
 	this.ctx = ctx;
 	this.data = data;
 	this.loc = location;
 
-	this.update = function(data)
-	{
+	this.update = function (data) {
 		this.data = data;
 	}
 
-	this.draw = function()
-	{
-		this.drawAirspeedDigits(this.data.airspeed);
-	}
-
-	this.drawAirspeedDigits = function(airspeed)
-	{
-		var x = this.loc.x;
-  		var y = this.loc.y;
-  		var wid = this.loc.width;
-  		var hei = this.loc.height;
-
-  		var arrowSize = 15; 
-
-  		var ctx = this.ctx;
-  		ctx.fillStyle = GUAGE_BACKGROUND;
- 		ctx.strokeStyle = GUAGE_FOREGROUND;
-		ctx.beginPath();
-
-		ctx.moveTo(x, y + hei / 2);
-		ctx.lineTo(x + arrowSize, y);
-		ctx.lineTo(x + arrowSize + wid, y);
-		ctx.lineTo(x + arrowSize + wid, y + hei);
-		ctx.lineTo(x + arrowSize, y + hei);
-		ctx.closePath();
-		ctx.stroke();
-		ctx.fill();
-  	
-	  	var onesList = []
-	  	for (var i = 0; i < 10; i++)
-	  	{
-	  		onesList[i] = i + ""
-	  	}  
-
-	  	if (airspeed < 0)
-	  	{
-	  		airspeed = 0;
-	  	}
-  		var ones = airspeed / 1;
-  		var tens = airspeed / 10; 
-  		var hundreds = airspeed / 100;
-
-	  	// Draw tens digit place
-  		var loc = {}
-  		var boxWidth = (wid - arrowSize)
-  		loc.x = x + arrowSize + (boxWidth) - 12
-  		loc.y = y
-  		loc.height = hei
-  		loc.width = boxWidth / 3 + 5;
-  		elements.drawTickerDigit(this.ctx, onesList, ones, 1.0, 0, loc, 42);
-
-  		// Draw tens digit place
-  		loc.x -= (1 / 3 * boxWidth) + 5;
-  		elements.drawTickerDigit(this.ctx, onesList, tens, 0.2, 30, loc, 42);
-
-  		// Draw hundreds digit place
-  		onesList[0] = "";
-  		loc.x -= (1 / 3 * boxWidth) + 5;
-  		elements.drawTickerDigit(this.ctx, onesList, hundreds, 0.01, 20, loc, 42);
-	}
-
-	return this;
-}
-
-export function AirspeedTape(ctx, location, data)
-{
-	this.ctx = ctx;
-	this.data = data;
-	this.loc = location;
-
-	this.update = function(data)
-	{
-		this.data = data;
-	}
-
-	this.draw = function()
-	{
+	this.draw = function () {
 		//       location, 		fontSize, leftAlign, bigTicks,   
-		elements.drawTape(this.ctx, this.loc,      20,      false,      100,   
-		//  smallTicks, negative, scale, value,           bugValue
-			10,         false,    50,    this.data.airspeed,   this.data.airspeedBug);
+		elements.drawTape(this.ctx, this.loc, 20, false, 100,
+			//  smallTicks, negative, scale, value,           bugValue
+			0.5, true, 50, this.data.airspeed, this.data.airspeedBug);
+
+		this.ctx.save();
+		this.ctx.fillStyle = GUAGE_FOREGROUND;
+		this.ctx.font = 25 + "px Arial"
+		this.ctx.textAlign = "center";
+		this.ctx.textBaseline = "middle";
+		var text = "HSPEED"
+		var textWidth = ctx.measureText(text).width;
+		this.ctx.fillText(text, this.loc.x + textWidth / 2 - 10, this.loc.y - 20)
+		this.ctx.restore();
 	}
 	return this;
 }

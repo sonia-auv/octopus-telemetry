@@ -42,7 +42,6 @@ const ImageViewer = () => {
 
     const imageCallback = useCallback(
         (x: any) => {
-
             var im = "data:image/jpeg;base64," + x.data;
             var displayImage = document.getElementById("imageviewer");
             if (displayImage) {
@@ -56,14 +55,17 @@ const ImageViewer = () => {
         if (topic) {
             topic.unsubscribe()
         }
-        if (x.target.value != "None") 
-        {
-            const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: "sensor_msgs/CompressedImage" })
-            setTopic(newtopic)
-            if (newtopic) 
-            {
-                newtopic.subscribe(imageCallback);
-            }
+        if (x.target.value != "None") {
+            listTopic.map((value, index) => {
+                if (value["value"] == x.target.value) {
+                    const type = value["type"]
+                    const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: type })
+                    setTopic(newtopic)
+                    if (newtopic) {
+                        newtopic.subscribe(imageCallback);
+                    }
+                }
+            })
         }
     }
 
@@ -80,14 +82,15 @@ const ImageViewer = () => {
     }
 
     //Filtre sur les types de message que le souhaite 
-    const messageFilter = ["sensor_msgs/CompressedImage"]
+    const messageFilter = ["sensor_msgs/CompressedImage", "sensor_msgs/Image"]
 
     const serviceCallback = useCallback(
         (x: any) => {
             var tab: any = []
             x.topics.map((value: any, index: any) => {
                 if (messageFilter.includes(x.types[index])) {
-                    tab.push(value);
+                    const obj = { value: value, type: x.types[index] }
+                    tab.push(obj);
                 }
             })
             setListTopic(tab)
@@ -120,7 +123,7 @@ const ImageViewer = () => {
                             >
                                 <MenuItem value={"None"}>None</MenuItem>
                                 {listTopic.map((value, index) => {
-                                    return <MenuItem value={value}>{value}</MenuItem>
+                                    return <MenuItem value={value["value"]}>{value["value"]}</MenuItem>
                                 })}
                             </Select>
                         </FormControl>

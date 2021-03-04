@@ -33,6 +33,16 @@ export function VerticalSpeedIndicator(ctx, location, fontSize, data)
 		this.drawBug(this.data.verticalSpeedBug)
 		// this.drawArrow(verticalSpeed);
 		this.drawPointer(verticalSpeed);
+
+		this.ctx.save();
+		this.ctx.fillStyle = GUAGE_FOREGROUND;
+		this.ctx.font = 25 + "px Arial"
+		this.ctx.textAlign = "center";
+		this.ctx.textBaseline = "middle";
+		var text = "VSPEED"
+		var textWidth = ctx.measureText(text).width;
+		this.ctx.fillText(text, this.loc.x + textWidth / 2, this.loc.y - 20)
+		this.ctx.restore();
 	}
 
 	this.drawBackground = function(verticalSpeed)
@@ -59,15 +69,15 @@ export function VerticalSpeedIndicator(ctx, location, fontSize, data)
 		ctx.font = fontSize + "px Arial"
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle"; 
-		ctx.fillText(Math.floor(verticalSpeed), wid / 4 + 3 + wid * 1.5 / 4, 0);
+		ctx.fillText(verticalSpeed.toFixed(1), wid / 4 + 3 + wid * 1.5 / 4, 0);
 
 		ctx.font = "15px Arial"
 		ctx.textAlign = "left";
-		var list = [-2000, -1500, -1000, -500, -250, 250, 500, 1000, 1500, 2000];
+		var list = [-2, -1.5, -1.0, -0.5, -0.250, 0.250, 0.5, 1, 1.5, 2];
 		for (var i = 0; i < list.length; i++)
 		{
 			var value = list[i];
-			var newY = this.getYFromValue(value, this.max);
+			var newY = this.getYFromValue(value, this.max) * 500;
 			ctx.fillText(value, wid / 4 + 3, newY)
 		}
 		
@@ -80,7 +90,7 @@ export function VerticalSpeedIndicator(ctx, location, fontSize, data)
 		ctx.translate(this.loc.x, this.loc.y + this.loc.height / 2);
 
 		var totalWidth = this.loc.width / 4;
-		var height = this.getYFromValue(value);
+		var height = this.getYFromValue(value) * 500;
 		var arrowWidth = 0.5 * totalWidth;
 		ctx.fillStyle = GUAGE_FOREGROUND;
 		ctx.beginPath();
@@ -111,7 +121,7 @@ export function VerticalSpeedIndicator(ctx, location, fontSize, data)
 		ctx.translate(this.loc.x, this.loc.y + this.loc.height / 2);
 
 		var totalWidth = this.loc.width / 4;
-		var height = this.getYFromValue(value);
+		var height = this.getYFromValue(value) * 500;
 		var arrowWidth = 0.35 * totalWidth;
 		ctx.fillStyle = GUAGE_FOREGROUND;
 		ctx.beginPath();
@@ -131,7 +141,7 @@ export function VerticalSpeedIndicator(ctx, location, fontSize, data)
 		ctx.translate(this.loc.x, this.loc.y + this.loc.height / 2);
 
 		var totalWidth = this.loc.width / 4;
-		var height = this.getYFromValue(value);
+		var height = this.getYFromValue(value) * 500;
 		var arrowWidth = 0.35 * totalWidth;
 
 		ctx.fillStyle = BUG;

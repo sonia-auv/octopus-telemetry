@@ -54,7 +54,7 @@ export function drawTickerDigit(ctx, list, value, scrollThreshold, digitSpacing,
 
 // Scale in pixels per small tick
 // Negative is negative allowed
-export function drawTape(ctx, location, fontSize, leftAlign, bigTicks, smallTicks, negative, scale, value, bugValue)
+export function drawTape(ctx, location, fontSize, leftAlign, bigTicks, smallTicks, negative, scale, value, bugValue, inverted)
 {
 	var x = location.x;
 	var y = location.y;
@@ -86,7 +86,11 @@ export function drawTape(ctx, location, fontSize, leftAlign, bigTicks, smallTick
 	ctx.textBaseline = "middle"; 
 	for (var i = -numberToDraw; i < numberToDraw; i++)
 	{
+
 		var relValue = Math.floor((value - smallTicks * - i) / smallTicks) * smallTicks
+
+		if (inverted) console.log(relValue)
+
 		var diff = (value - relValue) / smallTicks;
 		var newY = (y + hei / 2) + scale * (diff);
 		if (newY + fontSize > y && newY - fontSize < y + hei && (negative || relValue >= 0))

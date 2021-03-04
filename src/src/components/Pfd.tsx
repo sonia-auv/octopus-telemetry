@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback } from 'react';
-import { GeneralContext } from "../context/generalContext";
 
 import * as AttitudeIndicatorModule from './PFD/guages/attitude_indicator'
 import * as AltimeterTickerModule from './PFD/guages/altimeter_ticker'
@@ -8,6 +7,8 @@ import * as AirspeedTickerModule from './PFD/guages/airspeed_ticker'
 import * as AirspeedTapeModule from './PFD/guages/airspeed_tape'
 import * as VerticalSpeedIndicatorModule from './PFD/guages/vertical_speed'
 import * as HorizontalSituationIndicatorModule from './PFD/guages/horizontal_situation'
+import * as BottomLeftPanelModule from './PFD/guages/bottomleftpanel'
+import * as BottomRightPanelModule from './PFD/guages/bottomrightpanel'
 
 const ActuatorModule = () => {
 
@@ -18,21 +19,29 @@ const ActuatorModule = () => {
     var airspeedTape: AirspeedTapeModule.AirspeedTape;
     var verticalSpeedIndicator: VerticalSpeedIndicatorModule.VerticalSpeedIndicator
     var horizontalSituationIndicator: HorizontalSituationIndicatorModule.HorizontalSituationIndicator;
+    var bottomLeftPanel: BottomLeftPanelModule.BottomLeftPanel;
+    var bottomRightPanel: BottomRightPanelModule.BottomRightPanel;
 
 
     var data = {
         "pitchAngle": 0,
         "bankAngle": 0,
         "turnCoordinationAngle": 0,
-        "altitude": 10,
+        "altitude": 0,
         "altitudeBug": 100,
-        "verticalSpeed": 10,
-        "verticalSpeedBug": 100,
-        "airspeed": 15,
-        "airspeedbug": 0,
+        "verticalSpeed": -2,
+        "verticalSpeedBug": 1.5,
+        "airspeed": -2.0,
+        "airspeedBug": -1.0,
         "heading": 0,
         "trueCourse": 0,
         "headingBug": 0,
+        "velY": 1,
+        "posX": 2,
+        "posY": 3,
+        "velRoll": 5,
+        "velPitch": 6,
+        "velYaw": 7,
     }
 
     const draw = () => {
@@ -44,6 +53,8 @@ const ActuatorModule = () => {
         airspeedTicker.draw();
         verticalSpeedIndicator.draw();
         horizontalSituationIndicator.draw();
+        bottomLeftPanel.draw();
+        bottomRightPanel.draw();
     }
 
     useEffect(() => {
@@ -61,7 +72,7 @@ const ActuatorModule = () => {
                 "width": 400,
                 "height": 325,
                 "x": 223,
-                "y": 20
+                "y": 60
             }, 5, data)
 
             altimeterTicker = AltimeterTickerModule.AltimeterTicker(ctx, 
@@ -69,7 +80,7 @@ const ActuatorModule = () => {
                 "width": 160,
                 "height": 85,
                 "x": 650,
-                "y": 160
+                "y": 200
             }, data)
 
             altimeterTape = AltimeterTapeModule.AltimeterTape(ctx, 
@@ -85,7 +96,7 @@ const ActuatorModule = () => {
                 "width": 80,
                 "height": 85,
                 "x": 100,
-                "y": 160
+                "y": 200
             }, data)
 
             airspeedTape = AirspeedTapeModule.AirspeedTape(ctx, 
@@ -106,28 +117,43 @@ const ActuatorModule = () => {
 
             horizontalSituationIndicator = HorizontalSituationIndicatorModule.HorizontalSituationIndicator(ctx, 
                 {
-                "width": 675,
-                "height": 270,
+                "width": 620,
+                "height": 280,
                 "x": 115,
-                "y": 385
+                "y": 390
             }, 40, data)
+
+            bottomLeftPanel = BottomLeftPanelModule.BottomLeftPanel(ctx, 
+                {
+                "width": 160,
+                "height": 125,
+                "x": 25,
+                "y": 485
+            }, data)
+
+            bottomRightPanel = BottomRightPanelModule.BottomRightPanel(ctx, 
+                {
+                "width": 180,
+                "height": 160,
+                "x": 815,
+                "y": 490
+            }, data)
 
         }
 
         setInterval(() => {
 
-            data.pitchAngle = data.pitchAngle + 1
-            data.bankAngle = data.bankAngle + 1
-            data.turnCoordinationAngle = data.turnCoordinationAngle + 1
-            data.altitude = data.altitude + 1
-            data.altitudeBug = data.altitudeBug - 10
-            data.airspeed = data.airspeed + 1
-            data.airspeedbug = data.airspeedbug - 10
-            data.heading = data.heading + 2
-            data.trueCourse = data.trueCourse + 1
-            data.headingBug = data.headingBug - 1
-            data.verticalSpeed = data.verticalSpeed + 1
-            data.verticalSpeedBug = data.verticalSpeedBug - 10
+            data.pitchAngle = data.pitchAngle + 1 // PITCH AXIS
+            data.bankAngle = data.bankAngle + 1 //ROLL AXIS
+            //data.turnCoordinationAngle = data.turnCoordinationAngle + 1 
+            data.altitude = data.altitude + 0.01 // Z POSITION
+            data.altitudeBug = 0 // Z POSITION TARGET
+            data.airspeed = data.airspeed + 0.05 // SPEED ROLL AXIS
+            //data.airspeedBug = data.airspeedBug + 0.02 // SPEED ROLL AXIS COMMAND
+            data.heading = data.heading + 1
+            //data.trueCourse = data.trueCourse + 1 // YAW ANGLE
+            data.headingBug = 90 // YAW TARGET AXIS
+            data.verticalSpeed = data.verticalSpeed + 0.05 // SPEED Z
 
             draw();
         }, 1000);
@@ -137,7 +163,7 @@ const ActuatorModule = () => {
 
     return (
         <div style={{ width: '100%', height: '100%', flexDirection: 'row', backgroundColor: '#85D2BB', textAlign: 'center' }}>
-            <canvas id="pfdcanvas" width="1050" height="660"></canvas>
+            <canvas id="pfdcanvas" width="1050" height="680"></canvas>
         </div>
     );
 };

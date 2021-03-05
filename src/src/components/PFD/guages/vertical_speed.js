@@ -69,7 +69,7 @@ export function VerticalSpeedIndicator(ctx, location, fontSize, data)
 		ctx.font = fontSize + "px Arial"
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle"; 
-		ctx.fillText(verticalSpeed.toFixed(1), wid / 4 + 3 + wid * 1.5 / 4, 0);
+		ctx.fillText(verticalSpeed, wid / 4 + 3 + wid * 1.5 / 4, 0);
 
 		ctx.font = "15px Arial"
 		ctx.textAlign = "left";

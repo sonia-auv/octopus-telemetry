@@ -9,6 +9,7 @@ import * as VerticalSpeedIndicatorModule from './PFD/guages/vertical_speed'
 import * as HorizontalSituationIndicatorModule from './PFD/guages/horizontal_situation'
 import * as BottomLeftPanelModule from './PFD/guages/bottomleftpanel'
 import * as BottomRightPanelModule from './PFD/guages/bottomrightpanel'
+import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
 
 const ActuatorModule = () => {
 
@@ -27,21 +28,21 @@ const ActuatorModule = () => {
         "pitchAngle": 0,
         "bankAngle": 0,
         "turnCoordinationAngle": 0,
-        "altitude": -10,
-        "altitudeBug": -5,
-        "verticalSpeed": -2,
-        "verticalSpeedBug": 1.5,
-        "airspeed": -2.0,
-        "airspeedBug": -1.0,
+        "altitude": 0,
+        "altitudeBug": 0,
+        "verticalSpeed": 0,
+        "verticalSpeedBug": 0,
+        "airspeed": 0,
+        "airspeedBug": 0,
         "heading": 0,
         "trueCourse": 0,
         "headingBug": 0,
-        "velY": 2,
-        "posX": 2.32,
-        "posY": -1.00,
-        "velRoll": 90,
-        "velPitch": 270,
-        "velYaw": -90,
+        "velY": 0,
+        "posX": 0,
+        "posY": 0,
+        "velRoll": 0,
+        "velPitch": 0,
+        "velYaw": 0,
     }
 
     const draw = () => {
@@ -141,25 +142,57 @@ const ActuatorModule = () => {
 
         }
 
-        setInterval(() => {
-
-            data.pitchAngle = data.pitchAngle + 1 // PITCH AXIS
-            data.bankAngle = data.bankAngle + 1 //ROLL AXIS
-            //data.turnCoordinationAngle = data.turnCoordinationAngle + 1 
-            data.altitude =  data.altitude + 0.1 // Z POSITION
-            //data.altitudeBug = 0 // Z POSITION TARGET
-            data.airspeed = data.airspeed + 0.1 // SPEED ROLL AXIS
-            //data.airspeedBug = data.airspeedBug + 0.02 // SPEED ROLL AXIS COMMAND
-            data.heading = data.heading + 1
-            //data.trueCourse = data.trueCourse + 1 // YAW ANGLE
-            data.headingBug = 90 // YAW TARGET AXIS
-            data.verticalSpeed = data.verticalSpeed + 0.05 // SPEED Z
-
-            draw();
-        }, 1000);
+        draw();
 
     }, []);
 
+    const odomCallback = useCallback(
+        (x: any) => {
+
+            data.posX = x.pose.pose.position.x.toFixed(2)
+            data.posY = x.pose.pose.position.y.toFixed(2)
+            data.altitude = x.pose.pose.position.z.toFixed(2)
+            data.bankAngle = x.pose.pose.orientation.x.toFixed(2)
+            data.pitchAngle = x.pose.pose.orientation.y.toFixed(2)
+            data.heading = x.pose.pose.orientation.z.toFixed(2)
+            data.airspeed = x.twist.twist.linear.x.toFixed(2)
+            data.velY = x.twist.twist.linear.y.toFixed(2)
+            data.verticalSpeed = x.twist.twist.linear.z.toFixed(2)
+            data.velRoll = x.twist.twist.angular.x.toFixed(2)
+            data.velPitch = x.twist.twist.angular.y.toFixed(2)
+            data.velYaw = x.twist.twist.angular.z.toFixed(2)
+
+            draw();
+        },
+        []
+    )
+
+    const targetCallback = useCallback(
+        (x: any) => {
+
+            
+            data.altitudeBug = x.position.z.toFixed(2)
+            data.headingBug = x.orientation.z.toFixed(2)
+
+            draw();
+        },
+        []
+    )
+
+    const targetVelocityCallback = useCallback(
+        (x: any) => {
+
+            data.verticalSpeedBug = x.linear.z.toFixed(2)
+            data.airspeedBug = x.linear.x.toFixed(2)
+
+            draw();
+        },
+        []
+    )
+
+    useROSTopicSubscriber<any>(odomCallback, "/proc_navigation/odom", "nav_msgs/Odometry")
+    useROSTopicSubscriber<any>(targetCallback, "/proc_control/current_target", "geometry_msgs/Pose")
+    useROSTopicSubscriber<any>(targetVelocityCallback, "/proc_control/current_target_velocity", "geometry_msgs/Twist")
 
     return (
         <div style={{ width: '100%', height: '100%', flexDirection: 'row', backgroundColor: '#85D2BB', textAlign: 'center' }}>

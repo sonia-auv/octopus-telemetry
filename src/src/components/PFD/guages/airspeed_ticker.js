@@ -62,7 +62,7 @@ export function AirspeedTicker(ctx, location, data)
 	  		airspeed = -airspeed;
 	  	}
 
-		airspeed = airspeed.toFixed(1)
+		airspeed = Math.round(airspeed * 10) / 10
 
   		var ones = airspeed*10-Math.trunc(airspeed)*10;
   		var tens = Math.trunc(airspeed); 

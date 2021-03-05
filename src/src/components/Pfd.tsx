@@ -148,7 +148,6 @@ const ActuatorModule = () => {
 
     const odomCallback = useCallback(
         (x: any) => {
-
             data.posX = x.pose.pose.position.x.toFixed(2)
             data.posY = x.pose.pose.position.y.toFixed(2)
             data.altitude = x.pose.pose.position.z.toFixed(2)
@@ -161,7 +160,6 @@ const ActuatorModule = () => {
             data.velRoll = x.twist.twist.angular.x.toFixed(2)
             data.velPitch = x.twist.twist.angular.y.toFixed(2)
             data.velYaw = x.twist.twist.angular.z.toFixed(2)
-
             draw();
         },
         []
@@ -169,11 +167,8 @@ const ActuatorModule = () => {
 
     const targetCallback = useCallback(
         (x: any) => {
-
-            
             data.altitudeBug = x.position.z.toFixed(2)
             data.headingBug = x.orientation.z.toFixed(2)
-
             draw();
         },
         []
@@ -181,10 +176,8 @@ const ActuatorModule = () => {
 
     const targetVelocityCallback = useCallback(
         (x: any) => {
-
             data.verticalSpeedBug = x.linear.z.toFixed(2)
             data.airspeedBug = x.linear.x.toFixed(2)
-
             draw();
         },
         []

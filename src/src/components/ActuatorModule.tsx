@@ -60,7 +60,7 @@ const ActuatorModule = () => {
     return (
         <GeneralContext.Consumer>
             {context => context && (
-                <div style={{ width: '100%', height: '100%', flexDirection: 'row', backgroundColor: '#85D2BB', textAlign: 'center' }}>
+                <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>ROBOTIC ARM</h1>
                     <Switch onLabel="Open"
                         offLabel="Closed"

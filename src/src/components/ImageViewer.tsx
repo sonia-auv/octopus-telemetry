@@ -140,7 +140,7 @@ const ImageViewer = () => {
     return (
         <GeneralContext.Consumer>
             {context => context && (
-                <div style={{ width: '100%', height: '100%', backgroundColor: '#85D2BB' }}>
+                <div style={{ width: '100%', height: '100%' }}>
                     <div style={{ width: '96%', height: '90%', flexDirection: 'row', marginLeft: '2%' }}>
                         <h1 style={{ fontSize: '20px', textAlign: 'center' }}>CAMERA VIEWER</h1>
                         <FormControl variant="filled" className={classes.formControl}>

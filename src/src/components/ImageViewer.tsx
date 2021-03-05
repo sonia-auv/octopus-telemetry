@@ -12,8 +12,31 @@ import Button from '@material-ui/core/Button';
 import CachedIcon from '@material-ui/icons/Cached';
 import { RosContext } from "../context/rosContext";
 import { useROSService } from '../hooks/useROSService'
+import jpeg from 'jpeg-js'
 
 const ImageViewer = () => {
+
+    function rgb8ImageToBase64Jpeg(msg: any) {
+        var raw = atob(msg.data)
+        var array = new Uint8Array(new ArrayBuffer(raw.length))
+        for (let i = 0; i < raw.length; i++) {
+            array[i] = raw.charCodeAt(i)
+        }
+
+        var frameData = Buffer.alloc(msg.width * msg.height * 4)
+        for (let i = 0; i < msg.width * msg.height; i++) {
+            frameData[4 * i + 0] = array[3 * i + 0]
+            frameData[4 * i + 1] = array[3 * i + 1]
+            frameData[4 * i + 2] = array[3 * i + 2]
+            frameData[4 * i + 3] = 0
+        }
+        var rawImageData = {
+            data: frameData,
+            width: msg.width,
+            height: msg.height
+        }
+        return jpeg.encode(rawImageData, 50).data.toString('base64')
+    }
 
     const ros = useContext(RosContext);
 
@@ -39,10 +62,17 @@ const ImageViewer = () => {
 
     const [topic, setTopic] = useState<ROSLIB.Topic | null>(null);
     const [listTopic, setListTopic] = useState<[]>([]);
+    const [type, setType] = useState(0);
 
     const imageCallback = useCallback(
         (x: any) => {
-            var im = "data:image/jpeg;base64," + x.data;
+
+            var im;
+            if (x.encoding == "bgr8")
+                im = "data:image/jpeg;base64," + rgb8ImageToBase64Jpeg(x);
+            else
+                im = "data:image/jpeg;base64," + x.data;
+
             var displayImage = document.getElementById("imageviewer");
             if (displayImage) {
                 displayImage.setAttribute('src', im);
@@ -58,8 +88,9 @@ const ImageViewer = () => {
         if (x.target.value != "None") {
             listTopic.map((value, index) => {
                 if (value["value"] == x.target.value) {
-                    const type = value["type"]
-                    const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: type })
+                    const t = value["type"]
+                    setType(t)
+                    const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: t })
                     setTopic(newtopic)
                     if (newtopic) {
                         newtopic.subscribe(imageCallback);

@@ -62,7 +62,6 @@ const ImageViewer = () => {
 
     const [topic, setTopic] = useState<ROSLIB.Topic | null>(null);
     const [listTopic, setListTopic] = useState<[]>([]);
-    const [type, setType] = useState(0);
 
     const imageCallback = useCallback(
         (x: any) => {
@@ -88,9 +87,8 @@ const ImageViewer = () => {
         if (x.target.value != "None") {
             listTopic.map((value, index) => {
                 if (value["value"] == x.target.value) {
-                    const t = value["type"]
-                    setType(t)
-                    const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: t })
+                    const type = value["type"]
+                    const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: type })
                     setTopic(newtopic)
                     if (newtopic) {
                         newtopic.subscribe(imageCallback);

@@ -188,7 +188,7 @@ const ActuatorModule = () => {
     useROSTopicSubscriber<any>(targetVelocityCallback, "/proc_control/current_target_velocity", "geometry_msgs/Twist")
 
     return (
-        <div style={{ width: '100%', height: '100%', flexDirection: 'row', backgroundColor: '#85D2BB', textAlign: 'center' }}>
+        <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
             <canvas id="pfdcanvas" width="1050" height="680"></canvas>
         </div>
     );

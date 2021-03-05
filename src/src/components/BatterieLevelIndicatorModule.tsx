@@ -39,7 +39,7 @@ export const BatterieLevelIndicator = (props: any) => {
                 <LabelAndValueModule
                     label={props.label}
                     value={props.value}
-                    unity={props.unity}
+                    unit={props.unit}
 
                 />
             </div>
@@ -49,7 +49,7 @@ export const BatterieLevelIndicator = (props: any) => {
                     orientation="horizontal"
                     value= {props.value}
                     min={0}
-                    max={50}
+                    max={28}
                     disabled={true} />
             </div>
         </div>

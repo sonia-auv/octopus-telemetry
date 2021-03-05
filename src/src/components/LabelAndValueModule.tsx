@@ -6,7 +6,7 @@ import './switch.css';
 const LabelAndValueModule = (props: any) => {
     return (
         <div style={{padding: '10px'}}>
-           <p>{props.label} : {props.value} {props.unity}</p>
+           <p>{props.label} : {props.value} {props.unit}</p>
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from "@material-ui/core/Toolbar"
 import Button from "@material-ui/core/Button"
@@ -8,15 +8,82 @@ import { useROSService } from '../hooks/useROSService'
 import BatterieLevelIndicator from "./BatterieLevelIndicatorModule";
 import ROSLIB from "roslib";
 import LabelAndValueModule from "./LabelAndValueModule";
+import {useROSTopicSubscriber} from "../hooks/useROSTopicSubscriber";
 
 const ToolbarModule = () => {
+
+    const [isMissionSwitchOn, setIsMissionSwitchOn] = React.useState(false)
+    const [isKillSwitchOn, setIsKillSwitchOn] = React.useState(false);
+    const [backgroundColorOn, setIsBackgroundColorOn] = React.useState('green')
+    const [AUV7Temp, setAUV7Temp] = React.useState(0)
+    const [AUV8Temp, setAUV8Temp] = React.useState(0)
+    const [batteryLevel, setbatteryLevel] = useState<{ ID: number, level: number }[]>(
+        [
+            { ID: 1, level: 0},
+            { ID: 2, level: 0}
+        ]);
+
+
     const toolbarServiceCallback = useCallback(
         (x: any) => {
         }, []
     )
 
-    //TODO Verifier le message type
-    const toolbarServicesCall = useROSService<any>(toolbarServiceCallback, "/proc_control/enable_control", "enable_controls")
+    const missionSwitchCallback = useCallback(
+        (x: any) => {
+            let data = x.data
+            let parsed = JSON.parse(data)
+            setIsMissionSwitchOn(parsed)
+            if(isMissionSwitchOn)
+                setIsBackgroundColorOn('green')
+            else setIsBackgroundColorOn('red')
+        }, []
+    )
+
+    const killSwitchCallback = useCallback(
+        (x: any) => {
+            let data = x.data
+            let parsed = JSON.parse(data)
+            setIsKillSwitchOn(parsed)
+            if(isKillSwitchOn)
+                setIsBackgroundColorOn('green')
+            else setIsBackgroundColorOn('red')
+        }, []
+    )
+
+    const batteryLevelCallback = useCallback(
+        (x: any) => {
+            let data = x.data
+            let parsed = JSON.parse(data)
+            setbatteryLevel([
+                {ID:1, level: parsed[1]},
+                {ID:2, level: parsed[2]}
+            ])
+        }, []
+    )
+
+    const AUV7Callback = useCallback(
+        (x: any) => {
+            let data = x.data
+            let parsed = JSON.parse(data)
+            setAUV7Temp(parsed)
+        }, []
+    )
+    const AUV8Callback = useCallback(
+        (x: any) => {
+            let data = x.data
+            let parsed = JSON.parse(data)
+            setAUV8Temp(parsed)
+        }, []
+    )
+
+    const toolbarServicesCall = useROSService<any>(toolbarServiceCallback, "/proc_control/enable_control", "EnableControl")
+    const startStopCameraCall = useROSService<any>(toolbarServiceCallback, "/provider_vision/start_stop_camera", "start_stop_media")
+    useROSTopicSubscriber<any>(batteryLevelCallback, "/provider_power/power", "std_msgs/String")
+    useROSTopicSubscriber<any>(killSwitchCallback, "/provider_kill_mission/kill_switch_msg", "std_msgs/String")
+    useROSTopicSubscriber<any>(missionSwitchCallback, "/provider_kill_mission/mission_switch_msg", "std_msgs/String")
+    useROSTopicSubscriber<any>(AUV7Callback, "/provider_system/system_temperature", "std_msgs/Float32")
+    useROSTopicSubscriber<any>(AUV8Callback, "/provider_jetson/system_temperature", "std_msgs/Float32")
 
     let handleAllAxisClicked = () => {
         const request = new ROSLIB.ServiceRequest({
@@ -91,11 +158,19 @@ const ToolbarModule = () => {
     }
 
     let handleStartFrontCameraClicked = () => {
-        console.log("Start front camera was clicked")
+        const request = new ROSLIB.ServiceRequest({
+            Bottom_GigE: 2,
+            Front_GigE: 1
+        })
+        startStopCameraCall(request)
     }
 
     let handleStartBottomCameraClicked = () => {
-        console.log("Start bottom camera was clicked")
+        const request = new ROSLIB.ServiceRequest({
+            Bottom_GigE: 1,
+            Front_GigE: 2
+        })
+        startStopCameraCall(request)
     }
 
     return (
@@ -123,38 +198,49 @@ const ToolbarModule = () => {
                     Yaw
                 </Button>
 
-                <Button color="secondary" style={{margin: '15px'}} onClick={handleStartFrontCameraClicked}>
+                <Button color="secondary"
+                        style={{margin: '15px', backgroundColor:'black', color:'red'}}
+                        onClick={handleStartFrontCameraClicked}>
                     Start front
                 </Button>
 
-                <Button color="secondary"style={{margin: '15px'}} onClick={handleStartBottomCameraClicked}>
+                <Button color="secondary"
+                        style={{margin: '15px', backgroundColor:'black', color:'red'}}
+                        onClick={handleStartBottomCameraClicked}>
                     Start bottom
                 </Button>
                 <LabelAndValueModule
                     label='AUV7'
-                    value={10}
-                    unity='C'/>
+                    value={AUV7Temp}
+                    unit='C'/>
                 <LabelAndValueModule
-                    label='AUV7'
-                    value={19}
-                    unity='C'/>
+                    label='AUV8'
+                    value={AUV8Temp}
+                    unit='C'/>
                 <BatterieLevelIndicator
-                    value={15}
+                    value={batteryLevel[0].level}
                     label='Batterie 1'
-                    unity=''
+                    unit='V'
                 />
                 <BatterieLevelIndicator
-                    value={25}
+                    value={batteryLevel[1].level}
                     label='Batterie 2'
-                    unity=''
+                    unit='V'
                 />
                 <div style={{marginLeft: "auto"}}>
-                    <Button variant="contained" color="secondary" className="right"style={{margin: '15px'}}>
-                        Mission switch
+                    <Button variant="contained"
+                            color="secondary"
+                            className="right"
+                            style={{margin: '15px', backgroundColor:backgroundColorOn, color:'white'}}
+                            disabled>
+                        {isMissionSwitchOn ? 'Mission switch activated' : 'Mission switch off'}
                     </Button>
 
-                    <Button variant="contained" color="secondary" style={{margin: '15px'}}>
-                        kill switch
+                    <Button variant="contained"
+                            color="secondary"
+                            style={{margin: '15px', backgroundColor:backgroundColorOn, color:'white'}}
+                            disabled>
+                        {isKillSwitchOn ? 'Kill switch activated' : 'Kill switch off'}
                     </Button>
 
                 </div>

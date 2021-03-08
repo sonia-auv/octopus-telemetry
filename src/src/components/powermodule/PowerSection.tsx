@@ -1,3 +1,5 @@
+import Switch from '../../components/Switch';
+
 const LABELS = [
   {
     id: 'temperature',
@@ -19,6 +21,18 @@ const LABELS = [
     id: 'voltage-16v-1',
     label: 'Voltage 16V-1',
   },
+  {
+    id: 'voltage-16v-2',
+    label: 'Voltage 16V-2',
+  },
+  {
+    id: 'voltage-12v',
+    label: 'Voltage 12V',
+  },
+  {
+    id: 'battery',
+    label: 'Battery',
+  },
 ];
 
 const PowerSection = (props: any) => (
@@ -32,6 +46,24 @@ const PowerSection = (props: any) => (
           </label>
         </div>
       ))}
+      <div>
+        <label>
+          Output 16V-1
+          <Switch />
+        </label>
+      </div>
+      <div>
+        <label>
+          Output 16V-2
+          <Switch />
+        </label>
+      </div>
+      <div>
+        <label>
+          Output 12V
+          <Switch />
+        </label>
+      </div>
     </form>
   </div>
 );

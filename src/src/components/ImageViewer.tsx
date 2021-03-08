@@ -12,8 +12,31 @@ import Button from '@material-ui/core/Button';
 import CachedIcon from '@material-ui/icons/Cached';
 import { RosContext } from "../context/rosContext";
 import { useROSService } from '../hooks/useROSService'
+import jpeg from 'jpeg-js'
 
 const ImageViewer = () => {
+
+    function rgb8ImageToBase64Jpeg(msg: any) {
+        var raw = atob(msg.data)
+        var array = new Uint8Array(new ArrayBuffer(raw.length))
+        for (let i = 0; i < raw.length; i++) {
+            array[i] = raw.charCodeAt(i)
+        }
+
+        var frameData = Buffer.alloc(msg.width * msg.height * 4)
+        for (let i = 0; i < msg.width * msg.height; i++) {
+            frameData[4 * i + 0] = array[3 * i + 0]
+            frameData[4 * i + 1] = array[3 * i + 1]
+            frameData[4 * i + 2] = array[3 * i + 2]
+            frameData[4 * i + 3] = 0
+        }
+        var rawImageData = {
+            data: frameData,
+            width: msg.width,
+            height: msg.height
+        }
+        return jpeg.encode(rawImageData, 50).data.toString('base64')
+    }
 
     const ros = useContext(RosContext);
 
@@ -43,7 +66,12 @@ const ImageViewer = () => {
     const imageCallback = useCallback(
         (x: any) => {
 
-            var im = "data:image/jpeg;base64," + x.data;
+            var im;
+            if (x.encoding == "bgr8")
+                im = "data:image/jpeg;base64," + rgb8ImageToBase64Jpeg(x);
+            else
+                im = "data:image/jpeg;base64," + x.data;
+
             var displayImage = document.getElementById("imageviewer");
             if (displayImage) {
                 displayImage.setAttribute('src', im);
@@ -56,14 +84,17 @@ const ImageViewer = () => {
         if (topic) {
             topic.unsubscribe()
         }
-        if (x.target.value != "None") 
-        {
-            const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: "sensor_msgs/CompressedImage" })
-            setTopic(newtopic)
-            if (newtopic) 
-            {
-                newtopic.subscribe(imageCallback);
-            }
+        if (x.target.value != "None") {
+            listTopic.map((value, index) => {
+                if (value["value"] == x.target.value) {
+                    const type = value["type"]
+                    const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: type })
+                    setTopic(newtopic)
+                    if (newtopic) {
+                        newtopic.subscribe(imageCallback);
+                    }
+                }
+            })
         }
     }
 
@@ -80,14 +111,15 @@ const ImageViewer = () => {
     }
 
     //Filtre sur les types de message que le souhaite 
-    const messageFilter = ["sensor_msgs/CompressedImage"]
+    const messageFilter = ["sensor_msgs/CompressedImage", "sensor_msgs/Image"]
 
     const serviceCallback = useCallback(
         (x: any) => {
             var tab: any = []
             x.topics.map((value: any, index: any) => {
                 if (messageFilter.includes(x.types[index])) {
-                    tab.push(value);
+                    const obj = { value: value, type: x.types[index] }
+                    tab.push(obj);
                 }
             })
             setListTopic(tab)
@@ -106,7 +138,7 @@ const ImageViewer = () => {
     return (
         <GeneralContext.Consumer>
             {context => context && (
-                <div style={{ width: '100%', height: '100%', backgroundColor: '#85D2BB' }}>
+                <div style={{ width: '100%', height: '100%' }}>
                     <div style={{ width: '96%', height: '90%', flexDirection: 'row', marginLeft: '2%' }}>
                         <h1 style={{ fontSize: '20px', textAlign: 'center' }}>CAMERA VIEWER</h1>
                         <FormControl variant="filled" className={classes.formControl}>
@@ -120,7 +152,7 @@ const ImageViewer = () => {
                             >
                                 <MenuItem value={"None"}>None</MenuItem>
                                 {listTopic.map((value, index) => {
-                                    return <MenuItem value={value}>{value}</MenuItem>
+                                    return <MenuItem value={value["value"]}>{value["value"]}</MenuItem>
                                 })}
                             </Select>
                         </FormControl>

@@ -12,6 +12,12 @@ import {useROSTopicSubscriber} from "../hooks/useROSTopicSubscriber";
 
 const ToolbarModule = () => {
 
+    /**
+     * TODO
+     * Verifier la conformité format des messages ROS
+     *
+     */
+
     const [isMissionSwitchOn, setIsMissionSwitchOn] = React.useState(false)
     const [isKillSwitchOn, setIsKillSwitchOn] = React.useState(false);
     const [backgroundColorOn, setIsBackgroundColorOn] = React.useState('green')
@@ -53,6 +59,8 @@ const ToolbarModule = () => {
 
     const batteryLevelCallback = useCallback(
         (x: any) => {
+            console.log("ici")
+            console.log(x)
             let data = x.data
             let parsed = JSON.parse(data)
             setbatteryLevel([
@@ -77,11 +85,11 @@ const ToolbarModule = () => {
         }, []
     )
 
-    const toolbarServicesCall = useROSService<any>(toolbarServiceCallback, "/proc_control/enable_control", "EnableControl")
-    const startStopCameraCall = useROSService<any>(toolbarServiceCallback, "/provider_vision/start_stop_camera", "start_stop_media")
-    useROSTopicSubscriber<any>(batteryLevelCallback, "/provider_power/power", "std_msgs/String")
-    useROSTopicSubscriber<any>(killSwitchCallback, "/provider_kill_mission/kill_switch_msg", "std_msgs/String")
-    useROSTopicSubscriber<any>(missionSwitchCallback, "/provider_kill_mission/mission_switch_msg", "std_msgs/String")
+    const toolbarServicesCall = useROSService<any>(toolbarServiceCallback, "/proc_control/enable_control", "proc_control/EnableControl")
+    const startStopCameraCall = useROSService<any>(toolbarServiceCallback, "/provider_vision/start_stop_camera", "provider_vision/start_stop_media")
+    useROSTopicSubscriber<any>(batteryLevelCallback, "/provider_power/power", "provider_power/powerMsg")
+    useROSTopicSubscriber<any>(killSwitchCallback, "/provider_kill_mission/kill_switch_msg", "provider_kill_mission/KillMissionSwitch")
+    useROSTopicSubscriber<any>(missionSwitchCallback, "/provider_kill_mission/mission_switch_msg", "provider_kill_mission/MissionSwitchMsg")
     useROSTopicSubscriber<any>(AUV7Callback, "/provider_system/system_temperature", "std_msgs/Float32")
     useROSTopicSubscriber<any>(AUV8Callback, "/provider_jetson/system_temperature", "std_msgs/Float32")
 

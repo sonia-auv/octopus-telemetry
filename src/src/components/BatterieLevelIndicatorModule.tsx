@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Slider from "@material-ui/core/Slider";
 import { withStyles } from '@material-ui/core/styles';
 import LabelAndValueModule from "./LabelAndValueModule";

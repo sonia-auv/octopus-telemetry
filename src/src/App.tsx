@@ -36,7 +36,7 @@ export const App = () => {
         []
     )
 
-    useROSTopicSubscriber<any>(thrusterEffortCallback, "/testSubscribe", "std_msgs/String")
+    useROSTopicSubscriber<any>(thrusterEffortCallback, "/provider_thruster/effort", "sonia_common/ThrusterEffort")
 
     const style = { height: 'calc(100% - 55px)' };
     const [isDryRunMode, setIsDryRunMode] = React.useState(false);

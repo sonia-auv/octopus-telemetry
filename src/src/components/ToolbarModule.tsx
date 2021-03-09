@@ -23,11 +23,9 @@ const ToolbarModule = () => {
     const [backgroundColorOn, setIsBackgroundColorOn] = React.useState('green')
     const [AUV7Temp, setAUV7Temp] = React.useState(0)
     const [AUV8Temp, setAUV8Temp] = React.useState(0)
-    const [batteryLevel, setbatteryLevel] = useState<{ ID: number, level: number }[]>(
-        [
-            { ID: 1, level: 0},
-            { ID: 2, level: 0}
-        ]);
+
+    const [batteryLevel1, setbatteryLevel1] = React.useState('0')
+    const [batteryLevel2, setbatteryLevel2] = React.useState('0')
 
 
     const toolbarServiceCallback = useCallback(
@@ -59,14 +57,11 @@ const ToolbarModule = () => {
 
     const batteryLevelCallback = useCallback(
         (x: any) => {
-            console.log("ici")
-            console.log(x)
-            let data = x.data
-            let parsed = JSON.parse(data)
-            setbatteryLevel([
-                {ID:1, level: parsed[1]},
-                {ID:2, level: parsed[2]}
-            ])
+            let data = parseFloat(x.data).toFixed(2)
+            if(x.slave == 1)
+                setbatteryLevel1(data)
+            else if(x.slave == 3)
+                setbatteryLevel2(data)
         }, []
     )
 
@@ -85,11 +80,11 @@ const ToolbarModule = () => {
         }, []
     )
 
-    const toolbarServicesCall = useROSService<any>(toolbarServiceCallback, "/proc_control/enable_control", "proc_control/EnableControl")
-    const startStopCameraCall = useROSService<any>(toolbarServiceCallback, "/provider_vision/start_stop_camera", "provider_vision/start_stop_media")
-    useROSTopicSubscriber<any>(batteryLevelCallback, "/provider_power/power", "provider_power/powerMsg")
-    useROSTopicSubscriber<any>(killSwitchCallback, "/provider_kill_mission/kill_switch_msg", "provider_kill_mission/KillMissionSwitch")
-    useROSTopicSubscriber<any>(missionSwitchCallback, "/provider_kill_mission/mission_switch_msg", "provider_kill_mission/MissionSwitchMsg")
+    const toolbarServicesCall = useROSService<any>(toolbarServiceCallback, "/proc_control/EnableControl", "sonia_common/EnableControl")
+    const startStopCameraCall = useROSService<any>(toolbarServiceCallback, "/provider_vision/StarStopCamera", "sonia_common/StartStopMedia")
+    useROSTopicSubscriber<any>(batteryLevelCallback, "/provider_power/power", "sonia_common/PowerMsg")
+    useROSTopicSubscriber<any>(killSwitchCallback, "/provider_kill_mission/kill_switch_msg", "sonia_common/KillSwitchMsg")
+    useROSTopicSubscriber<any>(missionSwitchCallback, "/provider_kill_mission/mission_switch_msg", "sonia_common/MissionSwitchMsg")
     useROSTopicSubscriber<any>(AUV7Callback, "/provider_system/system_temperature", "std_msgs/Float32")
     useROSTopicSubscriber<any>(AUV8Callback, "/provider_jetson/system_temperature", "std_msgs/Float32")
 
@@ -226,12 +221,12 @@ const ToolbarModule = () => {
                     value={AUV8Temp}
                     unit='C'/>
                 <BatterieLevelIndicator
-                    value={batteryLevel[0].level}
+                    value={batteryLevel1}
                     label='Batterie 1'
                     unit='V'
                 />
                 <BatterieLevelIndicator
-                    value={batteryLevel[1].level}
+                    value={batteryLevel2}
                     label='Batterie 2'
                     unit='V'
                 />

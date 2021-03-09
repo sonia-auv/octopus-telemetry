@@ -15,6 +15,7 @@
 		"@types/react-grid-layout": "^1.1.1",
 		"@types/roslib": "^1.1.1",
 		"@types/styled-components": "^5.1.7",
+		"jpeg-js": "^0.4.3",
 		"node-gyp": "^7.1.2",
 		"react": "^17.0.1",
 		"react-compound-slider": "^3.3.1",

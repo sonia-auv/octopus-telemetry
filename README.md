@@ -23,3 +23,17 @@ npm install --legacy-peer-deps
 cd src
 npm run start
 ```
+
+## Building and running the UI with Docker
+
+```bash
+cd src
+docker build . -t octopus-ui:latest
+
+# Run from docker
+# -it : interactive mode
+# -p HOST:CONTAINER : exposes the port of the container to the host's port
+docker run -it -p 3001:3000 octopus-ui:latest
+```
+
+You should see the app at [http://localhost:3001](http://localhost:3001)

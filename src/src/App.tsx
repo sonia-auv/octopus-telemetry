@@ -15,26 +15,68 @@ import ToolbarModule from "./components/ToolbarModule";
 
 export const App = () => {
     const [theme, setTheme] = useState('dark');
-    const [thrusters, setThrusters] = useState<{ ID: number, effort: number, thumbEnabled: boolean }[]>(
+    const [thrusters, setThrusters] = useState<{ ID: number, effort: number }[]>(
         [
-            { ID: 1, effort: 0, thumbEnabled: true },
-            { ID: 2, effort: 0, thumbEnabled: false },
-            { ID: 3, effort: 0, thumbEnabled: true },
-            { ID: 4, effort: 0, thumbEnabled: false },
-            { ID: 5, effort: 0, thumbEnabled: true },
+            { ID: 1, effort: 0 },
+            { ID: 2, effort: 0 },
+            { ID: 3, effort: 0 },
+            { ID: 4, effort: 0 },
+            { ID: 5, effort: 0 },
+            { ID: 6, effort: 0 },
+            { ID: 7, effort: 0 },
+            { ID: 8, effort: 0 },
         ]);
+
+    const [thruster1, setThruster1] = useState(0)
+    const [thruster2, setThruster2] = useState(0)
+    const [thruster3, setThruster3] = useState(0)
+    const [thruster4, setThruster4] = useState(0)
+    const [thruster5, setThruster5] = useState(0)
+    const [thruster6, setThruster6] = useState(0)
+    const [thruster7, setThruster7] = useState(0)
+    const [thruster8, setThruster8] = useState(0)
 
     const thrusterEffortCallback = useCallback(
         (x: any) => {
-            let data = x.data
-            let parsed = JSON.parse(data)
+            //let data = x.data
+            /*let parsed = JSON.parse(data)
             setThrusters([
                 { ID: 1, effort: parsed[1], thumbEnabled: true },
                 { ID: 2, effort: parsed[2], thumbEnabled: false },
                 { ID: 3, effort: parsed[3], thumbEnabled: true },
                 { ID: 4, effort: parsed[4], thumbEnabled: false },
                 { ID: 5, effort: parsed[5], thumbEnabled: true },
-            ])
+            ])*/
+
+            console.log(x)
+            let id = x.ID
+            let effort = x.effort
+            switch(id){
+                case 1:
+                    setThruster1(effort)
+                    break;
+                case 2:
+                    setThruster2(effort)
+                    break;
+                case 3:
+                    setThruster3(effort)
+                    break;
+                case 4:
+                    setThruster4(effort)
+                    break;
+                case 5:
+                    setThruster5(effort)
+                    break;
+                case 6:
+                    setThruster6(effort)
+                    break;
+                case 7:
+                    setThruster7(effort)
+                    break;
+                case 8:
+                    setThruster8(effort)
+                    break;
+            }
         },
         []
     )
@@ -63,18 +105,72 @@ export const App = () => {
                         data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
                         style={{ display: 'flex' }}>
                         <ThrustersModule />
-                        {thrusters.map((thruster, id) => {
-                            return (
-                                <Thruster key={id}
-                                    effort={thruster.effort}
-                                    identification={thruster.ID}
-                                    minMark={-100}
-                                    maxMark={100}
-                                    step={25}
-                                    thumbEnabled={!isDryRunMode}
-                                />
-                            )
-                        })}
+                        <Thruster key={1}
+                                  effort={thruster1}
+                                  identification={1}
+                                  minMark={-100}
+                                  maxMark={100}
+                                  step={25}
+                                  thumbEnabled={!isDryRunMode}
+                        />
+                        <Thruster key={2}
+                                  effort={thruster2}
+                                  identification={2}
+                                  minMark={-100}
+                                  maxMark={100}
+                                  step={25}
+                                  thumbEnabled={!isDryRunMode}
+                        />
+                        <Thruster key={3}
+                                  effort={thruster3}
+                                  identification={3}
+                                  minMark={-100}
+                                  maxMark={100}
+                                  step={25}
+                                  thumbEnabled={!isDryRunMode}
+                        />
+                        <Thruster key={4}
+                                  effort={thruster4}
+                                  identification={4}
+                                  minMark={-100}
+                                  maxMark={100}
+                                  step={25}
+                                  thumbEnabled={!isDryRunMode}
+                        />
+                        <Thruster key={5}
+                                  effort={thruster5}
+                                  identification={5}
+                                  minMark={-100}
+                                  maxMark={100}
+                                  step={25}
+                                  thumbEnabled={!isDryRunMode}
+                        />
+                        <Thruster key={6}
+                                  effort={thruster6}
+                                  identification={6}
+                                  minMark={-100}
+                                  maxMark={100}
+                                  step={25}
+                                  thumbEnabled={!isDryRunMode}
+                        />
+                        <Thruster key={7}
+                                  effort={thruster7}
+                                  identification={1}
+                                  minMark={-100}
+                                  maxMark={100}
+                                  step={25}
+                                  thumbEnabled={!isDryRunMode}
+                        />
+
+                        <Thruster key={8}
+                                  effort={thruster8}
+                                  identification={8}
+                                  minMark={-100}
+                                  maxMark={100}
+                                  step={25}
+                                  thumbEnabled={!isDryRunMode}
+                        />
+
 
                     </div>
                     <div key="b"

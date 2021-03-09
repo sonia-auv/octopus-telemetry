@@ -20,7 +20,6 @@ const ToolbarModule = () => {
 
     const [isMissionSwitchOn, setIsMissionSwitchOn] = React.useState(false)
     const [isKillSwitchOn, setIsKillSwitchOn] = React.useState(false);
-    const [backgroundColorOn, setIsBackgroundColorOn] = React.useState('green')
     const [AUV7Temp, setAUV7Temp] = React.useState(0)
     const [AUV8Temp, setAUV8Temp] = React.useState(0)
 
@@ -35,32 +34,24 @@ const ToolbarModule = () => {
 
     const missionSwitchCallback = useCallback(
         (x: any) => {
-            let data = x.data
-            let parsed = JSON.parse(data)
-            setIsMissionSwitchOn(parsed)
-            if(isMissionSwitchOn)
-                setIsBackgroundColorOn('green')
-            else setIsBackgroundColorOn('red')
+            let switchState = x.state
+            setIsMissionSwitchOn(switchState)
         }, []
     )
 
     const killSwitchCallback = useCallback(
         (x: any) => {
-            let data = x.data
-            let parsed = JSON.parse(data)
-            setIsKillSwitchOn(parsed)
-            if(isKillSwitchOn)
-                setIsBackgroundColorOn('green')
-            else setIsBackgroundColorOn('red')
+            let switchState = x.state
+            setIsKillSwitchOn(switchState)
         }, []
     )
 
     const batteryLevelCallback = useCallback(
         (x: any) => {
             let data = parseFloat(x.data).toFixed(2)
-            if(x.slave == 1)
+            if(x.slave === 1)
                 setbatteryLevel1(data)
-            else if(x.slave == 3)
+            else if(x.slave === 3)
                 setbatteryLevel2(data)
         }, []
     )
@@ -234,14 +225,14 @@ const ToolbarModule = () => {
                     <Button variant="contained"
                             color="secondary"
                             className="right"
-                            style={{margin: '15px', backgroundColor:backgroundColorOn, color:'white'}}
+                            style={{margin: '15px', backgroundColor: isMissionSwitchOn ? 'green' : 'red', color:'white'}}
                             disabled>
                         {isMissionSwitchOn ? 'Mission switch activated' : 'Mission switch off'}
                     </Button>
 
                     <Button variant="contained"
                             color="secondary"
-                            style={{margin: '15px', backgroundColor:backgroundColorOn, color:'white'}}
+                            style={{margin: '15px', backgroundColor: isKillSwitchOn? 'green' : 'red', color:'white'}}
                             disabled>
                         {isKillSwitchOn ? 'Kill switch activated' : 'Kill switch off'}
                     </Button>

@@ -35,37 +35,46 @@ const LABELS = [
   },
 ];
 
-const PowerSection = (props: any) => (
-  <div className="PowerSection">
-    <form>
-      {LABELS.map((label, index) => (
-        <div key={index}>
-          {label.label}
-          <label>
-            <input type="text" name={label.id} />
-          </label>
-        </div>
-      ))}
-      <div>
-        <label>
-          Output 16V-1
-          <Switch />
-        </label>
-      </div>
-      <div>
-        <label>
-          Output 16V-2
-          <Switch />
-        </label>
-      </div>
-      <div>
-        <label>
-          Output 12V
-          <Switch />
-        </label>
-      </div>
-    </form>
+const getPowerSectionSwitch = (label: String, value: Boolean) => (
+  <div>
+    <label>
+      {label}
+      <Switch
+        value={value}
+        handler={(v: Boolean) => {
+          console.log(`Got value ${value}`);
+        }}
+        onLabel="Enabled"
+        offLabel="Disabled"
+      />
+    </label>
   </div>
 );
+
+const SWITCHES = [
+  { value: false, label: 'Output 16V-1' },
+  { value: false, label: 'Output 16V-2' },
+  { value: false, label: 'Output 12V' },
+];
+
+const PowerSection = (props: any) => {
+  return (
+    <div className="PowerSection">
+      <form>
+        {LABELS.map((label, index) => (
+          <div key={index}>
+            {label.label}
+            <label>
+              <input type="text" name={label.id} />
+            </label>
+          </div>
+        ))}
+      </form>
+      <form>
+        {SWITCHES.map((s, l) => getPowerSectionSwitch(s.label, s.value))}
+      </form>
+    </div>
+  );
+};
 
 export default PowerSection;

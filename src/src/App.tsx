@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import GridLayout from 'react-grid-layout'
 import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
+import ActuatorModule from "./components/ActuatorModule";
+import ImageViewer from "./components/ImageViewer";
+import Pfd from "./components/Pfd";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext} from "./context/generalContext";
 
@@ -36,36 +39,50 @@ export const App = () => {
     const style = { height: 'calc(100% - 55px)' };
     const [isDryRunMode, setIsDryRunMode] = React.useState(false);
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
+    const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
+
     return (
         <div className="margin-top" style={style} >
-            <GridLayout className="layout"
-                cols={12}
-                rowHeight={100}
-                width={1200}
-                verticalCompact={false}
-                draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb"}>
-                <div key="a"
-                    data-grid={{ x: 2, y: 0, w: 8, h: 5, minW: 8, maxW: 12, minH: 3, maxH: 6 }}
-                    style={{ display: 'flex' }}>
-                    <GeneralContext.Provider value={{isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits}}>
+            <GeneralContext.Provider value={{ isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed }}>
+                <GridLayout className="layout"
+                    cols={32}
+                    rowHeight={50}
+                    width={1600}
+                    verticalCompact={false}
+                    draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch"}>
+                    <div key="a"
+                        data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
+                        style={{ display: 'flex' }}>
                         <ThrustersModule />
-                    </GeneralContext.Provider>
-
-                    {thrusters.map((thruster, id) => {
-                        return (
-                            <Thruster key={id}
-                                effort={thruster.effort}
-                                identification={thruster.ID}
-                                minMark={-100}
-                                maxMark={100}
-                                step={25}
-                                thumbEnabled={isDryRunMode}
-                            />
-                        )
-                    })}
-                </div>
-
-            </GridLayout>
+                        {thrusters.map((thruster, id) => {
+                            return (
+                                <Thruster key={id}
+                                    effort={thruster.effort}
+                                    identification={thruster.ID}
+                                    minMark={-100}
+                                    maxMark={100}
+                                    step={25}
+                                    thumbEnabled={isDryRunMode} />
+                            )
+                        })}
+                    </div>
+                    <div key="b"
+                        data-grid={{ x: 20, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
+                        style={{ display: 'flex' }}>
+                        <ActuatorModule />
+                    </div>
+                    <div key="c"
+                        data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                        style={{ display: 'flex' }}>
+                        <ImageViewer />
+                    </div>
+                    <div key="d"
+                        data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                        style={{ display: 'flex' }}>
+                        <Pfd />
+                    </div>
+                </GridLayout>
+            </GeneralContext.Provider>
         </div>
     );
 }

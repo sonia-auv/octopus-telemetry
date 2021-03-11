@@ -67,7 +67,7 @@ const ImageViewer = () => {
         (x: any) => {
 
             var im;
-            if (x.encoding == "bgr8")
+            if (x.encoding == "bgr8" || x.encoding == "rgb8")
                 im = "data:image/jpeg;base64," + rgb8ImageToBase64Jpeg(x);
             else
                 im = "data:image/jpeg;base64," + x.data;

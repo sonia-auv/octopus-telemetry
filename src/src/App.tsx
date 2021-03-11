@@ -15,18 +15,6 @@ import ToolbarModule from "./components/ToolbarModule";
 
 export const App = () => {
     const [theme, setTheme] = useState('dark');
-    const [thrusters, setThrusters] = useState<{ ID: number, effort: number }[]>(
-        [
-            { ID: 1, effort: 0 },
-            { ID: 2, effort: 0 },
-            { ID: 3, effort: 0 },
-            { ID: 4, effort: 0 },
-            { ID: 5, effort: 0 },
-            { ID: 6, effort: 0 },
-            { ID: 7, effort: 0 },
-            { ID: 8, effort: 0 },
-        ]);
-
     const [thruster1, setThruster1] = useState(0)
     const [thruster2, setThruster2] = useState(0)
     const [thruster3, setThruster3] = useState(0)
@@ -38,17 +26,6 @@ export const App = () => {
 
     const thrusterEffortCallback = useCallback(
         (x: any) => {
-            //let data = x.data
-            /*let parsed = JSON.parse(data)
-            setThrusters([
-                { ID: 1, effort: parsed[1], thumbEnabled: true },
-                { ID: 2, effort: parsed[2], thumbEnabled: false },
-                { ID: 3, effort: parsed[3], thumbEnabled: true },
-                { ID: 4, effort: parsed[4], thumbEnabled: false },
-                { ID: 5, effort: parsed[5], thumbEnabled: true },
-            ])*/
-
-            console.log(x)
             let id = x.ID
             let effort = x.effort
             switch(id){

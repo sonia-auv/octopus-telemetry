@@ -5,6 +5,7 @@ import ThrustersModule from "./components/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
 import ImageViewer from "./components/ImageViewer";
 import Pfd from "./components/Pfd";
+import TestBoardModule from "./components/TestBoardModule";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext} from "./context/generalContext";
 
@@ -80,6 +81,11 @@ export const App = () => {
                         data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                         style={{ display: 'flex' }}>
                         <Pfd />
+                    </div>
+                    <div key="e"
+                         data-grid={{ x: 30, y: 0, w: 5, h:8, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                         style={{ display: 'flex' }}>
+                        <TestBoardModule />
                     </div>
                 </GridLayout>
             </GeneralContext.Provider>

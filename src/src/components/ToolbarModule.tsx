@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button"
 import MenuModule from "./MenuModule"
 import IconButton from '@material-ui/core/IconButton';
 import { useROSService } from '../hooks/useROSService'
-import BatterieLevelIndicator from "./BatterieLevelIndicatorModule";
+import BatterieLevelIndicator from "./BatteryLevelIndicatorModule";
 import ROSLIB from "roslib";
 import LabelAndValueModule from "./LabelAndValueModule";
 import {useROSTopicSubscriber} from "../hooks/useROSTopicSubscriber";

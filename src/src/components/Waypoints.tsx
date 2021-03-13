@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import Switch from './Switch';
 import { GeneralContext } from "../context/generalContext";
 import { Button } from '@material-ui/core';
@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { useROSService } from '../hooks/useROSService'
 import ROSLIB from "roslib";
-import { isNumber } from 'util';
+import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
 
 const Waypoints = () => {
 
@@ -18,48 +18,81 @@ const Waypoints = () => {
 
     })(Button);
 
+    const context = useContext(GeneralContext)
+
+    //////////////////////////////////////
+    // CONTROL MODE
+    //////////////////////////////////////
+
     // Reponse en retour a l appel du service
-    const actuactorServiceCallback = useCallback(
+    const controlModeServiceCallback = useCallback(
         (x: any) => {
         }, []
     )
-
-    const context = useContext(GeneralContext)
-    const actuactorServiceCall = useROSService<any>(actuactorServiceCallback, "/provider_actuators/do_action_srv", "provider_actuators")
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const HandleChangeSwitch = (value: any) => {
 
         context.setIsWayPointVelocityMode(!context.isWayPointVelocityMode)
+        var mode
+        if (!context.isWayPointVelocityMode)
+            mode = 0
+        if (!context.isWayPointVelocityMode)
+            mode = 2
+
         var request = new ROSLIB.ServiceRequest({
-            ELEMENT_ARM: 2,
-            ARM_OPEN: !value,
-            ACTION_ARM_EXEC: 1
+            MODE: mode,
         });
-        actuactorServiceCall(request)
+        controlModeServiceCall(request)
     }
+
+    const controlModeServiceCall = useROSService<any>(controlModeServiceCallback, "/proc_control/set_control_mode", "proc_control")
+
+    //////////////////////////////////////
+    // CLEAR WAYPOINT
+    //////////////////////////////////////
+
+    // Reponse en retour a l appel du service
+    const clearWaypointServiceCallback = useCallback(
+        (x: any) => {
+        }, []
+    )
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
-    const handleClearWaypoint = () => {
+    const handleClearWayPoint = (value: any) => {
+
         var request = new ROSLIB.ServiceRequest({
-            ELEMENT_TORPEDO: 1,
-            SIDE_PORT: 0,
-            ACTION_DROPPER_LAUCH: 1
         });
-        actuactorServiceCall(request)
+        clearWayPointServiceCall(request)
     }
+
+    const clearWayPointServiceCall = useROSService<any>(clearWaypointServiceCallback, "/proc_control/clear_waypoint", "proc_control")
+
+    //////////////////////////////////////
+    // SET INITIAL POSITION
+    //////////////////////////////////////
+
+    // Reponse en retour a l appel du service
+    const setInitialPositionServiceCallback = useCallback(
+        (x: any) => {
+        }, []
+    )
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
-    const handleSetInitialPosition = () => {
+    const handleSetInitialPosition = (value: any) => {
+
         var request = new ROSLIB.ServiceRequest({
-            ELEMENT_TORPEDO: 1,
-            SIDE_PORT: 0,
-            ACTION_DROPPER_LAUCH: 1
         });
-        actuactorServiceCall(request)
+        setInitialPositionServiceCall(request)
+
+        // Send clear waypoint with 500 ms delay
+        setTimeout(handleClearWayPoint, 500)
+
     }
 
-    const checkSyntax = (v: any) => [...v].every(c => '0123456789.'.includes(c));
+    const setInitialPositionServiceCall = useROSService<any>(setInitialPositionServiceCallback, "/proc_navigation/set_world_x_y_offset", "proc_navigation")
+
+    const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
 
     const [cmdX, setCmdX] = useState('0.00');
     const [lastValidCmdX, setLastValidCmdX] = useState('0.00');
@@ -110,10 +143,22 @@ const Waypoints = () => {
         }
     }
 
+    //////////////////////////////////////
+    // SEND TARGET POSITIONS
+    //////////////////////////////////////
+
+    // Reponse en retour a l appel du service
+    const sendPositionTargetServiceCallback = useCallback(
+        (x: any) => {
+        }, []
+    )
+
+    const sendPositionTargetServiceCall = useROSService<any>(sendPositionTargetServiceCallback, "/proc_control/set_global_target", "proc_control")
+
     const handleCmdKeyDown = (e: any) => {
 
         if (e.key === 'Enter') {
-            
+
             // Handle command X axis
             var x = parseFloat(cmdX)
             var finalX
@@ -186,22 +231,107 @@ const Waypoints = () => {
                 finalYaw = parseFloat(lastValidCmdYaw)
             }
 
-            console.log(finalX)
-            console.log(finalY)
-            console.log(finalZ)
-            console.log(finalRoll)
-            console.log(finalPitch)
-            console.log(finalYaw)
+            //Depth is limited to 3
+            if (finalZ > 3)
+            {
+                finalZ = 3
+                setLastValidCmdZ('3.0')
+                setCmdZ('3.0')
+            }
+
+            // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
+            var request = new ROSLIB.ServiceRequest({
+                X: finalX,
+                Y: finalY,
+                Z: finalZ,
+                ROLL: finalRoll,
+                PICH: finalPitch,
+                YAW: finalYaw
+            });
+            sendPositionTargetServiceCall(request)
 
         }
     }
+
+    /////////////////////////////////////
+    // CONTROL MODE FEEDBACK
+    /////////////////////////////////////
+
+    const controlModeCallback = useCallback(
+        (x: any) => {
+
+            if (x.data == 0)
+                context.setIsWayPointVelocityMode(false)
+
+            if (x.data == 2)
+                context.setIsWayPointVelocityMode(true)
+
+        }, []
+    )
+
+    useROSTopicSubscriber<any>(controlModeCallback, "/proc_control/control_mode", "std_msgs/UInt8")
+
+    /////////////////////////////////////
+    // POSITION TARGET FEEDBACK
+    /////////////////////////////////////
+
+    const positionTargetFeedBackCallback = useCallback(
+        (x: any) => {
+
+            setCmdX(x.position.x.toFixed(2)) 
+            setLastValidCmdX(x.position.x.toFixed(2)) 
+
+            setCmdY(x.position.y.toFixed(2)) 
+            setLastValidCmdY(x.position.y.toFixed(2)) 
+
+            setCmdZ(x.position.z.toFixed(2)) 
+            setLastValidCmdZ(x.position.z.toFixed(2)) 
+
+            setCmdRoll(x.orientation.x.toFixed(2)) 
+            setLastValidCmdRoll(x.orientation.x.toFixed(2)) 
+
+            setCmdPitch(x.orientation.y.toFixed(2)) 
+            setLastValidCmdPitch(x.orientation.y.toFixed(2)) 
+
+            setCmdYaw(x.orientation.z.toFixed(2)) 
+            setLastValidCmdYaw(x.orientation.z.toFixed(2)) 
+
+        }, []
+    )
+
+    const velocityTargetFeedBackCallback = useCallback(
+        (x: any) => {
+
+            setCmdX(x.linear.x.toFixed(2)) 
+            setLastValidCmdX(x.linear.x.toFixed(2)) 
+
+            setCmdY(x.linear.y.toFixed(2)) 
+            setLastValidCmdY(x.linear.y.toFixed(2)) 
+
+            setCmdZ(x.linear.z.toFixed(2)) 
+            setLastValidCmdZ(x.linear.z.toFixed(2)) 
+
+            setCmdRoll(x.angular.x.toFixed(2)) 
+            setLastValidCmdRoll(x.angular.x.toFixed(2)) 
+
+            setCmdPitch(x.angular.y.toFixed(2)) 
+            setLastValidCmdPitch(x.angular.y.toFixed(2)) 
+
+            setCmdYaw(x.angular.z.toFixed(2)) 
+            setLastValidCmdYaw(x.angular.z.toFixed(2)) 
+
+        }, []
+    )
+
+    useROSTopicSubscriber<any>(positionTargetFeedBackCallback, "/proc_control/current_target", "geometry_msgs/Pose")
+    useROSTopicSubscriber<any>(velocityTargetFeedBackCallback, "/proc_control/current_target_velocity", "geometry_msgs/Twist")
 
     return (
         <GeneralContext.Consumer>
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
-                    <ButtonStyle variant='contained' style={{ width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleClearWaypoint}>Clear Waypoint</ButtonStyle>
+                    <ButtonStyle variant='contained' style={{ width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleClearWayPoint}>Clear Waypoint</ButtonStyle>
                     <ButtonStyle variant='contained' style={{ marginLeft: '50px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetInitialPosition}>Set initial Position</ButtonStyle>
                     <Switch onLabel="Velocity"
                         offLabel="Position"

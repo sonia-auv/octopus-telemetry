@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useState, useRef } from 'react';
 import { GeneralContext } from "../context/generalContext";
 import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
@@ -62,15 +62,24 @@ const ImageViewer = () => {
 
     const [topic, setTopic] = useState<ROSLIB.Topic | null>(null);
     const [listTopic, setListTopic] = useState<[]>([]);
+    const topicRef = useRef<ROSLIB.Topic | null>(null);
 
     const imageCallback = useCallback(
         (x: any) => {
 
-            var im;
+            var im: any;
             if (x.encoding == "bgr8" || x.encoding == "rgb8")
                 im = "data:image/jpeg;base64," + rgb8ImageToBase64Jpeg(x);
-            else
+            else if (x.format.includes("jpeg"))
                 im = "data:image/jpeg;base64," + x.data;
+            else
+            {
+                window.alert("Video format (" + x.encoding + ") is not supported, make sure you have the right encoding type or add it to the list");
+                if (topicRef.current) {
+                    topicRef.current.unsubscribe()
+                    setTopic(null)
+                }
+            }
 
             var displayImage = document.getElementById("imageviewer");
             if (displayImage) {
@@ -90,6 +99,7 @@ const ImageViewer = () => {
                     const type = value["type"]
                     const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: type })
                     setTopic(newtopic)
+                    topicRef.current = newtopic;
                     if (newtopic) {
                         newtopic.subscribe(imageCallback);
                     }

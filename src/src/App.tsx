@@ -88,6 +88,11 @@ export const App = () => {
                         style={{ display: 'flex' }}>
                         <Waypoints />
                     </div>
+                    <div key="f"
+                        data-grid={{ x: 0, y: 17, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                        style={{ display: 'flex' }}>
+                        <ImageViewer />
+                    </div>
                 </GridLayout>
             </GeneralContext.Provider>
         </div>

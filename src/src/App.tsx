@@ -4,6 +4,9 @@ import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
 import MissionManager from "./components/MissionManager";
+import ImageViewer from "./components/ImageViewer";
+import Pfd from "./components/Pfd";
+import Waypoints from "./components/Waypoints";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext} from "./context/generalContext";
 
@@ -39,10 +42,11 @@ export const App = () => {
     const [isDryRunMode, setIsDryRunMode] = React.useState(false);
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
     const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
+    const [isWayPointVelocityMode, setIsWayPointVelocityMode] = React.useState(false)
 
     return (
         <div className="margin-top" style={style} >
-            <GeneralContext.Provider value={{ isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed }}>
+            <GeneralContext.Provider value={{ isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode }}>
                 <GridLayout className="layout"
                     cols={32}
                     rowHeight={50}
@@ -71,10 +75,30 @@ export const App = () => {
                         <ActuatorModule />
                     </div>
                     <div key="c"
+                        data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                        style={{ display: 'flex' }}>
+                        <ImageViewer />
+                    </div>
+                    <div key="d"
+                        data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                        style={{ display: 'flex' }}>
+                        <Pfd />
+                    </div>
+                    <div key="e"
+                        data-grid={{ x: 11, y: 19, w: 8, h:7, minW: 8, maxW: 15, minH: 7, maxH: 15 }}
+                        style={{ display: 'flex' }}>
+                        <Waypoints />
+                    </div>
+                    <div key="f"
+                        data-grid={{ x: 0, y: 17, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                        style={{ display: 'flex' }}>
+                        <ImageViewer />
+                    </div>
+                    <div key="g"
                         data-grid={{ x: 40, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
                         style={{ display: 'flex' }}>
                         <MissionManager />
-                    </div>
+                     </div>
                 </GridLayout>
             </GeneralContext.Provider>
         </div>

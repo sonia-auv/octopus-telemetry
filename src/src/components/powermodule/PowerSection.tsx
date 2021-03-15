@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import Switch from '../../components/Switch';
+import './powersection.css';
 
 const LABELS = [
   {
@@ -35,15 +37,20 @@ const LABELS = [
   },
 ];
 
-const getPowerSectionSwitch = (label: String, value: Boolean) => (
-  <div>
+const getPowerSectionSwitch = (
+  id: string,
+  label: String,
+  value: Boolean,
+  // TODO mark as callback function that takes bool and returns bool
+  setValue: any
+) => (
+  <div key={id}>
     <label>
       {label}
       <Switch
+        testid={id}
         value={value}
-        handler={(v: Boolean) => {
-          console.log(`Got value ${value}`);
-        }}
+        handler={(v: Boolean) => setValue(!v)}
         onLabel="Enabled"
         offLabel="Disabled"
       />
@@ -51,27 +58,53 @@ const getPowerSectionSwitch = (label: String, value: Boolean) => (
   </div>
 );
 
-const SWITCHES = [
-  { value: false, label: 'Output 16V-1' },
-  { value: false, label: 'Output 16V-2' },
-  { value: false, label: 'Output 12V' },
-];
+type PowerSectionProps = {};
+const PowerSection = (props: PowerSectionProps) => {
+  let [output16V1Checked, setOutput16V1Checked] = useState(false);
+  let [output16V2Checked, setOutput16V2Checked] = useState(false);
+  let [output12VChecked, setOutput12VChecked] = useState(false);
 
-const PowerSection = (props: any) => {
+  const SWITCHES = [
+    {
+      value: output16V1Checked,
+      setValue: setOutput16V1Checked,
+      label: 'Output 16V-1',
+      id: 'output-16v-1',
+    },
+    {
+      value: output16V2Checked,
+      setValue: setOutput16V2Checked,
+      label: 'Output 16V-2',
+      id: 'output-16v-2',
+    },
+    {
+      value: output12VChecked,
+      setValue: setOutput12VChecked,
+      label: 'Output 12V',
+      id: 'output-12v',
+    },
+  ];
+
   return (
     <div className="PowerSection">
       <form>
         {LABELS.map((label, index) => (
-          <div key={index}>
-            {label.label}
-            <label>
-              <input type="text" name={label.id} />
+          <div key={index} className="PowerSection__section">
+            <label className="PowerSection__label">
+              <span>{label.label}</span>
+              <input
+                className="PowerSection__input-value"
+                type="text"
+                name={label.id}
+              />
             </label>
           </div>
         ))}
       </form>
       <form>
-        {SWITCHES.map((s, l) => getPowerSectionSwitch(s.label, s.value))}
+        {SWITCHES.map((s, l) =>
+          getPowerSectionSwitch(`switch-${s.id}`, s.label, s.value, s.setValue)
+        )}
       </form>
     </div>
   );

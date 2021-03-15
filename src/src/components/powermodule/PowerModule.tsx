@@ -5,9 +5,11 @@ import PowerSection from './PowerSection';
 
 const NUMBER_OF_POWER_SECTIONS = 4;
 
-const PowerModule = (props: any) => (
+type PowerModuleProps = {};
+
+const PowerModule = (props: PowerModuleProps) => (
   <div className="PowerModule">
-    <Tabs>
+    <Tabs forceRenderTabPanel={true}>
       <TabList>
         {new Array(NUMBER_OF_POWER_SECTIONS).fill(null).map((_, index) => (
           <Tab key={index}>{`Power ${index + 1}`}</Tab>
@@ -19,7 +21,7 @@ const PowerModule = (props: any) => (
           <PowerSection />
         </TabPanel>
       ))}
-      <TabPanel>All data is here!</TabPanel>
+      <TabPanel>All Data is here!</TabPanel>
     </Tabs>
   </div>
 );

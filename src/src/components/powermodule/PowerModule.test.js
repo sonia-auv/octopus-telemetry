@@ -1,13 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import PowerModule from './PowerModule';
 import PowerSection from './PowerSection';
-import { Power } from '@material-ui/icons';
 
 describe('The Power module', () => {
   test('renders the "All Data" tab', () => {
     render(<PowerModule />);
-    const allDataTabText = screen.getByText(/All Data/i);
+    const allDataTabText = screen.getByText(/All Data is here/i);
     expect(allDataTabText).toBeInTheDocument();
   });
   describe('The Power "section" (the panel for every "Power" tab)', () => {
@@ -65,6 +64,27 @@ describe('The Power module', () => {
       render(<PowerSection />);
       const output12vText = screen.getByText(/Output 12V/i);
       expect(output12vText).toBeInTheDocument();
+    });
+    it('toggles the switches for the Output 16V-1 Switch', async () => {
+      render(<PowerSection />);
+      const output16V1Switch = await screen.findByTestId('switch-output-16v-1');
+      fireEvent.click(output16V1Switch);
+
+      expect(output16V1Switch).toBeChecked();
+    });
+    it('toggles the switches for the Output 16V-2 Switch', async () => {
+      render(<PowerSection />);
+      const output16V2Switch = await screen.findByTestId('switch-output-16v-2');
+      fireEvent.click(output16V2Switch);
+
+      expect(output16V2Switch).toBeChecked();
+    });
+    it('toggles the switches for the Output 12V Switch', async () => {
+      render(<PowerSection />);
+      const output12VSwitch = await screen.findByTestId('switch-output-12v');
+      fireEvent.click(output12VSwitch);
+
+      expect(output12VSwitch).toBeChecked();
     });
   });
 });

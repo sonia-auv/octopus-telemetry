@@ -1,0 +1,12 @@
+.PowerSection__label {
+  display: flex;
+  flex-direction: row;
+}
+
+.PowerSection__input-value {
+  margin-left: auto;
+}
+
+.PowerSection__section {
+  padding: 12px 0;
+}

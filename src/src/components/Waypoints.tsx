@@ -37,7 +37,7 @@ const Waypoints = () => {
         var mode
         if (!context.isWayPointVelocityMode)
             mode = 0
-        if (!context.isWayPointVelocityMode)
+        if (context.isWayPointVelocityMode)
             mode = 2
 
         var request = new ROSLIB.ServiceRequest({

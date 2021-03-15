@@ -16,6 +16,7 @@ import jpeg from 'jpeg-js'
 
 const ImageViewer = () => {
 
+    // Function to convert uncompressed data rgb8 to compressed base 64 jpeg
     function rgb8ImageToBase64Jpeg(msg: any) {
         var raw = atob(msg.data)
         var array = new Uint8Array(new ArrayBuffer(raw.length))
@@ -63,6 +64,7 @@ const ImageViewer = () => {
     const [topic, setTopic] = useState<ROSLIB.Topic | null>(null);
     const [listTopic, setListTopic] = useState<[]>([]);
     const topicRef = useRef<ROSLIB.Topic | null>(null);
+    const [image, setImage] = useState('')
 
     const imageCallback = useCallback(
         (x: any) => {
@@ -80,11 +82,7 @@ const ImageViewer = () => {
                     setTopic(null)
                 }
             }
-
-            var displayImage = document.getElementById("imageviewer");
-            if (displayImage) {
-                displayImage.setAttribute('src', im);
-            }
+            setImage(im)
         },
         []
     )
@@ -188,7 +186,11 @@ const ImageViewer = () => {
                             startIcon={<PlayCircleFilledIcon />}
                             onClick={clickPlay}
                         ></Button>
-                        <div style={{ width: "100%", height: "calc(100% - 140px)" }}><img id="imageviewer" width="100%" height="100%"></img></div>
+                        <div style={{ width: "100%", height: "calc(100% - 140px)" }}>
+                        {image !== '' ?
+                            <img src={image} width="100%" height="100%"></img> : <img width="100%" height="100%"></img>
+                        }
+                        </div>
                     </div>
                 </div>
             )}

@@ -2,41 +2,6 @@ import { useState } from 'react';
 import Switch from '../../components/Switch';
 import './powersection.css';
 
-const LABELS = [
-  {
-    id: 'temperature',
-    label: 'Temperature',
-  },
-  {
-    id: 'current-16v-1',
-    label: 'Current 16V-1',
-  },
-  {
-    id: 'current-16v-2',
-    label: 'Current 16V-2',
-  },
-  {
-    id: 'current-12v',
-    label: 'Current 12V',
-  },
-  {
-    id: 'voltage-16v-1',
-    label: 'Voltage 16V-1',
-  },
-  {
-    id: 'voltage-16v-2',
-    label: 'Voltage 16V-2',
-  },
-  {
-    id: 'voltage-12v',
-    label: 'Voltage 12V',
-  },
-  {
-    id: 'battery',
-    label: 'Battery',
-  },
-];
-
 const getPowerSectionSwitch = (
   id: string,
   label: String,
@@ -59,12 +24,22 @@ const getPowerSectionSwitch = (
 );
 
 type PowerSectionProps = {};
+
 const PowerSection = (props: PowerSectionProps) => {
+  let [temperature, setTemperature] = useState(15.84);
+  let [current16V1Value, setCurrent16V1Value] = useState(16.73);
+  let [current16V2Value, setCurrent16V2Value] = useState(17.73);
+  let [current12VValue, setCurrent12VValue] = useState(18.73);
+  let [voltage16V1Value, setVoltage16V1Value] = useState(19.73);
+  let [voltage16V2Value, setVoltage16V2Value] = useState(22.63);
+  let [voltage12VValue, setVoltage12VValue] = useState(42.24);
+  let [batteryValue, setBatteryValue] = useState(99.74);
+
   let [output16V1Checked, setOutput16V1Checked] = useState(false);
   let [output16V2Checked, setOutput16V2Checked] = useState(false);
   let [output12VChecked, setOutput12VChecked] = useState(false);
 
-  const SWITCHES = [
+  const outputSwitches = [
     {
       value: output16V1Checked,
       setValue: setOutput16V1Checked,
@@ -85,24 +60,80 @@ const PowerSection = (props: PowerSectionProps) => {
     },
   ];
 
+  const powerMetrics = [
+    {
+      id: 'temperature',
+      label: 'Temperature',
+      value: temperature,
+      onUpdate: setTemperature,
+    },
+    {
+      id: 'current-16v-1',
+      label: 'Current 16V-1',
+      value: current16V1Value,
+      onUpdate: setCurrent16V1Value,
+    },
+    {
+      id: 'current-16v-2',
+      label: 'Current 16V-2',
+      value: current16V2Value,
+      onUpdate: setCurrent16V2Value,
+    },
+    {
+      id: 'current-12v',
+      label: 'Current 12V',
+      value: current12VValue,
+      onUpdate: setCurrent12VValue,
+    },
+    {
+      id: 'voltage-16v-1',
+      label: 'Voltage 16V-1',
+      value: voltage16V1Value,
+      onUpdate: setVoltage16V1Value,
+    },
+    {
+      id: 'voltage-16v-2',
+      label: 'Voltage 16V-2',
+      value: voltage16V2Value,
+      onUpdate: setVoltage16V2Value,
+    },
+    {
+      id: 'voltage-12v',
+      label: 'Voltage 12V',
+      value: voltage12VValue,
+      onUpdate: setVoltage12VValue,
+    },
+    {
+      id: 'battery',
+      label: 'Battery',
+      value: batteryValue,
+      onUpdate: setBatteryValue,
+    },
+  ];
+
   return (
     <div className="PowerSection">
       <form>
-        {LABELS.map((label, index) => (
+        {powerMetrics.map((label, index) => (
           <div key={index} className="PowerSection__section">
             <label className="PowerSection__label">
               <span>{label.label}</span>
               <input
                 className="PowerSection__input-value"
-                type="text"
+                type="number"
+                step="0.01"
+                disabled={true}
                 name={label.id}
+                value={label.value}
+                onChange={(e) => label.onUpdate(parseFloat(e.target.value))}
+                data-testid={`${label.id}-value`}
               />
             </label>
           </div>
         ))}
       </form>
       <form>
-        {SWITCHES.map((s, l) =>
+        {outputSwitches.map((s, l) =>
           getPowerSectionSwitch(`switch-${s.id}`, s.label, s.value, s.setValue)
         )}
       </form>

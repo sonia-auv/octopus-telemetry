@@ -84,7 +84,7 @@ export const App = () => {
                         <Pfd />
                     </div>
                     <div key="e"
-                        data-grid={{ x: 11, y: 19, w: 8, h:7, minW: 8, maxW: 15, minH: 7, maxH: 15 }}
+                        data-grid={{ x: 11, y: 19, w: 8, h:8, minW: 8, maxW: 15, minH: 8, maxH: 15 }}
                         style={{ display: 'flex' }}>
                         <Waypoints />
                     </div>

@@ -92,6 +92,27 @@ const Waypoints = () => {
 
     const setInitialPositionServiceCall = useROSService<any>(setInitialPositionServiceCallback, "/proc_navigation/set_world_x_y_offset", "proc_navigation")
 
+    //////////////////////////////////////
+    // SET DEPTH OFFSET
+    //////////////////////////////////////
+
+    // Reponse en retour a l appel du service
+    const setDepthOffsetServiceCallback = useCallback(
+        (x: any) => {
+        }, []
+    )
+
+    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
+    const handleSetDepthOffset = (value: any) => {
+
+        var request = new ROSLIB.ServiceRequest({
+        });
+        setDepthOffsetServiceCall(request)
+
+    }
+
+    const setDepthOffsetServiceCall = useROSService<any>(setDepthOffsetServiceCallback, "/proc_navigation/set_depth_offset", "proc_navigation")
+
     const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
 
     const [cmdX, setCmdX] = useState('0.00');
@@ -331,8 +352,9 @@ const Waypoints = () => {
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
-                    <ButtonStyle variant='contained' style={{ width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleClearWayPoint}>Clear Waypoint</ButtonStyle>
-                    <ButtonStyle variant='contained' style={{ marginLeft: '50px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetInitialPosition}>Set initial Position</ButtonStyle>
+                    <ButtonStyle variant='contained' style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} onClick={handleClearWayPoint}>Clear Waypoint</ButtonStyle>
+                    <ButtonStyle variant='contained' style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetInitialPosition}>Set initial Position</ButtonStyle>
+                    <ButtonStyle variant='contained' style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetDepthOffset}>Set depth Offset</ButtonStyle>
                     <Switch onLabel="Velocity"
                         offLabel="Position"
                         vertical={false}

@@ -1,7 +1,10 @@
 import React, { useCallback } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox'
 import {withStyles} from "@material-ui/core/styles";
+import {useROSTopicPublisher} from "../hooks/useROSTopicPublisher";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 const TestBoardModule = () => {
@@ -18,17 +21,40 @@ const TestBoardModule = () => {
     const [cmd, setCmd] = React.useState("")
     const [data, setData] = React.useState("")
     const [rate, setRate] = React.useState("")
+    const [isSingleSend, setIsSingleSend] = React.useState(true)
+    let intervalVar: any
+    const testBoardPublisher = useROSTopicPublisher<any>("/interface_rs485/dataRx", "sonia_common/SendRS485Msg")
+
     const handleSubmit = () => {
         console.log(slave)
     }
     const handleStart = () => {
-        console.log(slave)
-        console.log(cmd)
-        console.log(data)
-        console.log(rate)
+        console.log("Slave: ", slave)
+        console.log("Cmd :", cmd)
+        console.log("Data :", data)
+        console.log("Rate :", rate)
+        let toPublish = {
+            slave: slave,
+            cmd: cmd,
+            data: data
+        }
+        if(!isSingleSend){
+            console.log("Continuous publishing...")
+            intervalVar = setInterval(function () {
+                testBoardPublisher(toPublish)
+          }, parseInt(rate))
+
+        }
+        else {
+            testBoardPublisher(toPublish)
+        }
     }
     const handleStop = () => {
-        console.log("Stop")
+        console.log("Continuous publishing stopped...")
+        clearInterval(intervalVar)
+    }
+    const handleSingleCheck = () => {
+        setIsSingleSend(!isSingleSend)
     }
     return (
         <div>
@@ -72,13 +98,19 @@ const TestBoardModule = () => {
                                style={{margin: '5px'}}
                                onChange={(event)=>setRate(event.target.value)} />
                 </div>
-                <div>
+                <div style={{margin: "5px"}}>
+                    <FormControlLabel
+                        control={<Checkbox checked={isSingleSend} onChange={handleSingleCheck} name="checkedA" />}
+                        label="Single send"
+                    />
+                </div>
+                <div style={{margin: "5px"}}>
                     <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }}
                                  onClick={handleStart}>
                         Start
                     </ButtonStyle>
                 </div>
-                <div>
+                <div style={{margin: "5px"}}>
                     <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }}
                                  onClick={handleStop}>
                         Stop

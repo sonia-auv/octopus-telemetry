@@ -83,7 +83,7 @@ export const App = () => {
                         <Pfd />
                     </div>
                     <div key="e"
-                         data-grid={{ x: 30, y: 0, w: 5, h:8, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                         data-grid={{ x: 30, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                          style={{ display: 'flex' }}>
                         <TestBoardModule />
                     </div>

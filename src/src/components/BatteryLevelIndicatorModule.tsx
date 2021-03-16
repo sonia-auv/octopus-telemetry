@@ -3,7 +3,7 @@ import Slider from "@material-ui/core/Slider";
 import { withStyles } from '@material-ui/core/styles';
 import LabelAndValueModule from "./LabelAndValueModule";
 
-const ThrusterEffortIndicator = withStyles({
+const BatteryLevelIndicator = withStyles({
 
     root: {
         height: '0px',
@@ -45,7 +45,7 @@ export const BatterieLevelIndicator = (props: any) => {
             </div>
 
             <div style={{margin: 'auto'}}>
-                <ThrusterEffortIndicator
+                <BatteryLevelIndicator
                     orientation="horizontal"
                     value= {props.value}
                     min={0}

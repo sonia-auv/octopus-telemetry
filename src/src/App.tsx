@@ -50,7 +50,7 @@ export const App = () => {
                 <GridLayout className="layout"
                     cols={32}
                     rowHeight={50}
-                    width={1600}
+                    width={2000}
                     verticalCompact={false}
                     draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch"}>
                     <div key="a"
@@ -85,12 +85,12 @@ export const App = () => {
                         <Pfd />
                     </div>
                     <div key="e"
-                         data-grid={{ x: 30, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                         data-grid={{ x: 20, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                          style={{ display: 'flex' }}>
                         <TestBoardModule />
                     </div>
                     <div key="f"
-                         data-grid={{ x: 30, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                         data-grid={{ x: 50, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                          style={{ display: 'flex' }}>
                         <Waypoints />
                     </div>

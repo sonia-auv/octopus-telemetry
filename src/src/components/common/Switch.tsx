@@ -4,33 +4,37 @@ import './switch.css';
 type SwitchProps = {
   onLabel?: string;
   offLabel?: string;
-  value: boolean;
+  originalValue: boolean;
   vertical?: boolean;
   handler: (value: boolean) => void;
+  round?: boolean;
 };
 
 const getLabelClassname = (checked: boolean) =>
   checked ? 'Switch__label-checked' : 'Switch__label-unchecked';
 
 const Switch: FunctionComponent<SwitchProps> = (props) => {
-  const [on, toggle] = useState(props.value);
+  const [on, setOn] = useState(props.originalValue);
 
   return (
     <div className={`Switch__container ${props.vertical ? 'vertical' : ''}`}>
-      <p className={getLabelClassname(props.value)}>{props.onLabel}</p>
+      <p className={getLabelClassname(on)}>{props.onLabel}</p>
       <label className={`switch ${props.vertical ? 'vertical' : ''}`}>
         <input
           type="checkbox"
           checked={on}
           onChange={() => {
-            toggle(!on);
+            // Allows us to test the component (w/ mock handler)
+            setOn(!on);
+
+            // We dispatch the parent with the switch value
             props.handler(on);
           }}
           data-testid="test-switch"
         />
-        <span className="Switch__slider round"></span>
+        <span className={`Switch__slider ${props.round ? 'round' : ''}`}></span>
       </label>
-      <p className={getLabelClassname(!props.value)}>{props.offLabel}</p>
+      <p className={getLabelClassname(!on)}>{props.offLabel}</p>
     </div>
   );
 };
@@ -39,6 +43,7 @@ Switch.defaultProps = {
   onLabel: 'On',
   offLabel: 'Off',
   vertical: false,
+  round: true,
 };
 
 export default Switch;

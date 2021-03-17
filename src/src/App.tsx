@@ -70,7 +70,7 @@ export const App = () => {
     return (
 
         <div className="margin-top" style={style} >
-            <GeneralContext.Provider value={{ isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed }}>
+            <GeneralContext.Provider value={{ isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode }}>
                 <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
                     <GlobalStyles />
                     <ToolbarModule />

@@ -1,5 +1,5 @@
 import React, { useCallback,useContext } from 'react';
-import Switch from './Switch';
+import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
 import { Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';

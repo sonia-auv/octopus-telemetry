@@ -1,5 +1,5 @@
 import { useCallback, useContext, useState } from 'react';
-import Switch from './Switch';
+import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';

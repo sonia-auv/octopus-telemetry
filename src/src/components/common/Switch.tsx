@@ -4,7 +4,7 @@ import './switch.css';
 type SwitchProps = {
   onLabel?: string;
   offLabel?: string;
-  originalValue: boolean;
+  value: boolean;
   vertical?: boolean;
   handler: (value: boolean) => void;
   round?: boolean;
@@ -14,7 +14,7 @@ const getLabelClassname = (checked: boolean) =>
   checked ? 'Switch__label-checked' : 'Switch__label-unchecked';
 
 const Switch: FunctionComponent<SwitchProps> = (props) => {
-  const [on, setOn] = useState(props.originalValue);
+  const [on, setOn] = useState(props.value);
 
   return (
     <div className={`Switch__container ${props.vertical ? 'vertical' : ''}`}>

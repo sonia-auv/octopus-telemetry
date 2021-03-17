@@ -46,7 +46,7 @@ const Waypoints = () => {
         controlModeServiceCall(request)
     }
 
-    const controlModeServiceCall = useROSService<any>(controlModeServiceCallback, "/proc_control/set_control_mode", "proc_control")
+    const controlModeServiceCall = useROSService<any>(controlModeServiceCallback, "/proc_control/set_control_mode", "sonia_common/SetControlMode")
 
     //////////////////////////////////////
     // CLEAR WAYPOINT
@@ -66,7 +66,7 @@ const Waypoints = () => {
         clearWayPointServiceCall(request)
     }
 
-    const clearWayPointServiceCall = useROSService<any>(clearWaypointServiceCallback, "/proc_control/clear_waypoint", "proc_control")
+    const clearWayPointServiceCall = useROSService<any>(clearWaypointServiceCallback, "/proc_control/clear_waypoint", "sonia_common/ClearWaypoint")
 
     //////////////////////////////////////
     // SET INITIAL POSITION
@@ -90,7 +90,7 @@ const Waypoints = () => {
 
     }
 
-    const setInitialPositionServiceCall = useROSService<any>(setInitialPositionServiceCallback, "/proc_navigation/set_world_x_y_offset", "proc_navigation")
+    const setInitialPositionServiceCall = useROSService<any>(setInitialPositionServiceCallback, "/proc_navigation/set_world_x_y_offset", "sonia_common/SetWorldXYOffset")
 
     //////////////////////////////////////
     // SET DEPTH OFFSET
@@ -111,7 +111,7 @@ const Waypoints = () => {
 
     }
 
-    const setDepthOffsetServiceCall = useROSService<any>(setDepthOffsetServiceCallback, "/proc_navigation/set_depth_offset", "proc_navigation")
+    const setDepthOffsetServiceCall = useROSService<any>(setDepthOffsetServiceCallback, "/proc_navigation/set_depth_offset", "sonia_common/SetDepthOffset")
 
     const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
 
@@ -174,7 +174,7 @@ const Waypoints = () => {
         }, []
     )
 
-    const sendPositionTargetServiceCall = useROSService<any>(sendPositionTargetServiceCallback, "/proc_control/set_global_target", "proc_control")
+    const sendPositionTargetServiceCall = useROSService<any>(sendPositionTargetServiceCallback, "/proc_control/set_global_target", "sonia_common/SetPositionTarget")
 
     const handleCmdKeyDown = (e: any) => {
 

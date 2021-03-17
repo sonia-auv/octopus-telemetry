@@ -24,11 +24,40 @@ export const App = () => {
     const [thruster6, setThruster6] = useState(0)
     const [thruster7, setThruster7] = useState(0)
     const [thruster8, setThruster8] = useState(0)
+
+    const [isDryRunMode, setIsDryRunMode] = React.useState(false);
+    const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
+    const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
+    const [isWayPointVelocityMode, setIsWayPointVelocityMode] = React.useState(false)
+
+    /*
+        The default X and Y positions of each module
+     */
+
+    const thrustersDefaultPosX = 0
+    const thrustersDefaultPosY = 0
+
+    const actuatorDefaultPosX = 20
+    const actuatorDefaultPosY = 0
+
+    const imageViewerDefaultPosX = 0
+    const imageViewerDefaultPosY = 7
+
+    const pfdDefaultPosX = 11
+    const pfdDefaultPosY = 7
+
+    const testBoardDefaultPosX = 20
+    const testBoardDefaultPosY = 0
+
+    const waypointDefaultPosX = 50
+    const waypointDefaultPosY = 0
+
+    const imageViewer2DefaultPosX = 0
+    const imageViewer2DefaultPosY = 17
+
+    // this method saves the x and y position of each module in the local storage
     const updateModulePosition = (modules: any) => {
-        // Update the position of each module
         modules.forEach(function(module: any){
-            console.log(module)
-            console.log("===")
             const id = module.i
             const xPos = module.x
             const yPos = module.y
@@ -72,36 +101,35 @@ export const App = () => {
 
     useROSTopicSubscriber<any>(thrusterEffortCallback, "/provider_thruster/effort", "sonia_common/ThrusterEffort")
 
-    const style = { height: 'calc(100% - 55px)' };
-    const [isDryRunMode, setIsDryRunMode] = React.useState(false);
-    const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
-    const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
-    const [isWayPointVelocityMode, setIsWayPointVelocityMode] = React.useState(false)
 
-    const thrustersX = parseInt(localStorage.getItem("thrustersX") as string)
-    const thrustersY = parseInt(localStorage.getItem("thrustersY") as string)
+    /*
+        For each module we look for it's X and Y position in the local storage.
+        If the values are not found, we use the default positions.
+     */
 
-    const actuatorX = parseInt(localStorage.getItem("actuatorX") as string)
-    const actuatorY = parseInt(localStorage.getItem("actuatorY") as string)
+    const thrustersX = localStorage.getItem("thrustersX") === null ? thrustersDefaultPosX : parseInt(localStorage.getItem("thrustersX") as string)
+    const thrustersY = localStorage.getItem("thrustersY") === null ? thrustersDefaultPosY : parseInt(localStorage.getItem("thrustersY") as string)
 
-    const imageViewerX = parseInt(localStorage.getItem("imageViewerX") as string)
-    const imageViewerY = parseInt(localStorage.getItem("imageViewerY") as string)
+    const actuatorX = localStorage.getItem("actuatorX") === null ? actuatorDefaultPosX : parseInt(localStorage.getItem("actuatorX") as string)
+    const actuatorY = localStorage.getItem("actuatorY") === null ? actuatorDefaultPosY : parseInt(localStorage.getItem("actuatorY") as string)
 
-    const testBoardX = parseInt(localStorage.getItem("testBoardX") as string)
-    const testBoardY = parseInt(localStorage.getItem("testBoardY") as string)
+    const imageViewerX = localStorage.getItem("imageViewerX") === null ? imageViewerDefaultPosX : parseInt(localStorage.getItem("imageViewerX") as string)
+    const imageViewerY = localStorage.getItem("imageViewerY") === null ? imageViewerDefaultPosY : parseInt(localStorage.getItem("imageViewerY") as string)
 
-    const waypointX = parseInt(localStorage.getItem("waypointX") as string)
-    const waypointY = parseInt(localStorage.getItem("waypointY") as string)
+    const testBoardX = localStorage.getItem("testBoardX") === null ? testBoardDefaultPosX : parseInt(localStorage.getItem("testBoardX") as string)
+    const testBoardY = localStorage.getItem("testBoardY") === null ? testBoardDefaultPosY : parseInt(localStorage.getItem("testBoardY") as string)
 
-    const imageViewer2X = parseInt(localStorage.getItem("imageViewer2X") as string)
-    const imageViewer2Y = parseInt(localStorage.getItem("imageViewer2Y") as string)
+    const waypointX = localStorage.getItem("waypointX") === null ? waypointDefaultPosX : parseInt(localStorage.getItem("waypointX") as string)
+    const waypointY = localStorage.getItem("waypointY") === null ? waypointDefaultPosY : parseInt(localStorage.getItem("waypointY") as string)
 
-    const pfdX = parseInt(localStorage.getItem("pfdX") as string)
-    const pfdY = parseInt(localStorage.getItem("pfdY") as string)
+    const imageViewer2X = localStorage.getItem("imageViewer2X") === null ? imageViewer2DefaultPosX : parseInt(localStorage.getItem("imageViewer2X") as string)
+    const imageViewer2Y = localStorage.getItem("imageViewer2Y") === null ? imageViewer2DefaultPosY : parseInt(localStorage.getItem("imageViewer2Y") as string)
 
-    console.log(thrustersX)
+    const pfdX = localStorage.getItem("pfdX") === null ? pfdDefaultPosX : parseInt(localStorage.getItem("pfdX") as string)
+    const pfdY = localStorage.getItem("pfdY") === null ? pfdDefaultPosY : parseInt(localStorage.getItem("pfdY") as string)
+
     return (
-        <div className="margin-top" style={style} >
+        <div className="margin-top">
             <GeneralContext.Provider value={{ isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode }}>
                 <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
                     <GlobalStyles />

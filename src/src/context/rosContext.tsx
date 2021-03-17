@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React from 'react';
 import * as ROSLIB from 'roslib';
 
 export const RosContext = React.createContext(new ROSLIB.Ros({

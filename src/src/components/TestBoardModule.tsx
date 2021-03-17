@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox'
@@ -25,14 +25,7 @@ const TestBoardModule = () => {
     let intervalVar: any
     const testBoardPublisher = useROSTopicPublisher<any>("/interface_rs485/dataRx", "sonia_common/SendRS485Msg")
 
-    const handleSubmit = () => {
-        console.log(slave)
-    }
     const handleStart = () => {
-        console.log("Slave: ", slave)
-        console.log("Cmd :", cmd)
-        console.log("Data :", data)
-        console.log("Rate :", rate)
         let toPublish = {
             slave: slave,
             cmd: cmd,
@@ -59,7 +52,7 @@ const TestBoardModule = () => {
     return (
         <div>
             <h1>Test board</h1>
-            <form onSubmit={handleSubmit}>
+            <form>
                 <div>
                     <TextField id="outlined-basic"
                                label="Slave"

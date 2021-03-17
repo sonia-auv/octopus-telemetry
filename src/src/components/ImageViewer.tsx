@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useState, useRef } from 'react';
 import { GeneralContext } from "../context/generalContext";
 import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
@@ -16,6 +16,7 @@ import jpeg from 'jpeg-js'
 
 const ImageViewer = () => {
 
+    // Function to convert uncompressed data rgb8 to compressed base 64 jpeg
     function rgb8ImageToBase64Jpeg(msg: any) {
         var raw = atob(msg.data)
         var array = new Uint8Array(new ArrayBuffer(raw.length))
@@ -62,20 +63,26 @@ const ImageViewer = () => {
 
     const [topic, setTopic] = useState<ROSLIB.Topic | null>(null);
     const [listTopic, setListTopic] = useState<[]>([]);
+    const topicRef = useRef<ROSLIB.Topic | null>(null);
+    const [image, setImage] = useState('')
 
     const imageCallback = useCallback(
         (x: any) => {
 
-            var im;
-            if (x.encoding == "bgr8")
+            var im: any;
+            if (x.encoding == "bgr8" || x.encoding == "rgb8")
                 im = "data:image/jpeg;base64," + rgb8ImageToBase64Jpeg(x);
-            else
+            else if (x.format.includes("jpeg"))
                 im = "data:image/jpeg;base64," + x.data;
-
-            var displayImage = document.getElementById("imageviewer");
-            if (displayImage) {
-                displayImage.setAttribute('src', im);
+            else
+            {
+                window.alert("Video format (" + x.encoding + ") is not supported, make sure you have the right encoding type or add it to the list");
+                if (topicRef.current) {
+                    topicRef.current.unsubscribe()
+                    setTopic(null)
+                }
             }
+            setImage(im)
         },
         []
     )
@@ -90,6 +97,7 @@ const ImageViewer = () => {
                     const type = value["type"]
                     const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: type })
                     setTopic(newtopic)
+                    topicRef.current = newtopic;
                     if (newtopic) {
                         newtopic.subscribe(imageCallback);
                     }
@@ -178,7 +186,11 @@ const ImageViewer = () => {
                             startIcon={<PlayCircleFilledIcon />}
                             onClick={clickPlay}
                         ></Button>
-                        <div style={{ width: "100%", height: "calc(100% - 140px)" }}><img id="imageviewer" width="100%" height="100%"></img></div>
+                        <div style={{ width: "100%", height: "calc(100% - 140px)" }}>
+                        {image !== '' ?
+                            <img src={image} width="100%" height="100%"></img> : <img width="100%" height="100%"></img>
+                        }
+                        </div>
                     </div>
                 </div>
             )}

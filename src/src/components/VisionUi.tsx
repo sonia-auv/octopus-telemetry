@@ -308,16 +308,12 @@ const VisionUIModule = () => {
                     <div className={classes.root}>
                         <AppBar position="static" color="default">
                             <Tabs value={value} onChange={handleChange} aria-label="visionUI tabs" variant="scrollable" scrollButtons="auto">
-                                <Tab label="Result" {...a11yProps(0)} />
-                                <Tab label="Execution" {...a11yProps(1)} />
-                                <Tab label="Filter Chain" {...a11yProps(2)} />
-                                <Tab label="Filters" {...a11yProps(3)} />
+                                <Tab label="Execution" {...a11yProps(0)} />
+                                <Tab label="Filter Chain" {...a11yProps(1)} />
+                                <Tab label="Filters" {...a11yProps(2)} />
                             </Tabs>
                         </AppBar>
                         <TabPanel value={value} index={0}>
-                            <ImageViewer />
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
                             <div>
                                 <TextField value={name} onChange={handleNameChange} onKeyDown={handleCmdKeyDown} id="visionUi_name_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px' }} />
                                 <FormControl variant="filled" className={classes.formControl}>
@@ -358,14 +354,14 @@ const VisionUIModule = () => {
                                 <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'right' }} onClick={handleCreate}>create</ButtonStyle>
                             </div>
                         </TabPanel>
-                        <TabPanel value={value} index={2}>
+                        <TabPanel value={value} index={1}>
                             <TextField value={filterChainName} onChange={handleFilterChainNameChange} onKeyDown={handleCmdKeyDown} id="visionUi_filterChainName_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px' }} />
                             <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleAddFilterChain}>Add</ButtonStyle>
                             <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleCloneFilterChain}>Clone</ButtonStyle>
                             <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleDeleteFilterChain}>Delete</ButtonStyle><br></br>
                             <ListFilterChainStyle><FilterChainList className={classes.root} /></ListFilterChainStyle>
                         </TabPanel>
-                        <TabPanel value={value} index={3}>
+                        <TabPanel value={value} index={2}>
                             <FormControl variant="filled" className={classes.formControl}>
                                 <InputLabel id="selectFilter-outlined-label">Filter</InputLabel>
                                 <Select

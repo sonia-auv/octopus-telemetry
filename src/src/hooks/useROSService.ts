@@ -6,23 +6,23 @@ export const useROSService = <F>(
     callback: (m: F) => void,
     name: string,
     serviceType: string
-  ) => {
+) => {
     const ros = useContext(RosContext);
     const [service, setService] = useState<ROSLIB.Service| null>(null);
-  
+
     useEffect(() => {
-      setService(
-        new ROSLIB.Service({
-          ros,
-          name,
-          serviceType,
-        })
-      );
+        setService(
+            new ROSLIB.Service({
+                ros,
+                name,
+                serviceType,
+            })
+        );
     }, [ros]);
-  
+
     return (x: ROSLIB.ServiceRequest) => {
-      if (service) {
-        service.callService(x, (y) => callback(y as F));
-      } 
-    } 
-  };
+        if (service) {
+            service.callService(x, (y) => callback(y as F));
+        }
+    }
+};

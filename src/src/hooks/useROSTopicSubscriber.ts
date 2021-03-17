@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import ROSLIB from "roslib";
 import { RosContext } from "../context/rosContext";
 

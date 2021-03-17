@@ -23,7 +23,7 @@ const ActuatorModule = () => {
     )
 
     const context = useContext(GeneralContext)
-    const actuactorServiceCall = useROSService<any>(actuactorServiceCallback, "/provider_actuators/do_action_srv", "provider_actuators")
+    const actuactorServiceCall = useROSService<any>(actuactorServiceCallback, "/provider_actuators/do_action_srv", "sonia_common/ActuatorDoActionSrv")
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const HandleChangeSwitch = (value: any) => {

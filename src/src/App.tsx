@@ -14,7 +14,6 @@ import {lightTheme, darkTheme} from "./components/Theme"
 import {GlobalStyles} from "./components/global";
 import ToolbarModule from "./components/ToolbarModule";
 
-
 export const App = () => {
     const [theme, setTheme] = useState('dark');
     const [thruster1, setThruster1] = useState(0)
@@ -25,7 +24,18 @@ export const App = () => {
     const [thruster6, setThruster6] = useState(0)
     const [thruster7, setThruster7] = useState(0)
     const [thruster8, setThruster8] = useState(0)
-
+    const updateModulePosition = (modules: any) => {
+        // Update the position of each module
+        modules.forEach(function(module: any){
+            console.log(module)
+            console.log("===")
+            const id = module.i
+            const xPos = module.x
+            const yPos = module.y
+            localStorage.setItem(id + "X", xPos)
+            localStorage.setItem(id + "Y", yPos)
+        })
+    }
     const thrusterEffortCallback = useCallback(
         (x: any) => {
             let id = x.ID
@@ -68,8 +78,29 @@ export const App = () => {
     const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
     const [isWayPointVelocityMode, setIsWayPointVelocityMode] = React.useState(false)
 
-    return (
+    const thrustersX = parseInt(localStorage.getItem("thrustersX") as string)
+    const thrustersY = parseInt(localStorage.getItem("thrustersY") as string)
 
+    const actuatorX = parseInt(localStorage.getItem("actuatorX") as string)
+    const actuatorY = parseInt(localStorage.getItem("actuatorY") as string)
+
+    const imageViewerX = parseInt(localStorage.getItem("imageViewerX") as string)
+    const imageViewerY = parseInt(localStorage.getItem("imageViewerY") as string)
+
+    const testBoardX = parseInt(localStorage.getItem("testBoardX") as string)
+    const testBoardY = parseInt(localStorage.getItem("testBoardY") as string)
+
+    const waypointX = parseInt(localStorage.getItem("waypointX") as string)
+    const waypointY = parseInt(localStorage.getItem("waypointY") as string)
+
+    const imageViewer2X = parseInt(localStorage.getItem("imageViewer2X") as string)
+    const imageViewer2Y = parseInt(localStorage.getItem("imageViewer2Y") as string)
+
+    const pfdX = parseInt(localStorage.getItem("pfdX") as string)
+    const pfdY = parseInt(localStorage.getItem("pfdY") as string)
+
+    console.log(thrustersX)
+    return (
         <div className="margin-top" style={style} >
             <GeneralContext.Provider value={{ isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode }}>
                 <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
@@ -80,9 +111,10 @@ export const App = () => {
                                 rowHeight={50}
                                 width={2800}
                                 verticalCompact={false}
-                                draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch"}>
-                    <div key="a"
-                        data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
+                                draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch"}
+                                onDragStop={(e)=>updateModulePosition(e)}>
+                    <div key="thrusters"
+                        data-grid={{ x: thrustersX, y: thrustersY, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
                         style={{ display: 'flex' }}>
                         <ThrustersModule />
                         <Thruster key={1}
@@ -153,33 +185,33 @@ export const App = () => {
 
 
                     </div>
-                    <div key="b"
-                        data-grid={{ x: 20, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
+                    <div key="actuator"
+                        data-grid={{ x: actuatorX, y: actuatorY, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
                         style={{ display: 'flex' }}>
                         <ActuatorModule />
                     </div>
-                    <div key="c"
-                        data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                    <div key="imageViewer"
+                        data-grid={{ x: imageViewerX, y: imageViewerY, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                         style={{ display: 'flex' }}>
                         <ImageViewer />
                     </div>
-                    <div key="d"
-                        data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                    <div key="pfd"
+                        data-grid={{ x: pfdX, y: pfdY, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                         style={{ display: 'flex' }}>
                         <Pfd />
                     </div>
-                    <div key="e"
-                         data-grid={{ x: 20, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                    <div key="testBoard"
+                         data-grid={{ x: testBoardX, y: testBoardY, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                          style={{ display: 'flex' }}>
                         <TestBoardModule />
                     </div>
-                    <div key="f"
-                         data-grid={{ x: 50, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                    <div key="waypoint"
+                         data-grid={{ x: waypointX, y: waypointY, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                          style={{ display: 'flex' }}>
                         <Waypoints />
                     </div>
-                    <div key="g"
-                        data-grid={{ x: 0, y: 17, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                    <div key="imageViewer2"
+                        data-grid={{ x: imageViewer2X, y: imageViewer2Y, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                         style={{ display: 'flex' }}>
                         <ImageViewer />
                     </div>

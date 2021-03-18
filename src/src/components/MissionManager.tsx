@@ -34,7 +34,6 @@ const MissionManager = () => {
     // Reponse en retour a l appel du service
     const missionListCallback = useCallback(
         (response: ROSLIB.ServiceResponse) => {
-            console.log("List missions");
             let missionsList: Array<string>
             missionsList = []
             var tempList = JSON.parse(JSON.stringify(response));
@@ -53,7 +52,6 @@ const MissionManager = () => {
                 missionsList.push(name);
               }
             });
-            console.log(missionsList);
             setMissionsList(missionsList);
           },
           []
@@ -63,38 +61,30 @@ const MissionManager = () => {
     const missionNameMsgPublisher = useROSTopicPublisher<any>("/mission_manager/mission_name_msg", "/mission_manager/MissionNameMsg");
     const missionManagerServiceCall = useROSService<any>(missionListCallback, "/mission_executor/list_missions", "ListMissions")
 
-    // // Update de la liste de missions a l ouverture de la page.
-    // useEffect(() => {
-    //     missionManagerServiceCall({});
-    // }, [missionListCallback, missionManagerServiceCall])
 
     // Selection d une missions dans le select.
     const behaviorSelected = (event: React.ChangeEvent<{ value: unknown }>) => {
-        console.log("Mission selected: " + event.target.value as string)
         setCurrentMissionName(event.target.value as string);
     }
 
     // Publish du nom de la mission.
     const loadMission = () => {
-        console.log("Load mission: " + currentMissionName);
         var toPublish = new ROSLIB.Message({name: currentMissionName});
-        console.log(toPublish);
         missionNameMsgPublisher(toPublish);
     }
 
     // Appel du service pour update la liste de missions.
     const updateMissionList = async () => {
-        console.log("Update mission list")
         missionManagerServiceCall({}); 
     }
 
     return (
         <GeneralContext.Consumer>
             {context => context && (
-                <div style={{ width: '100%', height: '100%', flexDirection: 'row', backgroundColor: '#85D2BB', textAlign: 'center' }}>
+                <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Mission Manager</h1>            
                     <FormControl variant="outlined" className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-outlined-label">Mission</InputLabel>
+                        <InputLabel id="mission-manager-label">Mission</InputLabel>
                         <Select
                         label="Mission"
                         onChange={behaviorSelected}

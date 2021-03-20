@@ -379,9 +379,108 @@ const VisionUIModule = () => {
         },
     })(List);
 
+    const [executionList, setExecutionList] = useState<[]>([]);
+    const [executionSelected, setExecutionSelected] = useState('');
+    const [executionMedia, setExecutionMedia] = useState('');
+    const [executionFilterChain, setExecutionFilterChain] = useState('');
+    const [currentFilterChain, setCurrentFilterChain] = useState('None');
     const [filterSelected, setFilterSelected] = useState(null);
-    const [filterList, setFilterList] = useState(["filter1", "filter2"]);
-    const [filterListItems, setFilterListItems] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    const [filterList, setFilterList] = useState<[]>([]);
+    const [filterListItems, setFilterListItems] = useState<[]>([]);
+
+
+    const getMediaFromExecutionCallback = useCallback(
+        (x: any) => {
+
+            // TODO: set the media from execution (required for delete) from x
+            setExecutionMedia("My media")
+
+        }, []
+    )
+
+    const getFilterChainFromExecutionCallback = useCallback(
+        (x: any) => {
+
+            // TODO: set the filter chain from execution (required for delete) from x
+            setExecutionFilterChain("My filter chain")
+
+        }, []
+    )
+
+    const getMediaFromExecutionServiceCall = useROSService<any>(getMediaFromExecutionCallback, "/proc_image_processing/get_media_from_execution", "sonia_common/GetMediaFromExecution");
+    const getFilterChainFromExecutionServiceCall = useROSService<any>(getFilterChainFromExecutionCallback, "/proc_image_processing/get_media_from_execution", "sonia_common/GetMediaFromExecution");
+
+    const handleChangeExecution = (x: any) => {
+
+        setExecutionSelected(x.target.value)
+
+        // TODO: check message format
+        //Get media from execution
+        var request = new ROSLIB.ServiceRequest({exec_name : x.target.value});
+        getMediaFromExecutionServiceCall(request)
+
+        // TODO: check message format
+        // Get filter chain from execution
+        var request2 = new ROSLIB.ServiceRequest({exec_name : x.target.value});
+        getFilterChainFromExecutionServiceCall(request2)
+
+    }
+
+    const fillExecutionListServiceCallback = useCallback(
+        (x: any) => {
+
+            // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
+            var receivedList = "Execution1;Execution2"
+
+            var tab: any = []
+            receivedList.split(';').forEach((v: String, index: number) => {
+                tab.push( { value: v } )
+            });
+
+            setExecutionList(tab);
+
+        }, []
+    )
+
+    const fillExecutionListServiceCall = useROSService<any>(fillExecutionListServiceCallback, "/proc_image_processing/get_information_list", "sonia_common/GetInformationList");
+
+    const handleRefreshExecutionList = (x: any) => {
+
+            var request = new ROSLIB.ServiceRequest(1);
+            fillExecutionListServiceCall(request)
+    }
+
+    const deleteExecutionServiceCallback = useCallback(
+        (x: any) => {
+        }, []
+    )
+
+    const deleteExecutionServiceCall = useROSService<any>(deleteExecutionServiceCallback, "/proc_image_processing/execute_cmd", "sonia_common/ExecuteCmd");
+
+    const handleClickDeleteExecution = (value: any) => {
+
+
+        if (executionSelected !== '' && executionMedia !== '' && executionFilterChain !== '') {
+
+            // TODO: check message format
+            var request = new ROSLIB.ServiceRequest({node_name:executionSelected, filterchain_name:executionFilterChain , media_name:executionMedia, cmd:2});
+            deleteExecutionServiceCall(request)
+
+            setExecutionMedia('')
+            setExecutionFilterChain('')
+            setExecutionSelected('')
+
+            // Refresh execution list after delete
+            var request = new ROSLIB.ServiceRequest(1);
+            fillExecutionListServiceCall(request)
+
+        }
+
+    }
+
+    const handleRefreshFilterList = (x: any) => {
+
+    }
 
     const handleChangeFilter = (x: any) => {
         setFilterSelected(x.target.value)
@@ -419,7 +518,7 @@ const VisionUIModule = () => {
             <div>
                 {filterListItems.map((item) => (
                     <ListItem button style={style} key={item}>
-                        <ListItemText primary={item} />
+                        <ListItemText primary={item['value']} />
                     </ListItem>
                 ))}
             </div>
@@ -541,6 +640,36 @@ const VisionUIModule = () => {
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                             <FormControl variant="filled" className={classes.formControl}>
+                                <InputLabel id="execution-outlined-label">Execution</InputLabel>
+                                <Select
+                                    labelId="execution-outlined-label"
+                                    fullWidth={true}
+                                    id="sexecution-outlined"
+                                    onChange={handleChangeExecution}
+                                    label="Execution"
+                                    value={executionSelected ? executionSelected : "None"}>
+                                    <MenuItem value={"None"}>None</MenuItem>
+                                    {executionList.map((value, index) => {
+                                        return <MenuItem value={value['value']}>{value['value']}</MenuItem>
+                                    })}
+                                </Select>
+                            </FormControl>
+                            <Button
+                                variant="contained"
+                                color="default"
+                                className={classes.button}
+                                startIcon={<CachedIcon />}
+                                onClick={handleRefreshExecutionList}
+                            ></Button>
+                            <Button
+                                variant="contained"
+                                color="default"
+                                className={classes.button}
+                                startIcon={<DeleteIcon />}
+                                onClick={handleClickDeleteExecution}
+                            ></Button>
+                            <br></br>
+                            <FormControl variant="filled" className={classes.formControl}>
                                 <InputLabel id="selectFilter-outlined-label">Filter</InputLabel>
                                 <Select
                                     labelId="selectFilter-outlined-label"
@@ -551,10 +680,18 @@ const VisionUIModule = () => {
                                     value={filterSelected ? filterSelected : "None"}>
                                     <MenuItem value={"None"}>None</MenuItem>
                                     {filterList.map((value, index) => {
-                                        return <MenuItem value={value}>{value}</MenuItem>
+                                        return <MenuItem value={value['value']}>{value['value']}</MenuItem>
                                     })}
                                 </Select>
-                            </FormControl><br></br>
+                            </FormControl>
+                            <Button
+                                variant="contained"
+                                color="default"
+                                className={classes.button}
+                                startIcon={<CachedIcon />}
+                                onClick={handleRefreshFilterList}
+                            ></Button>
+                            <br></br>
                             <Button
                                 variant="contained"
                                 color="default"

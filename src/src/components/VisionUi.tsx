@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { GeneralContext } from "../context/generalContext";
 import AppBar from '@material-ui/core/AppBar';
@@ -27,6 +27,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { useROSService } from '../hooks/useROSService'
 import ROSLIB from "roslib";
 import CachedIcon from '@material-ui/icons/Cached';
+import { Tooltip } from '@material-ui/core';
 
 TabPanel.propTypes = {
     children: PropTypes.node,
@@ -122,15 +123,8 @@ const VisionUIModule = () => {
         setValue(newValue);
     };
 
-    const handleCmdKeyDown = (e: any) => {
-
-        if (e.key === 'Enter') {
-            console.log(e)
-        }
-    }
-
     const handleChangeFilterChain = (x: any) => {
-        
+
         setFilterChainSelected(x.target.value)
     }
 
@@ -138,11 +132,11 @@ const VisionUIModule = () => {
         setMediaSelected(x.target.value)
     }
 
-    function fileDialogClicked(event: any)  {
+    function fileDialogClicked(event: any) {
         setFile(event.target.files[0].name)
     }
 
-    const inputFile = useRef<HTMLInputElement>(null) 
+    const inputFile = useRef<HTMLInputElement>(null)
 
     const handleFileOpen = (value: any) => {
 
@@ -173,31 +167,28 @@ const VisionUIModule = () => {
 
     const handleCreate = (value: any) => {
 
-        if (name !== '') 
-        {
+        if (name !== '') {
+
             //Topic mode
             var media = topicName
-  
+
             // Video mode
-            if (media === '' && file !== '')
-            {
+            if (media === '' && file !== '') {
                 media = file
                 // TODO: check formatting of the service request
-                var request = new ROSLIB.ServiceRequest({ camera_name: media, start:1 });
+                var request = new ROSLIB.ServiceRequest({ camera_name: media, start: 1 });
                 startMediaCmdServiceCall(request)
-                media = '/provider_vision' + media.replace('.','')
+                media = '/provider_vision' + media.replace('.', '')
 
             }
             // Normal mode
-            if (media === '') 
-            {
+            if (media === '') {
                 media = mediaSelected
             }
 
             if (media !== '' && filterChainSelected !== '') {
                 var request = new ROSLIB.ServiceRequest({ node_name: name, filterchain_name: filterChainSelected, media_name: media, start: 1 });
                 executeCmdServiceCall(request)
-                console.log(name, filterChainSelected, media)
             }
         }
     }
@@ -214,11 +205,11 @@ const VisionUIModule = () => {
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
-                tab.push( { value: v } )
+                tab.push({ value: v })
             });
 
             // Sort values
-            tab.sort((a:any, b:any) => a.value !== b.value  ? a.value  < b.value  ? -1 : 1 : 0);
+            tab.sort((a: any, b: any) => a.value !== b.value ? a.value < b.value ? -1 : 1 : 0);
 
             setfilterChainList(tab);
 
@@ -240,11 +231,11 @@ const VisionUIModule = () => {
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
-                tab.push( { value: v } )
+                tab.push({ id: index, value: v })
             });
 
             // Sort values
-            tab.sort((a:any, b:any) => a.value !== b.value  ? a.value  < b.value  ? -1 : 1 : 0);
+            tab.sort((a: any, b: any) => a.value !== b.value ? a.value < b.value ? -1 : 1 : 0);
 
             setMediaList(tab);
 
@@ -341,13 +332,12 @@ const VisionUIModule = () => {
         }
     }
 
-    function FilterChainList(props: any) 
-    {
+    function FilterChainList(props: any) {
         const { index, style } = props;
         return (
             <div>
                 {filterChainList.map((item) => (
-                    <ListItem button style={style} key={item} selected={filterChainSelectedTab === item['value']}>
+                    <ListItem button style={style} key={"filterChain" + item['id']} selected={filterChainSelectedTab === item['value']}>
                         <ListItemText primary={item['value']} onClick={(event: any) => handSelectedFilterChain(event, item['value'])} />
                     </ListItem>
                 ))}
@@ -382,46 +372,80 @@ const VisionUIModule = () => {
     const [executionList, setExecutionList] = useState<[]>([]);
     const [executionSelected, setExecutionSelected] = useState('');
     const [executionMedia, setExecutionMedia] = useState('');
+    const executionSelectedRef = useRef('');
     const [executionFilterChain, setExecutionFilterChain] = useState('');
-    const [currentFilterChain, setCurrentFilterChain] = useState('None');
     const [filterSelected, setFilterSelected] = useState(null);
     const [filterList, setFilterList] = useState<[]>([]);
     const [filterListItems, setFilterListItems] = useState<[]>([]);
+    const [executionFilterSelected, setExecutionFilterSelected] = useState('');
+    const [parameterList, setParameterList] = useState<{ paramName: string, type: string, value: string, min: string, max: string, desc: string }[]>([]);
+    const [currentParamFocus, setCurrentParamFocus] = useState(0);
+    const [currentSubParamFocus, setCurrentSubParamFocus] = useState(0);
 
-
-    const getMediaFromExecutionCallback = useCallback(
+    const getExecutionFilterChainListServiceCallback = useCallback(
         (x: any) => {
 
-            // TODO: set the media from execution (required for delete) from x
-            setExecutionMedia("My media")
+            // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
+            var receivedList = "ExecutionFilter1;ExecutionFilter2"
+
+            var tab: any = []
+            receivedList.split(';').forEach((v: String, index: number) => {
+                tab.push({ id: index, value: v })
+            });
+
+            setFilterListItems(tab)
 
         }, []
     )
+
+    const getExecutionFilterChainListServiceCall = useROSService<any>(getExecutionFilterChainListServiceCallback, "/proc_image_processing/get_filterchain_filter", "sonia_common/GetFilterchainFilter");
 
     const getFilterChainFromExecutionCallback = useCallback(
         (x: any) => {
 
             // TODO: set the filter chain from execution (required for delete) from x
-            setExecutionFilterChain("My filter chain")
+            var executionFilterChain = "My filter chain"
+            setExecutionFilterChain(executionFilterChain)
 
         }, []
     )
 
-    const getMediaFromExecutionServiceCall = useROSService<any>(getMediaFromExecutionCallback, "/proc_image_processing/get_media_from_execution", "sonia_common/GetMediaFromExecution");
+    // After we get execution filter chain we can get the list of filter 
+    useEffect(() => {
+
+        // Get all filter for this execution
+        // TODO: check message format
+        var request = new ROSLIB.ServiceRequest({ exec_name: executionSelectedRef.current, filterchain: executionFilterChain });
+        getExecutionFilterChainListServiceCall(request)
+
+    }, [executionFilterChain]);
+
+    const getMediaFromExecutionCallback = useCallback(
+        (x: any) => {
+
+            // TODO: set the media from execution (required for delete) from x
+            var media = "My media"
+            setExecutionMedia(media)
+
+        }, []
+    )
+
     const getFilterChainFromExecutionServiceCall = useROSService<any>(getFilterChainFromExecutionCallback, "/proc_image_processing/get_media_from_execution", "sonia_common/GetMediaFromExecution");
+    const getMediaFromExecutionServiceCall = useROSService<any>(getMediaFromExecutionCallback, "/proc_image_processing/get_media_from_execution", "sonia_common/GetMediaFromExecution");
 
     const handleChangeExecution = (x: any) => {
 
         setExecutionSelected(x.target.value)
+        executionSelectedRef.current = x.target.value
 
         // TODO: check message format
         //Get media from execution
-        var request = new ROSLIB.ServiceRequest({exec_name : x.target.value});
+        var request = new ROSLIB.ServiceRequest({ exec_name: x.target.value });
         getMediaFromExecutionServiceCall(request)
 
         // TODO: check message format
         // Get filter chain from execution
-        var request2 = new ROSLIB.ServiceRequest({exec_name : x.target.value});
+        var request2 = new ROSLIB.ServiceRequest({ exec_name: x.target.value });
         getFilterChainFromExecutionServiceCall(request2)
 
     }
@@ -434,7 +458,7 @@ const VisionUIModule = () => {
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
-                tab.push( { value: v } )
+                tab.push({ id: index, value: v })
             });
 
             setExecutionList(tab);
@@ -446,8 +470,8 @@ const VisionUIModule = () => {
 
     const handleRefreshExecutionList = (x: any) => {
 
-            var request = new ROSLIB.ServiceRequest(1);
-            fillExecutionListServiceCall(request)
+        var request = new ROSLIB.ServiceRequest(1);
+        fillExecutionListServiceCall(request)
     }
 
     const deleteExecutionServiceCallback = useCallback(
@@ -463,7 +487,7 @@ const VisionUIModule = () => {
         if (executionSelected !== '' && executionMedia !== '' && executionFilterChain !== '') {
 
             // TODO: check message format
-            var request = new ROSLIB.ServiceRequest({node_name:executionSelected, filterchain_name:executionFilterChain , media_name:executionMedia, cmd:2});
+            var request = new ROSLIB.ServiceRequest({ node_name: executionSelected, filterchain_name: executionFilterChain, media_name: executionMedia, cmd: 2 });
             deleteExecutionServiceCall(request)
 
             setExecutionMedia('')
@@ -478,7 +502,29 @@ const VisionUIModule = () => {
 
     }
 
+    const getAllFilterChainListServiceCallback = useCallback(
+        (x: any) => {
+
+            // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
+            var receivedList = "Filter1;Filter2"
+
+            var tab: any = []
+            receivedList.split(';').forEach((v: String, index: number) => {
+                tab.push({ id: index, value: v })
+            });
+
+            setFilterList(tab)
+
+        }, []
+    )
+
+    const getAllFilterChainListServiceCall = useROSService<any>(getAllFilterChainListServiceCallback, "/proc_image_processing/get_information_list", "GetInformationList");
+
     const handleRefreshFilterList = (x: any) => {
+
+        // TODO: check message format
+        var request = new ROSLIB.ServiceRequest(4);
+        getAllFilterChainListServiceCall(request)
 
     }
 
@@ -486,29 +532,215 @@ const VisionUIModule = () => {
         setFilterSelected(x.target.value)
     }
 
+    const addDeleteFilterServiceCallback = useCallback(
+        (x: any) => {
+        }, []
+    )
+
+    const addDeleteFilterServiceCall = useROSService<any>(addDeleteFilterServiceCallback, "/proc_image_processing/manage_filterchain_filter", "sonia_common/ManageFilterchain");
+
     const handleClickAdd = (value: any) => {
 
-    }
+        if (executionSelected !== '' && executionFilterChain !== '' && filterSelected !== '') {
 
-    const handleClickUp = (value: any) => {
 
-    }
+            // TODO: check message format
+            var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: filterSelected, cmd: 1 });
+            addDeleteFilterServiceCall(request)
 
-    const handleClickDown = (value: any) => {
+            //Update filter list
+            var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+            getExecutionFilterChainListServiceCall(request2)
+
+        }
 
     }
 
     const handleClickDelete = (value: any) => {
 
+        if (executionSelected !== '' && executionFilterChain !== '' && executionFilterSelected !== '') {
+
+            // TODO: check message format
+            var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, cmd: 2 });
+            addDeleteFilterServiceCall(request)
+
+            //Update filter list
+            var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+            getExecutionFilterChainListServiceCall(request2)
+
+        }
+
     }
 
+    const saveFilterServiceCallback = useCallback(
+        (x: any) => {
+        }, []
+    )
+
+    const saveFilterServiceCall = useROSService<any>(saveFilterServiceCallback, "/proc_image_processing/save_filterchain", "sonia_common/SaveFilterchain");
+
     const handleClickSave = (value: any) => {
+
+        if (executionSelected !== '' && executionFilterChain !== '') {
+
+            // TODO: check message format
+            var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, cmd: 1 });
+            saveFilterServiceCall(request)
+
+        }
 
     }
 
     const handleClickRestore = (value: any) => {
 
+        if (executionSelected !== '' && executionFilterChain !== '') {
+
+            // TODO: check message format
+            var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, cmd: 2 });
+            saveFilterServiceCall(request)
+
+            //Update filter list
+            var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+            getExecutionFilterChainListServiceCall(request2)
+
+        }
+
     }
+
+    const orderFilterServiceCallback = useCallback(
+        (x: any) => {
+        }, []
+    )
+
+    const orderFilterServiceCall = useROSService<any>(orderFilterServiceCallback, "/proc_image_processing/set_filterchain_filter_order", "sonia_common/SetFilterchainFilterOrder");
+
+
+    const handleClickUp = (value: any) => {
+
+        if (executionSelected !== '' && executionFilterChain !== '' && executionFilterSelected !== '') {
+
+
+            var index = -1
+
+            filterListItems.map((item, i) => {
+                if (item['value'] === executionFilterSelected)
+                    index = i
+            })
+
+            if (index !== -1) {
+
+                // TODO: check message format
+                var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 1 });
+                orderFilterServiceCall(request)
+
+                //Update filter list
+                var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                getExecutionFilterChainListServiceCall(request2)
+
+            }
+
+        }
+
+    }
+
+    const handleClickDown = (value: any) => {
+
+        if (executionSelected !== '' && executionFilterChain !== '' && executionFilterSelected !== '') {
+
+            var index = -1
+
+            filterListItems.map((item, i) => {
+                if (item['value'] === executionFilterSelected)
+                    index = i
+            })
+
+            if (index !== -1) {
+
+                // TODO: check message format
+                var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 2 });
+                orderFilterServiceCall(request)
+
+                //Update filter list
+                var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                getExecutionFilterChainListServiceCall(request2)
+
+            }
+        }
+    }
+
+    const filterChainFilterObserverServiceCallback = useCallback(
+        (x: any) => {
+
+        }, []
+    )
+
+    const filterChainFilterAllParamServiceCallback = useCallback(
+        (x: any) => {
+
+            // TODO: we are supposed to receive params separated by ; from x
+            // Here is created a string for testing all different type of parameter
+            var receivedList = "Param1Name|Boolean|1|0|1|Param1Desc;Param2Name|Boolean|0|0|1|Param2Desc;Param3Name|Integer|10|0|100|Param3Desc;Param4Name|Double|5.0|0.0|50.0|Param4Desc;Param5Name|String|string value|na|na|Param5Desc"
+
+            var tab: any = []
+            receivedList.split(';').forEach((v: string, index: number) => {
+
+                var obj = {
+                    "paramName": "",
+                    "type": "",
+                    "value": "",
+                    "min": "",
+                    "max": "",
+                    "desc": ""
+                }
+
+                v.split('|').forEach((subv: string, subindex: number) => {
+
+                    if (subindex === 0)
+                        obj.paramName = subv
+
+                    if (subindex === 1)
+                        obj.type = subv
+
+                    if (subindex === 2)
+                        obj.value = subv
+
+                    if (subindex === 3)
+                        obj.min = subv
+
+                    if (subindex === 4)
+                        obj.max = subv
+
+                    if (subindex === 5)
+                        obj.desc = subv
+                });
+
+                tab.push(obj)
+
+            });
+
+            setParameterList(tab)
+
+        }, []
+    )
+
+    const filterChainFilterObserverServiceCall = useROSService<any>(filterChainFilterObserverServiceCallback, "/proc_image_processing/set_filterchain_filter_observer", "sonia_common/SetFilterchainFilterObserver");
+    const filterChainFilterAllParamServiceCall = useROSService<any>(filterChainFilterAllParamServiceCallback, "/proc_image_processing/get_filterchain_filter_all_param", "sonia_common/GetFilterchainFilterAllParam");
+
+    const handSelectedExecutionFilterChain = (event: any, value: any) => {
+
+        setExecutionFilterSelected(value);
+
+        // When selection changed send information about what filter currently observed and get parameters for this filter
+        // TODO: check message format
+        var request = new ROSLIB.ServiceRequest({ execution: executionSelected, filterchain: executionFilterChain, filter: value });
+        filterChainFilterObserverServiceCall(request)
+
+        // and get parameters for this filter
+        var request2 = new ROSLIB.ServiceRequest({ execution: executionSelected, filterchain: executionFilterChain, filter: value });
+        filterChainFilterAllParamServiceCall(request2)
+
+
+    };
 
     function FilterList(props: any) {
 
@@ -517,47 +749,155 @@ const VisionUIModule = () => {
         return (
             <div>
                 {filterListItems.map((item) => (
-                    <ListItem button style={style} key={item}>
-                        <ListItemText primary={item['value']} />
+                    <ListItem button style={style} key={"filterList" + item['id']} selected={executionFilterSelected === item['value']}>
+                        <ListItemText primary={item['value']} onClick={(event: any) => handSelectedExecutionFilterChain(event, item['value'])} />
                     </ListItem>
                 ))}
             </div>
         );
     }
 
+    const checkSyntaxInteger = (v: any) => [...v].every(c => '0123456789-'.includes(c));
+    const checkSyntaxDouble = (v: any) => [...v].every(c => '0123456789-.'.includes(c));
+
+    const changeParameterServiceCallback = useCallback(
+        (x: any) => {
+
+        }, []
+    )
+
+
+    const changeParameterServiceCall = useROSService<any>(changeParameterServiceCallback, "/proc_image_processing/set_filterchain_filter_param", "sonia_common/SetFilterchainFilterParam");
+
+    const handleChangeParamValue = (event: any, index: any, arg: any) => {
+
+        setCurrentParamFocus(index)
+
+        parameterList?.map((item, i) => {
+
+            if (i === index) {
+                if (item['type'] === "Boolean") {
+                    let temporaryarray = parameterList.slice();
+                    if (item['value'] == "0")
+                        temporaryarray[index]["value"] = "1";
+                    else
+                        temporaryarray[index]["value"] = "0";
+                    setParameterList(temporaryarray);
+                }
+                if (item['type'] === "Integer" || item['type'] === "Double") {
+                    let temporaryarray = parameterList.slice();
+                    if (arg == "value") {
+                        if ((checkSyntaxInteger(event.target.value) && item['type'] === "Integer") || (checkSyntaxDouble(event.target.value) && item['type'] === "Double"))
+                            temporaryarray[index]["value"] = event.target.value;
+                        setCurrentSubParamFocus(1)
+                    }
+                    if (arg == "min") {
+                        if ((checkSyntaxInteger(event.target.value) && item['type'] === "Integer") || (checkSyntaxDouble(event.target.value) && item['type'] === "Double"))
+                            temporaryarray[index]["min"] = event.target.value;
+                        setCurrentSubParamFocus(2)
+                    }
+                    if (arg == "max") {
+                        if ((checkSyntaxInteger(event.target.value) && item['type'] === "Integer") || (checkSyntaxDouble(event.target.value) && item['type'] === "Double"))
+                            temporaryarray[index]["max"] = event.target.value;
+                        setCurrentSubParamFocus(3)
+                    }
+                    setParameterList(temporaryarray);
+                }
+                if (item['type'] === "String") {
+                    let temporaryarray = parameterList.slice();
+                    if (arg == "value") {
+                        temporaryarray[index]["value"] = event.target.value;
+                    }
+                    setParameterList(temporaryarray);
+                }
+
+                // Send ros command for notify param changed
+                // TODO: check message format
+                var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, parameter: item['paramName'], value: event.target.value });
+                changeParameterServiceCall(request)
+            }
+        })
+    }
+
+
     function SettingsList(props: any) {
 
         const { index, style } = props;
 
-        return (
-            <div>
-                <ListItem button style={style} key="1">
-                    <FormControlLabel
-                        control={<Checkbox name="checkedB" color="primary" />}
-                        label="Enable" />
-                </ListItem>
+        let content: any = []
 
-                <ListItem button style={style} key="2">
-                    <FormControlLabel
-                        control={<Checkbox name="checkedB" color="primary" />}
-                        label="Debug contour" />
-                </ListItem>
+        parameterList?.map((item, index) => {
 
-                <ListItem button style={style} key="3">
-                    <FormControlLabel
-                        control={<Checkbox name="checkedB" color="primary" />}
-                        label="Look for elipse" />
-                </ListItem>
+            if (item['type'] === "Boolean") {
 
-                <ListItem button style={style} key="4">
-                        <TextField label="Min_area" variant="outlined" fullWidth={true}/>
-                </ListItem>
+                content.push(
+                    <Tooltip title={item['desc']}>
+                        <ListItem button style={style} key={"paramList" + item['paramName']}>
+                            <FormControlLabel
+                                control={<Checkbox name={item['paramName']} color="primary" checked={item['value'] == '1'} onChange={(event: any) => handleChangeParamValue(event, index, "value")} />}
+                                label={item['paramName']}
+                            />
+                        </ListItem></Tooltip>)
+            }
 
-                <ListItem button style={style} key="5">
-                        <TextField label="Max_area" variant="outlined" fullWidth={true}/>
-                </ListItem>
-            </div>
-        );
+            if (item['type'] === "Integer" || item['type'] === "Double") {
+
+                if (currentParamFocus == index && currentSubParamFocus == 1) {
+                    content.push(
+                        <Tooltip title={item['desc']}>
+                            <TextField autoFocus={true} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                        </Tooltip>
+                    )
+                }
+                else {
+                    content.push(
+                        <Tooltip title={item['desc']}>
+                            <TextField value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                        </Tooltip>
+                    )
+                }
+                if (currentParamFocus == index && currentSubParamFocus == 2) {
+                    content.push(
+                        <TextField autoFocus={true} value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                    )
+                }
+                else {
+                    content.push(
+                        <TextField value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                    )
+                }
+                if (currentParamFocus == index && currentSubParamFocus == 3) {
+                    content.push(
+                        <TextField autoFocus={true} value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                    )
+                }
+                else {
+                    content.push(
+                        <TextField value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                    )
+                }
+            }
+
+            if (item['type'] === "String") {
+                if (currentParamFocus == index) {
+                    content.push(
+                        <Tooltip title={item['desc']}>
+                            <TextField autoFocus={true} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
+                        </Tooltip>
+                    )
+                }
+                else {
+                    content.push(
+                        <Tooltip title={item['desc']}>
+                            <TextField value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
+                        </Tooltip>
+                    )
+                }
+
+            }
+        })
+
+        return (<div>{content}</div>);
     }
 
     return (
@@ -575,7 +915,7 @@ const VisionUIModule = () => {
                         </AppBar>
                         <TabPanel value={value} index={0}>
                             <div>
-                                <TextField value={name} onChange={handleNameChange} onKeyDown={handleCmdKeyDown} id="visionUi_name_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px' }} />
+                                <TextField value={name} onChange={handleNameChange} id="visionUi_name_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px' }} />
                                 <FormControl variant="filled" className={classes.formControl}>
                                     <InputLabel id="selectFilterChain-outlined-label">Filterchain</InputLabel>
                                     <Select
@@ -585,9 +925,9 @@ const VisionUIModule = () => {
                                         onChange={handleChangeFilterChain}
                                         label="Filter chain"
                                         value={filterChainSelected ? filterChainSelected : "None"}>
-                                        <MenuItem value={"None"}>None</MenuItem>
+                                        <MenuItem id={"selectFilterChainNone"} value={"None"}>None</MenuItem>
                                         {filterChainList.map((value) => {
-                                            return <MenuItem value={value["value"]}>{value["value"]}</MenuItem>
+                                            return <MenuItem id={"selectFilterChain" + value["value"]} value={value["value"]}>{value["value"]}</MenuItem>
                                         })}
                                     </Select>
                                 </FormControl>
@@ -608,9 +948,9 @@ const VisionUIModule = () => {
                                         onChange={handleChangeMedia}
                                         label="Media"
                                         value={mediaSelected ? mediaSelected : "None"}>
-                                        <MenuItem value={"None"}>None</MenuItem>
+                                        <MenuItem id={"selectMediaNone"} value={"None"}>None</MenuItem>
                                         {mediaList.map((value) => {
-                                            return <MenuItem value={value["value"]}>{value["value"]}</MenuItem>
+                                            return <MenuItem id={"selectMedia" + value["value"]} value={value["value"]}>{value["value"]}</MenuItem>
                                         })}
                                     </Select>
                                 </FormControl>
@@ -625,18 +965,18 @@ const VisionUIModule = () => {
                                 <div style={{ width: '75%', float: 'left' }} >
                                     <TextField disabled={true} value={file} id="file_id" label="File" variant="outlined" fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px' }} />
                                 </div>
-                                <input type='file' id='file' ref={inputFile} onChange={fileDialogClicked} style={{display: 'none'}}/>
+                                <input type='file' id='file' ref={inputFile} onChange={fileDialogClicked} style={{ display: 'none' }} />
                                 <div style={{ float: 'right' }}><ButtonStyle variant='contained' style={{ fontSize: '20px', marginTop: '22px' }} onClick={handleFileOpen}>...</ButtonStyle></div>
-                                <TextField value={topicName} onChange={handleTopicNameChange} onKeyDown={handleCmdKeyDown} id="visionUi_topicname_id" label="Topic Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px' }} />
+                                <TextField value={topicName} onChange={handleTopicNameChange} id="visionUi_topicname_id" label="Topic Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px' }} />
                                 <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'right' }} onClick={handleCreate}>create</ButtonStyle>
                             </div>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                            <TextField value={filterChainName} onChange={handleFilterChainNameChange} onKeyDown={handleCmdKeyDown} id="visionUi_filterChainName_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px' }} />
+                            <TextField value={filterChainName} onChange={handleFilterChainNameChange} id="visionUi_filterChainName_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px' }} />
                             <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleAddFilterChain}>Add</ButtonStyle>
                             <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleCloneFilterChain}>Clone</ButtonStyle>
                             <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleDeleteFilterChain}>Delete</ButtonStyle><br></br>
-                            <ListFilterChainStyle><FilterChainList className={classes.root}/></ListFilterChainStyle>
+                            <ListFilterChainStyle><FilterChainList className={classes.root} /></ListFilterChainStyle>
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                             <FormControl variant="filled" className={classes.formControl}>
@@ -648,9 +988,9 @@ const VisionUIModule = () => {
                                     onChange={handleChangeExecution}
                                     label="Execution"
                                     value={executionSelected ? executionSelected : "None"}>
-                                    <MenuItem value={"None"}>None</MenuItem>
+                                    <MenuItem id={"executionNone"} value={"None"}>None</MenuItem>
                                     {executionList.map((value, index) => {
-                                        return <MenuItem value={value['value']}>{value['value']}</MenuItem>
+                                        return <MenuItem id={"execution" + value['value']} value={value['value']}>{value['value']}</MenuItem>
                                     })}
                                 </Select>
                             </FormControl>
@@ -678,9 +1018,9 @@ const VisionUIModule = () => {
                                     onChange={handleChangeFilter}
                                     label="Filter"
                                     value={filterSelected ? filterSelected : "None"}>
-                                    <MenuItem value={"None"}>None</MenuItem>
+                                    <MenuItem id={"selectFilterNone"} value={"None"}>None</MenuItem>
                                     {filterList.map((value, index) => {
-                                        return <MenuItem value={value['value']}>{value['value']}</MenuItem>
+                                        return <MenuItem id={"selectFilter" + value['value']} value={value['value']}>{value['value']}</MenuItem>
                                     })}
                                 </Select>
                             </FormControl>

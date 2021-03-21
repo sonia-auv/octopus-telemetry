@@ -518,7 +518,7 @@ const VisionUIModule = () => {
         }, []
     )
 
-    const getAllFilterChainListServiceCall = useROSService<any>(getAllFilterChainListServiceCallback, "/proc_image_processing/get_information_list", "GetInformationList");
+    const getAllFilterChainListServiceCall = useROSService<any>(getAllFilterChainListServiceCallback, "/proc_image_processing/get_information_list", "sonia_common/GetInformationList");
 
     const handleRefreshFilterList = (x: any) => {
 

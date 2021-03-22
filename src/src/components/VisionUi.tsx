@@ -187,7 +187,7 @@ const VisionUIModule = () => {
             }
 
             if (media !== '' && filterChainSelected !== '') {
-                var request = new ROSLIB.ServiceRequest({ node_name: name, filterchain_name: filterChainSelected, media_name: media, start: 1 });
+                var request = new ROSLIB.ServiceRequest({ node_name: name, filterchain_name: filterChainSelected, media_name: media, cmd: 1 });
                 executeCmdServiceCall(request)
             }
         }
@@ -199,15 +199,17 @@ const VisionUIModule = () => {
 
     const getFilterChainlistServiceCallback = useCallback(
         (x: any) => {
-
+            
             // TODO: not tested with ros, , we are supposed to receive a string with ; separator inside x
-            var receivedList = "simple_body_baby;deep_front;simple_test;simple_bin_handle"
-
+            //console.log(x)
+            var receivedList = x.list
+            //var receivedList = "simple_body_baby;deep_front;simple_test;simple_bin_handle"
+            
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
                 tab.push({ value: v })
             });
-
+            
             // Sort values
             tab.sort((a: any, b: any) => a.value !== b.value ? a.value < b.value ? -1 : 1 : 0);
 
@@ -218,8 +220,9 @@ const VisionUIModule = () => {
 
     const getFilterChainlistServiceCall = useROSService<any>(getFilterChainlistServiceCallback, "/proc_image_processing/get_information_list", "sonia_common/GetInformationList")
 
+
     const handleRefreshFilterChainList = () => {
-        var request = new ROSLIB.ServiceRequest(3);
+        var request = new ROSLIB.ServiceRequest({cmd:3});
         getFilterChainlistServiceCall(request)
     }
 
@@ -227,7 +230,8 @@ const VisionUIModule = () => {
         (x: any) => {
 
             // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
-            var receivedList = "/proc_image_processing/sonar_map;/provider_vision/Front_GigE"
+            var receivedList = x.list
+            //var receivedList = "/proc_image_processing/sonar_map;/provider_vision/Front_GigE"
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
@@ -245,7 +249,7 @@ const VisionUIModule = () => {
     const getMedialistServiceCall = useROSService<any>(getMedialistServiceCallback, "/proc_image_processing/get_information_list", "sonia_common/GetInformationList")
 
     const handleRefreshMediaList = () => {
-        var request = new ROSLIB.ServiceRequest(2);
+        var request = new ROSLIB.ServiceRequest({cmd:2});
         getMedialistServiceCall(request)
     }
 
@@ -276,12 +280,14 @@ const VisionUIModule = () => {
 
         if (filterChainName != '') {
             // TODO: formatting of ros message to check
-            var request = new ROSLIB.ServiceRequest({ filterchain: filterChainName, add: 1 });
+            var request = new ROSLIB.ServiceRequest({ filterchain: filterChainName, cmd: 1 });
             addFilterChainServiceCall(request)
-
-            //Refresh filter chain list
-            var request2 = new ROSLIB.ServiceRequest(3);
-            getFilterChainlistServiceCall(request2)
+            
+            setTimeout(()=>{
+                //Refresh filter chain list
+                var request2 = new ROSLIB.ServiceRequest({cmd:3});
+                getFilterChainlistServiceCall(request2)
+            },500)            
         }
     }
 
@@ -304,9 +310,11 @@ const VisionUIModule = () => {
             var request = new ROSLIB.ServiceRequest({ filterchain_to_copy: filterChainSelectedTab, filterchain_new_name: 'filterchain/' + filterChainName });
             copyFilterChainServiceCall(request)
 
-            //Refresh filter chain list
-            var request2 = new ROSLIB.ServiceRequest(3);
-            getFilterChainlistServiceCall(request2)
+            setTimeout(()=>{
+                //Refresh filter chain list
+                var request2 = new ROSLIB.ServiceRequest({cmd:3});
+                getFilterChainlistServiceCall(request2)
+            },500)   
         }
     }
 
@@ -322,13 +330,14 @@ const VisionUIModule = () => {
         if (filterChainSelectedTab !== '') {
 
             // TODO: formatting of ros message to check
-            var request = new ROSLIB.ServiceRequest({ filterchain: 'filterchain/' + filterChainSelectedTab, delete: 2 });
+            var request = new ROSLIB.ServiceRequest({ filterchain: 'filterchain/' + filterChainSelectedTab, cmd: 2 });
             deleteFilterChainServiceCall(request)
 
-            //Refresh filter chain list
-            var request2 = new ROSLIB.ServiceRequest(3);
-            getFilterChainlistServiceCall(request2)
-
+            setTimeout(() => {
+                //Refresh filter chain list
+                var request2 = new ROSLIB.ServiceRequest({ cmd: 3 });
+                getFilterChainlistServiceCall(request2)
+            }, 500)
         }
     }
 
@@ -386,7 +395,8 @@ const VisionUIModule = () => {
         (x: any) => {
 
             // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
-            var receivedList = "ExecutionFilter1;ExecutionFilter2"
+            var receivedList = x.list
+            //var receivedList = "ExecutionFilter1;ExecutionFilter2"
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
@@ -404,7 +414,9 @@ const VisionUIModule = () => {
         (x: any) => {
 
             // TODO: set the filter chain from execution (required for delete) from x
-            var executionFilterChain = "My filter chain"
+            console.log(x)
+            var executionFilterChain = x.list
+            //var executionFilterChain = "My filter chain"
             setExecutionFilterChain(executionFilterChain)
 
         }, []
@@ -424,7 +436,9 @@ const VisionUIModule = () => {
         (x: any) => {
 
             // TODO: set the media from execution (required for delete) from x
-            var media = "My media"
+            console.log(x)
+            var media = x.list
+            //var media = "My media"
             setExecutionMedia(media)
 
         }, []
@@ -454,7 +468,8 @@ const VisionUIModule = () => {
         (x: any) => {
 
             // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
-            var receivedList = "Execution1;Execution2"
+            var receivedList = x.list
+            //var receivedList = "Execution1;Execution2"
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
@@ -470,7 +485,7 @@ const VisionUIModule = () => {
 
     const handleRefreshExecutionList = (x: any) => {
 
-        var request = new ROSLIB.ServiceRequest(1);
+        var request = new ROSLIB.ServiceRequest({cmd:1});
         fillExecutionListServiceCall(request)
     }
 
@@ -495,7 +510,7 @@ const VisionUIModule = () => {
             setExecutionSelected('')
 
             // Refresh execution list after delete
-            var request = new ROSLIB.ServiceRequest(1);
+            var request = new ROSLIB.ServiceRequest({cmd:1});
             fillExecutionListServiceCall(request)
 
         }
@@ -506,7 +521,8 @@ const VisionUIModule = () => {
         (x: any) => {
 
             // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
-            var receivedList = "Filter1;Filter2"
+            var receivedList = x.list
+            //var receivedList = "Filter1;Filter2"
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
@@ -523,7 +539,7 @@ const VisionUIModule = () => {
     const handleRefreshFilterList = (x: any) => {
 
         // TODO: check message format
-        var request = new ROSLIB.ServiceRequest(4);
+        var request = new ROSLIB.ServiceRequest({cmd:4});
         getAllFilterChainListServiceCall(request)
 
     }
@@ -548,9 +564,11 @@ const VisionUIModule = () => {
             var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: filterSelected, cmd: 1 });
             addDeleteFilterServiceCall(request)
 
-            //Update filter list
-            var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
-            getExecutionFilterChainListServiceCall(request2)
+            setTimeout(()=>{
+                //Update filter list
+                var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                getExecutionFilterChainListServiceCall(request2)
+            },500)
 
         }
 
@@ -564,9 +582,11 @@ const VisionUIModule = () => {
             var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, cmd: 2 });
             addDeleteFilterServiceCall(request)
 
-            //Update filter list
-            var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
-            getExecutionFilterChainListServiceCall(request2)
+            setTimeout(()=>{
+                //Update filter list
+                var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                getExecutionFilterChainListServiceCall(request2)
+            },500)
 
         }
 
@@ -599,9 +619,11 @@ const VisionUIModule = () => {
             var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, cmd: 2 });
             saveFilterServiceCall(request)
 
-            //Update filter list
-            var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
-            getExecutionFilterChainListServiceCall(request2)
+            setTimeout(()=>{
+                //Update filter list
+                var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                getExecutionFilterChainListServiceCall(request2)
+            },500)
 
         }
 
@@ -633,9 +655,11 @@ const VisionUIModule = () => {
                 var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 1 });
                 orderFilterServiceCall(request)
 
-                //Update filter list
-                var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
-                getExecutionFilterChainListServiceCall(request2)
+                setTimeout(()=>{
+                    //Update filter list
+                    var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                    getExecutionFilterChainListServiceCall(request2)
+                },500)
 
             }
 
@@ -660,9 +684,11 @@ const VisionUIModule = () => {
                 var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 2 });
                 orderFilterServiceCall(request)
 
-                //Update filter list
-                var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
-                getExecutionFilterChainListServiceCall(request2)
+                setTimeout(()=>{
+                    //Update filter list
+                    var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                    getExecutionFilterChainListServiceCall(request2)
+                },500)
 
             }
         }
@@ -679,7 +705,8 @@ const VisionUIModule = () => {
 
             // TODO: we are supposed to receive params separated by ; from x
             // Here is created a string for testing all different type of parameter
-            var receivedList = "Param1Name|Boolean|1|0|1|Param1Desc;Param2Name|Boolean|0|0|1|Param2Desc;Param3Name|Integer|10|0|100|Param3Desc;Param4Name|Double|5.0|0.0|50.0|Param4Desc;Param5Name|String|string value|na|na|Param5Desc"
+            var receivedList = x.list
+            //var receivedList = "Param1Name|Boolean|1|0|1|Param1Desc;Param2Name|Boolean|0|0|1|Param2Desc;Param3Name|Integer|10|0|100|Param3Desc;Param4Name|Double|5.0|0.0|50.0|Param4Desc;Param5Name|String|string value|na|na|Param5Desc"
 
             var tab: any = []
             receivedList.split(';').forEach((v: string, index: number) => {
@@ -735,10 +762,11 @@ const VisionUIModule = () => {
         var request = new ROSLIB.ServiceRequest({ execution: executionSelected, filterchain: executionFilterChain, filter: value });
         filterChainFilterObserverServiceCall(request)
 
-        // and get parameters for this filter
-        var request2 = new ROSLIB.ServiceRequest({ execution: executionSelected, filterchain: executionFilterChain, filter: value });
-        filterChainFilterAllParamServiceCall(request2)
-
+        setTimeout(()=>{
+            // and get parameters for this filter
+            var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: value });
+            filterChainFilterAllParamServiceCall(request2)
+        },500)
 
     };
 
@@ -813,7 +841,13 @@ const VisionUIModule = () => {
 
                 // Send ros command for notify param changed
                 // TODO: check message format
-                var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, parameter: item['paramName'], value: event.target.value });
+                var request
+                if (item['type'] === "Boolean") {
+                    request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, parameter: item['paramName'], value: event.target.value=="1" });
+                }
+                else {
+                    request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, parameter: item['paramName'], value: event.target.value });
+                }
                 changeParameterServiceCall(request)
             }
         })

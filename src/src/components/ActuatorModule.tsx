@@ -1,5 +1,5 @@
 import React, { useCallback,useContext } from 'react';
-import Switch from './Switch';
+import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
 import { Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -23,7 +23,7 @@ const ActuatorModule = () => {
     )
 
     const context = useContext(GeneralContext)
-    const actuactorServiceCall = useROSService<any>(actuactorServiceCallback, "/provider_actuators/do_action_srv", "provider_actuators")
+    const actuactorServiceCall = useROSService<any>(actuactorServiceCallback, "/provider_actuators/do_action_srv", "sonia_common/ActuatorDoActionSrv")
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const HandleChangeSwitch = (value: any) => {

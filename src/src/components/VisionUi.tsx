@@ -175,8 +175,8 @@ const VisionUIModule = () => {
             // Video mode
             if (media === '' && file !== '') {
                 media = file
-                // TODO: check formatting of the service request
-                var request = new ROSLIB.ServiceRequest({ camera_name: media, start: 1 });
+
+                var request = new ROSLIB.ServiceRequest({ camera_name: media, action: 1 });
                 startMediaCmdServiceCall(request)
                 media = '/provider_vision' + media.replace('.', '')
 
@@ -199,17 +199,14 @@ const VisionUIModule = () => {
 
     const getFilterChainlistServiceCallback = useCallback(
         (x: any) => {
-            
-            // TODO: not tested with ros, , we are supposed to receive a string with ; separator inside x
-            //console.log(x)
+
             var receivedList = x.list
-            //var receivedList = "simple_body_baby;deep_front;simple_test;simple_bin_handle"
-            
+
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
                 tab.push({ value: v })
             });
-            
+
             // Sort values
             tab.sort((a: any, b: any) => a.value !== b.value ? a.value < b.value ? -1 : 1 : 0);
 
@@ -222,16 +219,14 @@ const VisionUIModule = () => {
 
 
     const handleRefreshFilterChainList = () => {
-        var request = new ROSLIB.ServiceRequest({cmd:3});
+        var request = new ROSLIB.ServiceRequest({ cmd: 3 });
         getFilterChainlistServiceCall(request)
     }
 
     const getMedialistServiceCallback = useCallback(
         (x: any) => {
 
-            // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
             var receivedList = x.list
-            //var receivedList = "/proc_image_processing/sonar_map;/provider_vision/Front_GigE"
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
@@ -249,7 +244,7 @@ const VisionUIModule = () => {
     const getMedialistServiceCall = useROSService<any>(getMedialistServiceCallback, "/proc_image_processing/get_information_list", "sonia_common/GetInformationList")
 
     const handleRefreshMediaList = () => {
-        var request = new ROSLIB.ServiceRequest({cmd:2});
+        var request = new ROSLIB.ServiceRequest({ cmd: 2 });
         getMedialistServiceCall(request)
     }
 
@@ -262,7 +257,7 @@ const VisionUIModule = () => {
             width: '100%',
             position: 'relative',
             overflow: 'auto',
-            maxHeight: 300,
+            maxHeight: 350,
         },
     })(List);
 
@@ -279,15 +274,15 @@ const VisionUIModule = () => {
     const handleAddFilterChain = (value: any) => {
 
         if (filterChainName != '') {
-            // TODO: formatting of ros message to check
+
             var request = new ROSLIB.ServiceRequest({ filterchain: filterChainName, cmd: 1 });
             addFilterChainServiceCall(request)
-            
-            setTimeout(()=>{
+
+            setTimeout(() => {
                 //Refresh filter chain list
-                var request2 = new ROSLIB.ServiceRequest({cmd:3});
+                var request2 = new ROSLIB.ServiceRequest({ cmd: 3 });
                 getFilterChainlistServiceCall(request2)
-            },500)            
+            }, 500)
         }
     }
 
@@ -306,15 +301,14 @@ const VisionUIModule = () => {
 
         if (filterChainSelectedTab !== '' && filterChainName !== '') {
 
-            // TODO: formatting of ros message to check
             var request = new ROSLIB.ServiceRequest({ filterchain_to_copy: filterChainSelectedTab, filterchain_new_name: 'filterchain/' + filterChainName });
             copyFilterChainServiceCall(request)
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 //Refresh filter chain list
-                var request2 = new ROSLIB.ServiceRequest({cmd:3});
+                var request2 = new ROSLIB.ServiceRequest({ cmd: 3 });
                 getFilterChainlistServiceCall(request2)
-            },500)   
+            }, 500)
         }
     }
 
@@ -329,7 +323,6 @@ const VisionUIModule = () => {
 
         if (filterChainSelectedTab !== '') {
 
-            // TODO: formatting of ros message to check
             var request = new ROSLIB.ServiceRequest({ filterchain: 'filterchain/' + filterChainSelectedTab, cmd: 2 });
             deleteFilterChainServiceCall(request)
 
@@ -346,7 +339,7 @@ const VisionUIModule = () => {
         return (
             <div>
                 {filterChainList.map((item) => (
-                    <ListItem button style={style} key={"filterChain" + item['id']} selected={filterChainSelectedTab === item['value']}>
+                    <ListItem button style={style} key={"filterChain" + item['id']} selected={filterChainSelectedTab === item['value']} autoFocus={filterChainSelectedTab === item['value']}>
                         <ListItemText primary={item['value']} onClick={(event: any) => handSelectedFilterChain(event, item['value'])} />
                     </ListItem>
                 ))}
@@ -365,7 +358,7 @@ const VisionUIModule = () => {
             width: '100%',
             position: 'relative',
             overflow: 'auto',
-            maxHeight: 150,
+            maxHeight: 300,
         },
     })(List);
 
@@ -374,7 +367,7 @@ const VisionUIModule = () => {
             width: '100%',
             position: 'relative',
             overflow: 'auto',
-            maxHeight: 150,
+            maxHeight: 300,
         },
     })(List);
 
@@ -394,9 +387,7 @@ const VisionUIModule = () => {
     const getExecutionFilterChainListServiceCallback = useCallback(
         (x: any) => {
 
-            // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
             var receivedList = x.list
-            //var receivedList = "ExecutionFilter1;ExecutionFilter2"
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
@@ -413,10 +404,7 @@ const VisionUIModule = () => {
     const getFilterChainFromExecutionCallback = useCallback(
         (x: any) => {
 
-            // TODO: set the filter chain from execution (required for delete) from x
-            console.log(x)
             var executionFilterChain = x.list
-            //var executionFilterChain = "My filter chain"
             setExecutionFilterChain(executionFilterChain)
 
         }, []
@@ -426,7 +414,6 @@ const VisionUIModule = () => {
     useEffect(() => {
 
         // Get all filter for this execution
-        // TODO: check message format
         var request = new ROSLIB.ServiceRequest({ exec_name: executionSelectedRef.current, filterchain: executionFilterChain });
         getExecutionFilterChainListServiceCall(request)
 
@@ -435,10 +422,7 @@ const VisionUIModule = () => {
     const getMediaFromExecutionCallback = useCallback(
         (x: any) => {
 
-            // TODO: set the media from execution (required for delete) from x
-            console.log(x)
             var media = x.list
-            //var media = "My media"
             setExecutionMedia(media)
 
         }, []
@@ -452,12 +436,10 @@ const VisionUIModule = () => {
         setExecutionSelected(x.target.value)
         executionSelectedRef.current = x.target.value
 
-        // TODO: check message format
         //Get media from execution
         var request = new ROSLIB.ServiceRequest({ exec_name: x.target.value });
         getMediaFromExecutionServiceCall(request)
 
-        // TODO: check message format
         // Get filter chain from execution
         var request2 = new ROSLIB.ServiceRequest({ exec_name: x.target.value });
         getFilterChainFromExecutionServiceCall(request2)
@@ -467,9 +449,7 @@ const VisionUIModule = () => {
     const fillExecutionListServiceCallback = useCallback(
         (x: any) => {
 
-            // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
             var receivedList = x.list
-            //var receivedList = "Execution1;Execution2"
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
@@ -485,7 +465,7 @@ const VisionUIModule = () => {
 
     const handleRefreshExecutionList = (x: any) => {
 
-        var request = new ROSLIB.ServiceRequest({cmd:1});
+        var request = new ROSLIB.ServiceRequest({ cmd: 1 });
         fillExecutionListServiceCall(request)
     }
 
@@ -501,7 +481,6 @@ const VisionUIModule = () => {
 
         if (executionSelected !== '' && executionMedia !== '' && executionFilterChain !== '') {
 
-            // TODO: check message format
             var request = new ROSLIB.ServiceRequest({ node_name: executionSelected, filterchain_name: executionFilterChain, media_name: executionMedia, cmd: 2 });
             deleteExecutionServiceCall(request)
 
@@ -510,8 +489,11 @@ const VisionUIModule = () => {
             setExecutionSelected('')
 
             // Refresh execution list after delete
-            var request = new ROSLIB.ServiceRequest({cmd:1});
-            fillExecutionListServiceCall(request)
+            setTimeout(() => {
+                var request = new ROSLIB.ServiceRequest({ cmd: 1 });
+                fillExecutionListServiceCall(request)
+            }, 500)
+
 
         }
 
@@ -520,9 +502,7 @@ const VisionUIModule = () => {
     const getAllFilterChainListServiceCallback = useCallback(
         (x: any) => {
 
-            // TODO: not tested with ros, we are supposed to receive a string with ; separator inside x
             var receivedList = x.list
-            //var receivedList = "Filter1;Filter2"
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
@@ -538,8 +518,7 @@ const VisionUIModule = () => {
 
     const handleRefreshFilterList = (x: any) => {
 
-        // TODO: check message format
-        var request = new ROSLIB.ServiceRequest({cmd:4});
+        var request = new ROSLIB.ServiceRequest({ cmd: 4 });
         getAllFilterChainListServiceCall(request)
 
     }
@@ -559,16 +538,14 @@ const VisionUIModule = () => {
 
         if (executionSelected !== '' && executionFilterChain !== '' && filterSelected !== '') {
 
-
-            // TODO: check message format
             var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: filterSelected, cmd: 1 });
             addDeleteFilterServiceCall(request)
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 //Update filter list
                 var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
                 getExecutionFilterChainListServiceCall(request2)
-            },500)
+            }, 500)
 
         }
 
@@ -578,15 +555,14 @@ const VisionUIModule = () => {
 
         if (executionSelected !== '' && executionFilterChain !== '' && executionFilterSelected !== '') {
 
-            // TODO: check message format
             var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, cmd: 2 });
             addDeleteFilterServiceCall(request)
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 //Update filter list
                 var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
                 getExecutionFilterChainListServiceCall(request2)
-            },500)
+            }, 500)
 
         }
 
@@ -603,10 +579,8 @@ const VisionUIModule = () => {
 
         if (executionSelected !== '' && executionFilterChain !== '') {
 
-            // TODO: check message format
             var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, cmd: 1 });
             saveFilterServiceCall(request)
-
         }
 
     }
@@ -615,15 +589,14 @@ const VisionUIModule = () => {
 
         if (executionSelected !== '' && executionFilterChain !== '') {
 
-            // TODO: check message format
             var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, cmd: 2 });
             saveFilterServiceCall(request)
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 //Update filter list
                 var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
                 getExecutionFilterChainListServiceCall(request2)
-            },500)
+            }, 500)
 
         }
 
@@ -641,7 +614,6 @@ const VisionUIModule = () => {
 
         if (executionSelected !== '' && executionFilterChain !== '' && executionFilterSelected !== '') {
 
-
             var index = -1
 
             filterListItems.map((item, i) => {
@@ -651,15 +623,14 @@ const VisionUIModule = () => {
 
             if (index !== -1) {
 
-                // TODO: check message format
                 var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 1 });
                 orderFilterServiceCall(request)
 
-                setTimeout(()=>{
+                setTimeout(() => {
                     //Update filter list
                     var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
                     getExecutionFilterChainListServiceCall(request2)
-                },500)
+                }, 500)
 
             }
 
@@ -680,15 +651,14 @@ const VisionUIModule = () => {
 
             if (index !== -1) {
 
-                // TODO: check message format
                 var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 2 });
                 orderFilterServiceCall(request)
 
-                setTimeout(()=>{
+                setTimeout(() => {
                     //Update filter list
                     var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
                     getExecutionFilterChainListServiceCall(request2)
-                },500)
+                }, 500)
 
             }
         }
@@ -703,10 +673,7 @@ const VisionUIModule = () => {
     const filterChainFilterAllParamServiceCallback = useCallback(
         (x: any) => {
 
-            // TODO: we are supposed to receive params separated by ; from x
-            // Here is created a string for testing all different type of parameter
             var receivedList = x.list
-            //var receivedList = "Param1Name|Boolean|1|0|1|Param1Desc;Param2Name|Boolean|0|0|1|Param2Desc;Param3Name|Integer|10|0|100|Param3Desc;Param4Name|Double|5.0|0.0|50.0|Param4Desc;Param5Name|String|string value|na|na|Param5Desc"
 
             var tab: any = []
             receivedList.split(';').forEach((v: string, index: number) => {
@@ -758,15 +725,14 @@ const VisionUIModule = () => {
         setExecutionFilterSelected(value);
 
         // When selection changed send information about what filter currently observed and get parameters for this filter
-        // TODO: check message format
         var request = new ROSLIB.ServiceRequest({ execution: executionSelected, filterchain: executionFilterChain, filter: value });
         filterChainFilterObserverServiceCall(request)
 
-        setTimeout(()=>{
+        setTimeout(() => {
             // and get parameters for this filter
             var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: value });
             filterChainFilterAllParamServiceCall(request2)
-        },500)
+        }, 500)
 
     };
 
@@ -774,10 +740,12 @@ const VisionUIModule = () => {
 
         const { index, style } = props;
 
+        console.log("render")
+
         return (
             <div>
                 {filterListItems.map((item) => (
-                    <ListItem button style={style} key={"filterList" + item['id']} selected={executionFilterSelected === item['value']}>
+                    <ListItem button style={style} key={"filterList" + item['id']} selected={executionFilterSelected === item['value']} autoFocus={executionFilterSelected === item['value']}>
                         <ListItemText primary={item['value']} onClick={(event: any) => handSelectedExecutionFilterChain(event, item['value'])} />
                     </ListItem>
                 ))}
@@ -800,6 +768,7 @@ const VisionUIModule = () => {
     const handleChangeParamValue = (event: any, index: any, arg: any) => {
 
         setCurrentParamFocus(index)
+        var newValue = event.target.value
 
         parameterList?.map((item, i) => {
 
@@ -815,18 +784,18 @@ const VisionUIModule = () => {
                 if (item['type'] === "Integer" || item['type'] === "Double") {
                     let temporaryarray = parameterList.slice();
                     if (arg == "value") {
-                        if ((checkSyntaxInteger(event.target.value) && item['type'] === "Integer") || (checkSyntaxDouble(event.target.value) && item['type'] === "Double"))
-                            temporaryarray[index]["value"] = event.target.value;
+                        if ((checkSyntaxInteger(newValue) && item['type'] === "Integer") || (checkSyntaxDouble(newValue) && item['type'] === "Double"))
+                            temporaryarray[index]["value"] = newValue;
                         setCurrentSubParamFocus(1)
                     }
                     if (arg == "min") {
-                        if ((checkSyntaxInteger(event.target.value) && item['type'] === "Integer") || (checkSyntaxDouble(event.target.value) && item['type'] === "Double"))
-                            temporaryarray[index]["min"] = event.target.value;
+                        if ((checkSyntaxInteger(newValue) && item['type'] === "Integer") || (checkSyntaxDouble(newValue) && item['type'] === "Double"))
+                            temporaryarray[index]["min"] = newValue;
                         setCurrentSubParamFocus(2)
                     }
                     if (arg == "max") {
-                        if ((checkSyntaxInteger(event.target.value) && item['type'] === "Integer") || (checkSyntaxDouble(event.target.value) && item['type'] === "Double"))
-                            temporaryarray[index]["max"] = event.target.value;
+                        if ((checkSyntaxInteger(newValue) && item['type'] === "Integer") || (checkSyntaxDouble(newValue) && item['type'] === "Double"))
+                            temporaryarray[index]["max"] = newValue;
                         setCurrentSubParamFocus(3)
                     }
                     setParameterList(temporaryarray);
@@ -834,21 +803,22 @@ const VisionUIModule = () => {
                 if (item['type'] === "String") {
                     let temporaryarray = parameterList.slice();
                     if (arg == "value") {
-                        temporaryarray[index]["value"] = event.target.value;
+                        temporaryarray[index]["value"] = newValue;
                     }
                     setParameterList(temporaryarray);
                 }
 
                 // Send ros command for notify param changed
-                // TODO: check message format
-                var request
-                if (item['type'] === "Boolean") {
-                    request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, parameter: item['paramName'], value: event.target.value=="1" });
+                if (((newValue !== '') || (item['type'] === "Boolean")) && (
+                    (((item['type'] === "Integer") || (item['type'] === "Double")) && (Number(newValue) <= Number(item['max'])) && (Number(newValue) >= Number(item['min'])))
+                    || ((item['type'] !== "Integer") && (item['type'] !== "Double")))) {
+
+                    if (item['type'] === "Double")
+                        newValue = "" + parseFloat(newValue)
+
+                    var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, parameter: item['paramName'], value: newValue });
+                    changeParameterServiceCall(request)
                 }
-                else {
-                    request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, parameter: item['paramName'], value: event.target.value });
-                }
-                changeParameterServiceCall(request)
             }
         })
     }
@@ -877,37 +847,54 @@ const VisionUIModule = () => {
             if (item['type'] === "Integer" || item['type'] === "Double") {
 
                 if (currentParamFocus == index && currentSubParamFocus == 1) {
-                    content.push(
-                        <Tooltip title={item['desc']}>
-                            <TextField autoFocus={true} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                        </Tooltip>
-                    )
+
+                    if (item['type'] === "Integer") {
+                        content.push(
+                            <Tooltip title={item['desc']}>
+                                <TextField type='number' autoFocus={true} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            </Tooltip>
+                        )
+                    } else {
+                        content.push(
+                            <Tooltip title={item['desc']}>
+                                <TextField type='float' autoFocus={true} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            </Tooltip>
+                        )
+                    }
                 }
                 else {
-                    content.push(
-                        <Tooltip title={item['desc']}>
-                            <TextField value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                        </Tooltip>
-                    )
+                    if (item['type'] === "Integer") {
+                        content.push(
+                            <Tooltip title={item['desc']}>
+                                <TextField type='number' value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            </Tooltip>
+                        )
+                    } else {
+                        content.push(
+                            <Tooltip title={item['desc']}>
+                                <TextField type='float' value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            </Tooltip>
+                        )
+                    }
                 }
                 if (currentParamFocus == index && currentSubParamFocus == 2) {
                     content.push(
-                        <TextField autoFocus={true} value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                        <TextField disabled={true} autoFocus={true} value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
                     )
                 }
                 else {
                     content.push(
-                        <TextField value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                        <TextField disabled={true} value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
                     )
                 }
                 if (currentParamFocus == index && currentSubParamFocus == 3) {
                     content.push(
-                        <TextField autoFocus={true} value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                        <TextField disabled={true} autoFocus={true} value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
                     )
                 }
                 else {
                     content.push(
-                        <TextField value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                        <TextField disabled={true} value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
                     )
                 }
             }

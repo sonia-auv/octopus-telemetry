@@ -339,9 +339,9 @@ const VisionUIModule = () => {
         return (
             <div>
                 {filterChainList.map((item) => (
-                    <ListItem button style={style} key={"filterChain" + item['id']} selected={filterChainSelectedTab === item['value']} autoFocus={filterChainSelectedTab === item['value']}>
+                    <ListItemStyle button style={style} key={"filterChain" + item['id']} selected={filterChainSelectedTab === item['value']} autoFocus={filterChainSelectedTab === item['value']}>
                         <ListItemText primary={item['value']} onClick={(event: any) => handSelectedFilterChain(event, item['value'])} />
-                    </ListItem>
+                    </ListItemStyle>
                 ))}
             </div>
         );
@@ -352,6 +352,17 @@ const VisionUIModule = () => {
     ////////////////////////////////
     // FILTERS TAB
     ////////////////////////////////
+
+    const ListItemStyle = withStyles({
+        root: {
+            "&.Mui-selected": {
+                backgroundColor: "cornflowerblue"
+            },
+            "&.MuiListItem-root.Mui-selected, .MuiListItem-root.Mui-selected:hover": {
+                backgroundColor: "cornflowerblue"
+            },
+        },
+    })(ListItem);
 
     const ListFilterStyle = withStyles({
         root: {
@@ -745,9 +756,9 @@ const VisionUIModule = () => {
         return (
             <div>
                 {filterListItems.map((item) => (
-                    <ListItem button style={style} key={"filterList" + item['id']} selected={executionFilterSelected === item['value']} autoFocus={executionFilterSelected === item['value']}>
+                    <ListItemStyle button style={style} key={"filterList" + item['id']} selected={executionFilterSelected === item['value']} autoFocus={executionFilterSelected === item['value']}>
                         <ListItemText primary={item['value']} onClick={(event: any) => handSelectedExecutionFilterChain(event, item['value'])} />
-                    </ListItem>
+                    </ListItemStyle>
                 ))}
             </div>
         );
@@ -836,85 +847,39 @@ const VisionUIModule = () => {
 
                 content.push(
                     <Tooltip title={item['desc']}>
-                        <ListItem button style={style} key={"paramList" + item['paramName']}>
+                        <ListItemStyle button style={style} key={"paramList" + item['paramName']}>
                             <FormControlLabel
                                 control={<Checkbox name={item['paramName']} color="primary" checked={item['value'] == '1'} onChange={(event: any) => handleChangeParamValue(event, index, "value")} />}
                                 label={item['paramName']}
                             />
-                        </ListItem></Tooltip>)
+                        </ListItemStyle>
+                    </Tooltip>
+                )
             }
 
             if (item['type'] === "Integer" || item['type'] === "Double") {
 
-                if (currentParamFocus == index && currentSubParamFocus == 1) {
+                content.push(
+                    <Tooltip title={item['desc']}>
+                        <ListItemStyle button style={style} key={"paramList" + item['paramName']}>
+                            <TextField type={item['type'] === "Integer" ? 'number' : "float"} autoFocus={currentParamFocus == index && currentSubParamFocus == 1} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField disabled={true} value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField disabled={true} value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                        </ListItemStyle>
+                    </Tooltip>
+                )
 
-                    if (item['type'] === "Integer") {
-                        content.push(
-                            <Tooltip title={item['desc']}>
-                                <TextField type='number' autoFocus={true} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                            </Tooltip>
-                        )
-                    } else {
-                        content.push(
-                            <Tooltip title={item['desc']}>
-                                <TextField type='float' autoFocus={true} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                            </Tooltip>
-                        )
-                    }
-                }
-                else {
-                    if (item['type'] === "Integer") {
-                        content.push(
-                            <Tooltip title={item['desc']}>
-                                <TextField type='number' value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                            </Tooltip>
-                        )
-                    } else {
-                        content.push(
-                            <Tooltip title={item['desc']}>
-                                <TextField type='float' value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                            </Tooltip>
-                        )
-                    }
-                }
-                if (currentParamFocus == index && currentSubParamFocus == 2) {
-                    content.push(
-                        <TextField disabled={true} autoFocus={true} value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                    )
-                }
-                else {
-                    content.push(
-                        <TextField disabled={true} value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                    )
-                }
-                if (currentParamFocus == index && currentSubParamFocus == 3) {
-                    content.push(
-                        <TextField disabled={true} autoFocus={true} value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                    )
-                }
-                else {
-                    content.push(
-                        <TextField disabled={true} value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                    )
-                }
             }
 
             if (item['type'] === "String") {
-                if (currentParamFocus == index) {
-                    content.push(
-                        <Tooltip title={item['desc']}>
-                            <TextField autoFocus={true} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
-                        </Tooltip>
-                    )
-                }
-                else {
-                    content.push(
-                        <Tooltip title={item['desc']}>
-                            <TextField value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
-                        </Tooltip>
-                    )
-                }
 
+                content.push(
+                    <Tooltip title={item['desc']}>
+                        <ListItemStyle button style={style} key={"paramList" + item['paramName']}>
+                            <TextField autoFocus={currentParamFocus == index} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
+                        </ListItemStyle>
+                    </Tooltip>
+                )
             }
         })
 

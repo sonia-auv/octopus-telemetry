@@ -1,10 +1,10 @@
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Button as MUIButton } from '@material-ui/core';
 
 type ButtonProps = {
   label?: string | React.ReactNode;
-  handler: () => void;
+  handler: (event: React.MouseEvent<HTMLButtonElement>) => void;
   style?: React.CSSProperties;
   disabled?: boolean;
 };

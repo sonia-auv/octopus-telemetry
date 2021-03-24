@@ -15,6 +15,11 @@ const MenuModule = (props:any) => {
         setAnchorEl(null);
     };
 
+    const handleClearLayout = () => {
+        localStorage.clear()
+        window.location.reload()
+    }
+
     return (
         <div>
             <Button onClick={handleClick}>
@@ -30,7 +35,9 @@ const MenuModule = (props:any) => {
                 <MenuItem onClick={handleClose}>File</MenuItem>
                 <MenuItem onClick={handleClose}>Plugins</MenuItem>
                 <MenuItem onClick={handleClose}>Running</MenuItem>
+                <MenuItem onClick={handleClearLayout}>Clear layout</MenuItem>
                 <MenuItem onClick={handleClose}>Help</MenuItem>
+
             </Menu>
         </div>
     );

@@ -1,5 +1,5 @@
 import { useCallback, useContext, useState } from 'react';
-import Switch from './Switch';
+import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
 import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -46,7 +46,7 @@ const Waypoints = () => {
         controlModeServiceCall(request)
     }
 
-    const controlModeServiceCall = useROSService<any>(controlModeServiceCallback, "/proc_control/set_control_mode", "proc_control")
+    const controlModeServiceCall = useROSService<any>(controlModeServiceCallback, "/proc_control/set_control_mode", "sonia_common/SetControlMode")
 
     //////////////////////////////////////
     // CLEAR WAYPOINT
@@ -66,7 +66,7 @@ const Waypoints = () => {
         clearWayPointServiceCall(request)
     }
 
-    const clearWayPointServiceCall = useROSService<any>(clearWaypointServiceCallback, "/proc_control/clear_waypoint", "proc_control")
+    const clearWayPointServiceCall = useROSService<any>(clearWaypointServiceCallback, "/proc_control/clear_waypoint", "sonia_common/ClearWaypoint")
 
     //////////////////////////////////////
     // SET INITIAL POSITION
@@ -90,7 +90,28 @@ const Waypoints = () => {
 
     }
 
-    const setInitialPositionServiceCall = useROSService<any>(setInitialPositionServiceCallback, "/proc_navigation/set_world_x_y_offset", "proc_navigation")
+    const setInitialPositionServiceCall = useROSService<any>(setInitialPositionServiceCallback, "/proc_navigation/set_world_x_y_offset", "sonia_common/SetWorldXYOffset")
+
+    //////////////////////////////////////
+    // SET DEPTH OFFSET
+    //////////////////////////////////////
+
+    // Reponse en retour a l appel du service
+    const setDepthOffsetServiceCallback = useCallback(
+        (x: any) => {
+        }, []
+    )
+
+    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
+    const handleSetDepthOffset = (value: any) => {
+
+        var request = new ROSLIB.ServiceRequest({
+        });
+        setDepthOffsetServiceCall(request)
+
+    }
+
+    const setDepthOffsetServiceCall = useROSService<any>(setDepthOffsetServiceCallback, "/proc_navigation/set_depth_offset", "sonia_common/SetDepthOffset")
 
     const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
 
@@ -153,7 +174,7 @@ const Waypoints = () => {
         }, []
     )
 
-    const sendPositionTargetServiceCall = useROSService<any>(sendPositionTargetServiceCallback, "/proc_control/set_global_target", "proc_control")
+    const sendPositionTargetServiceCall = useROSService<any>(sendPositionTargetServiceCallback, "/proc_control/set_global_target", "sonia_common/SetPositionTarget")
 
     const handleCmdKeyDown = (e: any) => {
 
@@ -331,8 +352,9 @@ const Waypoints = () => {
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
-                    <ButtonStyle variant='contained' style={{ width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleClearWayPoint}>Clear Waypoint</ButtonStyle>
-                    <ButtonStyle variant='contained' style={{ marginLeft: '50px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetInitialPosition}>Set initial Position</ButtonStyle>
+                    <ButtonStyle variant='contained' style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} onClick={handleClearWayPoint}>Clear Waypoint</ButtonStyle>
+                    <ButtonStyle variant='contained' style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetInitialPosition}>Set initial Position</ButtonStyle>
+                    <ButtonStyle variant='contained' style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetDepthOffset}>Set depth Offset</ButtonStyle>
                     <Switch onLabel="Velocity"
                         offLabel="Position"
                         vertical={false}

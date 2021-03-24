@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react';
+import style from './Button.module.css';
 
 type ButtonProps = {
   label?: string;
@@ -6,17 +7,10 @@ type ButtonProps = {
   style?: React.CSSProperties;
 };
 
-const DEFAULT_BUTTON_STYLE = {
-  backgroundColor: 'white',
-  border: '1px solid blue',
-};
-
 const Button: FunctionComponent<ButtonProps> = (props) => (
   <button
-    style={{
-      ...DEFAULT_BUTTON_STYLE,
-      ...props.style,
-    }}
+    style={props.style}
+    className={style.Button}
     data-testid="test-button"
     onClick={props.handler}
   >

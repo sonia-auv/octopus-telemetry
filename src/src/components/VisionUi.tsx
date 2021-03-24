@@ -394,6 +394,7 @@ const VisionUIModule = () => {
     const [parameterList, setParameterList] = useState<{ paramName: string, type: string, value: string, min: string, max: string, desc: string }[]>([]);
     const [currentParamFocus, setCurrentParamFocus] = useState(0);
     const [currentSubParamFocus, setCurrentSubParamFocus] = useState(0);
+    const [executionFilterAutoSelect, setExecutionFilterAutoSelect] = useState(0);
 
     const getExecutionFilterChainListServiceCallback = useCallback(
         (x: any) => {
@@ -401,7 +402,7 @@ const VisionUIModule = () => {
             var receivedList = x.list
 
             var tab: any = []
-            receivedList.split(';').forEach((v: String, index: number) => {
+            receivedList.split(';').forEach((v: string, index: number) => {
                 tab.push({ id: index, value: v })
             });
 
@@ -409,6 +410,21 @@ const VisionUIModule = () => {
 
         }, []
     )
+
+    // Auto-select after clicked up/down on filter
+    useEffect(() => {
+
+        var autoselectitem = ""
+
+        filterListItems.map((item, i) => {
+            if (i == executionFilterAutoSelect) {
+                autoselectitem = item["value"]
+            }
+        });
+
+        setExecutionFilterSelected(autoselectitem)
+
+    }, [filterListItems]);
 
     const getExecutionFilterChainListServiceCall = useROSService<any>(getExecutionFilterChainListServiceCallback, "/proc_image_processing/get_filterchain_filter", "sonia_common/GetFilterchainFilter");
 
@@ -441,6 +457,17 @@ const VisionUIModule = () => {
 
     const getFilterChainFromExecutionServiceCall = useROSService<any>(getFilterChainFromExecutionCallback, "/proc_image_processing/get_media_from_execution", "sonia_common/GetMediaFromExecution");
     const getMediaFromExecutionServiceCall = useROSService<any>(getMediaFromExecutionCallback, "/proc_image_processing/get_media_from_execution", "sonia_common/GetMediaFromExecution");
+
+
+    // Clear lists if no execution selected
+    useEffect(() => {
+
+        if (executionSelected == "None") {
+            setFilterListItems([])
+            setParameterList([])
+        }
+
+    }, [executionSelected,executionList]);
 
     const handleChangeExecution = (x: any) => {
 
@@ -489,6 +516,8 @@ const VisionUIModule = () => {
 
     const handleClickDeleteExecution = (value: any) => {
 
+        setFilterListItems([])
+        setParameterList([])
 
         if (executionSelected !== '' && executionMedia !== '' && executionFilterChain !== '') {
 
@@ -547,6 +576,8 @@ const VisionUIModule = () => {
 
     const handleClickAdd = (value: any) => {
 
+        setCurrentParamFocus(-1)
+
         if (executionSelected !== '' && executionFilterChain !== '' && filterSelected !== '') {
 
             var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: filterSelected, cmd: 1 });
@@ -563,6 +594,8 @@ const VisionUIModule = () => {
     }
 
     const handleClickDelete = (value: any) => {
+
+        setCurrentParamFocus(-1)
 
         if (executionSelected !== '' && executionFilterChain !== '' && executionFilterSelected !== '') {
 
@@ -588,6 +621,8 @@ const VisionUIModule = () => {
 
     const handleClickSave = (value: any) => {
 
+        setCurrentParamFocus(-1)
+
         if (executionSelected !== '' && executionFilterChain !== '') {
 
             var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, cmd: 1 });
@@ -597,6 +632,8 @@ const VisionUIModule = () => {
     }
 
     const handleClickRestore = (value: any) => {
+
+        setCurrentParamFocus(-1)
 
         if (executionSelected !== '' && executionFilterChain !== '') {
 
@@ -623,16 +660,21 @@ const VisionUIModule = () => {
 
     const handleClickUp = (value: any) => {
 
+        setCurrentParamFocus(-1)
+
         if (executionSelected !== '' && executionFilterChain !== '' && executionFilterSelected !== '') {
 
             var index = -1
 
             filterListItems.map((item, i) => {
-                if (item['value'] === executionFilterSelected)
-                    index = i
+                if (item['value'] === executionFilterSelected) {
+                    index = item['id']
+                }
             })
 
             if (index !== -1) {
+
+                setExecutionFilterAutoSelect(index - 1)
 
                 var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 1 });
                 orderFilterServiceCall(request)
@@ -651,16 +693,20 @@ const VisionUIModule = () => {
 
     const handleClickDown = (value: any) => {
 
+        setCurrentParamFocus(-1)
+
         if (executionSelected !== '' && executionFilterChain !== '' && executionFilterSelected !== '') {
 
             var index = -1
 
             filterListItems.map((item, i) => {
                 if (item['value'] === executionFilterSelected)
-                    index = i
+                    index = item['id']
             })
 
             if (index !== -1) {
+
+                setExecutionFilterAutoSelect(index + 1)
 
                 var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 2 });
                 orderFilterServiceCall(request)
@@ -707,13 +753,13 @@ const VisionUIModule = () => {
                         obj.type = subv
 
                     if (subindex === 2)
-                        obj.value = subv
+                        obj.value = obj.type === "Double" ? parseFloat(subv).toFixed(2) : subv
 
                     if (subindex === 3)
-                        obj.min = subv
+                        obj.min = obj.type === "Double" ? parseFloat(subv).toFixed(2) : subv
 
                     if (subindex === 4)
-                        obj.max = subv
+                        obj.max = obj.type === "Double" ? parseFloat(subv).toFixed(2) : subv
 
                     if (subindex === 5)
                         obj.desc = subv
@@ -751,8 +797,6 @@ const VisionUIModule = () => {
 
         const { index, style } = props;
 
-        console.log("render")
-
         return (
             <div>
                 {filterListItems.map((item) => (
@@ -779,17 +823,23 @@ const VisionUIModule = () => {
     const handleChangeParamValue = (event: any, index: any, arg: any) => {
 
         setCurrentParamFocus(index)
+
         var newValue = event.target.value
 
         parameterList?.map((item, i) => {
 
             if (i === index) {
+
                 if (item['type'] === "Boolean") {
                     let temporaryarray = parameterList.slice();
-                    if (item['value'] == "0")
+                    if (item['value'] == "0") {
                         temporaryarray[index]["value"] = "1";
-                    else
+                        newValue = "1";
+                    }
+                    else {
                         temporaryarray[index]["value"] = "0";
+                        newValue = "0";
+                    }
                     setParameterList(temporaryarray);
                 }
                 if (item['type'] === "Integer" || item['type'] === "Double") {
@@ -820,7 +870,7 @@ const VisionUIModule = () => {
                 }
 
                 // Send ros command for notify param changed
-                if (((newValue !== '') || (item['type'] === "Boolean")) && (
+                if (((newValue !== '')) && (
                     (((item['type'] === "Integer") || (item['type'] === "Double")) && (Number(newValue) <= Number(item['max'])) && (Number(newValue) >= Number(item['min'])))
                     || ((item['type'] !== "Integer") && (item['type'] !== "Double")))) {
 
@@ -829,6 +879,7 @@ const VisionUIModule = () => {
 
                     var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, parameter: item['paramName'], value: newValue });
                     changeParameterServiceCall(request)
+
                 }
             }
         })

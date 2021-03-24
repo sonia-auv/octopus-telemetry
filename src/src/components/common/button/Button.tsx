@@ -1,4 +1,6 @@
 import { FunctionComponent } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import { Button as MUIButton } from '@material-ui/core';
 
 type ButtonProps = {
   label?: string;
@@ -11,8 +13,16 @@ const DEFAULT_BUTTON_STYLE = {
   border: '1px solid blue',
 };
 
+const GenericButton = withStyles({
+  contained: {
+    backgroundColor: 'lightgrey',
+    border: '2px solid black',
+  },
+})(MUIButton);
+
 const Button: FunctionComponent<ButtonProps> = (props) => (
-  <button
+  <GenericButton
+    variant="contained"
     style={{
       ...DEFAULT_BUTTON_STYLE,
       ...props.style,
@@ -21,7 +31,7 @@ const Button: FunctionComponent<ButtonProps> = (props) => (
     onClick={props.handler}
   >
     {props.label}
-  </button>
+  </GenericButton>
 );
 
 Button.defaultProps = {

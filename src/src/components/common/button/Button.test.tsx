@@ -55,4 +55,14 @@ describe('The Button component 🔘', () => {
 
     expect(button.style.border).toBe('1px solid blue');
   });
+  it('can be disabled in the props', () => {
+    render(<Button disabled handler={() => {}} />);
+    const button = screen.getByTestId('test-button') as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+  });
+  it('can be enabled in the props', () => {
+    render(<Button disabled={false} handler={() => {}} />);
+    const button = screen.getByTestId('test-button') as HTMLButtonElement;
+    expect(button.disabled).toBe(false);
+  });
 });

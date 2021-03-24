@@ -6,6 +6,7 @@ type ButtonProps = {
   label?: string;
   handler: () => void;
   style?: React.CSSProperties;
+  disabled?: boolean;
 };
 
 const DEFAULT_BUTTON_STYLE = {
@@ -29,6 +30,7 @@ const Button: FunctionComponent<ButtonProps> = (props) => (
     }}
     data-testid="test-button"
     onClick={props.handler}
+    disabled={props.disabled}
   >
     {props.label}
   </GenericButton>
@@ -37,6 +39,7 @@ const Button: FunctionComponent<ButtonProps> = (props) => (
 Button.defaultProps = {
   label: 'Submit',
   style: {},
+  disabled: false,
 };
 
 export default Button;

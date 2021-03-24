@@ -17,6 +17,7 @@ const ActuatorModule = () => {
     'sonia_common/ActuatorDoActionSrv'
   );
 
+
   // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
   const HandleChangeSwitch = (value: any) => {
     context.setIsRoboticArmClosed(!context.isRoboticArmClosed);

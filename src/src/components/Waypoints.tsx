@@ -18,8 +18,6 @@ const Waypoints = () => {
 
     })(Button);
 
-    const context = useContext(GeneralContext)
-
     //////////////////////////////////////
     // CONTROL MODE
     //////////////////////////////////////
@@ -278,13 +276,16 @@ const Waypoints = () => {
     // CONTROL MODE FEEDBACK
     /////////////////////////////////////
 
+    const context = useContext(GeneralContext)
+
     const controlModeCallback = useCallback(
+        
         (x: any) => {
 
-            if (x.data == 0)
+            if (x.data === 0)
                 context.setIsWayPointVelocityMode(false)
 
-            if (x.data == 2)
+            if (x.data === 2)
                 context.setIsWayPointVelocityMode(true)
 
         }, []

@@ -52,12 +52,12 @@ export function AttitudeIndicator(ctx, location, pixelsPerDegree, data) {
 			ctx.textAlign = "center"
 			ctx.textBaseline = 'middle';
 			var newY = - i * (this.pixelsPerDegree)
-			if (i % 10 == 0 && i != 0) {
+			if (i % 10 === 0 && i !== 0) {
 				ctx.fillRect(- WIDTH_TEN / 2, newY, WIDTH_TEN, 1);
 				ctx.fillText(i, - WIDTH_TEN / 2 - 20, newY);
 				ctx.fillText(i, + WIDTH_TEN / 2 + 20, newY);
 			}
-			else if (i != 0) {
+			else if (i !== 0) {
 				ctx.fillRect(- WIDTH_FIVE / 2, newY, WIDTH_FIVE, 1);
 			}
 		}

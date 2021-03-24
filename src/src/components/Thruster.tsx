@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Slider from "@material-ui/core/Slider";
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -202,11 +202,6 @@ type ThrusterLevel = {
     thumbEnabled: boolean
 }
 
-const getMarks = (from: number, to: number, step: number) => {
-    const values = [...Array(Math.floor((to - from) / step) + 1)].map((_, i) => from + i * step);
-    return values.map(val => ({ value: val, label: val }))
-}
-
 export const Thruster = ({ identification, effort, minMark, maxMark, step, thumbEnabled }: ThrusterLevel) => {
 
     // TODO: METTRE LE BON TOPIC
@@ -216,7 +211,7 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
         return (
             <span {...props}>
                 {!thumbEnabled ?
-                    <img src={RedButtonImg} width="100%" height="100%" /> : null
+                    <img src={RedButtonImg} width="100%" height="100%" alt="thumb"/> : null
                 }
             </span>
         );
@@ -244,7 +239,6 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
         thrusterEffortPublisher(toPublish)
     };
 
-    let markValues = getMarks(minMark, maxMark, step)
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>

@@ -45,13 +45,14 @@ export function AltimeterTicker(ctx, location, data)
   	
   		// Data to print
 	  	var tensList = []
-	  	for (var i = 0; i < 10; i++)
+		var i = 0
+	  	for (i = 0; i < 10; i++)
 	  	{
 	  		tensList[i] = i + "0"
 	  	}
 
 	  	var onesList = []
-	  	for (var i = 0; i < 10; i++)
+	  	for (i = 0; i < 10; i++)
 	  	{
 	  		onesList[i] = i + ""
 	  	}  

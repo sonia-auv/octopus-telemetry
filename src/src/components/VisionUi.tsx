@@ -556,7 +556,7 @@ const VisionUIModule = () => {
 
     const getAllFilterChainListServiceCall = useROSService<any>(getAllFilterChainListServiceCallback, "/proc_image_processing/get_information_list", "sonia_common/GetInformationList");
 
-    const handleRefreshFilterList = (x: any) => {
+    const handleRefreshFilterList = () => {
 
         var request = new ROSLIB.ServiceRequest({ cmd: 4 });
         getAllFilterChainListServiceCall(request)
@@ -574,7 +574,7 @@ const VisionUIModule = () => {
 
     const addDeleteFilterServiceCall = useROSService<any>(addDeleteFilterServiceCallback, "/proc_image_processing/manage_filterchain_filter", "sonia_common/ManageFilterchain");
 
-    const handleClickAdd = (value: any) => {
+    const handleClickAdd = () => {
 
         setCurrentParamFocus(-1)
 
@@ -593,7 +593,7 @@ const VisionUIModule = () => {
 
     }
 
-    const handleClickDelete = (value: any) => {
+    const handleClickDelete = () => {
 
         setCurrentParamFocus(-1)
 
@@ -619,7 +619,7 @@ const VisionUIModule = () => {
 
     const saveFilterServiceCall = useROSService<any>(saveFilterServiceCallback, "/proc_image_processing/save_filterchain", "sonia_common/SaveFilterchain");
 
-    const handleClickSave = (value: any) => {
+    const handleClickSave = () => {
 
         setCurrentParamFocus(-1)
 
@@ -631,7 +631,7 @@ const VisionUIModule = () => {
 
     }
 
-    const handleClickRestore = (value: any) => {
+    const handleClickRestore = () => {
 
         setCurrentParamFocus(-1)
 
@@ -658,7 +658,7 @@ const VisionUIModule = () => {
     const orderFilterServiceCall = useROSService<any>(orderFilterServiceCallback, "/proc_image_processing/set_filterchain_filter_order", "sonia_common/SetFilterchainFilterOrder");
 
 
-    const handleClickUp = (value: any) => {
+    const handleClickUp = () => {
 
         setCurrentParamFocus(-1)
 
@@ -691,7 +691,7 @@ const VisionUIModule = () => {
 
     }
 
-    const handleClickDown = (value: any) => {
+    const handleClickDown = () => {
 
         setCurrentParamFocus(-1)
 

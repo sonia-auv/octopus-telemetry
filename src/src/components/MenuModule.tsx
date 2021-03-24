@@ -20,6 +20,9 @@ const MenuModule = (props:any) => {
         localStorage.clear()
         window.location.reload()
     }
+    const saveTheme = (bool: boolean) => {
+        localStorage.setItem("isDarkMode", bool.toString())
+    }
     return (
         <GeneralContext.Consumer>
             {context => context &&(
@@ -38,7 +41,12 @@ const MenuModule = (props:any) => {
                 <MenuItem onClick={handleClose}>Plugins</MenuItem>
                 <MenuItem onClick={handleClose}>Running</MenuItem>
                 <MenuItem onClick={handleClearLayout}>Clear layout</MenuItem>
-                <MenuItem onClick={() => context.setIsDarkMode(!context.isDarkMode)}>Change theme</MenuItem>
+                <MenuItem onClick={() => {
+                    context.setIsDarkMode(!context.isDarkMode);
+                    saveTheme(!context.isDarkMode)
+                }}>
+                    {context.isDarkMode ? 'Dark mode': 'Light mode'}
+                </MenuItem>
                 <MenuItem onClick={handleClose}>Help</MenuItem>
 
             </Menu>

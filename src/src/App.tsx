@@ -16,7 +16,7 @@ import ToolbarModule from "./components/ToolbarModule";
 
 
 export const App = () => {
-    const [theme, setTheme] = useState('dark');
+    const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string ) ? 'dark': 'light');
     const [thruster1, setThruster1] = useState(0)
     const [thruster2, setThruster2] = useState(0)
     const [thruster3, setThruster3] = useState(0)

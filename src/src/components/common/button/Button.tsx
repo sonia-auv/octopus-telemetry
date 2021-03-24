@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button as MUIButton } from '@material-ui/core';
 
 type ButtonProps = {
-  label?: string;
+  label?: string | React.ReactNode;
   handler: () => void;
   style?: React.CSSProperties;
   disabled?: boolean;

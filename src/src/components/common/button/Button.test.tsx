@@ -10,7 +10,7 @@ describe('The Button component 🔘', () => {
     expect(defaultLabel).toBeInTheDocument();
   });
 
-  it('can be passed a label', () => {
+  it('can be passed a string as a label', () => {
     render(<Button label="Act!" handler={() => {}} />);
 
     const customLabel = screen.getByText(/Act!/i);
@@ -18,7 +18,15 @@ describe('The Button component 🔘', () => {
     expect(customLabel).toBeInTheDocument();
   });
 
-  it('dispatches actions on click', () => {
+  it('can be passed a React element as a label', () => {
+    const element = <span>Hello!</span>;
+    render(<Button label={element} handler={() => {}} />);
+    const customElementLabel = screen.getByText(/Hello!/i);
+
+    expect(customElementLabel).toBeInTheDocument();
+  });
+
+  it('dispatches actions on click 📞', () => {
     const onClick = jest.fn();
 
     render(<Button handler={onClick} />);
@@ -45,6 +53,7 @@ describe('The Button component 🔘', () => {
     );
 
     const button = screen.getByTestId('test-button') as HTMLButtonElement;
+
     expect(button.style.backgroundColor).toBe('red');
   });
 
@@ -55,14 +64,19 @@ describe('The Button component 🔘', () => {
 
     expect(button.style.border).toBe('1px solid blue');
   });
+
   it('can be disabled in the props', () => {
     render(<Button disabled handler={() => {}} />);
+
     const button = screen.getByTestId('test-button') as HTMLButtonElement;
+
     expect(button.disabled).toBe(true);
   });
+
   it('can be enabled in the props', () => {
     render(<Button disabled={false} handler={() => {}} />);
     const button = screen.getByTestId('test-button') as HTMLButtonElement;
+
     expect(button.disabled).toBe(false);
   });
 });

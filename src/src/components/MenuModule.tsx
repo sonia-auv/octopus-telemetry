@@ -45,7 +45,7 @@ const MenuModule = (props:any) => {
                     context.setIsDarkMode(!context.isDarkMode);
                     saveTheme(!context.isDarkMode)
                 }}>
-                    {context.isDarkMode ? 'Dark mode': 'Light mode'}
+                    {context.isDarkMode ? 'Activate light mode': 'Activate dark mode'}
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Help</MenuItem>
 

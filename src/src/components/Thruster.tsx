@@ -107,7 +107,7 @@ const ThrusterControlSlider = withStyles({
         marginLeft: '30px'
     },
     markLabel: {
-        color: 'black',
+        color: 'white',
         marginLeft: '68px'
     },
 })(Slider);
@@ -187,7 +187,7 @@ const ThrusterEffortIndicator = withStyles({
         marginLeft: '30px'
     },
     markLabel: {
-        color: 'black',
+        color: 'white',
         marginLeft: '80px',
         fontWeight: 'bold'
     },

@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+.Switch__container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+}
+.Switch__container.vertical {
+  flex-direction: column;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin: 0 12px;
+}
+
+.switch.vertical {
+  transform: rotateZ(-90deg);
+  margin: 12px 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.Switch__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.Switch__slider:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+/* TODO not sure about the + */
+input:checked + .Switch__slider {
+  background-color: #2196f3;
+}
+
+input:focus + .Switch__slider {
+  box-shadow: 0 0 2px #2196f3;
+}
+
+input:checked + .Switch__slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.Switch__slider.round {
+  border-radius: 34px;
+}
+
+.Switch__slider.round:before {
+  border-radius: 50%;
+}
+.Switch__container {
+  font-family: 'Roboto Mono', monospace;
+  text-transform: uppercase;
+}
+.Switch__label-checked {
+  font-weight: bold;
+  opacity: 0.95;
+}
+
+.Switch__label-unchecked {
+  font-weight: normal;
+  opacity: 0.8;
+}

@@ -26,6 +26,15 @@ export const App = () => {
     const [thruster7, setThruster7] = useState(0)
     const [thruster8, setThruster8] = useState(0)
 
+    const originalLayout = JSON.parse(localStorage.getItem("layout") as string )|| []
+    const [layout, setLayout] = useState(originalLayout)
+
+    const onLayoutChange = (layout:any) => {
+        localStorage.setItem("layout", JSON.stringify(layout))
+        setLayout(layout)
+    }
+
+
     const thrusterEffortCallback = useCallback(
         (x: any) => {
             let id = x.ID
@@ -76,114 +85,116 @@ export const App = () => {
                     <GlobalStyles />
                     <ToolbarModule />
                     <GridLayout className="layout"
+                                layout={layout}
                                 cols={32}
                                 rowHeight={50}
                                 width={2800}
                                 verticalCompact={false}
+                                onLayoutChange={(e) => onLayoutChange(e)}
                                 draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch"}>
-                    <div key="a"
-                        data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
-                        style={{ display: 'flex' }}>
-                        <ThrustersModule />
-                        <Thruster key={1}
-                                  effort={thruster1}
-                                  identification={1}
-                                  minMark={-100}
-                                  maxMark={100}
-                                  step={25}
-                                  thumbEnabled={!isDryRunMode}
-                        />
-                        <Thruster key={2}
-                                  effort={thruster2}
-                                  identification={2}
-                                  minMark={-100}
-                                  maxMark={100}
-                                  step={25}
-                                  thumbEnabled={!isDryRunMode}
-                        />
-                        <Thruster key={3}
-                                  effort={thruster3}
-                                  identification={3}
-                                  minMark={-100}
-                                  maxMark={100}
-                                  step={25}
-                                  thumbEnabled={!isDryRunMode}
-                        />
-                        <Thruster key={4}
-                                  effort={thruster4}
-                                  identification={4}
-                                  minMark={-100}
-                                  maxMark={100}
-                                  step={25}
-                                  thumbEnabled={!isDryRunMode}
-                        />
-                        <Thruster key={5}
-                                  effort={thruster5}
-                                  identification={5}
-                                  minMark={-100}
-                                  maxMark={100}
-                                  step={25}
-                                  thumbEnabled={!isDryRunMode}
-                        />
-                        <Thruster key={6}
-                                  effort={thruster6}
-                                  identification={6}
-                                  minMark={-100}
-                                  maxMark={100}
-                                  step={25}
-                                  thumbEnabled={!isDryRunMode}
-                        />
-                        <Thruster key={7}
-                                  effort={thruster7}
-                                  identification={1}
-                                  minMark={-100}
-                                  maxMark={100}
-                                  step={25}
-                                  thumbEnabled={!isDryRunMode}
-                        />
+                        <div key="thrusters"
+                             data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
+                             style={{ display: 'flex' }}>
+                            <ThrustersModule />
+                            <Thruster key={1}
+                                      effort={thruster1}
+                                      identification={1}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={2}
+                                      effort={thruster2}
+                                      identification={2}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={3}
+                                      effort={thruster3}
+                                      identification={3}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={4}
+                                      effort={thruster4}
+                                      identification={4}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={5}
+                                      effort={thruster5}
+                                      identification={5}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={6}
+                                      effort={thruster6}
+                                      identification={6}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={7}
+                                      effort={thruster7}
+                                      identification={1}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
 
-                        <Thruster key={8}
-                                  effort={thruster8}
-                                  identification={8}
-                                  minMark={-100}
-                                  maxMark={100}
-                                  step={25}
-                                  thumbEnabled={!isDryRunMode}
-                        />
+                            <Thruster key={8}
+                                      effort={thruster8}
+                                      identification={8}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
 
 
-                    </div>
-                    <div key="b"
-                        data-grid={{ x: 20, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
-                        style={{ display: 'flex' }}>
-                        <ActuatorModule />
-                    </div>
-                    <div key="c"
-                        data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                        style={{ display: 'flex' }}>
-                        <ImageViewer />
-                    </div>
-                    <div key="d"
-                        data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                        style={{ display: 'flex' }}>
-                        <Pfd />
-                    </div>
-                    <div key="e"
-                         data-grid={{ x: 20, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                         style={{ display: 'flex' }}>
-                        <TestBoardModule />
-                    </div>
-                    <div key="f"
-                         data-grid={{ x: 50, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                         style={{ display: 'flex' }}>
-                        <Waypoints />
-                    </div>
-                    <div key="g"
-                        data-grid={{ x: 0, y: 17, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                        style={{ display: 'flex' }}>
-                        <ImageViewer />
-                    </div>
-                </GridLayout>
+                        </div>
+                        <div key="actuator"
+                             data-grid={{ x: 20, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
+                             style={{ display: 'flex' }}>
+                            <ActuatorModule />
+                        </div>
+                        <div key="imageViewer"
+                             data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                             style={{ display: 'flex' }}>
+                            <ImageViewer />
+                        </div>
+                        <div key="pfd"
+                             data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                             style={{ display: 'flex' }}>
+                            <Pfd />
+                        </div>
+                        <div key="testBoard"
+                             data-grid={{ x: 20, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                             style={{ display: 'flex' }}>
+                            <TestBoardModule />
+                        </div>
+                        <div key="waypoints"
+                             data-grid={{ x: 50, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                             style={{ display: 'flex' }}>
+                            <Waypoints />
+                        </div>
+                        <div key="imageViewer2"
+                             data-grid={{ x: 0, y: 17, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                             style={{ display: 'flex' }}>
+                            <ImageViewer />
+                        </div>
+                    </GridLayout>
                 </ThemeProvider>
             </GeneralContext.Provider>
         </div>

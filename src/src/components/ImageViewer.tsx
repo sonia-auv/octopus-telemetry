@@ -70,7 +70,7 @@ const ImageViewer = () => {
         (x: any) => {
 
             var im: any;
-            if (x.encoding == "bgr8" || x.encoding == "rgb8")
+            if (x.encoding === "bgr8" || x.encoding === "rgb8")
                 im = "data:image/jpeg;base64," + rgb8ImageToBase64Jpeg(x);
             else if (x.format.includes("jpeg"))
                 im = "data:image/jpeg;base64," + x.data;
@@ -91,9 +91,9 @@ const ImageViewer = () => {
         if (topic) {
             topic.unsubscribe()
         }
-        if (x.target.value != "None") {
-            listTopic.map((value, index) => {
-                if (value["value"] == x.target.value) {
+        if (x.target.value !== "None") {
+            listTopic.forEach((value) => {
+                if (value["value"] === x.target.value) {
                     const type = value["type"]
                     const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: type })
                     setTopic(newtopic)
@@ -118,13 +118,14 @@ const ImageViewer = () => {
         }
     }
 
-    //Filtre sur les types de message que le souhaite 
-    const messageFilter = ["sensor_msgs/CompressedImage", "sensor_msgs/Image"]
-
     const serviceCallback = useCallback(
         (x: any) => {
+
+            //Filtre sur les types de message que le souhaite 
+            const messageFilter = ["sensor_msgs/CompressedImage", "sensor_msgs/Image"]
+            
             var tab: any = []
-            x.topics.map((value: any, index: any) => {
+            x.topics.forEach((value: any, index: any) => {
                 if (messageFilter.includes(x.types[index])) {
                     const obj = { value: value, type: x.types[index] }
                     tab.push(obj);
@@ -188,7 +189,7 @@ const ImageViewer = () => {
                         ></Button>
                         <div style={{ width: "100%", height: "calc(100% - 140px)" }}>
                         {image !== '' ?
-                            <img src={image} width="100%" height="100%"></img> : <img width="100%" height="100%"></img>
+                            <img src={image} width="100%" height="100%" alt="imageviewer"></img> : <img width="100%" height="100%" alt="imageviewer"></img>
                         }
                         </div>
                     </div>

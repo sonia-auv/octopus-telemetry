@@ -21,7 +21,6 @@ export function drawTickerDigit(ctx, list, value, scrollThreshold, digitSpacing,
 	ctx.fillStyle = GUAGE_FOREGROUND;
 	ctx.textAlign = "center"
 	ctx.textBaseline = 'middle';
-	var size = ctx.measureText("00");
 
 	var index = Math.floor(value + 0.5);
 	var length = list.length;
@@ -45,10 +44,6 @@ export function drawTickerDigit(ctx, list, value, scrollThreshold, digitSpacing,
 		}
 	}
 
-	var fullSize = fontSize + digitSpacing
-	// ctx.fillStyle = BACKGROUND;
-	// ctx.fillRect(x, y - hei - 2 * fullSize, wid, hei + 2 * fullSize);
-	// ctx.fillRect(x, y + hei, wid, hei + fullSize);
 	ctx.restore();
 }
 
@@ -89,15 +84,11 @@ export function drawTape(ctx, location, fontSize, leftAlign, bigTicks, smallTick
 
 		var relValue = Math.floor((value - smallTicks * - i) / smallTicks) * smallTicks
 
-		if (inverted) {
-			
-		}
-
 		var diff = (value - relValue) / smallTicks;
 		var newY = (y + hei / 2) + scale * (diff);
 		if (newY + fontSize > y && newY - fontSize < y + hei && (negative || relValue >= 0) && (!inverted || (inverted && relValue <= 0)))
 		{
-			if (relValue % bigTicks == 0)
+			if (relValue % bigTicks === 0)
 			{
 				ctx.font = (fontSize * 1.5) + "px Arial"
 				ctx.fillRect(x, newY - 1.5 * fontSize / 2 - 3, wid, 1)
@@ -108,11 +99,12 @@ export function drawTape(ctx, location, fontSize, leftAlign, bigTicks, smallTick
 				ctx.fillText(-relValue, x + wid / 2, newY)
 				ctx.font = fontSize + "px Arial"
 			}
-			else if (relValue % smallTicks == 0)
+			else if (relValue % smallTicks === 0)
 			{
+				var textWidth = 0
 				if (leftAlign)
 				{
-					var textWidth = ctx.measureText(relValue).width;
+					textWidth = ctx.measureText(relValue).width;
 					ctx.fillRect(x, newY, wid/2 - 15, 1)
 					if (!inverted)
 					ctx.fillText(relValue, x + wid - textWidth/2 - 5, newY)
@@ -121,7 +113,7 @@ export function drawTape(ctx, location, fontSize, leftAlign, bigTicks, smallTick
 				}
 				else
 				{
-					var textWidth = ctx.measureText(relValue).width;
+					textWidth = ctx.measureText(relValue).width;
 					ctx.fillRect(x + wid/2 + 15, newY, wid/2 - 15, 1)
 					if (!inverted)
 					ctx.fillText(relValue, x + textWidth/2 + 5, newY)
@@ -132,8 +124,8 @@ export function drawTape(ctx, location, fontSize, leftAlign, bigTicks, smallTick
 		}
 	}
 
-	var diff = (value - bugValue) / smallTicks;
-	var newY = (y + hei / 2) + scale * (diff);
+	diff = (value - bugValue) / smallTicks;
+	newY = (y + hei / 2) + scale * (diff);
 	// console.log(bugValue);
 	if (newY + fontSize > y && newY - fontSize < y + hei)
 	{

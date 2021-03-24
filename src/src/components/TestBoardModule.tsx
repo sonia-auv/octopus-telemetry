@@ -54,7 +54,7 @@ const TestBoardModule = () => {
             <h1>Test board</h1>
             <form>
                 <div>
-                    <TextField id="outlined-basic"
+                    <TextField id="outlined-basic-01"
                                label="Slave"
                                variant="outlined"
                                name="slave"
@@ -64,7 +64,7 @@ const TestBoardModule = () => {
                                onChange={(event)=>setSlave(event.target.value)}/>
                 </div>
                 <div>
-                    <TextField id="outlined-basic"
+                    <TextField id="outlined-basic-02"
                                label="Cmd"
                                variant="outlined"
                                name="cmd"
@@ -73,7 +73,7 @@ const TestBoardModule = () => {
                                onChange={(event)=>setCmd(event.target.value)} />
                 </div>
                 <div>
-                    <TextField id="outlined-basic"
+                    <TextField id="outlined-basic-03"
                                label="Data"
                                variant="outlined"
                                name="data"
@@ -82,7 +82,7 @@ const TestBoardModule = () => {
                                onChange={(event)=>setData(event.target.value)} />
                 </div>
                 <div>
-                    <TextField id="outlined-basic"
+                    <TextField id="outlined-basic-04"
                                label="Rate"
                                variant="outlined"
                                name="rate"

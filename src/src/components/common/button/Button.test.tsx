@@ -34,13 +34,6 @@ describe('The Button component 🔘', () => {
     expect(onClick).toHaveBeenCalledTimes(2);
   });
 
-  it('has a default "Button" CSS class', () => {
-    render(<Button style={{ backgroundColor: 'green' }} handler={() => {}} />);
-
-    const button = screen.getByTestId('test-button') as HTMLButtonElement;
-    expect(button).toHaveClass('Button');
-  });
-
   it('can be passed overriding styles (taking precedence over default style)', () => {
     render(
       <Button
@@ -54,5 +47,12 @@ describe('The Button component 🔘', () => {
     const button = screen.getByTestId('test-button') as HTMLButtonElement;
     expect(button.style.backgroundColor).toBe('red');
   });
-  it.skip('CHECK some expected computed CSS of the component here (for example, we expect the border to be this way, etc.', () => {});
+
+  it('still applies its base styles even though we pass a style prop', () => {
+    render(<Button style={{ backgroundColor: 'green' }} handler={() => {}} />);
+
+    const button = screen.getByTestId('test-button') as HTMLButtonElement;
+
+    expect(button.style.border).toBe('1px solid blue');
+  });
 });

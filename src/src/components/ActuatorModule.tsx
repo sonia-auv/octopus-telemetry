@@ -30,9 +30,9 @@ const ActuatorModule = () => {
 
         context.setIsRoboticArmClosed(!context.isRoboticArmClosed)
         var request = new ROSLIB.ServiceRequest({
-            ELEMENT_ARM: 2,
-            ARM_OPEN: !value,
-            ACTION_ARM_EXEC: 1
+            element: 2,
+            side: !value,
+            action: 1
         });
         actuactorServiceCall(request)
     } 
@@ -40,9 +40,9 @@ const ActuatorModule = () => {
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleChangeButtonTorpedo = () => {
         var request = new ROSLIB.ServiceRequest({
-            ELEMENT_TORPEDO: 0,
-            SIDE_PORT: 0,
-            ACTION_DROPPER_LAUCH: 1
+            element: 0,
+            side: 0,
+            action: 1
         });
         actuactorServiceCall(request)
     }
@@ -50,9 +50,9 @@ const ActuatorModule = () => {
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleChangeButtonDropObject = () => {
         var request = new ROSLIB.ServiceRequest({
-            ELEMENT_TORPEDO: 1,
-            SIDE_PORT: 0,
-            ACTION_DROPPER_LAUCH: 1
+            element: 1,
+            side: 0,
+            action: 1
         });
         actuactorServiceCall(request)
     }

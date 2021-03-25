@@ -11,39 +11,38 @@ import * as BottomLeftPanelModule from './PFD/guages/bottomleftpanel'
 import * as BottomRightPanelModule from './PFD/guages/bottomrightpanel'
 import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
 
+var attitudeIndicator: AttitudeIndicatorModule.AttitudeIndicator;
+var altimeterTicker: AltimeterTickerModule.AltimeterTicker;
+var altimeterTape: AltimeterTapeModule.AltimeterTape;
+var airspeedTicker: AirspeedTickerModule.AirspeedTicker;
+var airspeedTape: AirspeedTapeModule.AirspeedTape;
+var verticalSpeedIndicator: VerticalSpeedIndicatorModule.VerticalSpeedIndicator
+var horizontalSituationIndicator: HorizontalSituationIndicatorModule.HorizontalSituationIndicator;
+var bottomLeftPanel: BottomLeftPanelModule.BottomLeftPanel;
+var bottomRightPanel: BottomRightPanelModule.BottomRightPanel;
+
+var data = {
+    "pitchAngle": 0,
+    "bankAngle": 0,
+    "turnCoordinationAngle": 0,
+    "altitude": 0,
+    "altitudeBug": 0,
+    "verticalSpeed": 0,
+    "verticalSpeedBug": 0,
+    "airspeed": 0,
+    "airspeedBug": 0,
+    "heading": 0,
+    "trueCourse": 0,
+    "headingBug": 0,
+    "velY": 0,
+    "posX": 0,
+    "posY": 0,
+    "velRoll": 0,
+    "velPitch": 0,
+    "velYaw": 0,
+}
+
 const ActuatorModule = () => {
-
-    var attitudeIndicator: AttitudeIndicatorModule.AttitudeIndicator;
-    var altimeterTicker: AltimeterTickerModule.AltimeterTicker;
-    var altimeterTape: AltimeterTapeModule.AltimeterTape;
-    var airspeedTicker: AirspeedTickerModule.AirspeedTicker;
-    var airspeedTape: AirspeedTapeModule.AirspeedTape;
-    var verticalSpeedIndicator: VerticalSpeedIndicatorModule.VerticalSpeedIndicator
-    var horizontalSituationIndicator: HorizontalSituationIndicatorModule.HorizontalSituationIndicator;
-    var bottomLeftPanel: BottomLeftPanelModule.BottomLeftPanel;
-    var bottomRightPanel: BottomRightPanelModule.BottomRightPanel;
-
-
-    var data = {
-        "pitchAngle": 0,
-        "bankAngle": 0,
-        "turnCoordinationAngle": 0,
-        "altitude": 0,
-        "altitudeBug": 0,
-        "verticalSpeed": 0,
-        "verticalSpeedBug": 0,
-        "airspeed": 0,
-        "airspeedBug": 0,
-        "heading": 0,
-        "trueCourse": 0,
-        "headingBug": 0,
-        "velY": 0,
-        "posX": 0,
-        "posY": 0,
-        "velRoll": 0,
-        "velPitch": 0,
-        "velYaw": 0,
-    }
 
     const draw = () => {
 

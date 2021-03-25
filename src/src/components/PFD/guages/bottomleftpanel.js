@@ -1,6 +1,4 @@
 
-import * as elements from '../elements.js'
-
 var GUAGE_FOREGROUND = "#FFFFFF";
 var GUAGE_BACKGROUND = "#191921";
 
@@ -42,8 +40,8 @@ export function BottomLeftPanel(ctx, location, data) {
 		this.ctx.fillText(value , this.loc.x + 40, this.loc.y + 15)
 
 
-		var text = "Position"
-		var textWidth = ctx.measureText(text).width;
+		text = "Position"
+		textWidth = ctx.measureText(text).width;
 		this.ctx.fillText(text, this.loc.x + 80, this.loc.y + 55)
 		this.ctx.strokeStyle = GUAGE_BACKGROUND;
 		this.ctx.strokeRect(this.loc.x, this.loc.y + 40, this.loc.width, this.loc.height);
@@ -54,8 +52,8 @@ export function BottomLeftPanel(ctx, location, data) {
 		this.ctx.font = 20 + "px Arial"
 		this.ctx.textAlign = "center";
 		this.ctx.textBaseline = "middle";
-		var text = "X"
-		var textWidth = ctx.measureText(text).width;
+		text = "X"
+		textWidth = ctx.measureText(text).width;
 		this.ctx.fillText(text, this.loc.x + textWidth/2 + 15, this.loc.y + 45 + offset)
 
 		// Draw box and number for velocity x
@@ -64,13 +62,13 @@ export function BottomLeftPanel(ctx, location, data) {
 		this.ctx.textBaseline = "middle"; 
 		this.ctx.fillStyle = GUAGE_BACKGROUND;
 		this.ctx.strokeStyle = GUAGE_FOREGROUND;
-		var boxHeight = 26;
-		var boxWidth = 80;
+		boxHeight = 26;
+		boxWidth = 80;
 		this.ctx.fillRect(this.loc.x + 40, this.loc.y + offset + 30, boxWidth, boxHeight);
 		this.ctx.strokeRect(this.loc.x + 40, this.loc.y + offset + 30, boxWidth, boxHeight);
 		this.ctx.fillStyle = GUAGE_FOREGROUND;
 		this.ctx.textAlign = "center";
-		var value = this.data.posX
+		value = this.data.posX
 		this.ctx.fillText(value , this.loc.x + 80, this.loc.y + 45 + offset)
 
 		offset = offset + 40
@@ -79,8 +77,8 @@ export function BottomLeftPanel(ctx, location, data) {
 		this.ctx.font = 20 + "px Arial"
 		this.ctx.textAlign = "center";
 		this.ctx.textBaseline = "middle";
-		var text = "Y"
-		var textWidth = ctx.measureText(text).width;
+		text = "Y"
+		textWidth = ctx.measureText(text).width;
 		this.ctx.fillText(text, this.loc.x + textWidth/2 + 15, this.loc.y + 45 + offset)
 
 		// Draw box and number for velocity x
@@ -89,13 +87,13 @@ export function BottomLeftPanel(ctx, location, data) {
 		this.ctx.textBaseline = "middle"; 
 		this.ctx.fillStyle = GUAGE_BACKGROUND;
 		this.ctx.strokeStyle = GUAGE_FOREGROUND;
-		var boxHeight = 26;
-		var boxWidth = 80;
+		boxHeight = 26;
+		boxWidth = 80;
 		this.ctx.fillRect(this.loc.x + 40, this.loc.y + offset + 30, boxWidth, boxHeight);
 		this.ctx.strokeRect(this.loc.x + 40, this.loc.y + offset + 30, boxWidth, boxHeight);
 		this.ctx.fillStyle = GUAGE_FOREGROUND;
 		this.ctx.textAlign = "center";
-		var value = this.data.posY
+		value = this.data.posY
 		this.ctx.fillText(value , this.loc.x + 80, this.loc.y + 45 + offset)
 
 		this.ctx.restore();

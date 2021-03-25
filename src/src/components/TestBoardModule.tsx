@@ -92,6 +92,7 @@ const TestBoardModule = () => {
                 </div>
                 <div>
                     <CssTextField id="outlined-basic"
+
                                label="Rate"
                                variant="outlined"
                                name="rate"

@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
@@ -78,8 +78,8 @@ const VisionUIFilterModule = () => {
 
         var autoselectitem = ""
 
-        filterListItems.map((item, i) => {
-            if (i == executionFilterAutoSelect) {
+        filterListItems.forEach((item, i) => {
+            if (i === executionFilterAutoSelect) {
                 autoselectitem = item["value"]
             }
         });
@@ -124,7 +124,7 @@ const VisionUIFilterModule = () => {
     // Clear lists if no execution selected
     useEffect(() => {
 
-        if (executionSelected == "None") {
+        if (executionSelected === "None") {
             setFilterListItems([])
             setParameterList([])
         }
@@ -328,7 +328,7 @@ const VisionUIFilterModule = () => {
 
             var index = -1
 
-            filterListItems.map((item, i) => {
+            filterListItems.forEach((item, i) => {
                 if (item['value'] === executionFilterSelected) {
                     index = item['id']
                 }
@@ -361,7 +361,7 @@ const VisionUIFilterModule = () => {
 
             var index = -1
 
-            filterListItems.map((item, i) => {
+            filterListItems.forEach((item, i) => {
                 if (item['value'] === executionFilterSelected)
                     index = item['id']
             })
@@ -488,13 +488,13 @@ const VisionUIFilterModule = () => {
 
         var newValue = event.target.value
 
-        parameterList?.map((item, i) => {
+        parameterList?.forEach((item, i) => {
 
             if (i === index) {
 
                 if (item['type'] === "Boolean") {
                     let temporaryarray = parameterList.slice();
-                    if (item['value'] == "0") {
+                    if (item['value'] === "0") {
                         temporaryarray[index]["value"] = "1";
                         newValue = "1";
                     }
@@ -506,17 +506,17 @@ const VisionUIFilterModule = () => {
                 }
                 if (item['type'] === "Integer" || item['type'] === "Double") {
                     let temporaryarray = parameterList.slice();
-                    if (arg == "value") {
+                    if (arg === "value") {
                         if ((checkSyntaxInteger(newValue) && item['type'] === "Integer") || (checkSyntaxDouble(newValue) && item['type'] === "Double"))
                             temporaryarray[index]["value"] = newValue;
                         setCurrentSubParamFocus(1)
                     }
-                    if (arg == "min") {
+                    if (arg === "min") {
                         if ((checkSyntaxInteger(newValue) && item['type'] === "Integer") || (checkSyntaxDouble(newValue) && item['type'] === "Double"))
                             temporaryarray[index]["min"] = newValue;
                         setCurrentSubParamFocus(2)
                     }
-                    if (arg == "max") {
+                    if (arg === "max") {
                         if ((checkSyntaxInteger(newValue) && item['type'] === "Integer") || (checkSyntaxDouble(newValue) && item['type'] === "Double"))
                             temporaryarray[index]["max"] = newValue;
                         setCurrentSubParamFocus(3)
@@ -525,7 +525,7 @@ const VisionUIFilterModule = () => {
                 }
                 if (item['type'] === "String") {
                     let temporaryarray = parameterList.slice();
-                    if (arg == "value") {
+                    if (arg === "value") {
                         temporaryarray[index]["value"] = newValue;
                     }
                     setParameterList(temporaryarray);
@@ -554,7 +554,7 @@ const VisionUIFilterModule = () => {
 
         let content: any = []
 
-        parameterList?.map((item, index) => {
+        parameterList?.forEach((item, index) => {
 
             if (item['type'] === "Boolean") {
 
@@ -562,7 +562,7 @@ const VisionUIFilterModule = () => {
                     <Tooltip title={item['desc']}>
                         <CommonVisionUIStyle.ListItemStyle button style={style} key={"paramList" + item['paramName']}>
                             <FormControlLabel
-                                control={<Checkbox name={item['paramName']} color="primary" checked={item['value'] == '1'} onChange={(event: any) => handleChangeParamValue(event, index, "value")} />}
+                                control={<Checkbox name={item['paramName']} color="primary" checked={item['value'] === '1'} onChange={(event: any) => handleChangeParamValue(event, index, "value")} />}
                                 label={item['paramName']}
                             />
                         </CommonVisionUIStyle.ListItemStyle>
@@ -575,7 +575,7 @@ const VisionUIFilterModule = () => {
                 content.push(
                     <Tooltip title={item['desc']}>
                         <CommonVisionUIStyle.ListItemStyle button style={style} key={"paramList" + item['paramName']}>
-                            <TextField type={item['type'] === "Integer" ? 'number' : "float"} autoFocus={currentParamFocus == index && currentSubParamFocus == 1} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField type={item['type'] === "Integer" ? 'number' : "float"} autoFocus={currentParamFocus === index && currentSubParamFocus === 1} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
                             <TextField disabled={true} value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
                             <TextField disabled={true} value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
                         </CommonVisionUIStyle.ListItemStyle>
@@ -589,7 +589,7 @@ const VisionUIFilterModule = () => {
                 content.push(
                     <Tooltip title={item['desc']}>
                         <CommonVisionUIStyle.ListItemStyle button style={style} key={"paramList" + item['paramName']}>
-                            <TextField autoFocus={currentParamFocus == index} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
+                            <TextField autoFocus={currentParamFocus === index} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
                         </CommonVisionUIStyle.ListItemStyle>
                     </Tooltip>
                 )

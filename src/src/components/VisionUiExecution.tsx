@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
@@ -76,7 +76,7 @@ const VisionUIExecutionTabModule = () => {
 
     const inputFile = useRef<HTMLInputElement>(null)
 
-    const handleFileOpen = (value: any) => {
+    const handleFileOpen = () => {
 
         if (inputFile.current) {
             inputFile.current.click();
@@ -104,7 +104,7 @@ const VisionUIExecutionTabModule = () => {
     // Execute command service
     const executeCmdServiceCall = useROSService<any>(executeCmdServiceCallback, "/proc_image_processing/execute_cmd", "sonia_common/ExecuteCmd")
 
-    const handleCreate = (value: any) => {
+    const handleCreate = () => {
 
         if (name !== '') {
 
@@ -126,8 +126,8 @@ const VisionUIExecutionTabModule = () => {
             }
 
             if (media !== '' && filterChainSelected !== '') {
-                var request = new ROSLIB.ServiceRequest({ node_name: name, filterchain_name: filterChainSelected, media_name: media, cmd: 1 });
-                executeCmdServiceCall(request)
+                var request2 = new ROSLIB.ServiceRequest({ node_name: name, filterchain_name: filterChainSelected, media_name: media, cmd: 1 });
+                executeCmdServiceCall(request2)
             }
         }
     }

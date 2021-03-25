@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
@@ -97,9 +97,9 @@ const VisionUIExecutionModule = () => {
     const addFilterChainServiceCall = useROSService<any>(addFilterChainServiceCallback, "/proc_image_processing/manage_filterchain", "sonia_common/ManageFilterchain");
     const getFilterChainlistServiceCall = useROSService<any>(getFilterChainlistServiceCallback, "/proc_image_processing/get_information_list", "sonia_common/GetInformationList")
 
-    const handleAddFilterChain = (value: any) => {
+    const handleAddFilterChain = () => {
 
-        if (filterChainName != '') {
+        if (filterChainName !== '') {
 
             var request = new ROSLIB.ServiceRequest({ filterchain: filterChainName, cmd: 1 });
             addFilterChainServiceCall(request)
@@ -124,7 +124,7 @@ const VisionUIExecutionModule = () => {
 
     const copyFilterChainServiceCall = useROSService<any>(copyFilterChainServiceCallback, "/proc_image_processing/copy_filterchain", "sonia_common/CopyFilterchain");
 
-    const handleCloneFilterChain = (value: any) => {
+    const handleCloneFilterChain = () => {
 
         if (filterChainSelectedTab !== '' && filterChainName !== '') {
 
@@ -146,7 +146,7 @@ const VisionUIExecutionModule = () => {
 
     const deleteFilterChainServiceCall = useROSService<any>(deleteFilterChainServiceCallback, "/proc_image_processing/manage_filterchain", "sonia_common/ManageFilterchain");
 
-    const handleDeleteFilterChain = (value: any) => {
+    const handleDeleteFilterChain = () => {
 
         if (filterChainSelectedTab !== '') {
 

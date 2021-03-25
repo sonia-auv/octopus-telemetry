@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
@@ -48,7 +48,6 @@ const ButtonStyle = withStyles({
 const VisionUIExecutionModule = () => {
 
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
 
     ////////////////////////////////
     // FILTER CHAIN TAB
@@ -114,6 +113,7 @@ const VisionUIExecutionModule = () => {
     }
 
     const handSelectedFilterChain = (event: any, value: any) => {
+        setFieldHasFocus(false)
         setFilterChainSelectedTab(value);
     };
 
@@ -161,8 +161,12 @@ const VisionUIExecutionModule = () => {
         }
     }
 
+    const [fieldHasFocus, setFieldHasFocus] = useState(true)
+
     const handleFilterChainNameChange = (e: any) => {
         setFilterChainName(e.target.value)
+        setFieldHasFocus(true)
+
     }
 
     function FilterChainList(props: any) {
@@ -170,7 +174,7 @@ const VisionUIExecutionModule = () => {
         return (
             <div>
                 {filterChainList.map((item) => (
-                    <CommonVisionUIStyle.ListItemStyle button style={style} key={"filterChain" + item['id']} selected={filterChainSelectedTab === item['value']} autoFocus={filterChainSelectedTab === item['value']}>
+                    <CommonVisionUIStyle.ListItemStyle button style={style} key={"filterChain" + item['id']} selected={filterChainSelectedTab === item['value']} autoFocus={filterChainSelectedTab === item['value'] && !fieldHasFocus}>
                         <ListItemText primary={item['value']} onClick={(event: any) => handSelectedFilterChain(event, item['value'])} />
                     </CommonVisionUIStyle.ListItemStyle>
                 ))}
@@ -180,7 +184,7 @@ const VisionUIExecutionModule = () => {
 
     return (
         <div>
-            <TextField value={filterChainName} onChange={handleFilterChainNameChange} id="visionUi_filterChainName_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px' }} />
+            <TextField value={filterChainName} autoFocus={fieldHasFocus} onChange={handleFilterChainNameChange} id="visionUi_filterChainName_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px' }}/>
             <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleAddFilterChain}>Add</ButtonStyle>
             <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleCloneFilterChain}>Clone</ButtonStyle>
             <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleDeleteFilterChain}>Delete</ButtonStyle><br></br>
@@ -190,7 +194,7 @@ const VisionUIExecutionModule = () => {
                 className={classes.button}
                 startIcon={<CachedIcon />}
                 onClick={handleRefreshFilterChainList}
-                style={{ marginTop: '-9px' }}
+                style={{ marginTop: '14px' }}
             ></Button>
             <ListFilterChainStyle><FilterChainList className={classes.root} /></ListFilterChainStyle>
         </div>

@@ -91,7 +91,7 @@ export const App = () => {
                                 width={2800}
                                 verticalCompact={false}
                                 onLayoutChange={(e) => onLayoutChange(e)}
-                                draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch"}>
+                                draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch, .MuiSelect-root, .MuiFormControl-root, .MuiTypography-root, .MuiInputBase-root, .MuiList-root"}>
                         <div key="thrusters"
                              data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
                              style={{ display: 'flex' }}>

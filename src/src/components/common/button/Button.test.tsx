@@ -79,4 +79,10 @@ describe('The Button component 🔘', () => {
 
     expect(button.disabled).toBe(false);
   });
+
+  it('can be passed a classname', () => {
+    render(<Button  className="something" handler={() => {}} />)
+    const button = screen.getByTestId('test-button') as HTMLButtonElement
+    expect(button.classList).toContain("something")
+  })
 });

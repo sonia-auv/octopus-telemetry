@@ -7,6 +7,7 @@ type ButtonProps = {
   handler: (event: React.MouseEvent<HTMLButtonElement>) => void;
   style?: React.CSSProperties;
   disabled?: boolean;
+  className?: string
 };
 
 const DEFAULT_BUTTON_STYLE = {
@@ -24,6 +25,7 @@ const GenericButton = withStyles({
 const Button: FunctionComponent<ButtonProps> = (props) => (
   <GenericButton
     variant="contained"
+    className={props.className}
     style={{
       ...DEFAULT_BUTTON_STYLE,
       ...props.style,

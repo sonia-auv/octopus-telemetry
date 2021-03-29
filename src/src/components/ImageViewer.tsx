@@ -166,18 +166,18 @@ const ImageViewer = () => {
                             </Select>
                         </FormControl>
                         <Button
-                            // className={classes.button}
+                            className={classes.button}
                             label={<CachedIcon />}
                             handler={clickUpdate}
                         ></Button>
                         <br></br>
                         <Button
-                            // className={classes.button}
+                            className={classes.button}
                             label={<StopIcon />}
                             handler={clickStop}
                         ></Button>
                         <Button
-                            // className={classes.button}
+                            className={classes.button}
                             label={<PlayCircleFilledIcon />}
                             handler={clickPlay}
                         ></Button>

@@ -1,21 +1,12 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import Button from './common/button/Button';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox'
-import {withStyles} from "@material-ui/core/styles";
 import {useROSTopicPublisher} from "../hooks/useROSTopicPublisher";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 const TestBoardModule = () => {
-
-    const ButtonStyle = withStyles({
-        contained: {
-            backgroundColor: 'lightgrey',
-            border: '2px solid rgba(0, 0, 0, 1.0)'
-        },
-
-    })(Button);
 
     const [slave, setSlave] = React.useState("")
     const [cmd, setCmd] = React.useState("")
@@ -98,16 +89,12 @@ const TestBoardModule = () => {
                     />
                 </div>
                 <div style={{margin: "5px"}}>
-                    <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }}
-                                 onClick={handleStart}>
-                        Start
-                    </ButtonStyle>
+                    <Button label="Start"  style={{ fontSize: '20px', alignSelf: 'center' }}
+                                handler={handleStart} />
                 </div>
                 <div style={{margin: "5px"}}>
-                    <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }}
-                                 onClick={handleStop}>
-                        Stop
-                    </ButtonStyle>
+                    <Button label="Stop"  style={{ fontSize: '20px', alignSelf: 'center' }}
+                                 handler={handleStop} />
                 </div>
             </form>
         </div>

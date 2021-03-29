@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ROSLIB from "roslib";
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import StopIcon from '@material-ui/icons/Stop';
-import Button from '@material-ui/core/Button';
+import Button from './common/button/Button'
 import CachedIcon from '@material-ui/icons/Cached';
 import { RosContext } from "../context/rosContext";
 import { useROSService } from '../hooks/useROSService'
@@ -166,26 +166,20 @@ const ImageViewer = () => {
                             </Select>
                         </FormControl>
                         <Button
-                            variant="contained"
-                            color="default"
                             className={classes.button}
-                            startIcon={<CachedIcon />}
-                            onClick={clickUpdate}
+                            label={<CachedIcon />}
+                            handler={clickUpdate}
                         ></Button>
                         <br></br>
                         <Button
-                            variant="contained"
-                            color="default"
                             className={classes.button}
-                            startIcon={<StopIcon />}
-                            onClick={clickStop}
+                            label={<StopIcon />}
+                            handler={clickStop}
                         ></Button>
                         <Button
-                            variant="contained"
-                            color="default"
                             className={classes.button}
-                            startIcon={<PlayCircleFilledIcon />}
-                            onClick={clickPlay}
+                            label={<PlayCircleFilledIcon />}
+                            handler={clickPlay}
                         ></Button>
                         <div style={{ width: "100%", height: "calc(100% - 140px)" }}>
                         {image !== '' ?

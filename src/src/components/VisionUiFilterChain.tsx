@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core';
+import Button from './common/button/Button'
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import { useROSService } from '../hooks/useROSService'
@@ -36,14 +36,6 @@ const useStyles = makeStyles((theme) => ({
         }
     },
 }));
-
-const ButtonStyle = withStyles({
-    contained: {
-        backgroundColor: 'lightgrey',
-        border: '2px solid rgba(0, 0, 0, 1.0)'
-    },
-
-})(Button);
 
 const VisionUIExecutionModule = () => {
 
@@ -185,17 +177,15 @@ const VisionUIExecutionModule = () => {
     return (
         <div>
             <TextField value={filterChainName} autoFocus={fieldHasFocus} onChange={handleFilterChainNameChange} id="visionUi_filterChainName_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px' }}/>
-            <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleAddFilterChain}>Add</ButtonStyle>
-            <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleCloneFilterChain}>Clone</ButtonStyle>
-            <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} onClick={handleDeleteFilterChain}>Delete</ButtonStyle><br></br>
+            <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleAddFilterChain} label="Add" />
+            <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleCloneFilterChain} label="Clone" />
+            <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleDeleteFilterChain} label="Delete" /><br></br>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<CachedIcon />}
-                onClick={handleRefreshFilterChainList}
+                label={<CachedIcon />}
+                handler={handleRefreshFilterChainList}
                 style={{ marginTop: '14px' }}
-            ></Button>
+            />
             <ListFilterChainStyle><FilterChainList className={classes.root} /></ListFilterChainStyle>
         </div>
 

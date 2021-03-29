@@ -5,7 +5,7 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Button } from '@material-ui/core';
+import Button from './common/button/Button'
 import { useROSService } from '../hooks/useROSService'
 import ROSLIB from "roslib";
 import CachedIcon from '@material-ui/icons/Cached';
@@ -37,14 +37,6 @@ const useStyles = makeStyles((theme) => ({
         }
     },
 }));
-
-const ButtonStyle = withStyles({
-    contained: {
-        backgroundColor: 'lightgrey',
-        border: '2px solid rgba(0, 0, 0, 1.0)'
-    },
-
-})(Button);
 
 const VisionUIExecutionTabModule = () => {
 
@@ -201,11 +193,9 @@ const VisionUIExecutionTabModule = () => {
                 </Select>
             </FormControl>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<CachedIcon />}
-                onClick={handleRefreshFilterChainList}
+                label={<CachedIcon />}
+                handler={handleRefreshFilterChainList}
             ></Button>
             <br></br>
             <FormControl variant="filled" className={classes.formControl}>
@@ -224,20 +214,19 @@ const VisionUIExecutionTabModule = () => {
                 </Select>
             </FormControl>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<CachedIcon />}
-                onClick={handleRefreshMediaList}
-            ></Button>
+                label={<CachedIcon />}
+                handler={handleRefreshMediaList}
+            />
             <br></br>
             <div style={{ width: '75%', float: 'left' }} >
                 <TextField disabled={true} value={file} id="file_id" label="File" variant="outlined" fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px' }} />
             </div>
             <input type='file' id='file' ref={inputFile} onChange={fileDialogClicked} style={{ display: 'none' }} />
-            <div style={{ float: 'right' }}><ButtonStyle variant='contained' style={{ fontSize: '20px', marginTop: '22px' }} onClick={handleFileOpen}>...</ButtonStyle></div>
+            <div style={{ float: 'right' }}><Button  style={{ fontSize: '20px', marginTop: '22px' }} handler={handleFileOpen} label="..." />
             <TextField value={topicName} onChange={handleTopicNameChange} id="visionUi_topicname_id" label="Topic Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px' }} />
-            <ButtonStyle variant='contained' style={{ fontSize: '15px', marginTop: '10px', float: 'right' }} onClick={handleCreate}>create</ButtonStyle>
+            <Button style={{ fontSize: '15px', marginTop: '10px', float: 'right' }} handler={handleCreate} label="Create" />
+            </div>
         </div>
     );
 };

@@ -2,19 +2,10 @@ import React, { useCallback,useContext } from 'react';
 import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
 import Button from './common/button/Button';
-import { withStyles } from '@material-ui/core/styles';
 import { useROSService } from '../hooks/useROSService'
 import ROSLIB from "roslib";
 
 const ActuatorModule = () => {
-
-    const ButtonStyle = withStyles({
-        contained: {
-            backgroundColor: 'lightgrey',
-            border: '2px solid rgba(0, 0, 0, 1.0)'
-        },
-
-    })(Button);
 
     // Reponse en retour a l appel du service
     const actuactorServiceCallback = useCallback(

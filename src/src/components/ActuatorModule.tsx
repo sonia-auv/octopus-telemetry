@@ -1,20 +1,11 @@
 import React, { useCallback,useContext } from 'react';
 import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
-import { Button } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import Button from './common/button/Button';
 import { useROSService } from '../hooks/useROSService'
 import ROSLIB from "roslib";
 
 const ActuatorModule = () => {
-
-    const ButtonStyle = withStyles({
-        contained: {
-            backgroundColor: 'lightgrey',
-            border: '2px solid rgba(0, 0, 0, 1.0)'
-        },
-
-    })(Button);
 
     // Reponse en retour a l appel du service
     const actuactorServiceCallback = useCallback(
@@ -68,9 +59,9 @@ const ActuatorModule = () => {
                         value={!context.isRoboticArmClosed}
                         handler={HandleChangeSwitch} />
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>TORPEDO</h1>
-                    <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }} onClick={handleChangeButtonTorpedo}>LAUNCH</ButtonStyle>
+                    <Button  style={{ fontSize: '20px', alignSelf: 'center' }} handler={handleChangeButtonTorpedo} label="Launch" />
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>DROP OBJECT</h1>
-                    <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }} onClick={handleChangeButtonDropObject}>DROP</ButtonStyle>
+                    <Button  style={{ fontSize: '20px', alignSelf: 'center' }} handler={handleChangeButtonDropObject} label="Drop" />
                 </div>
             )}
         </GeneralContext.Consumer>

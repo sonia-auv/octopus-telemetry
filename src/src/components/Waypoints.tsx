@@ -1,7 +1,7 @@
 import { useCallback, useContext, useState } from 'react';
 import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
-import { Button } from '@material-ui/core';
+import Button from './common/button/Button';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { useROSService } from '../hooks/useROSService'
@@ -27,6 +27,7 @@ const Waypoints = () => {
     })(TextField);
 
     const context = useContext(GeneralContext)
+
     //////////////////////////////////////
     // CONTROL MODE
     //////////////////////////////////////
@@ -360,9 +361,9 @@ const Waypoints = () => {
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
-                    <ButtonStyle variant='contained' style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} onClick={handleClearWayPoint}>Clear Waypoint</ButtonStyle>
-                    <ButtonStyle variant='contained' style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetInitialPosition}>Set initial Position</ButtonStyle>
-                    <ButtonStyle variant='contained' style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetDepthOffset}>Set depth Offset</ButtonStyle>
+                    <Button style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} handler={handleClearWayPoint} label="Clear Waypoint" />
+                    <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={handleSetInitialPosition} label="Set initial position" />
+                    <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={handleSetDepthOffset} label="Set depth offset" />
                     <Switch onLabel="Velocity"
                         offLabel="Position"
                         vertical={false}

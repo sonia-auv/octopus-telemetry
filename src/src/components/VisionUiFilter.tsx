@@ -5,7 +5,7 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Button } from '@material-ui/core';
+import Button from './common/button/Button'
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -617,18 +617,14 @@ const VisionUIFilterModule = () => {
                 </Select>
             </FormControl>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<CachedIcon />}
-                onClick={handleRefreshExecutionList}
+                label={<CachedIcon />}
+                handler={handleRefreshExecutionList}
             ></Button>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<DeleteIcon />}
-                onClick={handleClickDeleteExecution}
+                label={<DeleteIcon />}
+                handler={handleClickDeleteExecution}
             ></Button>
             <br></br>
             <FormControl variant="filled" className={classes.formControl}>
@@ -647,55 +643,41 @@ const VisionUIFilterModule = () => {
                 </Select>
             </FormControl>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<CachedIcon />}
-                onClick={handleRefreshFilterList}
+                label={<CachedIcon />}
+                handler={handleRefreshFilterList}
             ></Button>
             <br></br>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<AddCircleOutlineIcon />}
-                onClick={handleClickAdd}
+                label={<AddCircleOutlineIcon />}
+                handler={handleClickAdd}
             ></Button>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<ArrowDropUpIcon />}
-                onClick={handleClickUp}
+                label={<ArrowDropUpIcon />}
+                handler={handleClickUp}
             ></Button>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<ArrowDropDownIcon />}
-                onClick={handleClickDown}
+                label={<ArrowDropDownIcon />}
+                handler={handleClickDown}
             ></Button>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<DeleteIcon />}
-                onClick={handleClickDelete}
+                label={<DeleteIcon />}
+                handler={handleClickDelete}
             ></Button>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<SaveIcon />}
-                onClick={handleClickSave}
+                label={<SaveIcon />}
+                handler={handleClickSave}
             ></Button>
             <Button
-                variant="contained"
-                color="default"
                 className={classes.button}
-                startIcon={<RestoreIcon />}
-                onClick={handleClickRestore}
-            ></Button><br></br>
+                label={<RestoreIcon />}
+                handler={handleClickRestore}
+            />
             <ListFilterStyle><FilterList className={classes.root} /></ListFilterStyle><br></br>
             <ListSettingsStyle><SettingsList className={classes.root} /></ListSettingsStyle>
         </div>

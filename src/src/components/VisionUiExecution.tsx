@@ -1,13 +1,12 @@
 import { useState, useCallback, useRef } from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from './common/button/Button'
-import { useROSService } from '../hooks/useROSService'
-import ROSLIB from "roslib";
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 import CachedIcon from '@material-ui/icons/Cached';
 
 const useStyles = makeStyles((theme) => ({
@@ -107,7 +106,7 @@ const VisionUIExecutionTabModule = () => {
             if (media === '' && file !== '') {
                 media = file
 
-                var request = new ROSLIB.ServiceRequest({ camera_name: media, action: 1 });
+                var request = ServiceRequestFactory({ camera_name: media, action: 1 });
                 startMediaCmdServiceCall(request)
                 media = '/provider_vision' + media.replace('.', '')
 
@@ -118,7 +117,7 @@ const VisionUIExecutionTabModule = () => {
             }
 
             if (media !== '' && filterChainSelected !== '') {
-                var request2 = new ROSLIB.ServiceRequest({ node_name: name, filterchain_name: filterChainSelected, media_name: media, cmd: 1 });
+                var request2 = ServiceRequestFactory({ node_name: name, filterchain_name: filterChainSelected, media_name: media, cmd: 1 });
                 executeCmdServiceCall(request2)
             }
         }
@@ -145,7 +144,7 @@ const VisionUIExecutionTabModule = () => {
     const getFilterChainlistServiceCall = useROSService<any>(getFilterChainlistServiceCallback, "/proc_image_processing/get_information_list", "sonia_common/GetInformationList")
 
     const handleRefreshFilterChainList = () => {
-        var request = new ROSLIB.ServiceRequest({ cmd: 3 });
+        var request = ServiceRequestFactory({ cmd: 3 });
         getFilterChainlistServiceCall(request)
     }
 
@@ -170,7 +169,7 @@ const VisionUIExecutionTabModule = () => {
     const getMedialistServiceCall = useROSService<any>(getMedialistServiceCallback, "/proc_image_processing/get_information_list", "sonia_common/GetInformationList")
 
     const handleRefreshMediaList = () => {
-        var request = new ROSLIB.ServiceRequest({ cmd: 2 });
+        var request = ServiceRequestFactory({ cmd: 2 });
         getMedialistServiceCall(request)
     }
 

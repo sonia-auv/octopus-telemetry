@@ -2,9 +2,8 @@ import React from "react";
 import Slider from "@material-ui/core/Slider";
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { useROSTopicPublisher } from '../hooks/useROSTopicPublisher'
+import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublisher'
 import RedButtonImg from './image/redButton.png';
-import ROSLIB from "roslib";
 
 const marks = [
     {
@@ -233,7 +232,7 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
 
         // TODO: FORMATAGE DES DONNES PAS CERTAIN DU FORMAT
         var msg = JSON.stringify({ ID:identification, effort:newValue})
-        var toPublish = new ROSLIB.Message({
+        var toPublish = MessageFactory({
             data: msg
         })
         thrusterEffortPublisher(toPublish)

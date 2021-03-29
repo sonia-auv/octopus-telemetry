@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import ROSLIB from "roslib";
+import ROSLIB, { Topic } from "roslib";
 import { RosContext } from "../context/rosContext";
 
 export const useROSService = <F>(
@@ -26,3 +26,7 @@ export const useROSService = <F>(
         }
     }
 };
+
+export function ServiceRequestFactory(x: any):ROSLIB.ServiceRequest { return new ROSLIB.ServiceRequest(x) };
+export function TopicFactory(x: any):ROSLIB.Topic { return new ROSLIB.Topic(x) };
+export type { Topic };

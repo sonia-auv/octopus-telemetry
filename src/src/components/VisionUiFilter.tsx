@@ -16,8 +16,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import RestoreIcon from '@material-ui/icons/Restore';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { useROSService } from '../hooks/useROSService'
-import ROSLIB from "roslib";
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 import CachedIcon from '@material-ui/icons/Cached';
 import { Tooltip } from '@material-ui/core';
 import * as CommonVisionUIStyle from './VisionUiCommon';
@@ -103,7 +102,7 @@ const VisionUIFilterModule = () => {
     useEffect(() => {
 
         // Get all filter for this execution
-        var request = new ROSLIB.ServiceRequest({ exec_name: executionSelectedRef.current, filterchain: executionFilterChain });
+        var request = ServiceRequestFactory({ exec_name: executionSelectedRef.current, filterchain: executionFilterChain });
         getExecutionFilterChainListServiceCall(request)
 
     }, [executionFilterChain]);
@@ -137,11 +136,11 @@ const VisionUIFilterModule = () => {
         executionSelectedRef.current = x.target.value
 
         //Get media from execution
-        var request = new ROSLIB.ServiceRequest({ exec_name: x.target.value });
+        var request = ServiceRequestFactory({ exec_name: x.target.value });
         getMediaFromExecutionServiceCall(request)
 
         // Get filter chain from execution
-        var request2 = new ROSLIB.ServiceRequest({ exec_name: x.target.value });
+        var request2 = ServiceRequestFactory({ exec_name: x.target.value });
         getFilterChainFromExecutionServiceCall(request2)
 
     }
@@ -165,7 +164,7 @@ const VisionUIFilterModule = () => {
 
     const handleRefreshExecutionList = (x: any) => {
 
-        var request = new ROSLIB.ServiceRequest({ cmd: 1 });
+        var request = ServiceRequestFactory({ cmd: 1 });
         fillExecutionListServiceCall(request)
     }
 
@@ -183,7 +182,7 @@ const VisionUIFilterModule = () => {
 
         if (executionSelected !== '' && executionMedia !== '' && executionFilterChain !== '') {
 
-            var request = new ROSLIB.ServiceRequest({ node_name: executionSelected, filterchain_name: executionFilterChain, media_name: executionMedia, cmd: 2 });
+            var request = ServiceRequestFactory({ node_name: executionSelected, filterchain_name: executionFilterChain, media_name: executionMedia, cmd: 2 });
             deleteExecutionServiceCall(request)
 
             setExecutionMedia('')
@@ -192,7 +191,7 @@ const VisionUIFilterModule = () => {
 
             // Refresh execution list after delete
             setTimeout(() => {
-                var request = new ROSLIB.ServiceRequest({ cmd: 1 });
+                var request = ServiceRequestFactory({ cmd: 1 });
                 fillExecutionListServiceCall(request)
             }, 500)
 
@@ -220,7 +219,7 @@ const VisionUIFilterModule = () => {
 
     const handleRefreshFilterList = () => {
 
-        var request = new ROSLIB.ServiceRequest({ cmd: 4 });
+        var request = ServiceRequestFactory({ cmd: 4 });
         getAllFilterChainListServiceCall(request)
 
     }
@@ -242,12 +241,12 @@ const VisionUIFilterModule = () => {
 
         if (executionSelected !== '' && executionFilterChain !== '' && filterSelected !== '') {
 
-            var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: filterSelected, cmd: 1 });
+            var request = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain, filter: filterSelected, cmd: 1 });
             addDeleteFilterServiceCall(request)
 
             setTimeout(() => {
                 //Update filter list
-                var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                var request2 = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain });
                 getExecutionFilterChainListServiceCall(request2)
             }, 500)
 
@@ -261,12 +260,12 @@ const VisionUIFilterModule = () => {
 
         if (executionSelected !== '' && executionFilterChain !== '' && executionFilterSelected !== '') {
 
-            var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, cmd: 2 });
+            var request = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, cmd: 2 });
             addDeleteFilterServiceCall(request)
 
             setTimeout(() => {
                 //Update filter list
-                var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                var request2 = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain });
                 getExecutionFilterChainListServiceCall(request2)
             }, 500)
 
@@ -287,7 +286,7 @@ const VisionUIFilterModule = () => {
 
         if (executionSelected !== '' && executionFilterChain !== '') {
 
-            var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, cmd: 1 });
+            var request = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain, cmd: 1 });
             saveFilterServiceCall(request)
         }
 
@@ -299,12 +298,12 @@ const VisionUIFilterModule = () => {
 
         if (executionSelected !== '' && executionFilterChain !== '') {
 
-            var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, cmd: 2 });
+            var request = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain, cmd: 2 });
             saveFilterServiceCall(request)
 
             setTimeout(() => {
                 //Update filter list
-                var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                var request2 = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain });
                 getExecutionFilterChainListServiceCall(request2)
             }, 500)
 
@@ -338,12 +337,12 @@ const VisionUIFilterModule = () => {
 
                 setExecutionFilterAutoSelect(index - 1)
 
-                var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 1 });
+                var request = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 1 });
                 orderFilterServiceCall(request)
 
                 setTimeout(() => {
                     //Update filter list
-                    var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                    var request2 = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain });
                     getExecutionFilterChainListServiceCall(request2)
                 }, 500)
 
@@ -370,12 +369,12 @@ const VisionUIFilterModule = () => {
 
                 setExecutionFilterAutoSelect(index + 1)
 
-                var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 2 });
+                var request = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain, filter_index: index, cmd: 2 });
                 orderFilterServiceCall(request)
 
                 setTimeout(() => {
                     //Update filter list
-                    var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain });
+                    var request2 = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain });
                     getExecutionFilterChainListServiceCall(request2)
                 }, 500)
 
@@ -444,12 +443,12 @@ const VisionUIFilterModule = () => {
         setExecutionFilterSelected(value);
 
         // When selection changed send information about what filter currently observed and get parameters for this filter
-        var request = new ROSLIB.ServiceRequest({ execution: executionSelected, filterchain: executionFilterChain, filter: value });
+        var request = ServiceRequestFactory({ execution: executionSelected, filterchain: executionFilterChain, filter: value });
         filterChainFilterObserverServiceCall(request)
 
         setTimeout(() => {
             // and get parameters for this filter
-            var request2 = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: value });
+            var request2 = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain, filter: value });
             filterChainFilterAllParamServiceCall(request2)
         }, 500)
 
@@ -539,7 +538,7 @@ const VisionUIFilterModule = () => {
                     if (item['type'] === "Double")
                         newValue = "" + parseFloat(newValue)
 
-                    var request = new ROSLIB.ServiceRequest({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, parameter: item['paramName'], value: newValue });
+                    var request = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain, filter: executionFilterSelected, parameter: item['paramName'], value: newValue });
                     changeParameterServiceCall(request)
 
                 }

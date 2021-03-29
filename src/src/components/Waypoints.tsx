@@ -3,9 +3,7 @@ import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
 import Button from './common/button/Button';
 import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core/styles';
-import { useROSService } from '../hooks/useROSService'
-import ROSLIB from "roslib";
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
 
 const Waypoints = () => {
@@ -30,7 +28,7 @@ const Waypoints = () => {
         if (context.isWayPointVelocityMode)
             mode = 2
 
-        var request = new ROSLIB.ServiceRequest({
+        var request = ServiceRequestFactory({
             mode: mode,
         });
         controlModeServiceCall(request)
@@ -51,7 +49,7 @@ const Waypoints = () => {
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleClearWayPoint = () => {
 
-        var request = new ROSLIB.ServiceRequest({
+        var request = ServiceRequestFactory({
         });
         clearWayPointServiceCall(request)
     }
@@ -71,7 +69,7 @@ const Waypoints = () => {
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleSetInitialPosition = () => {
 
-        var request = new ROSLIB.ServiceRequest({
+        var request = ServiceRequestFactory({
         });
         setInitialPositionServiceCall(request)
 
@@ -95,7 +93,7 @@ const Waypoints = () => {
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleSetDepthOffset = (value: any) => {
 
-        var request = new ROSLIB.ServiceRequest({
+        var request = ServiceRequestFactory({
         });
         setDepthOffsetServiceCall(request)
 
@@ -251,7 +249,7 @@ const Waypoints = () => {
             }
 
             // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
-            var request = new ROSLIB.ServiceRequest({
+            var request = ServiceRequestFactory({
                 X: finalX,
                 Y: finalY,
                 Z: finalZ,

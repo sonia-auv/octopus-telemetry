@@ -27,9 +27,7 @@ const MenuModule = (props: any) => {
         <GeneralContext.Consumer>
             {context => context &&(
         <div>
-            <Button onClick={handleClick}>
-                <MenuIcon/>
-            </Button>
+            <Button label={<MenuIcon />} handler={handleClick} />
             <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}

@@ -7,6 +7,7 @@ import ImageViewer from "./components/ImageViewer";
 import Pfd from "./components/Pfd";
 import TestBoardModule from "./components/TestBoardModule";
 import Waypoints from "./components/Waypoints";
+import VisionUI from "./components/VisionUi";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext} from "./context/generalContext";
 import { ThemeProvider } from 'styled-components';
@@ -91,7 +92,7 @@ export const App = () => {
                                 width={2800}
                                 verticalCompact={false}
                                 onLayoutChange={(e) => onLayoutChange(e)}
-                                draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch"}>
+                                draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch, .MuiSelect-root, .MuiFormControl-root, .MuiTypography-root, .MuiInputBase-root, .MuiList-root"}>
                         <div key="thrusters"
                              data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
                              style={{ display: 'flex' }}>
@@ -193,6 +194,11 @@ export const App = () => {
                              data-grid={{ x: 0, y: 17, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' }}>
                             <ImageViewer />
+                        </div>
+                        <div key="visionUi"
+                            data-grid={{ x: 0, y: 27, w: 11, h: 11, minW: 11, maxW: 30, minH: 11, maxH: 30 }}
+                            style={{ display: 'flex' }}>
+                            <VisionUI />
                         </div>
                     </GridLayout>
                 </ThemeProvider>

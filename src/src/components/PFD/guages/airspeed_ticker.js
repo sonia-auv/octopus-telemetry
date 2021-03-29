@@ -66,7 +66,6 @@ export function AirspeedTicker(ctx, location, data)
 
   		var ones = airspeed*10-Math.trunc(airspeed)*10;
   		var tens = Math.trunc(airspeed); 
-  		var hundreds = airspeed / 100;
 
 	  	// Draw tens digit place
   		var loc = {}
@@ -80,12 +79,7 @@ export function AirspeedTicker(ctx, location, data)
   		// Draw tens digit place
   		loc.x -= (1 / 3 * boxWidth) + 15;
   		elements.drawTickerDigit(this.ctx, onesList, tens, 1.0, 0, loc, 42);
-
-  		// Draw hundreds digit place
-  		//onesList[0] = "";
-  		//loc.x -= (1 / 3 * boxWidth);
-  		//elements.drawTickerDigit(this.ctx, onesList, hundreds, 0.01, 20, loc, 42);
-
+		  
 		ctx.lineWidth = 2;
 		ctx.beginPath();
 		ctx.moveTo(x+61, y+52);

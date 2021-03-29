@@ -18,8 +18,6 @@ const Waypoints = () => {
 
     })(Button);
 
-    const context = useContext(GeneralContext)
-
     //////////////////////////////////////
     // CONTROL MODE
     //////////////////////////////////////
@@ -31,7 +29,7 @@ const Waypoints = () => {
     )
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
-    const HandleChangeSwitch = (value: any) => {
+    const HandleChangeSwitch = () => {
 
         context.setIsWayPointVelocityMode(!context.isWayPointVelocityMode)
         var mode
@@ -41,7 +39,7 @@ const Waypoints = () => {
             mode = 2
 
         var request = new ROSLIB.ServiceRequest({
-            MODE: mode,
+            mode: mode,
         });
         controlModeServiceCall(request)
     }
@@ -59,7 +57,7 @@ const Waypoints = () => {
     )
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
-    const handleClearWayPoint = (value: any) => {
+    const handleClearWayPoint = () => {
 
         var request = new ROSLIB.ServiceRequest({
         });
@@ -79,7 +77,7 @@ const Waypoints = () => {
     )
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
-    const handleSetInitialPosition = (value: any) => {
+    const handleSetInitialPosition = () => {
 
         var request = new ROSLIB.ServiceRequest({
         });
@@ -278,13 +276,16 @@ const Waypoints = () => {
     // CONTROL MODE FEEDBACK
     /////////////////////////////////////
 
+    const context = useContext(GeneralContext)
+
     const controlModeCallback = useCallback(
+        
         (x: any) => {
 
-            if (x.data == 0)
+            if (x.data === 0)
                 context.setIsWayPointVelocityMode(false)
 
-            if (x.data == 2)
+            if (x.data === 2)
                 context.setIsWayPointVelocityMode(true)
 
         }, []

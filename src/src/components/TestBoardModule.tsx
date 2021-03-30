@@ -4,9 +4,25 @@ import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox'
 import {useROSTopicPublisher} from "../hooks/useROSTopicPublisher";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import {withStyles} from "@material-ui/core";
 
 const TestBoardModule = () => {
+
+
+    const ButtonStyle = withStyles({
+        contained: {
+            backgroundColor: 'lightgrey',
+            border: '2px solid rgba(0, 0, 0, 1.0)'
+        },
+
+    })(Button);
+
+    const CssTextField = withStyles({
+        root: {
+            color: 'white',
+            backgroundColor: 'white',
+        }
+    })(TextField);
 
     const [slave, setSlave] = React.useState("")
     const [cmd, setCmd] = React.useState("")
@@ -40,22 +56,25 @@ const TestBoardModule = () => {
     const handleSingleCheck = () => {
         setIsSingleSend(!isSingleSend)
     }
+
+
     return (
         <div>
             <h1>Test board</h1>
             <form>
                 <div>
-                    <TextField id="outlined-basic-01"
+                    <CssTextField id="outlined-basic"
                                label="Slave"
                                variant="outlined"
                                name="slave"
                                type="number"
                                value={slave}
-                               style={{margin: '5px'}}
+                               style={{margin: '5px', color: 'red'}}
+                               color="secondary"
                                onChange={(event)=>setSlave(event.target.value)}/>
                 </div>
                 <div>
-                    <TextField id="outlined-basic-02"
+                    <CssTextField id="outlined-basic"
                                label="Cmd"
                                variant="outlined"
                                name="cmd"
@@ -64,7 +83,7 @@ const TestBoardModule = () => {
                                onChange={(event)=>setCmd(event.target.value)} />
                 </div>
                 <div>
-                    <TextField id="outlined-basic-03"
+                    <CssTextField id="outlined-basic"
                                label="Data"
                                variant="outlined"
                                name="data"
@@ -73,7 +92,8 @@ const TestBoardModule = () => {
                                onChange={(event)=>setData(event.target.value)} />
                 </div>
                 <div>
-                    <TextField id="outlined-basic-04"
+                    <CssTextField id="outlined-basic"
+
                                label="Rate"
                                variant="outlined"
                                name="rate"

@@ -8,6 +8,24 @@ import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
 
 const Waypoints = () => {
 
+    const ButtonStyle = withStyles({
+        contained: {
+            backgroundColor: 'lightgrey',
+            border: '2px solid rgba(0, 0, 0, 1.0)'
+        },
+
+    })(Button);
+
+
+    const CssTextField = withStyles({
+        root: {
+            color: 'white',
+            backgroundColor: 'white',
+        }
+    })(TextField);
+
+    const context = useContext(GeneralContext)
+
     //////////////////////////////////////
     // CONTROL MODE
     //////////////////////////////////////
@@ -266,8 +284,6 @@ const Waypoints = () => {
     // CONTROL MODE FEEDBACK
     /////////////////////////////////////
 
-    const context = useContext(GeneralContext)
-
     const controlModeCallback = useCallback(
         
         (x: any) => {
@@ -352,14 +368,14 @@ const Waypoints = () => {
                         value={!context.isWayPointVelocityMode}
                         handler={HandleChangeSwitch} />
                     <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'left' }}>Command<br></br>
-                        <TextField value={cmdX} onChange={handleCmdXChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdx_id" label="X" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdY} onChange={handleCmdYChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdy_id" label="Y" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdZ} onChange={handleCmdZChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdz_id" label="Z" variant="outlined" style={{ padding: '10px 10px' }} />
+                        <CssTextField value={cmdX} onChange={handleCmdXChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdx_id" label="X" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
+                        <CssTextField value={cmdY} onChange={handleCmdYChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdy_id" label="Y" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
+                        <CssTextField value={cmdZ} onChange={handleCmdZChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdz_id" label="Z" variant="outlined" style={{ padding: '10px 10px' }} />
                     </div>
                     <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'right' }}>Command<br></br>
-                        <TextField value={cmdRoll} onChange={handleCmdRollChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdroll_id" label="Roll" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdPitch} onChange={handleCmdPitchChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdpitch_id" label="Pitch" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdYaw} onChange={handleCmdYawChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdyaw_id" label="Yaw" variant="outlined" style={{ padding: '10px 10px' }} />
+                        <CssTextField value={cmdRoll} onChange={handleCmdRollChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdroll_id" label="Roll" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
+                        <CssTextField value={cmdPitch} onChange={handleCmdPitchChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdpitch_id" label="Pitch" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
+                        <CssTextField value={cmdYaw} onChange={handleCmdYawChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdyaw_id" label="Yaw" variant="outlined" style={{ padding: '10px 10px' }} />
                     </div>
                 </div>
             )}

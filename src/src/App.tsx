@@ -17,7 +17,7 @@ import ToolbarModule from "./components/ToolbarModule";
 
 
 export const App = () => {
-    const [theme, setTheme] = useState('dark');
+    const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string ) ? 'dark': 'light');
     const [thruster1, setThruster1] = useState(0)
     const [thruster2, setThruster2] = useState(0)
     const [thruster3, setThruster3] = useState(0)
@@ -73,6 +73,7 @@ export const App = () => {
     useROSTopicSubscriber<any>(thrusterEffortCallback, "/provider_thruster/effort", "sonia_common/ThrusterEffort")
 
     const style = { height: 'calc(100% - 55px)' };
+    const [isDarkMode, setIsDarkMode] = React.useState(theme === 'dark')
     const [isDryRunMode, setIsDryRunMode] = React.useState(false);
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
     const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
@@ -81,8 +82,9 @@ export const App = () => {
     return (
 
         <div className="margin-top" style={style} >
-            <GeneralContext.Provider value={{ isDryRunMode, setIsDryRunMode, isRelativeUnits, setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode }}>
-                <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+            <GeneralContext.Provider value={{ isDarkMode, setIsDarkMode, isDryRunMode, setIsDryRunMode, isRelativeUnits,
+                setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode }}>
+                <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
                     <GlobalStyles />
                     <ToolbarModule />
                     <GridLayout className="layout"

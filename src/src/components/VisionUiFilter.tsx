@@ -609,7 +609,8 @@ const VisionUIFilterModule = () => {
                     id="sexecution-outlined"
                     onChange={handleChangeExecution}
                     label="Execution"
-                    value={executionSelected ? executionSelected : "None"}>
+                    value={executionSelected ? executionSelected : "None"}
+                style={{backgroundColor: 'white'}}>
                     <MenuItem id={"executionNone"} value={"None"}>None</MenuItem>
                     {executionList.map((value, index) => {
                         return <MenuItem id={"execution" + value['value']} value={value['value']}>{value['value']}</MenuItem>
@@ -635,7 +636,8 @@ const VisionUIFilterModule = () => {
                     id="selectFilter-outlined"
                     onChange={handleChangeFilter}
                     label="Filter"
-                    value={filterSelected ? filterSelected : "None"}>
+                    value={filterSelected ? filterSelected : "None"}
+                    style={{backgroundColor: 'white'}}>
                     <MenuItem id={"selectFilterNone"} value={"None"}>None</MenuItem>
                     {filterList.map((value, index) => {
                         return <MenuItem id={"selectFilter" + value['value']} value={value['value']}>{value['value']}</MenuItem>

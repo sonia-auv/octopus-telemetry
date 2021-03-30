@@ -175,7 +175,7 @@ const VisionUIExecutionTabModule = () => {
 
     return (
         <div>
-            <TextField value={name} onChange={handleNameChange} id="visionUi_name_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px' }} />
+            <TextField value={name} onChange={handleNameChange} id="visionUi_name_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white'}} />
             <FormControl variant="filled" className={classes.formControl}>
                 <InputLabel id="selectFilterChain-outlined-label">Filterchain</InputLabel>
                 <Select
@@ -184,7 +184,8 @@ const VisionUIExecutionTabModule = () => {
                     id="selectFilterChain-outlined"
                     onChange={handleChangeFilterChain}
                     label="Filter chain"
-                    value={filterChainSelected ? filterChainSelected : "None"}>
+                    value={filterChainSelected ? filterChainSelected : "None"}
+                    style={{backgroundColor: 'white'}}>
                     <MenuItem id={"selectFilterChainNone"} value={"None"}>None</MenuItem>
                     {filterChainList.map((value) => {
                         return <MenuItem id={"selectFilterChain" + value["value"]} value={value["value"]}>{value["value"]}</MenuItem>
@@ -205,7 +206,8 @@ const VisionUIExecutionTabModule = () => {
                     id="selectMedia-outlined"
                     onChange={handleChangeMedia}
                     label="Media"
-                    value={mediaSelected ? mediaSelected : "None"}>
+                    value={mediaSelected ? mediaSelected : "None"}
+                    style={{backgroundColor: 'white'}}>
                     <MenuItem id={"selectMediaNone"} value={"None"}>None</MenuItem>
                     {mediaList.map((value) => {
                         return <MenuItem id={"selectMedia" + value["value"]} value={value["value"]}>{value["value"]}</MenuItem>
@@ -219,11 +221,13 @@ const VisionUIExecutionTabModule = () => {
             />
             <br></br>
             <div style={{ width: '75%', float: 'left' }} >
-                <TextField disabled={true} value={file} id="file_id" label="File" variant="outlined" fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px' }} />
+                <TextField disabled={true} value={file} id="file_id" label="File" variant="outlined"
+                           fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' }} />
             </div>
             <input type='file' id='file' ref={inputFile} onChange={fileDialogClicked} style={{ display: 'none' }} />
             <div style={{ float: 'right' }}><Button  style={{ fontSize: '20px', marginTop: '22px' }} handler={handleFileOpen} label="..." />
-            <TextField value={topicName} onChange={handleTopicNameChange} id="visionUi_topicname_id" label="Topic Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px' }} />
+            <TextField value={topicName} onChange={handleTopicNameChange} id="visionUi_topicname_id" label="Topic Name"
+                       variant="outlined" fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' }} />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'right' }} handler={handleCreate} label="Create" />
             </div>
         </div>

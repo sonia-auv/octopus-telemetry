@@ -4,8 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from './common/button/Button'
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
-import { useROSService } from '../hooks/useROSService'
-import ROSLIB from "roslib";
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 import CachedIcon from '@material-ui/icons/Cached';
 import * as CommonVisionUIStyle from './VisionUiCommon';
 
@@ -64,7 +63,7 @@ const VisionUIExecutionModule = () => {
     )
 
     const handleRefreshFilterChainList = () => {
-        var request = new ROSLIB.ServiceRequest({ cmd: 3 });
+        var request = ServiceRequestFactory({ cmd: 3 });
         getFilterChainlistServiceCall(request)
     }
 
@@ -93,12 +92,12 @@ const VisionUIExecutionModule = () => {
 
         if (filterChainName !== '') {
 
-            var request = new ROSLIB.ServiceRequest({ filterchain: filterChainName, cmd: 1 });
+            var request = ServiceRequestFactory({ filterchain: filterChainName, cmd: 1 });
             addFilterChainServiceCall(request)
 
             setTimeout(() => {
                 //Refresh filter chain list
-                var request2 = new ROSLIB.ServiceRequest({ cmd: 3 });
+                var request2 = ServiceRequestFactory({ cmd: 3 });
                 getFilterChainlistServiceCall(request2)
             }, 500)
         }
@@ -120,12 +119,12 @@ const VisionUIExecutionModule = () => {
 
         if (filterChainSelectedTab !== '' && filterChainName !== '') {
 
-            var request = new ROSLIB.ServiceRequest({ filterchain_to_copy: filterChainSelectedTab, filterchain_new_name: 'filterchain/' + filterChainName });
+            var request = ServiceRequestFactory({ filterchain_to_copy: filterChainSelectedTab, filterchain_new_name: 'filterchain/' + filterChainName });
             copyFilterChainServiceCall(request)
 
             setTimeout(() => {
                 //Refresh filter chain list
-                var request2 = new ROSLIB.ServiceRequest({ cmd: 3 });
+                var request2 = ServiceRequestFactory({ cmd: 3 });
                 getFilterChainlistServiceCall(request2)
             }, 500)
         }
@@ -142,12 +141,12 @@ const VisionUIExecutionModule = () => {
 
         if (filterChainSelectedTab !== '') {
 
-            var request = new ROSLIB.ServiceRequest({ filterchain: 'filterchain/' + filterChainSelectedTab, cmd: 2 });
+            var request = ServiceRequestFactory({ filterchain: 'filterchain/' + filterChainSelectedTab, cmd: 2 });
             deleteFilterChainServiceCall(request)
 
             setTimeout(() => {
                 //Refresh filter chain list
-                var request2 = new ROSLIB.ServiceRequest({ cmd: 3 });
+                var request2 = ServiceRequestFactory({ cmd: 3 });
                 getFilterChainlistServiceCall(request2)
             }, 500)
         }

@@ -1,17 +1,16 @@
-import React, { useCallback, useContext, useState, useRef } from 'react';
+import { useCallback, useContext, useState, useRef } from 'react';
 import { GeneralContext } from "../context/generalContext";
 import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import ROSLIB from "roslib";
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import StopIcon from '@material-ui/icons/Stop';
 import Button from './common/button/Button'
 import CachedIcon from '@material-ui/icons/Cached';
 import { RosContext } from "../context/rosContext";
-import { useROSService } from '../hooks/useROSService'
+import { useROSService, ServiceRequestFactory, Topic, TopicFactory } from '../hooks/useROSService'
 import jpeg from 'jpeg-js'
 
 const ImageViewer = () => {
@@ -61,9 +60,9 @@ const ImageViewer = () => {
         },
     }));
 
-    const [topic, setTopic] = useState<ROSLIB.Topic | null>(null);
+    const [topic, setTopic] = useState<Topic | null>(null);
     const [listTopic, setListTopic] = useState<[]>([]);
-    const topicRef = useRef<ROSLIB.Topic | null>(null);
+    const topicRef = useRef<Topic | null>(null);
     const [image, setImage] = useState('')
 
     const imageCallback = useCallback(
@@ -95,7 +94,7 @@ const ImageViewer = () => {
             listTopic.forEach((value) => {
                 if (value["value"] === x.target.value) {
                     const type = value["type"]
-                    const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: type })
+                    const newtopic = TopicFactory({ ros: ros, name: x.target.value, messageType: type })
                     setTopic(newtopic)
                     topicRef.current = newtopic;
                     if (newtopic) {
@@ -138,7 +137,7 @@ const ImageViewer = () => {
     const topicServiceCall = useROSService<any>(serviceCallback, "/rosapi/topics/", "rosapi/Topics")
 
     const clickUpdate = () => {
-        var request = new ROSLIB.ServiceRequest({});
+        var request = ServiceRequestFactory({});
         topicServiceCall(request)
     }
 

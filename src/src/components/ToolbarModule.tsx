@@ -4,9 +4,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from './common/button/Button';
 import MenuModule from './MenuModule';
 import IconButton from '@material-ui/core/IconButton';
-import { useROSService } from '../hooks/useROSService';
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService';
 import BatterieLevelIndicator from './BatteryLevelIndicatorModule';
-import ROSLIB from 'roslib';
 import LabelAndValueModule from './LabelAndValueModule';
 import { useROSTopicSubscriber } from '../hooks/useROSTopicSubscriber';
 
@@ -91,7 +90,7 @@ const ToolbarModule = () => {
   );
 
   let handleAllAxisClicked = () => {
-    const request = new ROSLIB.ServiceRequest({
+    const request = ServiceRequestFactory({
       X: 1,
       Y: 1,
       Z: 1,
@@ -103,7 +102,7 @@ const ToolbarModule = () => {
   };
 
   let handleXYAxisClicked = () => {
-    const request = new ROSLIB.ServiceRequest({
+    const request = ServiceRequestFactory({
       X: 1,
       Y: 1,
       Z: -1,
@@ -115,7 +114,7 @@ const ToolbarModule = () => {
   };
 
   let handleDepthAxisClicked = () => {
-    const request = new ROSLIB.ServiceRequest({
+    const request = ServiceRequestFactory({
       X: -1,
       Y: -1,
       Z: 1,
@@ -127,7 +126,7 @@ const ToolbarModule = () => {
   };
 
   let handleRollAxisClicked = () => {
-    const request = new ROSLIB.ServiceRequest({
+    const request = ServiceRequestFactory({
       X: -1,
       Y: -1,
       Z: -1,
@@ -139,7 +138,7 @@ const ToolbarModule = () => {
   };
 
   let handleYawAxisClicked = () => {
-    const request = new ROSLIB.ServiceRequest({
+    const request = ServiceRequestFactory({
       X: -1,
       Y: -1,
       Z: -1,
@@ -151,7 +150,7 @@ const ToolbarModule = () => {
   };
 
   let handlePitchAxisClicked = () => {
-    const request = new ROSLIB.ServiceRequest({
+    const request = ServiceRequestFactory({
       X: -1,
       Y: -1,
       Z: -1,
@@ -163,7 +162,7 @@ const ToolbarModule = () => {
   };
 
   let handleStartFrontCameraClicked = () => {
-    const request = new ROSLIB.ServiceRequest({
+    const request = ServiceRequestFactory({
       Bottom_GigE: 2,
       Front_GigE: 1,
     });
@@ -171,7 +170,7 @@ const ToolbarModule = () => {
   };
 
   let handleStartBottomCameraClicked = () => {
-    const request = new ROSLIB.ServiceRequest({
+    const request = ServiceRequestFactory({
       Bottom_GigE: 1,
       Front_GigE: 2,
     });

@@ -1,7 +1,7 @@
 import { useCallback, useContext, useState, useRef } from 'react';
 import { GeneralContext } from "../context/generalContext";
 import { makeStyles } from '@material-ui/core/styles';
-import Select from '@material-ui/core/Select';
+import Select from './common/select/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -154,7 +154,7 @@ const ImageViewer = () => {
                             <Select
                                 labelId="select-outlined-label"
                                 id="select-outlined"
-                                onChange={handleChange}
+                                handlerChange={handleChange}
                                 label="Topic"
                                 value={topic?.name ? topic.name : "None"}
                                 style={{backgroundColor: 'white'}}

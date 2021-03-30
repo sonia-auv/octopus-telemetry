@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from './common/textfield/Textfield';
-import Select from '@material-ui/core/Select';
+import Select from './common/select/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -606,7 +606,7 @@ const VisionUIFilterModule = () => {
                     labelId="execution-outlined-label"
                     fullWidth={true}
                     id="sexecution-outlined"
-                    onChange={handleChangeExecution}
+                    handlerChange={handleChangeExecution}
                     label="Execution"
                     value={executionSelected ? executionSelected : "None"}
                 style={{backgroundColor: 'white'}}>
@@ -633,7 +633,7 @@ const VisionUIFilterModule = () => {
                     labelId="selectFilter-outlined-label"
                     fullWidth={true}
                     id="selectFilter-outlined"
-                    onChange={handleChangeFilter}
+                    handlerChange={handleChangeFilter}
                     label="Filter"
                     value={filterSelected ? filterSelected : "None"}
                     style={{backgroundColor: 'white'}}>

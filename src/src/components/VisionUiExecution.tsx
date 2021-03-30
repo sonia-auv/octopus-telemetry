@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from './common/textfield/Textfield';
-import Select from '@material-ui/core/Select';
+import Select from './common/select/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -182,7 +182,7 @@ const VisionUIExecutionTabModule = () => {
                     labelId="selectFilterChain-outlined-label"
                     fullWidth={true}
                     id="selectFilterChain-outlined"
-                    onChange={handleChangeFilterChain}
+                    handlerChange={handleChangeFilterChain}
                     label="Filter chain"
                     value={filterChainSelected ? filterChainSelected : "None"}
                     style={{backgroundColor: 'white'}}>
@@ -204,7 +204,7 @@ const VisionUIExecutionTabModule = () => {
                     labelId="selectMedia-outlined-label"
                     fullWidth={true}
                     id="selectMedia-outlined"
-                    onChange={handleChangeMedia}
+                    handlerChange={handleChangeMedia}
                     label="Media"
                     value={mediaSelected ? mediaSelected : "None"}
                     style={{backgroundColor: 'white'}}>

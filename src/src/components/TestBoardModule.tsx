@@ -1,28 +1,11 @@
 import React from 'react';
 import Button from './common/button/Button';
-import TextField from '@material-ui/core/TextField';
+import TextField from './common/textfield/Textfield';
 import Checkbox from '@material-ui/core/Checkbox'
 import {useROSTopicPublisher} from "../hooks/useROSTopicPublisher";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import {withStyles} from "@material-ui/core";
 
 const TestBoardModule = () => {
-
-
-    const ButtonStyle = withStyles({
-        contained: {
-            backgroundColor: 'lightgrey',
-            border: '2px solid rgba(0, 0, 0, 1.0)'
-        },
-
-    })(Button);
-
-    const CssTextField = withStyles({
-        root: {
-            color: 'white',
-            backgroundColor: 'white',
-        }
-    })(TextField);
 
     const [slave, setSlave] = React.useState("")
     const [cmd, setCmd] = React.useState("")
@@ -63,44 +46,52 @@ const TestBoardModule = () => {
             <h1>Test board</h1>
             <form>
                 <div>
-                    <CssTextField id="outlined-basic"
+                    <TextField id="outlined-basic-01"
                                label="Slave"
-                               variant="outlined"
                                name="slave"
                                type="number"
                                value={slave}
                                style={{margin: '5px', color: 'red'}}
                                color="secondary"
-                               onChange={(event)=>setSlave(event.target.value)}/>
+                               handlerChange={(event)=>setSlave(event.target.value)}
+                               handlerKeyDown={()=> {}}
+                               autoFocus={true}
+                               />
                 </div>
                 <div>
-                    <CssTextField id="outlined-basic"
+                    <TextField id="outlined-basic-02"
                                label="Cmd"
-                               variant="outlined"
                                name="cmd"
                                value={cmd}
                                style={{margin: '5px'}}
-                               onChange={(event)=>setCmd(event.target.value)} />
+                               handlerChange={(event)=>setCmd(event.target.value)} 
+                               handlerKeyDown={()=> {}}
+                               autoFocus={true}
+                               />
                 </div>
                 <div>
-                    <CssTextField id="outlined-basic"
+                    <TextField id="outlined-basic-03"
                                label="Data"
-                               variant="outlined"
                                name="data"
                                style={{margin: '5px'}}
                                value={data}
-                               onChange={(event)=>setData(event.target.value)} />
+                               handlerChange={(event)=>setData(event.target.value)} 
+                               handlerKeyDown={()=> {}}
+                               autoFocus={true}
+                               />
                 </div>
                 <div>
-                    <CssTextField id="outlined-basic"
+                    <TextField id="outlined-basic-04"
 
                                label="Rate"
-                               variant="outlined"
                                name="rate"
                                value={rate}
                                type="number"
                                style={{margin: '5px'}}
-                               onChange={(event)=>setRate(event.target.value)} />
+                               handlerChange={(event)=>setRate(event.target.value)} 
+                               handlerKeyDown={()=> {}}
+                               autoFocus={true}
+                               />
                 </div>
                 <div style={{margin: "5px"}}>
                     <FormControlLabel

@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import TextField from './common/textfield/Textfield';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -574,9 +574,9 @@ const VisionUIFilterModule = () => {
                 content.push(
                     <Tooltip title={item['desc']}>
                         <CommonVisionUIStyle.ListItemStyle button style={style} key={"paramList" + item['paramName']}>
-                            <TextField type={item['type'] === "Integer" ? 'number' : "float"} autoFocus={currentParamFocus === index && currentSubParamFocus === 1} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                            <TextField disabled={true} value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                            <TextField disabled={true} value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField type={item['type'] === "Integer" ? 'number' : "float"} autoFocus={currentParamFocus === index && currentSubParamFocus === 1} value={item['value']} handlerChange={(event: any) => handleChangeParamValue(event, index, "value")} handlerKeyDown={() => {}} id={"paramvalue_id" + index} label="Value" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField disabled={true} value={item['min']} handlerChange={(event: any) => handleChangeParamValue(event, index, "min")} handlerKeyDown={() => {}} id={"parammin_id" + index} label="Min" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField disabled={true} value={item['max']} handlerChange={(event: any) => handleChangeParamValue(event, index, "max")} handlerKeyDown={() => {}} id={"parammax_id" + index} label="Max" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
                         </CommonVisionUIStyle.ListItemStyle>
                     </Tooltip>
                 )
@@ -588,7 +588,7 @@ const VisionUIFilterModule = () => {
                 content.push(
                     <Tooltip title={item['desc']}>
                         <CommonVisionUIStyle.ListItemStyle button style={style} key={"paramList" + item['paramName']}>
-                            <TextField autoFocus={currentParamFocus === index} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
+                            <TextField autoFocus={currentParamFocus === index} value={item['value']} handlerChange={(event: any) => handleChangeParamValue(event, index, "value")} handlerKeyDown={() => {}} id={"paramvalue_id" + index} label="Value" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
                         </CommonVisionUIStyle.ListItemStyle>
                     </Tooltip>
                 )

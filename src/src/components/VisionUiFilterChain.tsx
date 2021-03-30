@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import TextField from './common/textfield/Textfield';
 import Button from './common/button/Button'
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
@@ -175,8 +175,8 @@ const VisionUIExecutionModule = () => {
 
     return (
         <div>
-            <TextField value={filterChainName} autoFocus={fieldHasFocus} onChange={handleFilterChainNameChange} id="visionUi_filterChainName_id" label="Name"
-                       variant="outlined" fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white' }}/>
+            <TextField value={filterChainName} autoFocus={fieldHasFocus} handlerChange={handleFilterChainNameChange} handlerKeyDown={() => {}} id="visionUi_filterChainName_id" label="Name"
+                       fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white'}}/>
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleAddFilterChain} label="Add" />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleCloneFilterChain} label="Clone" />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleDeleteFilterChain} label="Delete" /><br></br>

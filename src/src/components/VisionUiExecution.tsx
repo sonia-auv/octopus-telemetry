@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import TextField from './common/textfield/Textfield';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -175,7 +175,7 @@ const VisionUIExecutionTabModule = () => {
 
     return (
         <div>
-            <TextField value={name} onChange={handleNameChange} id="visionUi_name_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white'}} />
+            <TextField value={name} handlerChange={handleNameChange} handlerKeyDown={() => {}} id="visionUi_name_id" label="Name" fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white'}} />
             <FormControl variant="filled" className={classes.formControl}>
                 <InputLabel id="selectFilterChain-outlined-label">Filterchain</InputLabel>
                 <Select
@@ -220,16 +220,16 @@ const VisionUIExecutionTabModule = () => {
                 handler={handleRefreshMediaList}
             />
             <br></br>
-            <div style={{ width: '75%', float: 'left' }} >
-                <TextField disabled={true} value={file} id="file_id" label="File" variant="outlined"
+            <div style={{ width: '80%', float: 'left' }} >
+                <TextField handlerChange={() => {}} handlerKeyDown={() => {}} disabled={true} value={file} id="file_id" label="File" 
                            fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' }} />
             </div>
             <input type='file' id='file' ref={inputFile} onChange={fileDialogClicked} style={{ display: 'none' }} />
-            <div style={{ float: 'right' }}><Button  style={{ fontSize: '20px', marginTop: '22px' }} handler={handleFileOpen} label="..." />
-            <TextField value={topicName} onChange={handleTopicNameChange} id="visionUi_topicname_id" label="Topic Name"
-                       variant="outlined" fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' }} />
+            <div style={{ float: 'right' }}><Button  style={{ fontSize: '20px', marginTop: '22px' }} handler={handleFileOpen} label="..." /></div>
+            <br></br>
+            <TextField value={topicName} handlerChange={handleTopicNameChange} handlerKeyDown={() => {}} id="visionUi_topicname_id" label="Topic Name"
+                       fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' , float: 'left'}} />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'right' }} handler={handleCreate} label="Create" />
-            </div>
         </div>
     );
 };

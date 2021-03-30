@@ -158,6 +158,7 @@ const ImageViewer = () => {
                                 onChange={handleChange}
                                 label="Topic"
                                 value={topic?.name ? topic.name : "None"}
+                                style={{backgroundColor: 'white'}}
                             >
                                 <MenuItem value={"None"}>None</MenuItem>
                                 {listTopic.map((value, index) => {

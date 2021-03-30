@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from './common/button/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuIcon from '@material-ui/icons/Menu';
+import Menu from './common/Menu/Menu';
+import MenuItem from './common/Menu/MenuItem';
+import { MMenuIcon as MenuIcon } from './common/Menu/MenuIcon';
 import {GeneralContext} from "../context/generalContext";
 
 const MenuModule = (props: any) => {
@@ -33,19 +33,19 @@ const MenuModule = (props: any) => {
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
-                onClose={handleClose}
+                handler={handleClose}
             >
-                <MenuItem onClick={handleClose}>File</MenuItem>
-                <MenuItem onClick={handleClose}>Plugins</MenuItem>
-                <MenuItem onClick={handleClose}>Running</MenuItem>
-                <MenuItem onClick={handleClearLayout}>Clear layout</MenuItem>
-                <MenuItem onClick={() => {
+                <MenuItem handler={handleClose}>File</MenuItem>
+                <MenuItem handler={handleClose}>Plugins</MenuItem>
+                <MenuItem handler={handleClose}>Running</MenuItem>
+                <MenuItem handler={handleClearLayout}>Clear layout</MenuItem>
+                <MenuItem handler={() => {
                     context.setIsDarkMode(!context.isDarkMode);
                     saveTheme(!context.isDarkMode)
                 }}>
                     {context.isDarkMode ? 'Activate light mode': 'Activate dark mode'}
                 </MenuItem>
-                <MenuItem onClick={handleClose}>Help</MenuItem>
+                <MenuItem handler={handleClose}>Help</MenuItem>
 
             </Menu>
         </div>

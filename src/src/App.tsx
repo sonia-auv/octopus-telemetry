@@ -14,6 +14,7 @@ import { ThemeProvider } from 'styled-components';
 import {lightTheme, darkTheme} from "./components/Theme"
 import {GlobalStyles} from "./components/global";
 import ToolbarModule from "./components/ToolbarModule";
+import ModulePicker from './components/modulepicker/ModulePicker'
 
 
 export const App = () => {
@@ -87,6 +88,7 @@ export const App = () => {
                 <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
                     <GlobalStyles />
                     <ToolbarModule />
+                    <ModulePicker />
                     <GridLayout className="layout"
                                 layout={layout}
                                 cols={32}

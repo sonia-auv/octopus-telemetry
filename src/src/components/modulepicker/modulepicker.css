@@ -17,6 +17,7 @@
 }
 
 .ModulePicker__module {
+  padding: 0.5em 1em;
   list-style-type: none;
   display: flex;
   flex-direction: row;

@@ -10,8 +10,7 @@ import List from './common/List/List';
 import ListItem from './common/List/ListItem';
 import Checkbox from './common/Checkbox/Checkbox';
 import FormControlLabel from './common/Form/FormControlLabel'
-
-import { Tooltip } from '@material-ui/core';
+import Tooltip  from './common/Tooltip/Tooltip';
 
 import { MAddCircleOutlineIcon as AddCircleOutlineIcon } from './common/Icons/Icon';
 import { MArrowDropUpIcon as ArrowDropUpIcon } from './common/Icons/Icon';

@@ -3,8 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Tooltip as MUITooltip } from '@material-ui/core';
 
 type ToolTipProps = {
-   title?: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal
-   children?: React.ReactElement<any, any>
+  title?: any
 };
 
 const GenericToolTip = withStyles({
@@ -12,7 +11,15 @@ const GenericToolTip = withStyles({
 })(MUITooltip);
 
 const ToolTip: FunctionComponent<ToolTipProps> = (props) => (
-  <div></div>
+
+  <GenericToolTip
+    title={props.title}
+    placement='top-start'
+    >
+    <div>
+      {props.children}
+    </div>
+  </GenericToolTip>
 );
 
 ToolTip.defaultProps = {

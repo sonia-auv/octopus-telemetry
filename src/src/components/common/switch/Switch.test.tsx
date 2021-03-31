@@ -14,7 +14,9 @@ describe('The Switch component', () => {
     const onChange = jest.fn();
 
     render(<Switch value={false} handler={onChange} />);
-    const s = screen.getByTestId('test-switch') as HTMLInputElement;
+    const s = screen
+      .getByTestId('test-switch')
+      .querySelector('input[type="checkbox"]') as HTMLInputElement;
 
     expect(s.checked).toBe(false);
 

@@ -1,9 +1,11 @@
 import React from 'react';
+
 import Button from './common/button/Button';
 import TextField from './common/textfield/Textfield';
-import Checkbox from '@material-ui/core/Checkbox'
+import Checkbox from './common/Checkbox/Checkbox'
+import FormControlLabel from './common/Form/FormControlLabel';
+
 import {useROSTopicPublisher} from "../hooks/useROSTopicPublisher";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const TestBoardModule = () => {
 
@@ -95,7 +97,7 @@ const TestBoardModule = () => {
                 </div>
                 <div style={{margin: "5px"}}>
                     <FormControlLabel
-                        control={<Checkbox checked={isSingleSend} onChange={handleSingleCheck} name="checkedA" />}
+                        control={<Checkbox checked={isSingleSend} handler={handleSingleCheck} name="checkedA" />}
                         label="Single send"
                     />
                 </div>

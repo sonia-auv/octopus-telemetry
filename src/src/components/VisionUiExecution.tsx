@@ -1,45 +1,16 @@
 import { useState, useCallback, useRef } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+
 import TextField from './common/textfield/Textfield';
 import Select from './common/select/Select';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from './common/Form/FormControl';
+import InputLabel from './common/Input/InputLabel';
 import Button from './common/button/Button'
-import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
-import CachedIcon from '@material-ui/icons/Cached';
+import { MCachedIcon as CachedIcon } from './common/Icons/Icon';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        width: '100%',
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-    contained: {
-        backgroundColor: 'lightgrey',
-        border: '2px solid rgba(0, 0, 0, 1.0)'
-    },
-    button: {
-        margin: theme.spacing(1),
-        "& .MuiButton-iconSizeMedium > *:first-child": {
-            fontSize: "20px"
-        },
-        "& .MuiButton-startIcon": {
-            marginLeft: "-2px",
-            marginRight: "0px"
-        }
-    },
-}));
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 
 const VisionUIExecutionTabModule = () => {
 
-    const classes = useStyles();
     const [name, setName] = useState('');
     const [filterChainList, setfilterChainList] = useState<[]>([]);
     const [filterChainSelected, setFilterChainSelected] = useState('');
@@ -176,7 +147,7 @@ const VisionUIExecutionTabModule = () => {
     return (
         <div>
             <TextField value={name} handlerChange={handleNameChange} handlerKeyDown={() => {}} id="visionUi_name_id" label="Name" fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white'}} />
-            <FormControl variant="filled" className={classes.formControl}>
+            <FormControl>
                 <InputLabel id="selectFilterChain-outlined-label">Filterchain</InputLabel>
                 <Select
                     labelId="selectFilterChain-outlined-label"
@@ -185,20 +156,18 @@ const VisionUIExecutionTabModule = () => {
                     handlerChange={handleChangeFilterChain}
                     label="Filter chain"
                     value={filterChainSelected ? filterChainSelected : "None"}
-                    style={{backgroundColor: 'white'}}>
-                    <MenuItem id={"selectFilterChainNone"} value={"None"}>None</MenuItem>
-                    {filterChainList.map((value) => {
-                        return <MenuItem id={"selectFilterChain" + value["value"]} value={value["value"]}>{value["value"]}</MenuItem>
-                    })}
+                    style={{backgroundColor: 'white'}}
+                    listValue={filterChainList}
+                    >
                 </Select>
             </FormControl>
             <Button
-                className={classes.button}
                 label={<CachedIcon />}
                 handler={handleRefreshFilterChainList}
+                isIcon={true}
             ></Button>
             <br></br>
-            <FormControl variant="filled" className={classes.formControl}>
+            <FormControl>
                 <InputLabel id="selectMedia-outlined-label">Media</InputLabel>
                 <Select
                     labelId="selectMedia-outlined-label"
@@ -207,17 +176,15 @@ const VisionUIExecutionTabModule = () => {
                     handlerChange={handleChangeMedia}
                     label="Media"
                     value={mediaSelected ? mediaSelected : "None"}
-                    style={{backgroundColor: 'white'}}>
-                    <MenuItem id={"selectMediaNone"} value={"None"}>None</MenuItem>
-                    {mediaList.map((value) => {
-                        return <MenuItem id={"selectMedia" + value["value"]} value={value["value"]}>{value["value"]}</MenuItem>
-                    })}
+                    style={{backgroundColor: 'white'}}
+                    listValue={mediaList}
+                    >
                 </Select>
             </FormControl>
             <Button
-                className={classes.button}
                 label={<CachedIcon />}
                 handler={handleRefreshMediaList}
+                isIcon={true}
             />
             <br></br>
             <div style={{ width: '80%', float: 'left' }} >

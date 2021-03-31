@@ -1,59 +1,23 @@
 import React, { useState, useCallback } from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+
 import TextField from './common/textfield/Textfield';
 import Button from './common/button/Button'
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
-import CachedIcon from '@material-ui/icons/Cached';
-import * as CommonVisionUIStyle from './VisionUiCommon';
+import ListItemText from './common/List/ListItemText';
+import ListItem from './common/List/ListItem';
+import List from './common/List/List';
+import { MCachedIcon as CachedIcon } from './common/Icons/Icon';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        width: '100%',
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-    contained: {
-        backgroundColor: 'lightgrey',
-        border: '2px solid rgba(0, 0, 0, 1.0)'
-    },
-    button: {
-        margin: theme.spacing(1),
-        "& .MuiButton-iconSizeMedium > *:first-child": {
-            fontSize: "20px"
-        },
-        "& .MuiButton-startIcon": {
-            marginLeft: "-2px",
-            marginRight: "0px"
-        }
-    },
-}));
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 
 const VisionUIExecutionModule = () => {
-
-    const classes = useStyles();
 
     ////////////////////////////////
     // FILTER CHAIN TAB
     ////////////////////////////////
 
-    const ListFilterChainStyle = withStyles({
-        root: {
-            width: '100%',
-            position: 'relative',
-            overflow: 'auto',
-            maxHeight: 350,
-        },
-    })(List);
-
-    const [filterChainList, setfilterChainList] = useState<[]>([]);
+    //const [filterChainList, setfilterChainList] = useState<[]>([]);
+    const [filterChainList, setfilterChainList] = useState([{value:"v1",id:0},{value:"v2",id:1},{value:"v2",id:2},{value:"v2",id:3},{value:"v2",id:4},{value:"v2",id:5},{value:"v2",id:6},{value:"v2",id:7}]);
+    
     const [filterChainName, setFilterChainName] = useState('');
     const [filterChainSelectedTab, setFilterChainSelectedTab] = React.useState('');
 
@@ -165,9 +129,9 @@ const VisionUIExecutionModule = () => {
         return (
             <div>
                 {filterChainList.map((item) => (
-                    <CommonVisionUIStyle.ListItemStyle button style={style} key={"filterChain" + item['id']} selected={filterChainSelectedTab === item['value']} autoFocus={filterChainSelectedTab === item['value'] && !fieldHasFocus}>
-                        <ListItemText primary={item['value']} onClick={(event: any) => handSelectedFilterChain(event, item['value'])} />
-                    </CommonVisionUIStyle.ListItemStyle>
+                    <ListItem style={style} key={"filterChain" + item['id']} selected={filterChainSelectedTab === item['value']} autoFocus={filterChainSelectedTab === item['value'] && !fieldHasFocus}>
+                        <ListItemText primary={item['value']} handler={(event: any) => handSelectedFilterChain(event, item['value'])} />
+                    </ListItem>
                 ))}
             </div>
         );
@@ -181,12 +145,12 @@ const VisionUIExecutionModule = () => {
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleCloneFilterChain} label="Clone" />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleDeleteFilterChain} label="Delete" /><br></br>
             <Button
-                className={classes.button}
                 label={<CachedIcon />}
                 handler={handleRefreshFilterChainList}
                 style={{ marginTop: '14px' }}
+                isIcon={true}
             />
-            <ListFilterChainStyle><FilterChainList className={classes.root} /></ListFilterChainStyle>
+            <List maxHeight={350}><FilterChainList/></List>
         </div>
 
     );

@@ -7,7 +7,6 @@ import Tabs from './common/Tabs/Tabs';
 import Box from './common/Box/Box';
 import Typography from './common/Typography/Typography';
 
-import * as CommonVisionUIStyle from './VisionUiCommon';
 import VisionUIExecutionModule from './VisionUiExecution'
 import VisionUIFilterChainModule from './VisionUiFilterChain'
 import VisionUIFilterModule from './VisionUiFilter'
@@ -41,7 +40,6 @@ function TabPanel(props: any) {
 const VisionUIModule = () => {
 
     const [value, setValue] = useState(0);
-    const classes = CommonVisionUIStyle.useStyles();
 
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
@@ -57,7 +55,7 @@ const VisionUIModule = () => {
             {context => context && (
                 <div style={{ width: '100%', height: '100%' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>VISION UI</h1>
-                    <div className={classes.root}>
+                    <div>
                         <AppBar position="static" color="default">
                             <Tabs value={value} handlerChange={handleChange} arialabel="visionUI tabs" listValue={tabs}></Tabs>
                         </AppBar>

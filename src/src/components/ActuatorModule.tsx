@@ -1,9 +1,10 @@
 import { useCallback,useContext } from 'react';
+
 import Switch from './common/switch/Switch';
-import { GeneralContext } from "../context/generalContext";
 import Button from './common/button/Button';
-import { useROSService } from '../hooks/useROSService'
-import ROSLIB from "roslib";
+
+import { GeneralContext } from "../context/generalContext";
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 
 const ActuatorModule = () => {
 
@@ -20,7 +21,7 @@ const ActuatorModule = () => {
     const HandleChangeSwitch = (value: any) => {
 
         context.setIsRoboticArmClosed(!context.isRoboticArmClosed)
-        var request = new ROSLIB.ServiceRequest({
+        var request = ServiceRequestFactory({
             element: 2,
             side: !value,
             action: 1
@@ -30,7 +31,7 @@ const ActuatorModule = () => {
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleChangeButtonTorpedo = () => {
-        var request = new ROSLIB.ServiceRequest({
+        var request = ServiceRequestFactory({
             element: 0,
             side: 0,
             action: 1
@@ -40,7 +41,7 @@ const ActuatorModule = () => {
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleChangeButtonDropObject = () => {
-        var request = new ROSLIB.ServiceRequest({
+        var request = ServiceRequestFactory({
             element: 1,
             side: 0,
             action: 1

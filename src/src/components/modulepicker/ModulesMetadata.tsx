@@ -31,4 +31,4 @@ const ThrustersMeta: ModuleMetadata = {
 const ModulesMetadata: Array<ModuleMetadata> = [ImageViewerMeta, ThrustersMeta];
 
 export { ModulesMetadata, ImageViewerMeta, ThrustersMeta };
-export type { ModuleMetadata, ActiveModules };
+export type { Module, ModuleMetadata, ActiveModules };

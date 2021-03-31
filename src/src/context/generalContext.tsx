@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react';
 import {
+  Module,
   ActiveModules,
   ImageViewerMeta,
   ThrustersMeta,
@@ -33,6 +34,8 @@ export type GeneralContextType = {
   setIsWayPointVelocityMode: (units: boolean) => void;
 
   setActiveModules: (activeModules: ActiveModules) => void;
+
+  updateActiveModule: (activeModule: Module, active: boolean) => void;
 };
 
 export const GeneralContext = createContext<GeneralContextType>({
@@ -48,6 +51,7 @@ export const GeneralContext = createContext<GeneralContextType>({
   setIsRoboticArmClosed: (value) => {},
   setIsWayPointVelocityMode: (value) => {},
   setActiveModules: (modules) => {},
+  updateActiveModule: (module, boolean) => {},
 });
 
 export const useGeneral = () => useContext(GeneralContext);

@@ -16,8 +16,8 @@ const VisionUIExecutionModule = () => {
     ////////////////////////////////
 
     //const [filterChainList, setfilterChainList] = useState<[]>([]);
-    const [filterChainList, setfilterChainList] = useState([{value:"v1",id:0},{value:"v2",id:1},{value:"v2",id:2},{value:"v2",id:3},{value:"v2",id:4},{value:"v2",id:5},{value:"v2",id:6},{value:"v2",id:7}]);
-    
+    const [filterChainList, setfilterChainList] = useState([{ value: "v1", id: 0 }, { value: "v2", id: 1 }, { value: "v2", id: 2 }, { value: "v2", id: 3 }, { value: "v2", id: 4 }, { value: "v2", id: 5 }, { value: "v2", id: 6 }, { value: "v2", id: 7 }]);
+
     const [filterChainName, setFilterChainName] = useState('');
     const [filterChainSelectedTab, setFilterChainSelectedTab] = React.useState('');
 
@@ -139,8 +139,8 @@ const VisionUIExecutionModule = () => {
 
     return (
         <div>
-            <TextField value={filterChainName} autoFocus={fieldHasFocus} handlerChange={handleFilterChainNameChange} handlerKeyDown={() => {}} id="visionUi_filterChainName_id" label="Name"
-                       fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white'}}/>
+            <TextField value={filterChainName} autoFocus={fieldHasFocus} handlerChange={handleFilterChainNameChange} handlerKeyDown={() => { }} id="visionUi_filterChainName_id" label="Name"
+                fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white' }} />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleAddFilterChain} label="Add" />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleCloneFilterChain} label="Clone" />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleDeleteFilterChain} label="Delete" /><br></br>
@@ -150,7 +150,7 @@ const VisionUIExecutionModule = () => {
                 style={{ marginTop: '14px' }}
                 isIcon={true}
             />
-            <List maxHeight={350}><FilterChainList/></List>
+            <List maxHeight={350}><FilterChainList /></List>
         </div>
 
     );

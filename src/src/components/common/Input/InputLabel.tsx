@@ -6,10 +6,6 @@ type InputLabelProps = {
   id?: string
 };
 
-const DEFAULT_INPUTLAB_STYLE = {
-
-};
-
 const GenericInputLabel = withStyles({
 
 })(MUIInputLabel);

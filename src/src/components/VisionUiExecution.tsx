@@ -146,7 +146,7 @@ const VisionUIExecutionTabModule = () => {
 
     return (
         <div>
-            <TextField value={name} handlerChange={handleNameChange} handlerKeyDown={() => {}} id="visionUi_name_id" label="Name" fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white'}} />
+            <TextField value={name} handlerChange={handleNameChange} handlerKeyDown={() => { }} id="visionUi_name_id" label="Name" fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white' }} />
             <FormControl>
                 <InputLabel id="selectFilterChain-outlined-label">Filterchain</InputLabel>
                 <Select
@@ -156,9 +156,9 @@ const VisionUIExecutionTabModule = () => {
                     handlerChange={handleChangeFilterChain}
                     label="Filter chain"
                     value={filterChainSelected ? filterChainSelected : "None"}
-                    style={{backgroundColor: 'white'}}
+                    style={{ backgroundColor: 'white' }}
                     listValue={filterChainList}
-                    >
+                >
                 </Select>
             </FormControl>
             <Button
@@ -176,9 +176,9 @@ const VisionUIExecutionTabModule = () => {
                     handlerChange={handleChangeMedia}
                     label="Media"
                     value={mediaSelected ? mediaSelected : "None"}
-                    style={{backgroundColor: 'white'}}
+                    style={{ backgroundColor: 'white' }}
                     listValue={mediaList}
-                    >
+                >
                 </Select>
             </FormControl>
             <Button
@@ -188,14 +188,14 @@ const VisionUIExecutionTabModule = () => {
             />
             <br></br>
             <div style={{ width: '80%', float: 'left' }} >
-                <TextField handlerChange={() => {}} handlerKeyDown={() => {}} disabled={true} value={file} id="file_id" label="File" 
-                           fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' }} />
+                <TextField handlerChange={() => { }} handlerKeyDown={() => { }} disabled={true} value={file} id="file_id" label="File"
+                    fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' }} />
             </div>
             <input type='file' id='file' ref={inputFile} onChange={fileDialogClicked} style={{ display: 'none' }} />
-            <div style={{ float: 'right' }}><Button  style={{ fontSize: '20px', marginTop: '22px' }} handler={handleFileOpen} label="..." /></div>
+            <div style={{ float: 'right' }}><Button style={{ fontSize: '20px', marginTop: '22px' }} handler={handleFileOpen} label="..." /></div>
             <br></br>
-            <TextField value={topicName} handlerChange={handleTopicNameChange} handlerKeyDown={() => {}} id="visionUi_topicname_id" label="Topic Name"
-                       fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' , float: 'left'}} />
+            <TextField value={topicName} handlerChange={handleTopicNameChange} handlerKeyDown={() => { }} id="visionUi_topicname_id" label="Topic Name"
+                fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white', float: 'left' }} />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'right' }} handler={handleCreate} label="Create" />
         </div>
     );

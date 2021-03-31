@@ -245,8 +245,7 @@ const Waypoints = () => {
             }
 
             //Depth is limited to 3
-            if (finalZ > 3)
-            {
+            if (finalZ > 3) {
                 finalZ = 3
                 setLastValidCmdZ('3.0')
                 setCmdZ('3.0')
@@ -271,7 +270,7 @@ const Waypoints = () => {
     /////////////////////////////////////
 
     const controlModeCallback = useCallback(
-        
+
         (x: any) => {
 
             if (x.data === 0)
@@ -292,23 +291,23 @@ const Waypoints = () => {
     const positionTargetFeedBackCallback = useCallback(
         (x: any) => {
 
-            setCmdX(x.position.x.toFixed(2)) 
-            setLastValidCmdX(x.position.x.toFixed(2)) 
+            setCmdX(x.position.x.toFixed(2))
+            setLastValidCmdX(x.position.x.toFixed(2))
 
-            setCmdY(x.position.y.toFixed(2)) 
-            setLastValidCmdY(x.position.y.toFixed(2)) 
+            setCmdY(x.position.y.toFixed(2))
+            setLastValidCmdY(x.position.y.toFixed(2))
 
-            setCmdZ(x.position.z.toFixed(2)) 
-            setLastValidCmdZ(x.position.z.toFixed(2)) 
+            setCmdZ(x.position.z.toFixed(2))
+            setLastValidCmdZ(x.position.z.toFixed(2))
 
-            setCmdRoll(x.orientation.x.toFixed(2)) 
-            setLastValidCmdRoll(x.orientation.x.toFixed(2)) 
+            setCmdRoll(x.orientation.x.toFixed(2))
+            setLastValidCmdRoll(x.orientation.x.toFixed(2))
 
-            setCmdPitch(x.orientation.y.toFixed(2)) 
-            setLastValidCmdPitch(x.orientation.y.toFixed(2)) 
+            setCmdPitch(x.orientation.y.toFixed(2))
+            setLastValidCmdPitch(x.orientation.y.toFixed(2))
 
-            setCmdYaw(x.orientation.z.toFixed(2)) 
-            setLastValidCmdYaw(x.orientation.z.toFixed(2)) 
+            setCmdYaw(x.orientation.z.toFixed(2))
+            setLastValidCmdYaw(x.orientation.z.toFixed(2))
 
         }, []
     )
@@ -316,23 +315,23 @@ const Waypoints = () => {
     const velocityTargetFeedBackCallback = useCallback(
         (x: any) => {
 
-            setCmdX(x.linear.x.toFixed(2)) 
-            setLastValidCmdX(x.linear.x.toFixed(2)) 
+            setCmdX(x.linear.x.toFixed(2))
+            setLastValidCmdX(x.linear.x.toFixed(2))
 
-            setCmdY(x.linear.y.toFixed(2)) 
-            setLastValidCmdY(x.linear.y.toFixed(2)) 
+            setCmdY(x.linear.y.toFixed(2))
+            setLastValidCmdY(x.linear.y.toFixed(2))
 
-            setCmdZ(x.linear.z.toFixed(2)) 
-            setLastValidCmdZ(x.linear.z.toFixed(2)) 
+            setCmdZ(x.linear.z.toFixed(2))
+            setLastValidCmdZ(x.linear.z.toFixed(2))
 
-            setCmdRoll(x.angular.x.toFixed(2)) 
-            setLastValidCmdRoll(x.angular.x.toFixed(2)) 
+            setCmdRoll(x.angular.x.toFixed(2))
+            setLastValidCmdRoll(x.angular.x.toFixed(2))
 
-            setCmdPitch(x.angular.y.toFixed(2)) 
-            setLastValidCmdPitch(x.angular.y.toFixed(2)) 
+            setCmdPitch(x.angular.y.toFixed(2))
+            setLastValidCmdPitch(x.angular.y.toFixed(2))
 
-            setCmdYaw(x.angular.z.toFixed(2)) 
-            setLastValidCmdYaw(x.angular.z.toFixed(2)) 
+            setCmdYaw(x.angular.z.toFixed(2))
+            setLastValidCmdYaw(x.angular.z.toFixed(2))
 
         }, []
     )

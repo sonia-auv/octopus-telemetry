@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Slider as MUISlider } from '@material-ui/core';
-import { AnyCnameRecord } from 'dns';
 
 type ThrusterControlSliderProps = {
   value?: number | number[]

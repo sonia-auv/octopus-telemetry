@@ -10,10 +10,6 @@ type MenuProps = {
   handler: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
 };
 
-const DEFAULT_MENU_STYLE = {
-
-};
-
 const GenericMenu = withStyles({
 
 })(MUIMenu);

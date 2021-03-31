@@ -199,7 +199,7 @@ export const App = () => {
                             <ImageViewer />
                         </div>
                         <div key="visionUi"
-                            data-grid={{ x: 0, y: 27, w: 11, h: 11, minW: 11, maxW: 30, minH: 11, maxH: 30 }}
+                            data-grid={{ x: 0, y: 27, w: 11, h: 17, minW: 11, maxW: 30, minH: 17, maxH: 30 }}
                             style={{ display: 'flex' , ...moduleBorder}}>
                             <VisionUI />
                         </div>

@@ -9,16 +9,15 @@ import TestBoardModule from "./components/TestBoardModule";
 import Waypoints from "./components/Waypoints";
 import VisionUI from "./components/VisionUi";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
-import {GeneralContext} from "./context/generalContext";
+import {GeneralContext, ActiveModules, defaultModules} from "./context/generalContext";
 import { ThemeProvider } from 'styled-components';
 import {lightTheme, darkTheme} from "./components/Theme"
 import {GlobalStyles} from "./components/global";
 import ToolbarModule from "./components/ToolbarModule";
 import ModulePicker from './components/modulepicker/ModulePicker'
 
-
 export const App = () => {
-    const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string ) ? 'dark': 'light');
+    const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string) ? 'dark' : 'light');
     const [thruster1, setThruster1] = useState(0)
     const [thruster2, setThruster2] = useState(0)
     const [thruster3, setThruster3] = useState(0)
@@ -28,10 +27,10 @@ export const App = () => {
     const [thruster7, setThruster7] = useState(0)
     const [thruster8, setThruster8] = useState(0)
 
-    const originalLayout = JSON.parse(localStorage.getItem("layout") as string )|| []
+    const originalLayout = JSON.parse(localStorage.getItem("layout") as string) || []
     const [layout, setLayout] = useState(originalLayout)
 
-    const onLayoutChange = (layout:any) => {
+    const onLayoutChange = (layout: any) => {
         localStorage.setItem("layout", JSON.stringify(layout))
         setLayout(layout)
     }
@@ -41,7 +40,7 @@ export const App = () => {
         (x: any) => {
             let id = x.ID
             let effort = x.effort
-            switch(id){
+            switch (id) {
                 case 1:
                     setThruster1(effort)
                     break;
@@ -79,12 +78,12 @@ export const App = () => {
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
     const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
     const [isWayPointVelocityMode, setIsWayPointVelocityMode] = React.useState(false)
-
+    const [activeModules, setActiveModules] = React.useState(defaultModules)
+    
     return (
-
         <div className="margin-top" style={style} >
             <GeneralContext.Provider value={{ isDarkMode, setIsDarkMode, isDryRunMode, setIsDryRunMode, isRelativeUnits,
-                setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode }}>
+                setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode, activeModules, setActiveModules }}>
                 <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
                     <GlobalStyles />
                     <ToolbarModule />

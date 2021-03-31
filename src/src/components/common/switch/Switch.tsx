@@ -25,14 +25,14 @@ const Switch: FunctionComponent<SwitchProps> = (props) => {
   return (
     <div className={`Switch__container ${props.vertical ? 'vertical' : ''}`}>
       <p className={getLabelClassname(on)}>{props.onLabel}</p>
-      <label className={`switch ${props.vertical ? 'vertical' : ''}`}>
+      <div className="Switch__rotatewrapper">
         <MUISwitch
           data-testid="test-switch"
           value="Active"
           checked={on}
           onChange={handleChange}
         />
-      </label>
+      </div>
       <p className={getLabelClassname(!on)}>{props.offLabel}</p>
     </div>
   );

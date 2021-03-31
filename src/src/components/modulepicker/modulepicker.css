@@ -2,11 +2,9 @@
 
 .ModulePicker {
   width: 25vw;
-  max-width: 300px;
+  max-width: 500px;
   border-right: 1px solid #6a6a6a;
   padding: 24px;
-  position: absolute;
-  height: 100%;
 }
 
 .ModulePicker__title {

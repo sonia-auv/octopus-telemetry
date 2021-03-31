@@ -26,7 +26,11 @@ describe('The ModulePicker component', () => {
       // Just making sure...
       expect(imageViewerThumb.alt).toBe('image-viewer-thumbnail');
 
-      // TODO test if draggable
+      // check if draggable
+      const dragTarget = screen.getByTestId(
+        'test-drag-ImageViewer-0'
+      ) as HTMLOListElement;
+      expect(dragTarget.draggable).toBe(true);
     });
     it('Renders the ThrustersModule module 🚀', () => {
       render(<ModulePicker />);

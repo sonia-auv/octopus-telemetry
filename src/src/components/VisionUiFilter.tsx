@@ -31,16 +31,9 @@ const VisionUIFilterModule = () => {
     const [executionFilterChain, setExecutionFilterChain] = useState('');
     const [filterSelected, setFilterSelected] = useState(null);
     const [filterList, setFilterList] = useState<[]>([]);
-    //const [filterListItems, setFilterListItems] = useState<[]>([]);
-    const [filterListItems, setFilterListItems] = useState([{ value: "v1", id: 0 }, { value: "v2", id: 1 }, { value: "v2", id: 2 }, { value: "v2", id: 3 }, { value: "v2", id: 4 }, { value: "v2", id: 5 }, { value: "v2", id: 6 }, { value: "v2", id: 7 }]);
+    const [filterListItems, setFilterListItems] = useState<[]>([]);
     const [executionFilterSelected, setExecutionFilterSelected] = useState('');
-    //const [parameterList, setParameterList] = useState<{ paramName: string, type: string, value: string, min: string, max: string, desc: string }[]>([]);
-    const [parameterList, setParameterList] = useState<{ paramName: string, type: string, value: string, min: string, max: string, desc: string }[]>(
-        [{ paramName: "string", type: "Boolean", value: "0", min: "0", max: "1", desc: "bols" },
-        { paramName: "string", type: "Integer", value: "0", min: "0", max: "1", desc: "bols" },
-        { paramName: "string", type: "Double", value: "0", min: "0", max: "1", desc: "bols" },
-        { paramName: "string", type: "String", value: "0", min: "0", max: "1", desc: "bols" },
-        ]);
+    const [parameterList, setParameterList] = useState<{ paramName: string, type: string, value: string, min: string, max: string, desc: string }[]>([]);
     const [currentParamFocus, setCurrentParamFocus] = useState(0);
     const [currentSubParamFocus, setCurrentSubParamFocus] = useState(0);
     const [executionFilterAutoSelect, setExecutionFilterAutoSelect] = useState(0);

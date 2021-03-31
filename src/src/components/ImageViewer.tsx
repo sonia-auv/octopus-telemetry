@@ -55,8 +55,7 @@ const ImageViewer = () => {
                 im = "data:image/jpeg;base64," + rgb8ImageToBase64Jpeg(x);
             else if (x.format.includes("jpeg"))
                 im = "data:image/jpeg;base64," + x.data;
-            else
-            {
+            else {
                 window.alert("Video format (" + x.encoding + ") is not supported, make sure you have the right encoding type or add it to the list");
                 if (topicRef.current) {
                     topicRef.current.unsubscribe()
@@ -104,7 +103,7 @@ const ImageViewer = () => {
 
             //Filtre sur les types de message que le souhaite 
             const messageFilter = ["sensor_msgs/CompressedImage", "sensor_msgs/Image"]
-            
+
             var tab: any = []
             x.topics.forEach((value: any, index: any) => {
                 if (messageFilter.includes(x.types[index])) {
@@ -137,7 +136,7 @@ const ImageViewer = () => {
                                 handlerChange={handleChange}
                                 label="Topic"
                                 value={topic?.name ? topic.name : "None"}
-                                style={{backgroundColor: 'white'}}
+                                style={{ backgroundColor: 'white' }}
                                 listValue={listTopic}
                             >
                             </Select>
@@ -159,9 +158,9 @@ const ImageViewer = () => {
                             isIcon={true}
                         ></Button>
                         <div style={{ width: "100%", height: "calc(100% - 140px)" }}>
-                        {image !== '' ?
-                            <img src={image} width="100%" height="100%" alt="imageviewer"></img> : <img width="100%" height="100%" alt="imageviewer"></img>
-                        }
+                            {image !== '' ?
+                                <img src={image} width="100%" height="100%" alt="imageviewer"></img> : <img width="100%" height="100%" alt="imageviewer"></img>
+                            }
                         </div>
                     </div>
                 </div>

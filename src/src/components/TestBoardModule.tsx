@@ -5,7 +5,7 @@ import TextField from './common/textfield/Textfield';
 import Checkbox from './common/Checkbox/Checkbox'
 import FormControlLabel from './common/Form/FormControlLabel';
 
-import {useROSTopicPublisher} from "../hooks/useROSTopicPublisher";
+import { useROSTopicPublisher } from "../hooks/useROSTopicPublisher";
 
 const TestBoardModule = () => {
 
@@ -18,16 +18,17 @@ const TestBoardModule = () => {
     const testBoardPublisher = useROSTopicPublisher<any>("/interface_rs485/dataRx", "sonia_common/SendRS485Msg")
 
     const handleStart = () => {
+
         let toPublish = {
             slave: slave,
             cmd: cmd,
             data: data
         }
-        if(!isSingleSend){
+        if (!isSingleSend) {
             console.log("Continuous publishing...")
             intervalVar = setInterval(function () {
                 testBoardPublisher(toPublish)
-          }, parseInt(rate))
+            }, parseInt(rate))
 
         }
         else {
@@ -42,72 +43,71 @@ const TestBoardModule = () => {
         setIsSingleSend(!isSingleSend)
     }
 
-
     return (
         <div>
             <h1>Test board</h1>
             <form>
                 <div>
                     <TextField id="outlined-basic-01"
-                               label="Slave"
-                               name="slave"
-                               type="number"
-                               value={slave}
-                               style={{margin: '5px', color: 'red'}}
-                               color="secondary"
-                               handlerChange={(event)=>setSlave(event.target.value)}
-                               handlerKeyDown={()=> {}}
-                               autoFocus={true}
-                               />
+                        label="Slave"
+                        name="slave"
+                        type="number"
+                        value={slave}
+                        style={{ margin: '5px', color: 'red' }}
+                        color="secondary"
+                        handlerChange={(event) => setSlave(event.target.value)}
+                        handlerKeyDown={() => { }}
+                        autoFocus={true}
+                    />
                 </div>
                 <div>
                     <TextField id="outlined-basic-02"
-                               label="Cmd"
-                               name="cmd"
-                               value={cmd}
-                               style={{margin: '5px'}}
-                               handlerChange={(event)=>setCmd(event.target.value)} 
-                               handlerKeyDown={()=> {}}
-                               autoFocus={true}
-                               />
+                        label="Cmd"
+                        name="cmd"
+                        value={cmd}
+                        style={{ margin: '5px' }}
+                        handlerChange={(event) => setCmd(event.target.value)}
+                        handlerKeyDown={() => { }}
+                        autoFocus={true}
+                    />
                 </div>
                 <div>
                     <TextField id="outlined-basic-03"
-                               label="Data"
-                               name="data"
-                               style={{margin: '5px'}}
-                               value={data}
-                               handlerChange={(event)=>setData(event.target.value)} 
-                               handlerKeyDown={()=> {}}
-                               autoFocus={true}
-                               />
+                        label="Data"
+                        name="data"
+                        style={{ margin: '5px' }}
+                        value={data}
+                        handlerChange={(event) => setData(event.target.value)}
+                        handlerKeyDown={() => { }}
+                        autoFocus={true}
+                    />
                 </div>
                 <div>
                     <TextField id="outlined-basic-04"
 
-                               label="Rate"
-                               name="rate"
-                               value={rate}
-                               type="number"
-                               style={{margin: '5px'}}
-                               handlerChange={(event)=>setRate(event.target.value)} 
-                               handlerKeyDown={()=> {}}
-                               autoFocus={true}
-                               />
+                        label="Rate"
+                        name="rate"
+                        value={rate}
+                        type="number"
+                        style={{ margin: '5px' }}
+                        handlerChange={(event) => setRate(event.target.value)}
+                        handlerKeyDown={() => { }}
+                        autoFocus={true}
+                    />
                 </div>
-                <div style={{margin: "5px"}}>
+                <div style={{ margin: "5px" }}>
                     <FormControlLabel
                         control={<Checkbox checked={isSingleSend} handler={handleSingleCheck} name="checkedA" />}
                         label="Single send"
                     />
                 </div>
-                <div style={{margin: "5px"}}>
-                    <Button label="Start"  style={{ fontSize: '20px', alignSelf: 'center' }}
-                                handler={handleStart} />
+                <div style={{ margin: "5px" }}>
+                    <Button label="Start" style={{ fontSize: '20px', alignSelf: 'center' }}
+                        handler={handleStart} />
                 </div>
-                <div style={{margin: "5px"}}>
-                    <Button label="Stop"  style={{ fontSize: '20px', alignSelf: 'center' }}
-                                 handler={handleStop} />
+                <div style={{ margin: "5px" }}>
+                    <Button label="Stop" style={{ fontSize: '20px', alignSelf: 'center' }}
+                        handler={handleStop} />
                 </div>
             </form>
         </div>

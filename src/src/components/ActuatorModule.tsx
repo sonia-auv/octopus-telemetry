@@ -1,14 +1,15 @@
-import { useCallback,useContext } from 'react';
+import { useCallback, useContext } from 'react';
 
 import Switch from './common/switch/Switch';
 import Button from './common/button/Button';
 
 import { GeneralContext } from "../context/generalContext";
+
 import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 
 const ActuatorModule = () => {
 
-    // Reponse en retour a l appel du service
+    // Service response
     const actuactorServiceCallback = useCallback(
         (x: any) => {
         }, []
@@ -17,7 +18,6 @@ const ActuatorModule = () => {
     const context = useContext(GeneralContext)
     const actuactorServiceCall = useROSService<any>(actuactorServiceCallback, "/provider_actuators/do_action_srv", "sonia_common/ActuatorDoActionSrv")
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const HandleChangeSwitch = (value: any) => {
 
         context.setIsRoboticArmClosed(!context.isRoboticArmClosed)
@@ -27,9 +27,8 @@ const ActuatorModule = () => {
             action: 1
         });
         actuactorServiceCall(request)
-    } 
+    }
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleChangeButtonTorpedo = () => {
         var request = ServiceRequestFactory({
             element: 0,
@@ -39,7 +38,6 @@ const ActuatorModule = () => {
         actuactorServiceCall(request)
     }
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleChangeButtonDropObject = () => {
         var request = ServiceRequestFactory({
             element: 1,
@@ -60,9 +58,9 @@ const ActuatorModule = () => {
                         value={!context.isRoboticArmClosed}
                         handler={HandleChangeSwitch} />
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>TORPEDO</h1>
-                    <Button  style={{ fontSize: '20px', alignSelf: 'center' }} handler={handleChangeButtonTorpedo} label="Launch" />
+                    <Button style={{ fontSize: '20px', alignSelf: 'center' }} handler={handleChangeButtonTorpedo} label="Launch" />
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>DROP OBJECT</h1>
-                    <Button  style={{ fontSize: '20px', alignSelf: 'center' }} handler={handleChangeButtonDropObject} label="Drop" />
+                    <Button style={{ fontSize: '20px', alignSelf: 'center' }} handler={handleChangeButtonDropObject} label="Drop" />
                 </div>
             )}
         </GeneralContext.Consumer>

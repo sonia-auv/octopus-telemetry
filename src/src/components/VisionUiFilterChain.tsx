@@ -15,9 +15,7 @@ const VisionUIExecutionModule = () => {
     // FILTER CHAIN TAB
     ////////////////////////////////
 
-    //const [filterChainList, setfilterChainList] = useState<[]>([]);
-    const [filterChainList, setfilterChainList] = useState([{ value: "v1", id: 0 }, { value: "v2", id: 1 }, { value: "v2", id: 2 }, { value: "v2", id: 3 }, { value: "v2", id: 4 }, { value: "v2", id: 5 }, { value: "v2", id: 6 }, { value: "v2", id: 7 }]);
-
+    const [filterChainList, setfilterChainList] = useState<[]>([]);
     const [filterChainName, setFilterChainName] = useState('');
     const [filterChainSelectedTab, setFilterChainSelectedTab] = React.useState('');
 

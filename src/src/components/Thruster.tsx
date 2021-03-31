@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import ThrusterControlSlider from "./common/slider/ThrusterControlSlider";
 import ThrusterEffortIndicatorSlider from "./common/slider/ThrusterEffortIndicatorSlider";
@@ -6,8 +6,6 @@ import Grid from './common/grid/Grid';
 import RedButtonImg from './image/redButton.png';
 
 import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublisher'
-
-import { GeneralContext } from "../context/generalContext";
 
 const marks = [
     {
@@ -61,9 +59,6 @@ type ThrusterLevel = {
 
 export const Thruster = ({ identification, effort, minMark, maxMark, step, thumbEnabled }: ThrusterLevel) => {
 
-    const context = useContext(GeneralContext)
-
-    // TODO: METTRE LE BON TOPIC
     const thrusterEffortPublisher = useROSTopicPublisher<any>("/provider_thruster/thruster_effort", "std_msgs/String")
 
     function ThrusterControlThumbComponent(props: any) {
@@ -88,9 +83,10 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
     const [value, setValue] = React.useState(1);
 
     const handleChange = (event: any, newValue: any) => {
+        
         setValue(newValue);
 
-        // TODO: FORMATAGE DES DONNES PAS CERTAIN DU FORMAT
+        // TODO: Check data formating ? may be just use var toPublish = { ID: identification, effort: newValue } and no need stringify?
         var msg = JSON.stringify({ ID: identification, effort: newValue })
         var toPublish = MessageFactory({
             data: msg

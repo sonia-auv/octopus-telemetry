@@ -16,13 +16,12 @@ const Waypoints = () => {
     // CONTROL MODE
     //////////////////////////////////////
 
-    // Reponse en retour a l appel du service
+    // Service response
     const controlModeServiceCallback = useCallback(
         (x: any) => {
         }, []
     )
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const HandleChangeSwitch = () => {
 
         context.setIsWayPointVelocityMode(!context.isWayPointVelocityMode)
@@ -44,13 +43,12 @@ const Waypoints = () => {
     // CLEAR WAYPOINT
     //////////////////////////////////////
 
-    // Reponse en retour a l appel du service
+    // Service response
     const clearWaypointServiceCallback = useCallback(
         (x: any) => {
         }, []
     )
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleClearWayPoint = () => {
 
         var request = ServiceRequestFactory({
@@ -64,13 +62,12 @@ const Waypoints = () => {
     // SET INITIAL POSITION
     //////////////////////////////////////
 
-    // Reponse en retour a l appel du service
+    // Service response
     const setInitialPositionServiceCallback = useCallback(
         (x: any) => {
         }, []
     )
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleSetInitialPosition = () => {
 
         var request = ServiceRequestFactory({
@@ -88,13 +85,12 @@ const Waypoints = () => {
     // SET DEPTH OFFSET
     //////////////////////////////////////
 
-    // Reponse en retour a l appel du service
+    // Service response
     const setDepthOffsetServiceCallback = useCallback(
         (x: any) => {
         }, []
     )
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleSetDepthOffset = (value: any) => {
 
         var request = ServiceRequestFactory({
@@ -104,7 +100,6 @@ const Waypoints = () => {
     }
 
     const setDepthOffsetServiceCall = useROSService<any>(setDepthOffsetServiceCallback, "/proc_navigation/set_depth_offset", "sonia_common/SetDepthOffset")
-
     const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
 
     const [cmdX, setCmdX] = useState('0.00');
@@ -160,7 +155,7 @@ const Waypoints = () => {
     // SEND TARGET POSITIONS
     //////////////////////////////////////
 
-    // Reponse en retour a l appel du service
+    // Service response
     const sendPositionTargetServiceCallback = useCallback(
         (x: any) => {
         }, []
@@ -251,7 +246,6 @@ const Waypoints = () => {
                 setCmdZ('3.0')
             }
 
-            // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
             var request = ServiceRequestFactory({
                 X: finalX,
                 Y: finalY,

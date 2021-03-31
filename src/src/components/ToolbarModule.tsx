@@ -13,9 +13,10 @@ import { useROSService, ServiceRequestFactory } from '../hooks/useROSService';
 import { useROSTopicSubscriber } from '../hooks/useROSTopicSubscriber';
 
 const ToolbarModule = () => {
+
   /**
    * TODO
-   * Verifier la conformité format des messages ROS
+   * Check ros message
    *
    */
 

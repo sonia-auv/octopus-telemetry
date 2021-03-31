@@ -1,25 +1,34 @@
-const ModulesMetadata: Array<ModuleMetadata>  = [
-    {
-      key: 'imageViewer',
-      name: 'ImageViewer',
-      thumbnailLabel: 'image-viewer-thumbnail',
-      thumbnailSource: 'http://placehold.it/300/300',
-    },
-    {
-      key: 'thrusters',
-      name: 'Thrusters',
-      thumbnailLabel: 'thrusters-thumbnail',
-      thumbnailSource: 'http://placehold.it/300/300',
-    },
-];
-
 interface ModuleMetadata {
-    key: string;
-    name: string;
-    thumbnailLabel: string;
-    thumbnailSource: string;
+  key: string;
+  name: string;
+  thumbnailLabel: string;
+  thumbnailSource: string;
 }
 
-  
-export { ModulesMetadata }
-export type {ModuleMetadata}
+interface Module {
+  active: boolean;
+  meta: ModuleMetadata;
+}
+
+interface ActiveModules {
+  data: Record<string, Module>;
+}
+
+const ImageViewerMeta: ModuleMetadata = {
+  key: 'imageViewer',
+  name: 'Image Viewer',
+  thumbnailLabel: 'Image Viewer',
+  thumbnailSource: 'http://placehold.it/400/400',
+};
+
+const ThrustersMeta: ModuleMetadata = {
+  key: 'thrusters',
+  name: 'Thrusters',
+  thumbnailLabel: 'Thrusters',
+  thumbnailSource: 'http://placehold.it/300/300',
+};
+
+const ModulesMetadata: Array<ModuleMetadata> = [ImageViewerMeta, ThrustersMeta];
+
+export { ModulesMetadata, ImageViewerMeta, ThrustersMeta };
+export type { ModuleMetadata, ActiveModules };

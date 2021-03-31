@@ -1,13 +1,13 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import Button from './common/button/Button';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox'
-import {withStyles} from "@material-ui/core/styles";
 import {useROSTopicPublisher} from "../hooks/useROSTopicPublisher";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import {withStyles} from "@material-ui/core";
 
 const TestBoardModule = () => {
+
 
     const ButtonStyle = withStyles({
         contained: {
@@ -16,6 +16,13 @@ const TestBoardModule = () => {
         },
 
     })(Button);
+
+    const CssTextField = withStyles({
+        root: {
+            color: 'white',
+            backgroundColor: 'white',
+        }
+    })(TextField);
 
     const [slave, setSlave] = React.useState("")
     const [cmd, setCmd] = React.useState("")
@@ -49,22 +56,25 @@ const TestBoardModule = () => {
     const handleSingleCheck = () => {
         setIsSingleSend(!isSingleSend)
     }
+
+
     return (
         <div>
             <h1>Test board</h1>
             <form>
                 <div>
-                    <TextField id="outlined-basic"
+                    <CssTextField id="outlined-basic"
                                label="Slave"
                                variant="outlined"
                                name="slave"
                                type="number"
                                value={slave}
-                               style={{margin: '5px'}}
+                               style={{margin: '5px', color: 'red'}}
+                               color="secondary"
                                onChange={(event)=>setSlave(event.target.value)}/>
                 </div>
                 <div>
-                    <TextField id="outlined-basic"
+                    <CssTextField id="outlined-basic"
                                label="Cmd"
                                variant="outlined"
                                name="cmd"
@@ -73,7 +83,7 @@ const TestBoardModule = () => {
                                onChange={(event)=>setCmd(event.target.value)} />
                 </div>
                 <div>
-                    <TextField id="outlined-basic"
+                    <CssTextField id="outlined-basic"
                                label="Data"
                                variant="outlined"
                                name="data"
@@ -82,7 +92,8 @@ const TestBoardModule = () => {
                                onChange={(event)=>setData(event.target.value)} />
                 </div>
                 <div>
-                    <TextField id="outlined-basic"
+                    <CssTextField id="outlined-basic"
+
                                label="Rate"
                                variant="outlined"
                                name="rate"
@@ -98,16 +109,12 @@ const TestBoardModule = () => {
                     />
                 </div>
                 <div style={{margin: "5px"}}>
-                    <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }}
-                                 onClick={handleStart}>
-                        Start
-                    </ButtonStyle>
+                    <Button label="Start"  style={{ fontSize: '20px', alignSelf: 'center' }}
+                                handler={handleStart} />
                 </div>
                 <div style={{margin: "5px"}}>
-                    <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }}
-                                 onClick={handleStop}>
-                        Stop
-                    </ButtonStyle>
+                    <Button label="Stop"  style={{ fontSize: '20px', alignSelf: 'center' }}
+                                 handler={handleStop} />
                 </div>
             </form>
         </div>

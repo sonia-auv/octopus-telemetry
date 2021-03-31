@@ -1,20 +1,11 @@
 import React, { useCallback,useContext } from 'react';
 import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
-import { Button } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import Button from './common/button/Button';
 import { useROSService } from '../hooks/useROSService'
 import ROSLIB from "roslib";
 
 const ActuatorModule = () => {
-
-    const ButtonStyle = withStyles({
-        contained: {
-            backgroundColor: 'lightgrey',
-            border: '2px solid rgba(0, 0, 0, 1.0)'
-        },
-
-    })(Button);
 
     // Reponse en retour a l appel du service
     const actuactorServiceCallback = useCallback(
@@ -30,9 +21,9 @@ const ActuatorModule = () => {
 
         context.setIsRoboticArmClosed(!context.isRoboticArmClosed)
         var request = new ROSLIB.ServiceRequest({
-            ELEMENT_ARM: 2,
-            ARM_OPEN: !value,
-            ACTION_ARM_EXEC: 1
+            element: 2,
+            side: !value,
+            action: 1
         });
         actuactorServiceCall(request)
     } 
@@ -40,9 +31,9 @@ const ActuatorModule = () => {
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleChangeButtonTorpedo = () => {
         var request = new ROSLIB.ServiceRequest({
-            ELEMENT_TORPEDO: 0,
-            SIDE_PORT: 0,
-            ACTION_DROPPER_LAUCH: 1
+            element: 0,
+            side: 0,
+            action: 1
         });
         actuactorServiceCall(request)
     }
@@ -50,9 +41,9 @@ const ActuatorModule = () => {
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleChangeButtonDropObject = () => {
         var request = new ROSLIB.ServiceRequest({
-            ELEMENT_TORPEDO: 1,
-            SIDE_PORT: 0,
-            ACTION_DROPPER_LAUCH: 1
+            element: 1,
+            side: 0,
+            action: 1
         });
         actuactorServiceCall(request)
     }
@@ -68,9 +59,9 @@ const ActuatorModule = () => {
                         value={!context.isRoboticArmClosed}
                         handler={HandleChangeSwitch} />
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>TORPEDO</h1>
-                    <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }} onClick={handleChangeButtonTorpedo}>LAUNCH</ButtonStyle>
+                    <Button  style={{ fontSize: '20px', alignSelf: 'center' }} handler={handleChangeButtonTorpedo} label="Launch" />
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>DROP OBJECT</h1>
-                    <ButtonStyle variant='contained' style={{ fontSize: '20px', alignSelf: 'center' }} onClick={handleChangeButtonDropObject}>DROP</ButtonStyle>
+                    <Button  style={{ fontSize: '20px', alignSelf: 'center' }} handler={handleChangeButtonDropObject} label="Drop" />
                 </div>
             )}
         </GeneralContext.Consumer>

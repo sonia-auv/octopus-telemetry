@@ -28,7 +28,6 @@ export function HorizontalSituationIndicator(ctx, location, fontSize, data)
 		this.ctx.textAlign = "center";
 		this.ctx.textBaseline = "middle";
 		var text = "YAW"
-		var textWidth = ctx.measureText(text).width;
 		this.ctx.fillText(text, this.loc.x+ this.loc.width/2, this.loc.y + this.loc.height/2 + 20)
 		this.ctx.restore();
 	}
@@ -128,14 +127,11 @@ export function HorizontalSituationIndicator(ctx, location, fontSize, data)
 		ctx.textBaseline = "middle"; 
 		ctx.fillStyle = GUAGE_BACKGROUND;
 		ctx.strokeStyle = SKY;
-		var boxHeight = this.fontSize;
-		var boxWidth = ctx.measureText("333").width + 10;
-		//ctx.fillRect(- boxWidth / 2, - hei/2 + 2.5 * boxHeight - 20, boxWidth, boxHeight);
-		//ctx.strokeRect(- boxWidth / 2, - hei/2 + 2.5 * boxHeight - 20, boxWidth, boxHeight);
+		boxHeight = this.fontSize;
+		boxWidth = ctx.measureText("333").width + 10;
 
 		// Draw course numbers
 		ctx.fillStyle = SKY;
-		//ctx.fillText(Math.floor(trueCourse), 0, - hei/2 + 3 * boxHeight - 20)
 
 		ctx.restore();
 	}

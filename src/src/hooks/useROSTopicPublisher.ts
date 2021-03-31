@@ -26,3 +26,5 @@ export const useROSTopicPublisher = <F>(
     }
   };
 };
+
+export function MessageFactory(x: any):ROSLIB.Message { return new ROSLIB.Message(x) };

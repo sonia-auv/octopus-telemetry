@@ -1,11 +1,10 @@
 import { useCallback, useContext, useState } from 'react';
 import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
-import { Button } from '@material-ui/core';
+import Button from './common/button/Button';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { useROSService } from '../hooks/useROSService'
-import ROSLIB from "roslib";
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
 
 const Waypoints = () => {
@@ -17,6 +16,14 @@ const Waypoints = () => {
         },
 
     })(Button);
+
+
+    const CssTextField = withStyles({
+        root: {
+            color: 'white',
+            backgroundColor: 'white',
+        }
+    })(TextField);
 
     const context = useContext(GeneralContext)
 
@@ -31,7 +38,7 @@ const Waypoints = () => {
     )
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
-    const HandleChangeSwitch = (value: any) => {
+    const HandleChangeSwitch = () => {
 
         context.setIsWayPointVelocityMode(!context.isWayPointVelocityMode)
         var mode
@@ -40,8 +47,8 @@ const Waypoints = () => {
         if (context.isWayPointVelocityMode)
             mode = 2
 
-        var request = new ROSLIB.ServiceRequest({
-            MODE: mode,
+        var request = ServiceRequestFactory({
+            mode: mode,
         });
         controlModeServiceCall(request)
     }
@@ -59,9 +66,9 @@ const Waypoints = () => {
     )
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
-    const handleClearWayPoint = (value: any) => {
+    const handleClearWayPoint = () => {
 
-        var request = new ROSLIB.ServiceRequest({
+        var request = ServiceRequestFactory({
         });
         clearWayPointServiceCall(request)
     }
@@ -79,9 +86,9 @@ const Waypoints = () => {
     )
 
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
-    const handleSetInitialPosition = (value: any) => {
+    const handleSetInitialPosition = () => {
 
-        var request = new ROSLIB.ServiceRequest({
+        var request = ServiceRequestFactory({
         });
         setInitialPositionServiceCall(request)
 
@@ -105,7 +112,7 @@ const Waypoints = () => {
     // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleSetDepthOffset = (value: any) => {
 
-        var request = new ROSLIB.ServiceRequest({
+        var request = ServiceRequestFactory({
         });
         setDepthOffsetServiceCall(request)
 
@@ -261,7 +268,7 @@ const Waypoints = () => {
             }
 
             // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
-            var request = new ROSLIB.ServiceRequest({
+            var request = ServiceRequestFactory({
                 X: finalX,
                 Y: finalY,
                 Z: finalZ,
@@ -279,12 +286,13 @@ const Waypoints = () => {
     /////////////////////////////////////
 
     const controlModeCallback = useCallback(
+        
         (x: any) => {
 
-            if (x.data == 0)
+            if (x.data === 0)
                 context.setIsWayPointVelocityMode(false)
 
-            if (x.data == 2)
+            if (x.data === 2)
                 context.setIsWayPointVelocityMode(true)
 
         }, []
@@ -352,23 +360,23 @@ const Waypoints = () => {
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
-                    <ButtonStyle variant='contained' style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} onClick={handleClearWayPoint}>Clear Waypoint</ButtonStyle>
-                    <ButtonStyle variant='contained' style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetInitialPosition}>Set initial Position</ButtonStyle>
-                    <ButtonStyle variant='contained' style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} onClick={handleSetDepthOffset}>Set depth Offset</ButtonStyle>
+                    <Button style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} handler={handleClearWayPoint} label="Clear Waypoint" />
+                    <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={handleSetInitialPosition} label="Set initial position" />
+                    <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={handleSetDepthOffset} label="Set depth offset" />
                     <Switch onLabel="Velocity"
                         offLabel="Position"
                         vertical={false}
                         value={!context.isWayPointVelocityMode}
                         handler={HandleChangeSwitch} />
                     <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'left' }}>Command<br></br>
-                        <TextField value={cmdX} onChange={handleCmdXChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdx_id" label="X" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdY} onChange={handleCmdYChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdy_id" label="Y" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdZ} onChange={handleCmdZChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdz_id" label="Z" variant="outlined" style={{ padding: '10px 10px' }} />
+                        <CssTextField value={cmdX} onChange={handleCmdXChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdx_id" label="X" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
+                        <CssTextField value={cmdY} onChange={handleCmdYChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdy_id" label="Y" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
+                        <CssTextField value={cmdZ} onChange={handleCmdZChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdz_id" label="Z" variant="outlined" style={{ padding: '10px 10px' }} />
                     </div>
                     <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'right' }}>Command<br></br>
-                        <TextField value={cmdRoll} onChange={handleCmdRollChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdroll_id" label="Roll" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdPitch} onChange={handleCmdPitchChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdpitch_id" label="Pitch" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdYaw} onChange={handleCmdYawChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdyaw_id" label="Yaw" variant="outlined" style={{ padding: '10px 10px' }} />
+                        <CssTextField value={cmdRoll} onChange={handleCmdRollChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdroll_id" label="Roll" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
+                        <CssTextField value={cmdPitch} onChange={handleCmdPitchChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdpitch_id" label="Pitch" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
+                        <CssTextField value={cmdYaw} onChange={handleCmdYawChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdyaw_id" label="Yaw" variant="outlined" style={{ padding: '10px 10px' }} />
                     </div>
                 </div>
             )}

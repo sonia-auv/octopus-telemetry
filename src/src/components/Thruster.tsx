@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, {useContext} from "react";
 import Slider from "@material-ui/core/Slider";
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { useROSTopicPublisher } from '../hooks/useROSTopicPublisher'
+import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublisher'
 import RedButtonImg from './image/redButton.png';
-import ROSLIB from "roslib";
+import {GeneralContext} from "../context/generalContext";
 
 const marks = [
     {
@@ -46,152 +46,6 @@ const marksIndicator = [
         label: '100%',
     }]
 
-const ThrusterControlSlider = withStyles({
-
-    root: {
-        "&.MuiSlider-vertical": {
-            width: '80px',
-            padding: '0px 10px',
-        },
-        marginLeft: '-132px',
-    },
-
-    thumb: {
-        color: '#3796BF',
-        width: '60px',
-        height: '45px',
-        borderRadius: '4px',
-        "&.Mui-disabled": {
-            width: '60px',
-            height: '45px',
-            borderRadius: '4px',
-        },
-    },
-
-    vertical: {
-        "& .MuiSlider-thumb": {
-            marginLeft: '0px',
-            marginBottom: '-20px',
-            "&.Mui-disabled": {
-                marginBottom: '-20px',
-                marginLeft: '0px',
-            }
-        }
-    },
-    mark: {
-        color: 'black',
-        backgroundColor: 'black',
-        opacity: 1.0,
-        width: '60px',
-    },
-    marked: {
-        "&.MuiSlider-vertical": {
-            marginBottom: '30px',
-            marginTop: '30px',
-        },
-    },
-    markActive: {
-        color: 'black',
-        backgroundColor: 'black',
-        opacity: 1.0,
-        width: '60px',
-    },
-    rail: {
-        color: 'black',
-        opacity: 1.0,
-        marginLeft: '30px'
-    },
-    track: {
-        color: 'black',
-        opacity: 1.0,
-        marginLeft: '30px'
-    },
-    markLabel: {
-        color: 'black',
-        marginLeft: '68px'
-    },
-})(Slider);
-
-const ThrusterEffortIndicator = withStyles({
-
-    root: {
-        "&.MuiSlider-vertical": {
-            width: '80px',
-            padding: '0px 22px',
-            marginTop: '30px',
-        },
-    },
-
-    thumb: {
-        "&.Mui-disabled": {
-            color: 'gba(37, 35, 35, 0.64)',
-            width: '72px',
-            height: '3px',
-            borderRadius: '0px',
-            "& .triangleLeft": {
-                height: 0,
-                width: 0,
-                borderTop: '12px solid transparent',
-                borderBottom: '12px solid transparent',
-                borderLeft: '16px solid currentColor',
-                marginRight: '38px',
-                marginTop: '0px'
-            },
-            "& .triangleRight": {
-                height: 0,
-                width: 0,
-                borderTop: '12px solid transparent',
-                borderBottom: '12px solid transparent',
-                borderRight: '16px solid currentColor',
-                marginLeft: '20px',
-                marginTop: '0px'
-            },
-        },
-    },
-
-    vertical: {
-        "& .MuiSlider-thumb": {
-            "&.Mui-disabled": {
-                marginBottom: '0px',
-                marginLeft: '-6px'
-            }
-        }
-    },
-    mark: {
-        color: 'black',
-        backgroundColor: 'black',
-        opacity: 1.0,
-        width: '60px',
-        height: '3px'
-    },
-    marked: {
-        "&.MuiSlider-vertical": {
-            marginBottom: '30px',
-            marginTop: '30px',
-        },
-    },
-    markActive: {
-        color: 'black',
-        backgroundColor: 'black',
-        opacity: 1.0,
-        width: '60px',
-    },
-    rail: {
-        color: 'black',
-        opacity: 1.0,
-        marginLeft: '30px'
-    },
-    track: {
-        color: 'black',
-        opacity: 1.0,
-        marginLeft: '30px'
-    },
-    markLabel: {
-        color: 'black',
-        marginLeft: '80px',
-        fontWeight: 'bold'
-    },
-})(Slider);
 
 type ThrusterLevel = {
     identification: number
@@ -202,12 +56,157 @@ type ThrusterLevel = {
     thumbEnabled: boolean
 }
 
-const getMarks = (from: number, to: number, step: number) => {
-    const values = [...Array(Math.floor((to - from) / step) + 1)].map((_, i) => from + i * step);
-    return values.map(val => ({ value: val, label: val }))
-}
-
 export const Thruster = ({ identification, effort, minMark, maxMark, step, thumbEnabled }: ThrusterLevel) => {
+
+    const context = useContext(GeneralContext)
+
+    const ThrusterControlSlider = withStyles({
+
+        root: {
+            "&.MuiSlider-vertical": {
+                width: '80px',
+                padding: '0px 10px',
+            },
+            marginLeft: '-132px',
+        },
+
+        thumb: {
+            color: '#3796BF',
+            width: '60px',
+            height: '45px',
+            borderRadius: '4px',
+            "&.Mui-disabled": {
+                width: '60px',
+                height: '45px',
+                borderRadius: '4px',
+            },
+        },
+
+        vertical: {
+            "& .MuiSlider-thumb": {
+                marginLeft: '0px',
+                marginBottom: '-20px',
+                "&.Mui-disabled": {
+                    marginBottom: '-20px',
+                    marginLeft: '0px',
+                }
+            }
+        },
+        mark: {
+            color: 'black',
+            backgroundColor: 'black',
+            opacity: 1.0,
+            width: '60px',
+        },
+        marked: {
+            "&.MuiSlider-vertical": {
+                marginBottom: '30px',
+                marginTop: '30px',
+            },
+        },
+        markActive: {
+            color: 'black',
+            backgroundColor: 'black',
+            opacity: 1.0,
+            width: '60px',
+        },
+        rail: {
+            color: 'black',
+            opacity: 1.0,
+            marginLeft: '30px'
+        },
+        track: {
+            color: 'black',
+            opacity: 1.0,
+            marginLeft: '30px'
+        },
+        markLabel: {
+            color: context.isDarkMode ? "white" : 'black',
+            marginLeft: '68px'
+        },
+    })(Slider);
+
+    const ThrusterEffortIndicator = withStyles({
+
+        root: {
+            "&.MuiSlider-vertical": {
+                width: '80px',
+                padding: '0px 22px',
+                marginTop: '30px',
+            },
+        },
+
+        thumb: {
+            "&.Mui-disabled": {
+                color: 'gba(37, 35, 35, 0.64)',
+                width: '72px',
+                height: '3px',
+                borderRadius: '0px',
+                "& .triangleLeft": {
+                    height: 0,
+                    width: 0,
+                    borderTop: '12px solid transparent',
+                    borderBottom: '12px solid transparent',
+                    borderLeft: '16px solid currentColor',
+                    marginRight: '38px',
+                    marginTop: '0px'
+                },
+                "& .triangleRight": {
+                    height: 0,
+                    width: 0,
+                    borderTop: '12px solid transparent',
+                    borderBottom: '12px solid transparent',
+                    borderRight: '16px solid currentColor',
+                    marginLeft: '20px',
+                    marginTop: '0px'
+                },
+            },
+        },
+
+        vertical: {
+            "& .MuiSlider-thumb": {
+                "&.Mui-disabled": {
+                    marginBottom: '0px',
+                    marginLeft: '-6px'
+                }
+            }
+        },
+        mark: {
+            color: 'black',
+            backgroundColor: 'black',
+            opacity: 1.0,
+            width: '60px',
+            height: '3px'
+        },
+        marked: {
+            "&.MuiSlider-vertical": {
+                marginBottom: '30px',
+                marginTop: '30px',
+            },
+        },
+        markActive: {
+            color: 'black',
+            backgroundColor: 'black',
+            opacity: 1.0,
+            width: '60px',
+        },
+        rail: {
+            color: 'black',
+            opacity: 1.0,
+            marginLeft: '30px'
+        },
+        track: {
+            color: 'black',
+            opacity: 1.0,
+            marginLeft: '30px'
+        },
+        markLabel: {
+            color: context.isDarkMode ? "white" : 'black',
+            marginLeft: '80px',
+            fontWeight: 'bold'
+        },
+    })(Slider);
+
 
     // TODO: METTRE LE BON TOPIC
     const thrusterEffortPublisher = useROSTopicPublisher<any>("/provider_thruster/thruster_effort", "std_msgs/String")
@@ -216,7 +215,7 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
         return (
             <span {...props}>
                 {!thumbEnabled ?
-                    <img src={RedButtonImg} width="100%" height="100%" /> : null
+                    <img src={RedButtonImg} width="100%" height="100%" alt="thumb"/> : null
                 }
             </span>
         );
@@ -238,13 +237,12 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
 
         // TODO: FORMATAGE DES DONNES PAS CERTAIN DU FORMAT
         var msg = JSON.stringify({ ID:identification, effort:newValue})
-        var toPublish = new ROSLIB.Message({
+        var toPublish = MessageFactory({
             data: msg
         })
         thrusterEffortPublisher(toPublish)
     };
 
-    let markValues = getMarks(minMark, maxMark, step)
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>

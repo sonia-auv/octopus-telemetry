@@ -1,17 +1,16 @@
-import React, { useCallback, useContext, useState, useRef } from 'react';
+import { useCallback, useContext, useState, useRef } from 'react';
 import { GeneralContext } from "../context/generalContext";
 import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import ROSLIB from "roslib";
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import StopIcon from '@material-ui/icons/Stop';
-import Button from '@material-ui/core/Button';
+import Button from './common/button/Button'
 import CachedIcon from '@material-ui/icons/Cached';
 import { RosContext } from "../context/rosContext";
-import { useROSService } from '../hooks/useROSService'
+import { useROSService, ServiceRequestFactory, Topic, TopicFactory } from '../hooks/useROSService'
 import jpeg from 'jpeg-js'
 
 const ImageViewer = () => {
@@ -61,16 +60,16 @@ const ImageViewer = () => {
         },
     }));
 
-    const [topic, setTopic] = useState<ROSLIB.Topic | null>(null);
+    const [topic, setTopic] = useState<Topic | null>(null);
     const [listTopic, setListTopic] = useState<[]>([]);
-    const topicRef = useRef<ROSLIB.Topic | null>(null);
+    const topicRef = useRef<Topic | null>(null);
     const [image, setImage] = useState('')
 
     const imageCallback = useCallback(
         (x: any) => {
 
             var im: any;
-            if (x.encoding == "bgr8" || x.encoding == "rgb8")
+            if (x.encoding === "bgr8" || x.encoding === "rgb8")
                 im = "data:image/jpeg;base64," + rgb8ImageToBase64Jpeg(x);
             else if (x.format.includes("jpeg"))
                 im = "data:image/jpeg;base64," + x.data;
@@ -91,11 +90,11 @@ const ImageViewer = () => {
         if (topic) {
             topic.unsubscribe()
         }
-        if (x.target.value != "None") {
-            listTopic.map((value, index) => {
-                if (value["value"] == x.target.value) {
+        if (x.target.value !== "None") {
+            listTopic.forEach((value) => {
+                if (value["value"] === x.target.value) {
                     const type = value["type"]
-                    const newtopic = new ROSLIB.Topic({ ros: ros, name: x.target.value, messageType: type })
+                    const newtopic = TopicFactory({ ros: ros, name: x.target.value, messageType: type })
                     setTopic(newtopic)
                     topicRef.current = newtopic;
                     if (newtopic) {
@@ -118,13 +117,14 @@ const ImageViewer = () => {
         }
     }
 
-    //Filtre sur les types de message que le souhaite 
-    const messageFilter = ["sensor_msgs/CompressedImage", "sensor_msgs/Image"]
-
     const serviceCallback = useCallback(
         (x: any) => {
+
+            //Filtre sur les types de message que le souhaite 
+            const messageFilter = ["sensor_msgs/CompressedImage", "sensor_msgs/Image"]
+            
             var tab: any = []
-            x.topics.map((value: any, index: any) => {
+            x.topics.forEach((value: any, index: any) => {
                 if (messageFilter.includes(x.types[index])) {
                     const obj = { value: value, type: x.types[index] }
                     tab.push(obj);
@@ -137,7 +137,7 @@ const ImageViewer = () => {
     const topicServiceCall = useROSService<any>(serviceCallback, "/rosapi/topics/", "rosapi/Topics")
 
     const clickUpdate = () => {
-        var request = new ROSLIB.ServiceRequest({});
+        var request = ServiceRequestFactory({});
         topicServiceCall(request)
     }
 
@@ -157,6 +157,7 @@ const ImageViewer = () => {
                                 onChange={handleChange}
                                 label="Topic"
                                 value={topic?.name ? topic.name : "None"}
+                                style={{backgroundColor: 'white'}}
                             >
                                 <MenuItem value={"None"}>None</MenuItem>
                                 {listTopic.map((value, index) => {
@@ -165,30 +166,24 @@ const ImageViewer = () => {
                             </Select>
                         </FormControl>
                         <Button
-                            variant="contained"
-                            color="default"
                             className={classes.button}
-                            startIcon={<CachedIcon />}
-                            onClick={clickUpdate}
+                            label={<CachedIcon />}
+                            handler={clickUpdate}
                         ></Button>
                         <br></br>
                         <Button
-                            variant="contained"
-                            color="default"
                             className={classes.button}
-                            startIcon={<StopIcon />}
-                            onClick={clickStop}
+                            label={<StopIcon />}
+                            handler={clickStop}
                         ></Button>
                         <Button
-                            variant="contained"
-                            color="default"
                             className={classes.button}
-                            startIcon={<PlayCircleFilledIcon />}
-                            onClick={clickPlay}
+                            label={<PlayCircleFilledIcon />}
+                            handler={clickPlay}
                         ></Button>
                         <div style={{ width: "100%", height: "calc(100% - 140px)" }}>
                         {image !== '' ?
-                            <img src={image} width="100%" height="100%"></img> : <img width="100%" height="100%"></img>
+                            <img src={image} width="100%" height="100%" alt="imageviewer"></img> : <img width="100%" height="100%" alt="imageviewer"></img>
                         }
                         </div>
                     </div>

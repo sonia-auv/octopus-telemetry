@@ -1,4 +1,4 @@
-import React, { useCallback,useContext } from 'react';
+import { useCallback,useContext } from 'react';
 import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
 import Button from './common/button/Button';

@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { GeneralContext } from "../context/generalContext";
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+
+import AppBar from './common/AppBar/AppBar';
+import Tabs from './common/Tabs/Tabs';
+import Box from './common/Box/Box';
+import Typography from './common/Typography/Typography';
+
 import * as CommonVisionUIStyle from './VisionUiCommon';
 import VisionUIExecutionModule from './VisionUiExecution'
 import VisionUIFilterChainModule from './VisionUiFilterChain'
@@ -16,13 +17,6 @@ TabPanel.propTypes = {
     index: PropTypes.any.isRequired,
     value: PropTypes.any.isRequired,
 };
-
-function a11yProps(index: any) {
-    return {
-        id: `scrollable-auto-tab-${index}`,
-        'aria-controls': `scrollable-auto-tabpanel-${index}`,
-    };
-}
 
 function TabPanel(props: any) {
 
@@ -53,6 +47,11 @@ const VisionUIModule = () => {
         setValue(newValue);
     };
 
+    const tabs = [
+        { value: "Execution", index: 0 },
+        { value: "Filter Chain", index: 1 },
+        { value: "Filters", index: 2 }]
+
     return (
         <GeneralContext.Consumer>
             {context => context && (
@@ -60,11 +59,7 @@ const VisionUIModule = () => {
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>VISION UI</h1>
                     <div className={classes.root}>
                         <AppBar position="static" color="default">
-                            <Tabs value={value} onChange={handleChange} aria-label="visionUI tabs" variant="scrollable" scrollButtons="auto">
-                                <Tab label="Execution" {...a11yProps(0)} />
-                                <Tab label="Filter Chain" {...a11yProps(1)} />
-                                <Tab label="Filters" {...a11yProps(2)} />
-                            </Tabs>
+                            <Tabs value={value} handlerChange={handleChange} arialabel="visionUI tabs" listValue={tabs}></Tabs>
                         </AppBar>
                         <TabPanel value={value} index={0}>
                             <VisionUIExecutionModule />

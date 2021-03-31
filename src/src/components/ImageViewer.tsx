@@ -1,16 +1,18 @@
 import { useCallback, useContext, useState, useRef } from 'react';
 import { GeneralContext } from "../context/generalContext";
-import { makeStyles } from '@material-ui/core/styles';
+
 import Select from './common/select/Select';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import StopIcon from '@material-ui/icons/Stop';
+import FormControl from './common/Form/FormControl';
+import InputLabel from './common/Input/InputLabel';
 import Button from './common/button/Button'
-import CachedIcon from '@material-ui/icons/Cached';
+
+import { MPlayCircleFilledIcon as PlayCircleFilledIcon } from './common/Icons/Icon';
+import { MStopIcon as StopIcon } from './common/Icons/Icon';
+import { MCachedIcon as CachedIcon } from './common/Icons/Icon';
+
 import { RosContext } from "../context/rosContext";
 import { useROSService, ServiceRequestFactory, Topic, TopicFactory } from '../hooks/useROSService'
+
 import jpeg from 'jpeg-js'
 
 const ImageViewer = () => {
@@ -39,26 +41,6 @@ const ImageViewer = () => {
     }
 
     const ros = useContext(RosContext);
-
-    const useStyles = makeStyles((theme) => ({
-        formControl: {
-            margin: theme.spacing(1),
-            minWidth: 120,
-        },
-        selectEmpty: {
-            marginTop: theme.spacing(2),
-        },
-        button: {
-            margin: theme.spacing(1),
-            "& .MuiButton-iconSizeMedium > *:first-child": {
-                fontSize: "20px"
-            },
-            "& .MuiButton-startIcon": {
-                marginLeft: "-2px",
-                marginRight: "0px"
-            }
-        },
-    }));
 
     const [topic, setTopic] = useState<Topic | null>(null);
     const [listTopic, setListTopic] = useState<[]>([]);
@@ -141,15 +123,13 @@ const ImageViewer = () => {
         topicServiceCall(request)
     }
 
-    const classes = useStyles();
-
     return (
         <GeneralContext.Consumer>
             {context => context && (
                 <div style={{ width: '100%', height: '100%' }}>
                     <div style={{ width: '96%', height: '90%', flexDirection: 'row', marginLeft: '2%' }}>
                         <h1 style={{ fontSize: '20px', textAlign: 'center' }}>CAMERA VIEWER</h1>
-                        <FormControl variant="filled" className={classes.formControl}>
+                        <FormControl>
                             <InputLabel id="select-outlined-label">Topic</InputLabel>
                             <Select
                                 labelId="select-outlined-label"
@@ -158,28 +138,25 @@ const ImageViewer = () => {
                                 label="Topic"
                                 value={topic?.name ? topic.name : "None"}
                                 style={{backgroundColor: 'white'}}
+                                listValue={listTopic}
                             >
-                                <MenuItem value={"None"}>None</MenuItem>
-                                {listTopic.map((value, index) => {
-                                    return <MenuItem value={value["value"]}>{value["value"]}</MenuItem>
-                                })}
                             </Select>
                         </FormControl>
                         <Button
-                            className={classes.button}
                             label={<CachedIcon />}
                             handler={clickUpdate}
+                            isIcon={true}
                         ></Button>
                         <br></br>
                         <Button
-                            className={classes.button}
                             label={<StopIcon />}
                             handler={clickStop}
+                            isIcon={true}
                         ></Button>
                         <Button
-                            className={classes.button}
                             label={<PlayCircleFilledIcon />}
                             handler={clickPlay}
+                            isIcon={true}
                         ></Button>
                         <div style={{ width: "100%", height: "calc(100% - 140px)" }}>
                         {image !== '' ?

@@ -1,45 +1,16 @@
 import { useState, useCallback, useRef } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from './common/button/Button'
-import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
-import CachedIcon from '@material-ui/icons/Cached';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        width: '100%',
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-    contained: {
-        backgroundColor: 'lightgrey',
-        border: '2px solid rgba(0, 0, 0, 1.0)'
-    },
-    button: {
-        margin: theme.spacing(1),
-        "& .MuiButton-iconSizeMedium > *:first-child": {
-            fontSize: "20px"
-        },
-        "& .MuiButton-startIcon": {
-            marginLeft: "-2px",
-            marginRight: "0px"
-        }
-    },
-}));
+import TextField from './common/textfield/Textfield';
+import Select from './common/select/Select';
+import FormControl from './common/Form/FormControl';
+import InputLabel from './common/Input/InputLabel';
+import Button from './common/button/Button'
+import { MCachedIcon as CachedIcon } from './common/Icons/Icon';
+
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 
 const VisionUIExecutionTabModule = () => {
 
-    const classes = useStyles();
     const [name, setName] = useState('');
     const [filterChainList, setfilterChainList] = useState<[]>([]);
     const [filterChainSelected, setFilterChainSelected] = useState('');
@@ -175,61 +146,57 @@ const VisionUIExecutionTabModule = () => {
 
     return (
         <div>
-            <TextField value={name} onChange={handleNameChange} id="visionUi_name_id" label="Name" variant="outlined" fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white'}} />
-            <FormControl variant="filled" className={classes.formControl}>
+            <TextField value={name} handlerChange={handleNameChange} handlerKeyDown={() => { }} id="visionUi_name_id" label="Name" fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white' }} />
+            <FormControl>
                 <InputLabel id="selectFilterChain-outlined-label">Filterchain</InputLabel>
                 <Select
                     labelId="selectFilterChain-outlined-label"
                     fullWidth={true}
                     id="selectFilterChain-outlined"
-                    onChange={handleChangeFilterChain}
+                    handlerChange={handleChangeFilterChain}
                     label="Filter chain"
                     value={filterChainSelected ? filterChainSelected : "None"}
-                    style={{backgroundColor: 'white'}}>
-                    <MenuItem id={"selectFilterChainNone"} value={"None"}>None</MenuItem>
-                    {filterChainList.map((value) => {
-                        return <MenuItem id={"selectFilterChain" + value["value"]} value={value["value"]}>{value["value"]}</MenuItem>
-                    })}
+                    style={{ backgroundColor: 'white' }}
+                    listValue={filterChainList}
+                >
                 </Select>
             </FormControl>
             <Button
-                className={classes.button}
                 label={<CachedIcon />}
                 handler={handleRefreshFilterChainList}
+                isIcon={true}
             ></Button>
             <br></br>
-            <FormControl variant="filled" className={classes.formControl}>
+            <FormControl>
                 <InputLabel id="selectMedia-outlined-label">Media</InputLabel>
                 <Select
                     labelId="selectMedia-outlined-label"
                     fullWidth={true}
                     id="selectMedia-outlined"
-                    onChange={handleChangeMedia}
+                    handlerChange={handleChangeMedia}
                     label="Media"
                     value={mediaSelected ? mediaSelected : "None"}
-                    style={{backgroundColor: 'white'}}>
-                    <MenuItem id={"selectMediaNone"} value={"None"}>None</MenuItem>
-                    {mediaList.map((value) => {
-                        return <MenuItem id={"selectMedia" + value["value"]} value={value["value"]}>{value["value"]}</MenuItem>
-                    })}
+                    style={{ backgroundColor: 'white' }}
+                    listValue={mediaList}
+                >
                 </Select>
             </FormControl>
             <Button
-                className={classes.button}
                 label={<CachedIcon />}
                 handler={handleRefreshMediaList}
+                isIcon={true}
             />
             <br></br>
-            <div style={{ width: '75%', float: 'left' }} >
-                <TextField disabled={true} value={file} id="file_id" label="File" variant="outlined"
-                           fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' }} />
+            <div style={{ width: '80%', float: 'left' }} >
+                <TextField handlerChange={() => { }} handlerKeyDown={() => { }} disabled={true} value={file} id="file_id" label="File"
+                    fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' }} />
             </div>
             <input type='file' id='file' ref={inputFile} onChange={fileDialogClicked} style={{ display: 'none' }} />
-            <div style={{ float: 'right' }}><Button  style={{ fontSize: '20px', marginTop: '22px' }} handler={handleFileOpen} label="..." />
-            <TextField value={topicName} onChange={handleTopicNameChange} id="visionUi_topicname_id" label="Topic Name"
-                       variant="outlined" fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white' }} />
+            <div style={{ float: 'right' }}><Button style={{ fontSize: '20px', marginTop: '22px' }} handler={handleFileOpen} label="..." /></div>
+            <br></br>
+            <TextField value={topicName} handlerChange={handleTopicNameChange} handlerKeyDown={() => { }} id="visionUi_topicname_id" label="Topic Name"
+                fullWidth={true} style={{ padding: '10px 10px', marginTop: '10px', backgroundColor: 'white', float: 'left' }} />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'right' }} handler={handleCreate} label="Create" />
-            </div>
         </div>
     );
 };

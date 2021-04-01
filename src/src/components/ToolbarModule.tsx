@@ -1,18 +1,22 @@
 import React, { useCallback } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+
+import AppBar from './common/AppBar/AppBar';
+import Toolbar from './common/ToolBar/ToolBar';
 import Button from './common/button/Button';
+import IconButton from './common/button/IconButton';
+
 import MenuModule from './MenuModule';
-import IconButton from '@material-ui/core/IconButton';
-import { useROSService, ServiceRequestFactory } from '../hooks/useROSService';
 import BatterieLevelIndicator from './BatteryLevelIndicatorModule';
 import LabelAndValueModule from './LabelAndValueModule';
+
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService';
 import { useROSTopicSubscriber } from '../hooks/useROSTopicSubscriber';
 
 const ToolbarModule = () => {
+
   /**
    * TODO
-   * Verifier la conformité format des messages ROS
+   * Check ros message
    *
    */
 
@@ -180,7 +184,7 @@ const ToolbarModule = () => {
   return (
     <AppBar position="static" style={{ background: '#2E3B55' }}>
       <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="menu">
+        <IconButton edge="start" color="inherit" arialabel="menu">
           <MenuModule />
         </IconButton>
         <Button label="All" handler={handleAllAxisClicked} />

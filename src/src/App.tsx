@@ -35,6 +35,7 @@ export const App = () => {
         setLayout(layout)
     }
 
+    const moduleBorder = { border: '1px solid black', borderRadius: '10px', borderColor: 'gray', borderStyle: 'dashed' }
 
     const thrusterEffortCallback = useCallback(
         (x: any) => {
@@ -97,7 +98,7 @@ export const App = () => {
                                 draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch, .MuiSelect-root, .MuiFormControl-root, .MuiTypography-root, .MuiInputBase-root, .MuiList-root"}>
                         <div key="thrusters"
                              data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
-                             style={{ display: 'flex' }}>
+                             style={{ display: 'flex', ...moduleBorder}}>
                             <ThrustersModule />
                             <Thruster key={1}
                                       effort={thruster1}
@@ -169,37 +170,37 @@ export const App = () => {
                         </div>
                         <div key="actuator"
                              data-grid={{ x: 20, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
-                             style={{ display: 'flex' }}>
+                             style={{ display: 'flex', ...moduleBorder}}>
                             <ActuatorModule />
                         </div>
                         <div key="imageViewer"
                              data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                             style={{ display: 'flex' }}>
+                             style={{ display: 'flex' , ...moduleBorder}}>
                             <ImageViewer />
                         </div>
                         <div key="pfd"
                              data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                             style={{ display: 'flex' }}>
+                             style={{ display: 'flex' , ...moduleBorder}}>
                             <Pfd />
                         </div>
                         <div key="testBoard"
                              data-grid={{ x: 20, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                             style={{ display: 'flex' }}>
+                             style={{ display: 'flex' , ...moduleBorder}}>
                             <TestBoardModule />
                         </div>
                         <div key="waypoints"
                              data-grid={{ x: 50, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                             style={{ display: 'flex' }}>
+                             style={{ display: 'flex' , ...moduleBorder}}>
                             <Waypoints />
                         </div>
                         <div key="imageViewer2"
                              data-grid={{ x: 0, y: 17, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                             style={{ display: 'flex' }}>
+                             style={{ display: 'flex' , ...moduleBorder}}>
                             <ImageViewer />
                         </div>
                         <div key="visionUi"
-                            data-grid={{ x: 0, y: 27, w: 11, h: 11, minW: 11, maxW: 30, minH: 11, maxH: 30 }}
-                            style={{ display: 'flex' }}>
+                            data-grid={{ x: 0, y: 27, w: 11, h: 17, minW: 11, maxW: 30, minH: 17, maxH: 30 }}
+                            style={{ display: 'flex' , ...moduleBorder}}>
                             <VisionUI />
                         </div>
                     </GridLayout>

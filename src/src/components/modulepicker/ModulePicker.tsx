@@ -13,8 +13,9 @@ const ModulePicker = (props: any) => {
           <ul className="ModulePicker__list">
             {ModulesMetadata.map((module, index) => (
               <Module
-                name={module.name}
+                key={index}
                 id={index}
+                name={module.name}
                 thumbnailSource={module.thumbnailSource}
                 thumbnailLabel={module.thumbnailLabel}
                 inUse={context.activeModules.data[module.key].active}

@@ -17,14 +17,14 @@ interface ActiveModules {
 const ImageViewerMeta: ModuleMetadata = {
   key: 'imageViewer',
   name: 'Image Viewer',
-  thumbnailLabel: 'Image Viewer',
+  thumbnailLabel: 'image-viewer-thumbnail',
   thumbnailSource: 'http://placehold.it/400/400',
 };
 
 const ThrustersMeta: ModuleMetadata = {
   key: 'thrusters',
   name: 'Thrusters',
-  thumbnailLabel: 'Thrusters',
+  thumbnailLabel: 'thrusters-thumbnail',
   thumbnailSource: 'http://placehold.it/300/300',
 };
 

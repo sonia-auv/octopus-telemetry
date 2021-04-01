@@ -13,7 +13,7 @@ describe('The ModulePicker component', () => {
     it('Renders the ImageViewer module 📺', () => {
       render(<ModulePicker />);
 
-      const imageViewerText = screen.getByText(/ImageViewer/i);
+      const imageViewerText = screen.getByText(/Image Viewer/i);
       expect(imageViewerText).toBeInTheDocument();
 
       const imageViewerThumb = screen.getByAltText(
@@ -25,13 +25,8 @@ describe('The ModulePicker component', () => {
       expect(imageViewerThumb.src).not.toBeFalsy();
       // Just making sure...
       expect(imageViewerThumb.alt).toBe('image-viewer-thumbnail');
-
-      // check if draggable
-      const dragTarget = screen.getByTestId(
-        'test-drag-ImageViewer-0'
-      ) as HTMLOListElement;
-      expect(dragTarget.draggable).toBe(true);
     });
+
     it('Renders the ThrustersModule module 🚀', () => {
       render(<ModulePicker />);
 

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import GridLayout from 'react-grid-layout'
+import GridLayout, { contextType } from 'react-grid-layout'
 import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
@@ -106,6 +106,10 @@ export const App = () => {
                 <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
                     <GlobalStyles />
                     <ToolbarModule />
+                    <ModulePicker />
+                    <GeneralContext.Consumer>
+                        {context => (
+     
                     <GridLayout className="layout"
                                 layout={layout}
                                 cols={32}
@@ -114,9 +118,10 @@ export const App = () => {
                                 verticalCompact={false}
                                 onLayoutChange={(e) => onLayoutChange(e)}
                                 draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch, .MuiSelect-root, .MuiFormControl-root, .MuiTypography-root, .MuiInputBase-root, .MuiList-root"}>
-                        <div key="thrusters"
+                                {context.activeModules.data['thrusters'].active ? (
+                                          <div key="thrusters"
                              data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
-                             style={{ display: 'flex', ...moduleBorder}}>
+                             style={{ display: 'flex', ...moduleBorder}}>                       <pre>{JSON.stringify(context.activeModules.data['thrusters'].active)}</pre>
                             <ThrustersModule />
                             <Thruster key={1}
                                       effort={thruster1}
@@ -183,19 +188,19 @@ export const App = () => {
                                       step={25}
                                       thumbEnabled={!isDryRunMode}
                             />
-
-
-                        </div>
-                        <div key="actuator"
+                        </div>) : (<React.Fragment></React.Fragment>)}
+                    <div key="actuator"
                              data-grid={{ x: 20, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
                              style={{ display: 'flex', ...moduleBorder}}>
                             <ActuatorModule />
                         </div>
-                        <div key="imageViewer"
+                                {context.activeModules.data['imageViewer'].active ? (
+                                             <div key="imageViewer"
                              data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' , ...moduleBorder}}>
                             <ImageViewer />
-                        </div>
+                        </div>) : (<React.Fragment></React.Fragment>)}
+
                         <div key="pfd"
                              data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' , ...moduleBorder}}>
@@ -222,7 +227,10 @@ export const App = () => {
                             <VisionUI />
                         </div>
                     </GridLayout>
-                </ThemeProvider>
+             
+                        )}
+                    </GeneralContext.Consumer>
+   </ThemeProvider>
             </GeneralContext.Provider>
         </div>
     );

@@ -1,28 +1,30 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import { Checkbox as MUICheckbox } from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 type CheckboxProps = {
-  label?: string;
-  value: boolean;
-  handler: (checked: boolean) => void;
+  name?: string
+  color?: "primary" | "secondary" | "default" | undefined
+  checked?: boolean
+  handler?: ((event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void | undefined);
 };
 
-const Checkbox: FunctionComponent<CheckboxProps> = (props) => {
-  const [checked, setChecked] = useState(props.value);
-  const handleChange = () => {
-    setChecked(!checked);
-    props.handler(checked);
-  };
-  return (
-    <FormControlLabel
-      onChange={handleChange}
-      checked={checked}
-      control={<MUICheckbox value={props.value} />}
-      label={props.label}
-      labelPlacement="end"
-    />
-  );
+const GenericCheckbox = withStyles({
+
+})(MUICheckbox);
+
+const Checkbox: FunctionComponent<CheckboxProps> = (props) => (
+  <GenericCheckbox
+    name={props.name}
+    color={props.color}
+    checked={props.checked}
+    onChange={props.handler}
+  >
+  </GenericCheckbox>
+);
+
+Checkbox.defaultProps = {
+
 };
 
-export default Checkbox;
+export default Checkbox

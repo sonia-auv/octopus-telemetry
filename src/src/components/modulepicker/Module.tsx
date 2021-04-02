@@ -1,4 +1,4 @@
-import Checkbox from '../common/checkbox/Checkbox';
+import Check from '../common/check/Check';
 
 type ModuleProps = {
   name: string;
@@ -15,7 +15,7 @@ const Module = (props: ModuleProps) => (
     data-testid={`test-drag-${props.name}-${props.id}`}
     key={props.id}
   >
-    <Checkbox
+    <Check
       label={props.name}
       value={props.inUse}
       handler={props.toggleInUse}

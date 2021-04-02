@@ -14,10 +14,24 @@ interface ActiveModules {
   data: Record<string, Module>;
 }
 
-const ImageViewerMeta: ModuleMetadata = {
-  key: 'imageViewer',
-  name: 'Image Viewer',
-  thumbnailLabel: 'image-viewer-thumbnail',
+const ImageViewer1Meta: ModuleMetadata = {
+  key: 'imageViewer1',
+  name: 'Image Viewer 1',
+  thumbnailLabel: 'image-viewer-1-thumbnail',
+  thumbnailSource: 'http://placehold.it/400/400',
+};
+
+const ImageViewer2Meta: ModuleMetadata = {
+  key: 'imageViewer2',
+  name: 'Image Viewer 2',
+  thumbnailLabel: 'image-viewer-2-thumbnail',
+  thumbnailSource: 'http://placehold.it/200/200',
+};
+
+const ActuatorsMetadata: ModuleMetadata = {
+  key: 'actuators',
+  name: 'Actuators',
+  thumbnailLabel: 'actuators-thumbnail',
   thumbnailSource: 'http://placehold.it/400/400',
 };
 
@@ -28,7 +42,36 @@ const ThrustersMeta: ModuleMetadata = {
   thumbnailSource: 'http://placehold.it/300/300',
 };
 
-const ModulesMetadata: Array<ModuleMetadata> = [ImageViewerMeta, ThrustersMeta];
+const TestBoardMeta: ModuleMetadata = {
+  key: 'testBoard',
+  name: 'Test board',
+  thumbnailLabel: 'test-board-thumbnail',
+  thumbnailSource: 'http://placehold.it/500/500',
+};
 
-export { ModulesMetadata, ImageViewerMeta, ThrustersMeta };
+const PFDMeta: ModuleMetadata = {
+  key: 'pfd',
+  name: 'PFD',
+  thumbnailLabel: 'pfd-thumbnail',
+  thumbnailSource: 'http://placehold.it/400/400',
+};
+
+const ModulesMetadata: Array<ModuleMetadata> = [
+  ImageViewer1Meta,
+  ImageViewer2Meta,
+  ActuatorsMetadata,
+  ThrustersMeta,
+  TestBoardMeta,
+  PFDMeta,
+];
+
+export {
+  ModulesMetadata,
+  ImageViewer1Meta,
+  ImageViewer2Meta,
+  ActuatorsMetadata,
+  ThrustersMeta,
+  TestBoardMeta,
+  PFDMeta,
+};
 export type { Module, ModuleMetadata, ActiveModules };

@@ -2,19 +2,39 @@ import { createContext, useContext } from 'react';
 import {
   Module,
   ActiveModules,
-  ImageViewerMeta,
+  ImageViewer1Meta,
   ThrustersMeta,
+  ImageViewer2Meta,
+  ActuatorsMetadata,
+  TestBoardMeta,
+  PFDMeta,
 } from '../components/modulepicker/ModulesMetadata';
 
 const defaultModules: ActiveModules = {
   data: {
-    imageViewer: {
+    imageViewer1: {
       active: true,
-      meta: ImageViewerMeta,
+      meta: ImageViewer1Meta,
+    },
+    imageViewer2: {
+      active: true,
+      meta: ImageViewer2Meta,
+    },
+    actuators: {
+      active: true,
+      meta: ActuatorsMetadata,
     },
     thrusters: {
       active: true,
       meta: ThrustersMeta,
+    },
+    testBoard: {
+      active: false,
+      meta: TestBoardMeta,
+    },
+    pfd: {
+      active: true,
+      meta: PFDMeta,
     },
   },
 };

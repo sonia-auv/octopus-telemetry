@@ -194,7 +194,7 @@ export const App = () => {
                              style={{ display: 'flex', ...moduleBorder}}>
                             <ActuatorModule />
                         </div>
-                                {context.activeModules.data['imageViewer'].active ? (
+                                {context.activeModules.data['imageViewer1'].active ? (
                                              <div key="imageViewer"
                              data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' , ...moduleBorder}}>

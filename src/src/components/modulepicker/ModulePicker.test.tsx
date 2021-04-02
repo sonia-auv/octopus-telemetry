@@ -10,24 +10,32 @@ describe('The ModulePicker component', () => {
   });
 
   describe('renders every available module with a caption and thumbnail.', () => {
-    it('Renders the ImageViewer module 📺', () => {
-      render(<ModulePicker />);
+    describe('renders the ImageViewer modules 📺', () => {
+      it('renders the first one', () => {
+        render(<ModulePicker />);
 
-      const imageViewerText = screen.getByText(/Image Viewer/i);
-      expect(imageViewerText).toBeInTheDocument();
+        const imageViewerText = screen.getByText(/Image Viewer 1/i);
+        expect(imageViewerText).toBeInTheDocument();
 
-      const imageViewerThumb = screen.getByAltText(
-        'image-viewer-thumbnail'
-      ) as HTMLImageElement;
+        const imageViewerThumb = screen.getByAltText(
+          'image-viewer-1-thumbnail'
+        ) as HTMLImageElement;
 
-      expect(imageViewerThumb).toBeInTheDocument();
-      // We check if the image source is not empty
-      expect(imageViewerThumb.src).not.toBeFalsy();
-      // Just making sure...
-      expect(imageViewerThumb.alt).toBe('image-viewer-thumbnail');
+        expect(imageViewerThumb).toBeInTheDocument();
+        // We check if the image source is not empty
+        expect(imageViewerThumb.src).not.toBeFalsy();
+        // Just making sure...
+        expect(imageViewerThumb.alt).toBe('image-viewer-1-thumbnail');
+      });
+      it('renders the second one', () => {
+        render(<ModulePicker />);
+
+        const imageViewerText2 = screen.getByText(/Image Viewer 2/i);
+        expect(imageViewerText2).toBeInTheDocument();
+      });
     });
 
-    it('Renders the ThrustersModule module 🚀', () => {
+    it('renders the ThrustersModule module 🚀', () => {
       render(<ModulePicker />);
 
       const thrustersModuleText = screen.getByText(/Thrusters/i);
@@ -43,5 +51,25 @@ describe('The ModulePicker component', () => {
       // Just making sure...
       expect(thrustersModuleThumb.alt).toBe('thrusters-thumbnail');
     });
+    it('renders the actuators module', () => {
+      render(<ModulePicker />);
+
+      const actuatorsModuleText = screen.getByText(/Actuators/i);
+      expect(actuatorsModuleText).toBeInTheDocument();
+    });
+    it('renders the test board', () => {
+      render(<ModulePicker />);
+
+      const testBoardText = screen.getByText(/Test board/i);
+      expect(testBoardText).toBeInTheDocument();
+    });
+    it('renders the pfd module', () => {
+      render(<ModulePicker />);
+      const pfdText = screen.getByText(/PFD/i);
+      expect(pfdText).toBeInTheDocument();
+    });
+    it.skip('render the VisionUI module', () => {});
+    it.skip('renders the Waypoints module', () => {});
+    it.skip('renders the robotic arm module', () => {});
   });
 });

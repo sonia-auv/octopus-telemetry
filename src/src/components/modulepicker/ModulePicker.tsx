@@ -2,12 +2,13 @@ import { Fragment, useState } from 'react';
 import './modulepicker.css';
 import Module from './Module';
 import { GeneralContext } from '../../context/generalContext';
-import { ModuleMetadata, ModulesMetadata } from './ModulesMetadata';
+import { ModulesMetadata } from './ModulesMetadata';
 
 const ModulePicker = (props: any) => {
   return (
     <GeneralContext.Consumer>
       {(context) => (
+        // TODO put in Material UI drawer component
         <div className="ModulePicker">
           <h1 className="ModulePicker__title">Module Picker</h1>
           <ul className="ModulePicker__list">

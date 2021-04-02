@@ -37,10 +37,7 @@ export const App = () => {
     JSON.parse(localStorage.getItem('layout') as string) || [];
   const [layout, setLayout] = useState(originalLayout);
 
-  const onLayoutChange = (layout: any) => {
-    localStorage.setItem('layout', JSON.stringify(layout));
-    setLayout(layout);
-  };
+    const moduleBorder = { border: '1px solid black', borderRadius: '10px', borderColor: 'gray', borderStyle: 'dashed' }
 
   const thrusterEffortCallback = useCallback((x: any) => {
     let id = x.ID;
@@ -101,8 +98,80 @@ export const App = () => {
       },
     };
 
-    setActiveModules(updatedActiveModules);
-  };
+        <div className="margin-top" style={style} >
+            <GeneralContext.Provider value={{ isDarkMode, setIsDarkMode, isDryRunMode, setIsDryRunMode, isRelativeUnits,
+                setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode }}>
+                <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+                    <GlobalStyles />
+                    <ToolbarModule />
+                    <GridLayout className="layout"
+                                layout={layout}
+                                cols={32}
+                                rowHeight={50}
+                                width={2800}
+                                verticalCompact={false}
+                                onLayoutChange={(e) => onLayoutChange(e)}
+                                draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch, .MuiSelect-root, .MuiFormControl-root, .MuiTypography-root, .MuiInputBase-root, .MuiList-root"}>
+                        <div key="thrusters"
+                             data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
+                             style={{ display: 'flex', ...moduleBorder}}>
+                            <ThrustersModule />
+                            <Thruster key={1}
+                                      effort={thruster1}
+                                      identification={1}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={2}
+                                      effort={thruster2}
+                                      identification={2}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={3}
+                                      effort={thruster3}
+                                      identification={3}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={4}
+                                      effort={thruster4}
+                                      identification={4}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={5}
+                                      effort={thruster5}
+                                      identification={5}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={6}
+                                      effort={thruster6}
+                                      identification={6}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
+                            <Thruster key={7}
+                                      effort={thruster7}
+                                      identification={1}
+                                      minMark={-100}
+                                      maxMark={100}
+                                      step={25}
+                                      thumbEnabled={!isDryRunMode}
+                            />
 
   return (
     <div className="margin-top" style={style}>
@@ -273,93 +342,47 @@ export const App = () => {
                   <React.Fragment></React.Fragment>
                 )}
 
-                <div
-                  key="pfd"
-                  data-grid={{
-                    x: 11,
-                    y: 7,
-                    w: 22,
-                    h: 12,
-                    minW: 8,
-                    maxW: 30,
-                    minH: 8,
-                    maxH: 30,
-                  }}
-                  style={{ display: 'flex' }}
-                >
-                  <Pfd />
-                </div>
-                <div
-                  key="testBoard"
-                  data-grid={{
-                    x: 20,
-                    y: 0,
-                    w: 5,
-                    h: 9,
-                    minW: 8,
-                    maxW: 30,
-                    minH: 8,
-                    maxH: 30,
-                  }}
-                  style={{ display: 'flex' }}
-                >
-                  <TestBoardModule />
-                </div>
-                <div
-                  key="waypoints"
-                  data-grid={{
-                    x: 50,
-                    y: 0,
-                    w: 5,
-                    h: 9,
-                    minW: 8,
-                    maxW: 30,
-                    minH: 8,
-                    maxH: 30,
-                  }}
-                  style={{ display: 'flex' }}
-                >
-                  <Waypoints />
-                </div>
-                <div
-                  key="imageViewer2"
-                  data-grid={{
-                    x: 0,
-                    y: 17,
-                    w: 10,
-                    h: 10,
-                    minW: 8,
-                    maxW: 30,
-                    minH: 8,
-                    maxH: 30,
-                  }}
-                  style={{ display: 'flex' }}
-                >
-                  <ImageViewer />
-                </div>
-                <div
-                  key="visionUi"
-                  data-grid={{
-                    x: 0,
-                    y: 27,
-                    w: 11,
-                    h: 11,
-                    minW: 11,
-                    maxW: 30,
-                    minH: 11,
-                    maxH: 30,
-                  }}
-                  style={{ display: 'flex' }}
-                >
-                  <VisionUI />
-                </div>
-              </GridLayout>
-            )}
-          </GeneralContext.Consumer>
-        </ThemeProvider>
-      </GeneralContext.Provider>
-    </div>
-  );
-};
+                        </div>
+                        <div key="actuator"
+                             data-grid={{ x: 20, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
+                             style={{ display: 'flex', ...moduleBorder}}>
+                            <ActuatorModule />
+                        </div>
+                        <div key="imageViewer"
+                             data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                             style={{ display: 'flex' , ...moduleBorder}}>
+                            <ImageViewer />
+                        </div>
+                        <div key="pfd"
+                             data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                             style={{ display: 'flex' , ...moduleBorder}}>
+                            <Pfd />
+                        </div>
+                        <div key="testBoard"
+                             data-grid={{ x: 20, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                             style={{ display: 'flex' , ...moduleBorder}}>
+                            <TestBoardModule />
+                        </div>
+                        <div key="waypoints"
+                             data-grid={{ x: 50, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                             style={{ display: 'flex' , ...moduleBorder}}>
+                            <Waypoints />
+                        </div>
+                        <div key="imageViewer2"
+                             data-grid={{ x: 0, y: 17, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                             style={{ display: 'flex' , ...moduleBorder}}>
+                            <ImageViewer />
+                        </div>
+                        <div key="visionUi"
+                            data-grid={{ x: 0, y: 27, w: 11, h: 17, minW: 11, maxW: 30, minH: 17, maxH: 30 }}
+                            style={{ display: 'flex' , ...moduleBorder}}>
+                            <VisionUI />
+                        </div>
+                    </GridLayout>
+                </ThemeProvider>
+            </GeneralContext.Provider>
+        </div>
+    );
+}
 
 export default App;

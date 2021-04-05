@@ -9,6 +9,7 @@ import {
   TestBoardMeta,
   PFDMeta,
   VisionUIMeta,
+  WaypointsMeta,
 } from '../components/modulepicker/ModulesMetadata';
 
 const defaultModules: ActiveModules = {
@@ -41,6 +42,10 @@ const defaultModules: ActiveModules = {
       active: false,
       meta: VisionUIMeta,
     },
+    waypoints: {
+      active: false,
+      meta: WaypointsMeta
+    }
   },
 };
 

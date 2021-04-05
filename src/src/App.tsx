@@ -217,11 +217,14 @@ export const App = () => {
                         </div>      
                         ) : (<React.Fragment></React.Fragment>)}
 
-                        <div key="waypoints"
+                                {context.activeModules.data['waypoints'].active ? (
+                                    <div key="waypoints"
                              data-grid={{ x: 50, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' , ...moduleBorder}}>
                             <Waypoints />
-                        </div>
+                        </div>      
+                        ) : (<React.Fragment></React.Fragment>)}
+                  
                         <div key="imageViewer2"
                              data-grid={{ x: 0, y: 17, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' , ...moduleBorder}}>

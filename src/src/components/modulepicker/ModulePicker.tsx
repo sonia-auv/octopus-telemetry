@@ -13,7 +13,7 @@ const ModulePicker = (props: any) => {
     module: ModuleMetadata,
     activeModules: ActiveModules
   ) => {
-    if (module.key in activeModules) {
+    if (module.key in activeModules.data) {
       return activeModules.data[module.key].active;
     }
     return false;

@@ -34,9 +34,11 @@ const ModulePicker = (props: any) => {
                 thumbnailLabel={module.thumbnailLabel}
                 inUse={getIsModuleActive(module, context.activeModules)}
                 toggleInUse={(v: boolean) => {
-                  let m = context.activeModules.data[module.key];
-                  context.updateActiveModule(m, !v);
-                  return v;
+                  if (module.key in context.activeModules.data) {
+                    let m = context.activeModules.data[module.key];
+                    context.updateActiveModule(m, !v);
+                    return v;
+                  }
                 }}
               />
             ))}

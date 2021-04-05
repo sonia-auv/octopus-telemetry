@@ -201,11 +201,14 @@ export const App = () => {
                             <ImageViewer />
                         </div>) : (<React.Fragment></React.Fragment>)}
 
-                        <div key="pfd"
-                             data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                             style={{ display: 'flex' , ...moduleBorder}}>
-                            <Pfd />
-                        </div>
+                                {context.activeModules.data['pfd'].active ? (
+                                    <div key="pfd"
+                                            data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                                            style={{ display: 'flex' , ...moduleBorder}}>
+                                            <Pfd />
+                                        </div>
+                                ) : (<React.Fragment></React.Fragment>)}
+  
                         <div key="testBoard"
                              data-grid={{ x: 20, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' , ...moduleBorder}}>

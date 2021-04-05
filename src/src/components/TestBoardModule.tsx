@@ -44,7 +44,7 @@ const TestBoardModule = () => {
     }
 
     return (
-        <div>
+        <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
             <h1>Test board</h1>
             <form>
                 <div>

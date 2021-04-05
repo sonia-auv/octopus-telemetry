@@ -2,9 +2,22 @@ import { Fragment, useState } from 'react';
 import './modulepicker.css';
 import Module from './Module';
 import { GeneralContext } from '../../context/generalContext';
-import { ModulesMetadata } from './ModulesMetadata';
+import {
+  ActiveModules,
+  ModuleMetadata,
+  ModulesMetadata,
+} from './ModulesMetadata';
 
 const ModulePicker = (props: any) => {
+  const getIsModuleActive = (
+    module: ModuleMetadata,
+    activeModules: ActiveModules
+  ) => {
+    if (module.key in activeModules) {
+      return activeModules.data[module.key].active;
+    }
+    return false;
+  };
   return (
     <GeneralContext.Consumer>
       {(context) => (
@@ -19,7 +32,7 @@ const ModulePicker = (props: any) => {
                 name={module.name}
                 thumbnailSource={module.thumbnailSource}
                 thumbnailLabel={module.thumbnailLabel}
-                inUse={context.activeModules.data[module.key].active}
+                inUse={getIsModuleActive(module, context.activeModules)}
                 toggleInUse={(v: boolean) => {
                   let m = context.activeModules.data[module.key];
                   context.updateActiveModule(m, !v);

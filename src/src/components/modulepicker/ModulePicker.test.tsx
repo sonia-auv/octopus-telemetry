@@ -73,7 +73,11 @@ describe('The ModulePicker component', () => {
       const visionUIText = screen.getByText(/Vision UI/i);
       expect(visionUIText).toBeInTheDocument();
     });
-    it.skip('renders the Waypoints module', () => {});
+    it('renders the Waypoints module', () => {
+      render(<ModulePicker />);
+      const waypointsModuleText = screen.getByText(/Waypoints/i);
+      expect(waypointsModuleText).toBeInTheDocument();
+    });
     it.skip('renders the robotic arm module', () => {});
   });
 });

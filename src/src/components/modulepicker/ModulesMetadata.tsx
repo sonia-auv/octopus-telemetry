@@ -63,6 +63,13 @@ const VisionUIMeta: ModuleMetadata = {
   thumbnailSource: 'http://placehold.it/300/300',
 };
 
+const WaypointsMeta: ModuleMetadata = {
+  key: 'waypoints',
+  name: 'Waypoints',
+  thumbnailLabel: 'waypoints-thumbnail',
+  thumbnailSource: 'http://placehold.it/300/300',
+};
+
 const ModulesMetadata: Array<ModuleMetadata> = [
   ImageViewer1Meta,
   ImageViewer2Meta,
@@ -71,6 +78,7 @@ const ModulesMetadata: Array<ModuleMetadata> = [
   TestBoardMeta,
   PFDMeta,
   VisionUIMeta,
+  WaypointsMeta,
 ];
 
 export {
@@ -82,5 +90,6 @@ export {
   TestBoardMeta,
   PFDMeta,
   VisionUIMeta,
+  WaypointsMeta,
 };
 export type { Module, ModuleMetadata, ActiveModules };

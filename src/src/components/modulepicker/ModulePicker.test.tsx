@@ -78,6 +78,5 @@ describe('The ModulePicker component', () => {
       const waypointsModuleText = screen.getByText(/Waypoints/i);
       expect(waypointsModuleText).toBeInTheDocument();
     });
-    it.skip('renders the robotic arm module', () => {});
   });
 });

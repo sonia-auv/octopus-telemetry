@@ -21,7 +21,6 @@ const ModulePicker = (props: any) => {
   return (
     <GeneralContext.Consumer>
       {(context) => (
-        // TODO put in Material UI drawer component
         <div className="ModulePicker">
           <h1 className="ModulePicker__title">Module Picker</h1>
           <ul className="ModulePicker__list">

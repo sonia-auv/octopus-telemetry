@@ -68,7 +68,11 @@ describe('The ModulePicker component', () => {
       const pfdText = screen.getByText(/PFD/i);
       expect(pfdText).toBeInTheDocument();
     });
-    it.skip('render the VisionUI module', () => {});
+    it('render the VisionUI module', () => {
+      render(<ModulePicker />);
+      const visionUIText = screen.getByText(/Vision UI/i);
+      expect(visionUIText).toBeInTheDocument();
+    });
     it.skip('renders the Waypoints module', () => {});
     it.skip('renders the robotic arm module', () => {});
   });

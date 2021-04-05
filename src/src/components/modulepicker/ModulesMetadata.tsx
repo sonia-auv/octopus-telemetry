@@ -56,6 +56,13 @@ const PFDMeta: ModuleMetadata = {
   thumbnailSource: 'http://placehold.it/400/400',
 };
 
+const VisionUIMeta: ModuleMetadata = {
+  key: 'visionUi',
+  name: 'Vision UI',
+  thumbnailLabel: 'visionui-thumbnail',
+  thumbnailSource: 'http://placehold.it/300/300',
+};
+
 const ModulesMetadata: Array<ModuleMetadata> = [
   ImageViewer1Meta,
   ImageViewer2Meta,
@@ -63,6 +70,7 @@ const ModulesMetadata: Array<ModuleMetadata> = [
   ThrustersMeta,
   TestBoardMeta,
   PFDMeta,
+  VisionUIMeta,
 ];
 
 export {
@@ -73,5 +81,6 @@ export {
   ThrustersMeta,
   TestBoardMeta,
   PFDMeta,
+  VisionUIMeta,
 };
 export type { Module, ModuleMetadata, ActiveModules };

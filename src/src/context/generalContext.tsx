@@ -8,6 +8,7 @@ import {
   ActuatorsMetadata,
   TestBoardMeta,
   PFDMeta,
+  VisionUIMeta,
 } from '../components/modulepicker/ModulesMetadata';
 
 const defaultModules: ActiveModules = {
@@ -35,6 +36,10 @@ const defaultModules: ActiveModules = {
     pfd: {
       active: true,
       meta: PFDMeta,
+    },
+    visionUi: {
+      active: false,
+      meta: VisionUIMeta,
     },
   },
 };

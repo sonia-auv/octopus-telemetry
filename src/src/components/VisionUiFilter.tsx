@@ -1,47 +1,28 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+
+import TextField from './common/textfield/Textfield';
+import Select from './common/select/Select';
+import FormControl from './common/Form/FormControl';
+import InputLabel from './common/Input/InputLabel';
 import Button from './common/button/Button'
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import DeleteIcon from '@material-ui/icons/Delete';
-import SaveIcon from '@material-ui/icons/Save';
-import RestoreIcon from '@material-ui/icons/Restore';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import ListItemText from './common/List/ListItemText';
+import List from './common/List/List';
+import ListItem from './common/List/ListItem';
+import Checkbox from './common/Checkbox/Checkbox';
+import FormControlLabel from './common/Form/FormControlLabel'
+import Tooltip  from './common/Tooltip/Tooltip';
+
+import { MAddCircleOutlineIcon as AddCircleOutlineIcon } from './common/Icons/Icon';
+import { MArrowDropUpIcon as ArrowDropUpIcon } from './common/Icons/Icon';
+import { MArrowDropDownIcon as ArrowDropDownIcon } from './common/Icons/Icon';
+import { MDeleteIcon as DeleteIcon } from './common/Icons/Icon';
+import { MSaveIcon as SaveIcon } from './common/Icons/Icon';
+import { MRestoreIcon as RestoreIcon } from './common/Icons/Icon';
+import { MCachedIcon as CachedIcon } from './common/Icons/Icon';
+
 import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
-import CachedIcon from '@material-ui/icons/Cached';
-import { Tooltip } from '@material-ui/core';
-import * as CommonVisionUIStyle from './VisionUiCommon';
 
 const VisionUIFilterModule = () => {
-
-    const classes = CommonVisionUIStyle.useStyles();
-
-    const ListFilterStyle = withStyles({
-        root: {
-            width: '100%',
-            position: 'relative',
-            overflow: 'auto',
-            maxHeight: 300,
-        },
-    })(List);
-
-    const ListSettingsStyle = withStyles({
-        root: {
-            width: '100%',
-            position: 'relative',
-            overflow: 'auto',
-            maxHeight: 300,
-        },
-    })(List);
 
     const [executionList, setExecutionList] = useState<[]>([]);
     const [executionSelected, setExecutionSelected] = useState('');
@@ -461,9 +442,9 @@ const VisionUIFilterModule = () => {
         return (
             <div>
                 {filterListItems.map((item) => (
-                    <CommonVisionUIStyle.ListItemStyle button style={style} key={"filterList" + item['id']} selected={executionFilterSelected === item['value']} autoFocus={executionFilterSelected === item['value']}>
-                        <ListItemText primary={item['value']} onClick={(event: any) => handSelectedExecutionFilterChain(event, item['value'])} />
-                    </CommonVisionUIStyle.ListItemStyle>
+                    <ListItem style={style} key={"filterList" + item['id']} selected={executionFilterSelected === item['value']} autoFocus={executionFilterSelected === item['value']}>
+                        <ListItemText primary={item['value']} handler={(event: any) => handSelectedExecutionFilterChain(event, item['value'])} />
+                    </ListItem>
                 ))}
             </div>
         );
@@ -477,7 +458,6 @@ const VisionUIFilterModule = () => {
 
         }, []
     )
-
 
     const changeParameterServiceCall = useROSService<any>(changeParameterServiceCallback, "/proc_image_processing/set_filterchain_filter_param", "sonia_common/SetFilterchainFilterParam");
 
@@ -559,12 +539,12 @@ const VisionUIFilterModule = () => {
 
                 content.push(
                     <Tooltip title={item['desc']}>
-                        <CommonVisionUIStyle.ListItemStyle button style={style} key={"paramList" + item['paramName']}>
+                        <ListItem style={style} key={"paramList" + item['paramName']}>
                             <FormControlLabel
-                                control={<Checkbox name={item['paramName']} color="primary" checked={item['value'] === '1'} onChange={(event: any) => handleChangeParamValue(event, index, "value")} />}
+                                control={<Checkbox name={item['paramName']} color="primary" checked={item['value'] === '1'} handler={(event: any) => handleChangeParamValue(event, index, "value")} />}
                                 label={item['paramName']}
                             />
-                        </CommonVisionUIStyle.ListItemStyle>
+                        </ListItem>
                     </Tooltip>
                 )
             }
@@ -573,11 +553,11 @@ const VisionUIFilterModule = () => {
 
                 content.push(
                     <Tooltip title={item['desc']}>
-                        <CommonVisionUIStyle.ListItemStyle button style={style} key={"paramList" + item['paramName']}>
-                            <TextField type={item['type'] === "Integer" ? 'number' : "float"} autoFocus={currentParamFocus === index && currentSubParamFocus === 1} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                            <TextField disabled={true} value={item['min']} onChange={(event: any) => handleChangeParamValue(event, index, "min")} id={"parammin_id" + index} label="Min" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                            <TextField disabled={true} value={item['max']} onChange={(event: any) => handleChangeParamValue(event, index, "max")} id={"parammax_id" + index} label="Max" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                        </CommonVisionUIStyle.ListItemStyle>
+                        <ListItem style={style} key={"paramList" + item['paramName']}>
+                            <TextField type={item['type'] === "Integer" ? 'number' : "float"} autoFocus={currentParamFocus === index && currentSubParamFocus === 1} value={item['value']} handlerChange={(event: any) => handleChangeParamValue(event, index, "value")} handlerKeyDown={() => { }} id={"paramvalue_id" + index} label="Value" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField disabled={true} value={item['min']} handlerChange={(event: any) => handleChangeParamValue(event, index, "min")} handlerKeyDown={() => { }} id={"parammin_id" + index} label="Min" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField disabled={true} value={item['max']} handlerChange={(event: any) => handleChangeParamValue(event, index, "max")} handlerKeyDown={() => { }} id={"parammax_id" + index} label="Max" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                        </ListItem>
                     </Tooltip>
                 )
 
@@ -587,9 +567,9 @@ const VisionUIFilterModule = () => {
 
                 content.push(
                     <Tooltip title={item['desc']}>
-                        <CommonVisionUIStyle.ListItemStyle button style={style} key={"paramList" + item['paramName']}>
-                            <TextField autoFocus={currentParamFocus === index} value={item['value']} onChange={(event: any) => handleChangeParamValue(event, index, "value")} id={"paramvalue_id" + index} label="Value" variant="outlined" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
-                        </CommonVisionUIStyle.ListItemStyle>
+                        <ListItem style={style} key={"paramList" + item['paramName']}>
+                            <TextField autoFocus={currentParamFocus === index} value={item['value']} handlerChange={(event: any) => handleChangeParamValue(event, index, "value")} handlerKeyDown={() => { }} id={"paramvalue_id" + index} label="Value" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
+                        </ListItem>
                     </Tooltip>
                 )
             }
@@ -600,87 +580,83 @@ const VisionUIFilterModule = () => {
 
     return (
         <div>
-            <FormControl variant="filled" className={classes.formControl}>
+            <FormControl>
                 <InputLabel id="execution-outlined-label">Execution</InputLabel>
                 <Select
                     labelId="execution-outlined-label"
                     fullWidth={true}
                     id="sexecution-outlined"
-                    onChange={handleChangeExecution}
+                    handlerChange={handleChangeExecution}
                     label="Execution"
                     value={executionSelected ? executionSelected : "None"}
-                style={{backgroundColor: 'white'}}>
-                    <MenuItem id={"executionNone"} value={"None"}>None</MenuItem>
-                    {executionList.map((value, index) => {
-                        return <MenuItem id={"execution" + value['value']} value={value['value']}>{value['value']}</MenuItem>
-                    })}
+                    style={{ backgroundColor: 'white' }}
+                    listValue={executionList}
+                >
                 </Select>
             </FormControl>
             <Button
-                className={classes.button}
                 label={<CachedIcon />}
                 handler={handleRefreshExecutionList}
+                isIcon={true}
             ></Button>
             <Button
-                className={classes.button}
                 label={<DeleteIcon />}
                 handler={handleClickDeleteExecution}
+                isIcon={true}
             ></Button>
             <br></br>
-            <FormControl variant="filled" className={classes.formControl}>
+            <FormControl>
                 <InputLabel id="selectFilter-outlined-label">Filter</InputLabel>
                 <Select
                     labelId="selectFilter-outlined-label"
                     fullWidth={true}
                     id="selectFilter-outlined"
-                    onChange={handleChangeFilter}
+                    handlerChange={handleChangeFilter}
                     label="Filter"
                     value={filterSelected ? filterSelected : "None"}
-                    style={{backgroundColor: 'white'}}>
-                    <MenuItem id={"selectFilterNone"} value={"None"}>None</MenuItem>
-                    {filterList.map((value, index) => {
-                        return <MenuItem id={"selectFilter" + value['value']} value={value['value']}>{value['value']}</MenuItem>
-                    })}
+                    style={{ backgroundColor: 'white' }}
+                    listValue={filterList}
+                >
                 </Select>
             </FormControl>
             <Button
-                className={classes.button}
                 label={<CachedIcon />}
                 handler={handleRefreshFilterList}
+                isIcon={true}
             ></Button>
             <br></br>
             <Button
-                className={classes.button}
                 label={<AddCircleOutlineIcon />}
                 handler={handleClickAdd}
+                isIcon={true}
             ></Button>
             <Button
-                className={classes.button}
                 label={<ArrowDropUpIcon />}
                 handler={handleClickUp}
+                isIcon={true}
             ></Button>
             <Button
-                className={classes.button}
                 label={<ArrowDropDownIcon />}
                 handler={handleClickDown}
+                isIcon={true}
             ></Button>
             <Button
-                className={classes.button}
                 label={<DeleteIcon />}
                 handler={handleClickDelete}
+                isIcon={true}
             ></Button>
             <Button
-                className={classes.button}
                 label={<SaveIcon />}
                 handler={handleClickSave}
+                isIcon={true}
             ></Button>
             <Button
-                className={classes.button}
                 label={<RestoreIcon />}
                 handler={handleClickRestore}
+                isIcon={true}
             />
-            <ListFilterStyle><FilterList className={classes.root} /></ListFilterStyle><br></br>
-            <ListSettingsStyle><SettingsList className={classes.root} /></ListSettingsStyle>
+            <List maxHeight={300}><FilterList /></List><br></br>
+            <List maxHeight={300}><SettingsList /></List>
         </div>
     );
 };

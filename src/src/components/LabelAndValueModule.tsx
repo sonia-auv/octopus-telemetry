@@ -1,7 +1,4 @@
-import React from 'react';
 import './common/switch/switch.css';
-
-
 
 const LabelAndValueModule = (props: any) => {
     return (

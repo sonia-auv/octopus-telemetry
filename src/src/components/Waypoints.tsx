@@ -1,29 +1,14 @@
 import { useCallback, useContext, useState } from 'react';
+
 import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
 import Button from './common/button/Button';
-import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core/styles';
+import TextField from './common/textfield/Textfield';
+
 import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
 
 const Waypoints = () => {
-
-    const ButtonStyle = withStyles({
-        contained: {
-            backgroundColor: 'lightgrey',
-            border: '2px solid rgba(0, 0, 0, 1.0)'
-        },
-
-    })(Button);
-
-
-    const CssTextField = withStyles({
-        root: {
-            color: 'white',
-            backgroundColor: 'white',
-        }
-    })(TextField);
 
     const context = useContext(GeneralContext)
 
@@ -31,13 +16,12 @@ const Waypoints = () => {
     // CONTROL MODE
     //////////////////////////////////////
 
-    // Reponse en retour a l appel du service
+    // Service response
     const controlModeServiceCallback = useCallback(
         (x: any) => {
         }, []
     )
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const HandleChangeSwitch = () => {
 
         context.setIsWayPointVelocityMode(!context.isWayPointVelocityMode)
@@ -59,13 +43,12 @@ const Waypoints = () => {
     // CLEAR WAYPOINT
     //////////////////////////////////////
 
-    // Reponse en retour a l appel du service
+    // Service response
     const clearWaypointServiceCallback = useCallback(
         (x: any) => {
         }, []
     )
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleClearWayPoint = () => {
 
         var request = ServiceRequestFactory({
@@ -79,13 +62,12 @@ const Waypoints = () => {
     // SET INITIAL POSITION
     //////////////////////////////////////
 
-    // Reponse en retour a l appel du service
+    // Service response
     const setInitialPositionServiceCallback = useCallback(
         (x: any) => {
         }, []
     )
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleSetInitialPosition = () => {
 
         var request = ServiceRequestFactory({
@@ -103,13 +85,12 @@ const Waypoints = () => {
     // SET DEPTH OFFSET
     //////////////////////////////////////
 
-    // Reponse en retour a l appel du service
+    // Service response
     const setDepthOffsetServiceCallback = useCallback(
         (x: any) => {
         }, []
     )
 
-    // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
     const handleSetDepthOffset = (value: any) => {
 
         var request = ServiceRequestFactory({
@@ -119,7 +100,6 @@ const Waypoints = () => {
     }
 
     const setDepthOffsetServiceCall = useROSService<any>(setDepthOffsetServiceCallback, "/proc_navigation/set_depth_offset", "sonia_common/SetDepthOffset")
-
     const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
 
     const [cmdX, setCmdX] = useState('0.00');
@@ -175,7 +155,7 @@ const Waypoints = () => {
     // SEND TARGET POSITIONS
     //////////////////////////////////////
 
-    // Reponse en retour a l appel du service
+    // Service response
     const sendPositionTargetServiceCallback = useCallback(
         (x: any) => {
         }, []
@@ -260,14 +240,12 @@ const Waypoints = () => {
             }
 
             //Depth is limited to 3
-            if (finalZ > 3)
-            {
+            if (finalZ > 3) {
                 finalZ = 3
                 setLastValidCmdZ('3.0')
                 setCmdZ('3.0')
             }
 
-            // FORMATAGE DU MESSAGE A ENVOYER AU SERVICE A VERIFIER
             var request = ServiceRequestFactory({
                 X: finalX,
                 Y: finalY,
@@ -286,7 +264,7 @@ const Waypoints = () => {
     /////////////////////////////////////
 
     const controlModeCallback = useCallback(
-        
+
         (x: any) => {
 
             if (x.data === 0)
@@ -307,23 +285,23 @@ const Waypoints = () => {
     const positionTargetFeedBackCallback = useCallback(
         (x: any) => {
 
-            setCmdX(x.position.x.toFixed(2)) 
-            setLastValidCmdX(x.position.x.toFixed(2)) 
+            setCmdX(x.position.x.toFixed(2))
+            setLastValidCmdX(x.position.x.toFixed(2))
 
-            setCmdY(x.position.y.toFixed(2)) 
-            setLastValidCmdY(x.position.y.toFixed(2)) 
+            setCmdY(x.position.y.toFixed(2))
+            setLastValidCmdY(x.position.y.toFixed(2))
 
-            setCmdZ(x.position.z.toFixed(2)) 
-            setLastValidCmdZ(x.position.z.toFixed(2)) 
+            setCmdZ(x.position.z.toFixed(2))
+            setLastValidCmdZ(x.position.z.toFixed(2))
 
-            setCmdRoll(x.orientation.x.toFixed(2)) 
-            setLastValidCmdRoll(x.orientation.x.toFixed(2)) 
+            setCmdRoll(x.orientation.x.toFixed(2))
+            setLastValidCmdRoll(x.orientation.x.toFixed(2))
 
-            setCmdPitch(x.orientation.y.toFixed(2)) 
-            setLastValidCmdPitch(x.orientation.y.toFixed(2)) 
+            setCmdPitch(x.orientation.y.toFixed(2))
+            setLastValidCmdPitch(x.orientation.y.toFixed(2))
 
-            setCmdYaw(x.orientation.z.toFixed(2)) 
-            setLastValidCmdYaw(x.orientation.z.toFixed(2)) 
+            setCmdYaw(x.orientation.z.toFixed(2))
+            setLastValidCmdYaw(x.orientation.z.toFixed(2))
 
         }, []
     )
@@ -331,23 +309,23 @@ const Waypoints = () => {
     const velocityTargetFeedBackCallback = useCallback(
         (x: any) => {
 
-            setCmdX(x.linear.x.toFixed(2)) 
-            setLastValidCmdX(x.linear.x.toFixed(2)) 
+            setCmdX(x.linear.x.toFixed(2))
+            setLastValidCmdX(x.linear.x.toFixed(2))
 
-            setCmdY(x.linear.y.toFixed(2)) 
-            setLastValidCmdY(x.linear.y.toFixed(2)) 
+            setCmdY(x.linear.y.toFixed(2))
+            setLastValidCmdY(x.linear.y.toFixed(2))
 
-            setCmdZ(x.linear.z.toFixed(2)) 
-            setLastValidCmdZ(x.linear.z.toFixed(2)) 
+            setCmdZ(x.linear.z.toFixed(2))
+            setLastValidCmdZ(x.linear.z.toFixed(2))
 
-            setCmdRoll(x.angular.x.toFixed(2)) 
-            setLastValidCmdRoll(x.angular.x.toFixed(2)) 
+            setCmdRoll(x.angular.x.toFixed(2))
+            setLastValidCmdRoll(x.angular.x.toFixed(2))
 
-            setCmdPitch(x.angular.y.toFixed(2)) 
-            setLastValidCmdPitch(x.angular.y.toFixed(2)) 
+            setCmdPitch(x.angular.y.toFixed(2))
+            setLastValidCmdPitch(x.angular.y.toFixed(2))
 
-            setCmdYaw(x.angular.z.toFixed(2)) 
-            setLastValidCmdYaw(x.angular.z.toFixed(2)) 
+            setCmdYaw(x.angular.z.toFixed(2))
+            setLastValidCmdYaw(x.angular.z.toFixed(2))
 
         }, []
     )
@@ -369,14 +347,14 @@ const Waypoints = () => {
                         value={!context.isWayPointVelocityMode}
                         handler={HandleChangeSwitch} />
                     <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'left' }}>Command<br></br>
-                        <CssTextField value={cmdX} onChange={handleCmdXChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdx_id" label="X" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <CssTextField value={cmdY} onChange={handleCmdYChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdy_id" label="Y" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <CssTextField value={cmdZ} onChange={handleCmdZChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdz_id" label="Z" variant="outlined" style={{ padding: '10px 10px' }} />
+                        <TextField value={cmdX} handlerChange={handleCmdXChange} handlerKeyDown={handleCmdKeyDown} id="waypoint_cmdx_id" label="X" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdY} handlerChange={handleCmdYChange} handlerKeyDown={handleCmdKeyDown} id="waypoint_cmdy_id" label="Y" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdZ} handlerChange={handleCmdZChange} handlerKeyDown={handleCmdKeyDown} id="waypoint_cmdz_id" label="Z" style={{ padding: '10px 10px' }} />
                     </div>
                     <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'right' }}>Command<br></br>
-                        <CssTextField value={cmdRoll} onChange={handleCmdRollChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdroll_id" label="Roll" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <CssTextField value={cmdPitch} onChange={handleCmdPitchChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdpitch_id" label="Pitch" variant="outlined" style={{ padding: '10px 10px' }} /><br></br>
-                        <CssTextField value={cmdYaw} onChange={handleCmdYawChange} onKeyDown={handleCmdKeyDown} id="waypoint_cmdyaw_id" label="Yaw" variant="outlined" style={{ padding: '10px 10px' }} />
+                        <TextField value={cmdRoll} handlerChange={handleCmdRollChange} handlerKeyDown={handleCmdKeyDown} id="waypoint_cmdroll_id" label="Roll" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdPitch} handlerChange={handleCmdPitchChange} handlerKeyDown={handleCmdKeyDown} id="waypoint_cmdpitch_id" label="Pitch" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdYaw} handlerChange={handleCmdYawChange} handlerKeyDown={handleCmdKeyDown} id="waypoint_cmdyaw_id" label="Yaw" style={{ padding: '10px 10px' }} />
                     </div>
                 </div>
             )}

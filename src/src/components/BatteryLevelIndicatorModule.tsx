@@ -1,31 +1,5 @@
-import React from "react";
-import Slider from "@material-ui/core/Slider";
-import { withStyles } from '@material-ui/core/styles';
+import BatterieSlider from "./common/slider/BatterieSlider";
 import LabelAndValueModule from "./LabelAndValueModule";
-
-const BatteryLevelIndicator = withStyles({
-
-    root: {
-        height: '0px',
-        width: '100px',
-        backgroundImage: 'linear-gradient(to right, red,yellow,green)'
-
-    },
-    thumb: {
-        "&.Mui-disabled": {
-            transform: 'rotate(90deg)',
-            width: '40px',
-            height: '10px',
-            borderRadius: '0px',
-        }
-    },
-    track:{
-        background: 'transparent'
-    },
-    rail:{
-        background: 'transparent'
-    }
-})(Slider);
 
 export const BatterieLevelIndicator = (props: any) => {
 
@@ -34,7 +8,8 @@ export const BatterieLevelIndicator = (props: any) => {
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             gridGap: '20px',
-            margin: 'auto'}}>
+            margin: 'auto'
+        }}>
             <div>
                 <LabelAndValueModule
                     label={props.label}
@@ -43,14 +18,14 @@ export const BatterieLevelIndicator = (props: any) => {
 
                 />
             </div>
-
-            <div style={{margin: 'auto'}}>
-                <BatteryLevelIndicator
+            <div style={{ margin: 'auto' }}>
+                <BatterieSlider
                     orientation="horizontal"
-                    value= {props.value}
+                    value={props.value}
                     min={0}
                     max={28}
-                    disabled={true} />
+                    disabled={true}
+                />
             </div>
         </div>
 

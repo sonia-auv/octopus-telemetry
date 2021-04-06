@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import * as AttitudeIndicatorModule from './PFD/guages/attitude_indicator'
 import * as AltimeterTickerModule from './PFD/guages/altimeter_ticker'
@@ -9,6 +9,7 @@ import * as VerticalSpeedIndicatorModule from './PFD/guages/vertical_speed'
 import * as HorizontalSituationIndicatorModule from './PFD/guages/horizontal_situation'
 import * as BottomLeftPanelModule from './PFD/guages/bottomleftpanel'
 import * as BottomRightPanelModule from './PFD/guages/bottomrightpanel'
+
 import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
 
 var attitudeIndicator: AttitudeIndicatorModule.AttitudeIndicator;

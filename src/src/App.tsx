@@ -37,6 +37,23 @@ export const App = () => {
         setLayout(layout)
     }
 
+    const saveChosenModulesToStorage = (activeModules: ActiveModules) => {
+        const out = Object.assign({}, ...Object.keys(activeModules.data).map(key => ({
+            [key]: activeModules.data[key].active
+        })))
+        localStorage.setItem("activeModules", JSON.stringify(out))
+    }
+
+    const loadChosenModulesFromStorage = () => {
+        const out = JSON.parse(localStorage.getItem('activeModules') as string)
+        if (!out) {
+            return
+        }
+        Object.keys(out).map((key: string, index: number) => {
+            defaultModules.data[key].active = out[key]
+        })
+    }
+
     const moduleBorder = { border: '1px solid black', borderRadius: '10px', borderColor: 'gray', borderStyle: 'dashed' }
 
     const thrusterEffortCallback = useCallback(
@@ -81,6 +98,8 @@ export const App = () => {
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
     const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
     const [isWayPointVelocityMode, setIsWayPointVelocityMode] = React.useState(false)
+
+    loadChosenModulesFromStorage()
     const [activeModules, setActiveModules] = React.useState(defaultModules);
 
     const updateActiveModule = (module: Module, active: boolean) => {
@@ -96,6 +115,7 @@ export const App = () => {
       };
   
       setActiveModules(updatedActiveModules);
+      saveChosenModulesToStorage(updatedActiveModules);
     };
   
     return (

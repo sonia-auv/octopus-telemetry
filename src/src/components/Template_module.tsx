@@ -3,6 +3,8 @@ import { GeneralContext } from "../context/generalContext";
 import { useROSService } from '../hooks/useROSService'
 import {MessageFactory, useROSTopicPublisher} from "../hooks/useROSTopicPublisher";
 import {useROSTopicSubscriber} from "../hooks/useROSTopicSubscriber";
+import Button from './common/button/Button'
+import Switch from "./common/switch/Switch";
 
 const Template_module = () => {
 
@@ -34,6 +36,13 @@ const Template_module = () => {
         'insert message type'
     );
 
+    const handleButtonClick = () => {
+        // Handle the button click here
+    }
+    const handleSwitch = () => {
+        // handle Switch here
+    }
+
     //TODO Example pour les commons
 
     return (
@@ -41,6 +50,17 @@ const Template_module = () => {
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Module template</h1>
+                    <Button
+                        handler={handleButtonClick}
+                    />
+                    <Switch
+                        onLabel="On"
+                        offLabel="off"
+                        value={true}
+                        vertical={false}
+                        round={true}
+                        handler={handleSwitch}
+                    />
 
                 </div>
             )}

@@ -1,3 +1,11 @@
+import pfdModuleBig from '../image/pfd_module_big.png'
+import testBoardBig from '../image/test_board_big.png'
+import waypointsModuleBig from '../image/waypoints_module_big.png'
+import thrustersModuleBig from '../image/thrusters_module_big.png'
+import actuatorsModuleBig from '../image/actuators_module_big.png'
+import cameraModuleBig from '../image/camera_module_big.png'
+import visionUiModuleBig from '../image/visionui_module_big.png'
+
 interface ModuleMetadata {
   key: string;
   name: string;
@@ -18,56 +26,56 @@ const ImageViewer1Meta: ModuleMetadata = {
   key: 'imageViewer1',
   name: 'Image Viewer 1',
   thumbnailLabel: 'image-viewer-1-thumbnail',
-  thumbnailSource: 'http://placehold.it/400/400',
+  thumbnailSource: cameraModuleBig,
 };
 
 const ImageViewer2Meta: ModuleMetadata = {
   key: 'imageViewer2',
   name: 'Image Viewer 2',
   thumbnailLabel: 'image-viewer-2-thumbnail',
-  thumbnailSource: 'http://placehold.it/200/200',
+  thumbnailSource: cameraModuleBig,
 };
 
 const ActuatorsMetadata: ModuleMetadata = {
   key: 'actuators',
   name: 'Actuators',
   thumbnailLabel: 'actuators-thumbnail',
-  thumbnailSource: 'http://placehold.it/400/400',
+  thumbnailSource: actuatorsModuleBig,
 };
 
 const ThrustersMeta: ModuleMetadata = {
   key: 'thrusters',
   name: 'Thrusters',
   thumbnailLabel: 'thrusters-thumbnail',
-  thumbnailSource: 'http://placehold.it/300/300',
+  thumbnailSource: thrustersModuleBig,
 };
 
 const TestBoardMeta: ModuleMetadata = {
   key: 'testBoard',
   name: 'Test board',
   thumbnailLabel: 'test-board-thumbnail',
-  thumbnailSource: 'http://placehold.it/500/500',
+  thumbnailSource: testBoardBig,
 };
 
 const PFDMeta: ModuleMetadata = {
   key: 'pfd',
   name: 'PFD',
   thumbnailLabel: 'pfd-thumbnail',
-  thumbnailSource: 'http://placehold.it/400/400',
+  thumbnailSource: pfdModuleBig,
 };
 
 const VisionUIMeta: ModuleMetadata = {
   key: 'visionUi',
   name: 'Vision UI',
   thumbnailLabel: 'visionui-thumbnail',
-  thumbnailSource: 'http://placehold.it/300/300',
+  thumbnailSource: visionUiModuleBig,
 };
 
 const WaypointsMeta: ModuleMetadata = {
   key: 'waypoints',
   name: 'Waypoints',
   thumbnailLabel: 'waypoints-thumbnail',
-  thumbnailSource: 'http://placehold.it/300/300',
+  thumbnailSource: waypointsModuleBig,
 };
 
 const ModulesMetadata: Array<ModuleMetadata> = [

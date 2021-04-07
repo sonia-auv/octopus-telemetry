@@ -141,7 +141,7 @@ export const App = () => {
                                 {context.activeModules.data['thrusters'].active ? (
                                           <div key="thrusters"
                              data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
-                             style={{ display: 'flex', ...moduleBorder}}>                       <pre>{JSON.stringify(context.activeModules.data['thrusters'].active)}</pre>
+                             style={{ display: 'flex', ...moduleBorder}}>
                             <ThrustersModule />
                             <Thruster key={1}
                                       effort={thruster1}

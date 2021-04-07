@@ -24,9 +24,8 @@ const Module = (props: ModuleProps) => (
         className: 'ModulePicker__module-thumbnail',
       }}
       zoomImage={{
-        // TODO so should we add a 'big' version to the metadata?
-        src: 'http://placehold.it/600/600',
-        alt: 'Big boi',
+        src: props.thumbnailSource,
+        alt: `${props.thumbnailLabel}-big`,
       }}
     />
   </li>

@@ -16,6 +16,7 @@ import {GlobalStyles} from "./components/global";
 import ToolbarModule from "./components/ToolbarModule";
 import ModulePicker from './components/modulepicker/ModulePicker'
 import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata'
+import { Drawer } from '@material-ui/core'
 import './App.css'
 
 
@@ -117,6 +118,8 @@ export const App = () => {
       setActiveModules(updatedActiveModules);
       saveChosenModulesToStorage(updatedActiveModules);
     };
+
+    const [sideBarVisible, setSideBarVisible] = useState(false)
   
     return (
 
@@ -125,18 +128,23 @@ export const App = () => {
                 setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode, activeModules, setActiveModules, updateActiveModule }}>
                 <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
                     <GlobalStyles />
-                    <ToolbarModule />
+                    <ToolbarModule handleShowSidebar={setSideBarVisible} />
                     <div className="App__main-wrapper">
-                            <ModulePicker />
+                    <Drawer ModalProps={{ onBackdropClick: () => setSideBarVisible(false) }} variant="temporary" anchor="left" open={sideBarVisible} onClose={() => setSideBarVisible(false)}>
+                        <ModulePicker toggleSidebar={() => {
+                            setSideBarVisible(false)
+                            }} visible={sideBarVisible} />
+                    </Drawer>
                     <GeneralContext.Consumer>
                         {context => (
                     
-                    <GridLayout className="layout"
+                    <GridLayout 
                                 layout={layout}
                                 cols={32}
                                 rowHeight={50}
                                 width={2800}
                                 verticalCompact={false}
+                                preventCollision={true}
                                 onLayoutChange={(e) => onLayoutChange(e)}
                                 draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch, .MuiSelect-root, .MuiFormControl-root, .MuiTypography-root, .MuiInputBase-root, .MuiList-root"}>
                                 {context.activeModules.data['thrusters'].active ? (
@@ -265,7 +273,6 @@ export const App = () => {
                         )}
                     </GeneralContext.Consumer>                
                     </div>
-
    </ThemeProvider>
             </GeneralContext.Provider>
         </div>

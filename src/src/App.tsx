@@ -131,9 +131,7 @@ export const App = () => {
                     <ToolbarModule handleShowSidebar={setSideBarVisible} />
                     <div className="App__main-wrapper">
                     <Drawer ModalProps={{ onBackdropClick: () => setSideBarVisible(false) }} variant="temporary" anchor="left" open={sideBarVisible} onClose={() => setSideBarVisible(false)}>
-                        <ModulePicker toggleSidebar={() => {
-                            setSideBarVisible(false)
-                            }} visible={sideBarVisible} />
+                        <ModulePicker  />
                     </Drawer>
                     <GeneralContext.Consumer>
                         {context => (

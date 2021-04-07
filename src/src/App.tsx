@@ -16,6 +16,7 @@ import {GlobalStyles} from "./components/global";
 import ToolbarModule from "./components/ToolbarModule";
 import ModulePicker from './components/modulepicker/ModulePicker'
 import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata'
+import './App.css'
 
 
 export const App = () => {
@@ -92,7 +93,6 @@ export const App = () => {
 
     useROSTopicSubscriber<any>(thrusterEffortCallback, "/provider_thruster/effort", "sonia_common/ThrusterEffort")
 
-    const style = { height: 'calc(100% - 55px)' };
     const [isDarkMode, setIsDarkMode] = React.useState(theme === 'dark')
     const [isDryRunMode, setIsDryRunMode] = React.useState(false);
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
@@ -120,16 +120,17 @@ export const App = () => {
   
     return (
 
-        <div className="margin-top" style={style} >
+        <div>
             <GeneralContext.Provider value={{ isDarkMode, setIsDarkMode, isDryRunMode, setIsDryRunMode, isRelativeUnits,
                 setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode, activeModules, setActiveModules, updateActiveModule }}>
                 <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
                     <GlobalStyles />
                     <ToolbarModule />
-                    <ModulePicker />
+                    <div className="App__main-wrapper">
+                            <ModulePicker />
                     <GeneralContext.Consumer>
                         {context => (
-     
+                    
                     <GridLayout className="layout"
                                 layout={layout}
                                 cols={32}
@@ -262,7 +263,9 @@ export const App = () => {
                                 </div>) : <React.Fragment></React.Fragment>}
                     </GridLayout>
                         )}
-                    </GeneralContext.Consumer>
+                    </GeneralContext.Consumer>                
+                    </div>
+
    </ThemeProvider>
             </GeneralContext.Provider>
         </div>

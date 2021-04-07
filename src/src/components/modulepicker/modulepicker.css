@@ -5,6 +5,9 @@
   border-right: 1px dashed grey;
   padding: 24px;
   height: 100%;
+  position: fixed;
+  background-color: #E2E2E2;
+  z-index: 3;
 }
 
 .ModulePicker__title {

@@ -5,6 +5,14 @@ import {MessageFactory, useROSTopicPublisher} from "../hooks/useROSTopicPublishe
 import {useROSTopicSubscriber} from "../hooks/useROSTopicSubscriber";
 import Button from './common/button/Button'
 import Switch from "./common/switch/Switch";
+import AppBar from "./common/AppBar/AppBar";
+import Box from "./common/Box/Box";
+import IconButton from "./common/button/IconButton";
+import InputLabel from "./common/Input/InputLabel";
+import List from "./common/List/List";
+import ListItem from "./common/List/ListItem";
+import ListItemText from "./common/List/ListItemText";
+import Select from "./common/select/Select";
 
 const Template_module = () => {
 
@@ -50,8 +58,21 @@ const Template_module = () => {
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Module template</h1>
+                    <AppBar />
+                    <Box />
+                    <IconButton />
+                    <InputLabel />
+                    <List>
+                        <ListItem></ListItem>
+                        <ListItemText></ListItemText>
+                    </List>
+                    <Select handlerChange={() => console.log()}>
+                    </Select>
+
                     <Button
                         handler={handleButtonClick}
+                        label="Button template"
+                        isIcon={false}
                     />
                     <Switch
                         onLabel="On"

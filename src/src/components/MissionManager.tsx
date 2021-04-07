@@ -76,7 +76,7 @@ const MissionManager = () => {
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Mission Manager</h1>            
                     <FormControl variant="outlined" className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-outlined-label">Mission</InputLabel>
+                        <InputLabel id="mission-manager-simple-select-outlined-label">Mission</InputLabel>
                         <Select
                         label="Mission"
                         onChange={behaviorSelected}

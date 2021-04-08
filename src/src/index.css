@@ -1,4 +1,12 @@
+@import-normalize;
 
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-y: hidden;
+}
 
 body {
   margin: 0;

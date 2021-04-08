@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import GridLayout from 'react-grid-layout'
+import GridLayout, { contextType } from 'react-grid-layout'
 import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
@@ -9,11 +9,15 @@ import TestBoardModule from "./components/TestBoardModule";
 import Waypoints from "./components/Waypoints";
 import VisionUI from "./components/VisionUi";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
-import {GeneralContext} from "./context/generalContext";
+import {GeneralContext, defaultModules} from "./context/generalContext";
 import { ThemeProvider } from 'styled-components';
 import {lightTheme, darkTheme} from "./components/Theme"
 import {GlobalStyles} from "./components/global";
 import ToolbarModule from "./components/ToolbarModule";
+import ModulePicker from './components/modulepicker/ModulePicker'
+import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata'
+import { Drawer } from '@material-ui/core'
+import './App.css'
 
 
 export const App = () => {
@@ -33,6 +37,23 @@ export const App = () => {
     const onLayoutChange = (layout:any) => {
         localStorage.setItem("layout", JSON.stringify(layout))
         setLayout(layout)
+    }
+
+    const saveChosenModulesToStorage = (activeModules: ActiveModules) => {
+        const out = Object.assign({}, ...Object.keys(activeModules.data).map(key => ({
+            [key]: activeModules.data[key].active
+        })))
+        localStorage.setItem("activeModules", JSON.stringify(out))
+    }
+
+    const loadChosenModulesFromStorage = () => {
+        const out = JSON.parse(localStorage.getItem('activeModules') as string)
+        if (!out) {
+            return
+        }
+        Object.keys(out).map((key: string, index: number) => {
+            defaultModules.data[key].active = out[key]
+        })
     }
 
     const moduleBorder = { border: '1px solid black', borderRadius: '10px', borderColor: 'gray', borderStyle: 'dashed' }
@@ -73,30 +94,59 @@ export const App = () => {
 
     useROSTopicSubscriber<any>(thrusterEffortCallback, "/provider_thruster/effort", "sonia_common/ThrusterEffort")
 
-    const style = { height: 'calc(100% - 55px)' };
     const [isDarkMode, setIsDarkMode] = React.useState(theme === 'dark')
     const [isDryRunMode, setIsDryRunMode] = React.useState(false);
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
     const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
     const [isWayPointVelocityMode, setIsWayPointVelocityMode] = React.useState(false)
 
+    loadChosenModulesFromStorage()
+    const [activeModules, setActiveModules] = React.useState(defaultModules);
+
+    const updateActiveModule = (module: Module, active: boolean) => {
+      const updatedModule: Module = {
+        ...module,
+        active,
+      };
+      const updatedActiveModules: ActiveModules = {
+        data: {
+          ...activeModules.data,
+          [module.meta.key]: updatedModule,
+        },
+      };
+  
+      setActiveModules(updatedActiveModules);
+      saveChosenModulesToStorage(updatedActiveModules);
+    };
+
+    const [sideBarVisible, setSideBarVisible] = useState(false)
+  
     return (
 
-        <div className="margin-top" style={style} >
+        <div>
             <GeneralContext.Provider value={{ isDarkMode, setIsDarkMode, isDryRunMode, setIsDryRunMode, isRelativeUnits,
-                setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode }}>
+                setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode, activeModules, setActiveModules, updateActiveModule }}>
                 <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
                     <GlobalStyles />
-                    <ToolbarModule />
-                    <GridLayout className="layout"
+                    <ToolbarModule handleShowSidebar={setSideBarVisible} />
+                    <div className="App__main-wrapper">
+                    <Drawer ModalProps={{ onBackdropClick: () => setSideBarVisible(false) }} variant="temporary" anchor="left" open={sideBarVisible} onClose={() => setSideBarVisible(false)}>
+                        <ModulePicker  />
+                    </Drawer>
+                    <GeneralContext.Consumer>
+                        {context => (
+                    
+                    <GridLayout 
                                 layout={layout}
                                 cols={32}
                                 rowHeight={50}
                                 width={2800}
                                 verticalCompact={false}
+                                preventCollision={true}
                                 onLayoutChange={(e) => onLayoutChange(e)}
                                 draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch, .MuiSelect-root, .MuiFormControl-root, .MuiTypography-root, .MuiInputBase-root, .MuiList-root"}>
-                        <div key="thrusters"
+                                {context.activeModules.data['thrusters'].active ? (
+                                          <div key="thrusters"
                              data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
                              style={{ display: 'flex', ...moduleBorder}}>
                             <ThrustersModule />
@@ -165,46 +215,63 @@ export const App = () => {
                                       step={25}
                                       thumbEnabled={!isDryRunMode}
                             />
-
-
-                        </div>
-                        <div key="actuator"
+                        </div>) : (<React.Fragment></React.Fragment>)}
+                                {context.activeModules.data['actuators'].active ? (
+                                       <div key="actuator"
                              data-grid={{ x: 20, y: 0, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
                              style={{ display: 'flex', ...moduleBorder}}>
                             <ActuatorModule />
-                        </div>
-                        <div key="imageViewer"
+                        </div>    
+                        ) : (<React.Fragment></React.Fragment>)}
+             
+                                {context.activeModules.data['imageViewer1'].active ? (
+                                             <div key="imageViewer"
                              data-grid={{ x: 0, y: 7, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' , ...moduleBorder}}>
                             <ImageViewer />
-                        </div>
-                        <div key="pfd"
-                             data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
-                             style={{ display: 'flex' , ...moduleBorder}}>
-                            <Pfd />
-                        </div>
-                        <div key="testBoard"
+                        </div>) : (<React.Fragment></React.Fragment>)}
+
+                                {context.activeModules.data['pfd'].active ? (
+                                    <div key="pfd"
+                                            data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                                            style={{ display: 'flex' , ...moduleBorder}}>
+                                            <Pfd />
+                                        </div>
+                                ) : (<React.Fragment></React.Fragment>)}
+  
+                                {context.activeModules.data['testBoard'].active ? (
+                                                      <div key="testBoard"
                              data-grid={{ x: 20, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' , ...moduleBorder}}>
                             <TestBoardModule />
-                        </div>
-                        <div key="waypoints"
+                        </div>      
+                        ) : (<React.Fragment></React.Fragment>)}
+
+                                {context.activeModules.data['waypoints'].active ? (
+                                    <div key="waypoints"
                              data-grid={{ x: 50, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' , ...moduleBorder}}>
                             <Waypoints />
-                        </div>
-                        <div key="imageViewer2"
+                        </div>      
+                        ) : (<React.Fragment></React.Fragment>)}
+                  
+                                {context.activeModules.data['imageViewer2'].active ? (
+                                           <div key="imageViewer2"
                              data-grid={{ x: 0, y: 17, w: 10, h: 10, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
                              style={{ display: 'flex' , ...moduleBorder}}>
                             <ImageViewer />
-                        </div>
-                        <div key="visionUi"
-                            data-grid={{ x: 0, y: 27, w: 11, h: 17, minW: 11, maxW: 30, minH: 17, maxH: 30 }}
-                            style={{ display: 'flex' , ...moduleBorder}}>
-                            <VisionUI />
-                        </div>
+                        </div>) : (<React.Fragment></React.Fragment>)}
+         
+                                {context.activeModules.data['visionUi'].active ? (<div key="visionUi"
+                                    data-grid={{ x: 0, y: 27, w: 11, h: 17, minW: 11, maxW: 30, minH: 17, maxH: 30 }}
+                                    style={{ display: 'flex', ...moduleBorder }}>
+                                    <VisionUI />
+                                </div>) : <React.Fragment></React.Fragment>}
                     </GridLayout>
-                </ThemeProvider>
+                        )}
+                    </GeneralContext.Consumer>                
+                    </div>
+   </ThemeProvider>
             </GeneralContext.Provider>
         </div>
     );

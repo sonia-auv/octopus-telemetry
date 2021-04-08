@@ -12,7 +12,7 @@ import LabelAndValueModule from './LabelAndValueModule';
 import { useROSService, ServiceRequestFactory } from '../hooks/useROSService';
 import { useROSTopicSubscriber } from '../hooks/useROSTopicSubscriber';
 
-const ToolbarModule = () => {
+const ToolbarModule = (props: any) => {
 
   /**
    * TODO
@@ -187,6 +187,7 @@ const ToolbarModule = () => {
         <IconButton edge="start" color="inherit" arialabel="menu">
           <MenuModule />
         </IconButton>
+        <Button label="Open modules" handler={props.handleShowSidebar} />
         <Button label="All" handler={handleAllAxisClicked} />
         <Button
           label="XY"

@@ -7,7 +7,6 @@ This is the future web telemetry for SONIA
 Install the required dependencies:
 
 ```bash
-cd src
 npm install
 ```
 
@@ -20,14 +19,12 @@ npm install --legacy-peer-deps
 ## Starting the UI
 
 ```bash
-cd src
 npm run start
 ```
 
 ## Building and running the UI with Docker
 
 ```bash
-cd src
 docker build . -t octopus-ui:latest
 
 # Run from docker

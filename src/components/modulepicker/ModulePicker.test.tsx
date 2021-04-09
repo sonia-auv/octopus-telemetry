@@ -78,5 +78,10 @@ describe('The ModulePicker component', () => {
       const waypointsModuleText = screen.getByText(/Waypoints/i);
       expect(waypointsModuleText).toBeInTheDocument();
     });
+    it('renders the MissionManager module', () => {
+      render(<ModulePicker />);
+      const missionManagerModuleText = screen.getByText(/Mission Manager/i);
+      expect(missionManagerModuleText).toBeInTheDocument();
+    });
   });
 });

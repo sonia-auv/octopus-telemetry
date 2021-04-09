@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import PowerModule from './PowerModule';
 import PowerSection from './PowerSection';
 
-function isNumberValueValid(numberValue) {
+function isNumberValueValid(numberValue: number) {
   expect(numberValue).not.toBeUndefined();
   expect(numberValue).not.toBeNull();
   expect(numberValue).not.toBeFalsy();
@@ -25,7 +25,7 @@ describe('The Power module 🔋', () => {
     });
     it('renders a temperature value', () => {
       render(<PowerSection />);
-      const temperatureInput = screen.getByTestId('temperature-value');
+      const temperatureInput = screen.getByTestId('temperature-value') as HTMLInputElement;
       const temperatureValue = parseFloat(temperatureInput.value);
       expect(temperatureInput.disabled).toBe(true);
       isNumberValueValid(temperatureValue);
@@ -37,9 +37,8 @@ describe('The Power module 🔋', () => {
     });
     it('renders a current 16V-1 value', () => {
       render(<PowerSection />);
-      const current16V1Value = parseFloat(
-        screen.getByTestId('current-16v-1-value').value
-      );
+      const current16V1Input = screen.getByTestId('current-16v-1-value') as HTMLInputElement
+      const current16V1Value = parseFloat(current16V1Input.value)
       isNumberValueValid(current16V1Value);
     });
     it('renders a Current 16V-2 label', () => {
@@ -49,9 +48,8 @@ describe('The Power module 🔋', () => {
     });
     it('renders a Current 16V-2 value', () => {
       render(<PowerSection />);
-      const current16V2Value = parseFloat(
-        screen.getByTestId('current-16v-2-value').value
-      );
+      const current16V2Input = screen.getByTestId('current-16v-2-value') as HTMLInputElement
+      const current16V2Value = parseFloat(current16V2Input.value)
       isNumberValueValid(current16V2Value);
     });
     it('renders a Current 12V label', () => {
@@ -62,7 +60,7 @@ describe('The Power module 🔋', () => {
     it('renders a Current 12V value', () => {
       render(<PowerSection />);
 
-      const current12VInput = screen.getByTestId('current-12v-value');
+      const current12VInput = screen.getByTestId('current-12v-value') as HTMLInputElement;
       const current12VValue = parseFloat(current12VInput.value);
 
       isNumberValueValid(current12VValue);
@@ -76,7 +74,7 @@ describe('The Power module 🔋', () => {
     it('renders a Voltage 16V-1 value', () => {
       render(<PowerSection />);
 
-      const voltage16V1Input = screen.getByTestId('voltage-16v-1-value');
+      const voltage16V1Input = screen.getByTestId('voltage-16v-1-value') as HTMLInputElement;
       const voltage16V1Value = parseFloat(voltage16V1Input.value);
 
       isNumberValueValid(voltage16V1Value);
@@ -90,7 +88,7 @@ describe('The Power module 🔋', () => {
     it('renders a Voltage 16V-2 value', () => {
       render(<PowerSection />);
 
-      const voltage16V2Input = screen.getByTestId('voltage-16v-2-value');
+      const voltage16V2Input = screen.getByTestId('voltage-16v-2-value') as HTMLInputElement;
       const voltage16V2Value = parseFloat(voltage16V2Input.value);
 
       isNumberValueValid(voltage16V2Value);
@@ -104,8 +102,7 @@ describe('The Power module 🔋', () => {
     it('renders a Voltage 12V value', () => {
       render(<PowerSection />);
 
-      const voltage12VInput = screen.getByTestId('voltage-12v-value');
-
+      const voltage12VInput = screen.getByTestId('voltage-12v-value') as HTMLInputElement;
       const voltage12VValue = parseFloat(voltage12VInput.value);
 
       isNumberValueValid(voltage12VValue);
@@ -119,7 +116,7 @@ describe('The Power module 🔋', () => {
     it('renders a Battery value', () => {
       render(<PowerSection />);
 
-      const batteryInput = screen.getByTestId('battery-value');
+      const batteryInput = screen.getByTestId('battery-value') as HTMLInputElement;
 
       const batteryInputValue = parseFloat(batteryInput.value);
 

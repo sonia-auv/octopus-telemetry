@@ -1,32 +1,22 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { GeneralContext } from "../context/generalContext";
-import { Select, MenuItem, InputLabel, FormControl} from '@material-ui/core';
+import InputLabel from './common/Input/InputLabel';
 import Button from './common/button/Button';
-import { makeStyles, createStyles, Theme} from '@material-ui/core/styles';
+import Select from './common/select/Select';
+import FormControl from './common/Form/FormControl';
 import { useROSService } from '../hooks/useROSService'
 import { useROSTopicPublisher } from '../hooks/useROSTopicPublisher'
 import ROSLIB from "roslib";
 
 const MissionManager = () => {
 
-    const useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            formControl: {
-                margin: theme.spacing(1),
-                width: '80%',
-            }
-        }),
-        );
-
-    const classes = useStyles();
-
     const [currentMissionName, setCurrentMissionName] = useState("");
-    const [missions, setMissionsList] = useState<string[]>([]);
+    const [allMissions, setMissionsList] = useState<[]>([]);
 
     // Reponse en retour a l appel du service
     const missionListCallback = useCallback(
         (response: ROSLIB.ServiceResponse) => {
-            let missionsList: Array<string>
+            var missionsList: any = []
             missionsList = []
             var tempList = JSON.parse(JSON.stringify(response));
             tempList = tempList["missions"];
@@ -41,7 +31,8 @@ const MissionManager = () => {
               }});
             tempList.forEach((name: string) => {
               if(name !== ""){
-                missionsList.push(name);
+                var item = {value: name}
+                missionsList.push(item);
               }
             });
             console.log(missionsList);
@@ -50,12 +41,12 @@ const MissionManager = () => {
           []
     )
 
-    const context = useContext(GeneralContext)
     const missionNameMsgPublisher = useROSTopicPublisher<any>("/mission_manager/mission_name_msg", "/mission_manager/MissionNameMsg");
     const missionManagerServiceCall = useROSService<any>(missionListCallback, "/mission_executor/list_missions", "ListMissions")
 
     // Selection d une missions dans le select.
     const behaviorSelected = (event: React.ChangeEvent<{ value: unknown }>) => {
+        console.log(event.target.value);
         setCurrentMissionName(event.target.value as string);
     }
 
@@ -75,23 +66,23 @@ const MissionManager = () => {
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Mission Manager</h1>            
-                    <FormControl variant="outlined" className={classes.formControl}>
-                        <InputLabel id="mission-manager-simple-select-outlined-label">Mission</InputLabel>
+                    <FormControl>
+                        <InputLabel id="select-outlined-label">Mission</InputLabel>
                         <Select
+                        labelId="select-outlined-label"
+                        id="select-outlined"
                         label="Mission"
-                        onChange={behaviorSelected}
-                        value={currentMissionName}
+                        style={{ backgroundColor: 'white', width: '150%', alignSelf: 'center'}}
+                        handlerChange={behaviorSelected}
+                        value={currentMissionName ? currentMissionName : "None"}
+                        listValue={allMissions}
                         >
-                        <MenuItem value=""> </MenuItem>
-                        { missions.map(name => (
-                            <MenuItem value={name}>{name}</MenuItem>
-                        )) }
                     </Select>
                     </FormControl>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Update List</h1>
                     <Button style={{ fontSize: '20px', alignSelf: 'center' }} handler={updateMissionList} label="Update"/>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Load Mission</h1>
-                    <Button disabled={missions.length === 0} style={{ fontSize: '20px', alignSelf: 'center' }} handler={loadMission} label="Send"/>
+                    <Button disabled={allMissions.length === 0} style={{ fontSize: '20px', alignSelf: 'center' }} handler={loadMission} label="Send"/>
                 </div>
             )}
         </GeneralContext.Consumer>

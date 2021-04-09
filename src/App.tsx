@@ -201,7 +201,7 @@ export const App = () => {
                             />
                             <Thruster key={7}
                                       effort={thruster7}
-                                      identification={1}
+                                      identification={7}
                                       minMark={-100}
                                       maxMark={100}
                                       step={25}
@@ -268,11 +268,13 @@ export const App = () => {
                                     style={{ display: 'flex', ...moduleBorder }}>
                                     <VisionUI />
                         </div>) : (<React.Fragment></React.Fragment>)}
-                                {context.activeModules.data['missionManager'].active ? (<div key="missionManager"
-                                    data-grid={{ x: 0, y: 27, w: 11, h: 17, minW: 11, maxW: 30, minH: 17, maxH: 30 }}
-                                    style={{ display: 'flex', ...moduleBorder }}>
-                                    <MissionManager />
-                        </div>) : (<React.Fragment></React.Fragment>)}
+                                {context.activeModules.data['missionManager'].active ? (
+                                    <div key="missionManager"
+                                        data-grid={{ x: 0, y: 20, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
+                                        style={{ display: 'flex', ...moduleBorder }}>
+                                        <MissionManager />
+                                    </div>
+                        ) : <React.Fragment></React.Fragment>}
                     </GridLayout>
                         )}
                     </GeneralContext.Consumer>                

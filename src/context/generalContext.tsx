@@ -10,6 +10,7 @@ import {
   PFDMeta,
   VisionUIMeta,
   WaypointsMeta,
+  MissionManagerMeta,
 } from '../components/modulepicker/ModulesMetadata';
 
 const defaultModules: ActiveModules = {
@@ -45,6 +46,10 @@ const defaultModules: ActiveModules = {
     waypoints: {
       active: false,
       meta: WaypointsMeta
+    },
+    missionManager: {
+      active: false,
+      meta: MissionManagerMeta
     }
   },
 };

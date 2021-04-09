@@ -4,9 +4,9 @@ import InputLabel from './common/Input/InputLabel';
 import Button from './common/button/Button';
 import Select from './common/select/Select';
 import FormControl from './common/Form/FormControl';
-import { useROSService } from '../hooks/useROSService'
-import { useROSTopicPublisher } from '../hooks/useROSTopicPublisher'
-import ROSLIB from "roslib";
+
+import { useROSService} from '../hooks/useROSService'
+import { useROSTopicPublisher, MessageFactory } from "../hooks/useROSTopicPublisher";
 
 const MissionManager = () => {
 
@@ -52,7 +52,9 @@ const MissionManager = () => {
 
     // Publish du nom de la mission.
     const loadMission = () => {
-        var toPublish = new ROSLIB.Message({name: currentMissionName});
+        var toPublish = MessageFactory({
+            name : currentMissionName
+        })
         missionNameMsgPublisher(toPublish);
     }
 
@@ -72,7 +74,7 @@ const MissionManager = () => {
                         labelId="select-outlined-label"
                         id="select-outlined"
                         label="Mission"
-                        style={{ backgroundColor: 'white', width: '150%', alignSelf: 'center'}}
+                        style={{ backgroundColor: 'white', width: '150%', alignSelf: 'center', textAlign: 'left'}}
                         handlerChange={behaviorSelected}
                         value={currentMissionName ? currentMissionName : "None"}
                         listValue={allMissions}

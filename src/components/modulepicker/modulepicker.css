@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+.ModulePicker {
+  padding: 24px;
+}
+
+.ModulePicker__list {
+  /* Remove when we got normalize.css */
+  padding: 0;
+  margin: 0;
+}
+
+.ModulePicker__title {
+  font-size: 1.3em;
+}
+
+.ModulePicker__module {
+  padding: 0.5em 1em;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px dashed grey;
+  height: 80px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ModulePicker__module:not(:first-child) {
+  margin-top: 0.5em;
+}
+
+.ModulePicker__module-label {
+  font-family: 'Roboto Mono', 'Courier New', Courier, monospace;
+}
+
+.ModulePicker__module-thumbnail {
+  max-width: 150px;
+  height: 100%;
+}

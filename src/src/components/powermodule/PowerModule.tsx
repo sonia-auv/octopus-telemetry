@@ -14,7 +14,7 @@ const PowerModule = (props: PowerModuleProps) => {
   const powerMessageCallback = useCallback((x: any) => {
     console.log(`---> ${x}`)
   }, [] )
-  const getPowerModuleServiceCall = useROSTopicSubscriber<any>(powerMessageCallback, "/provider_power/power", "sonia_common/PowerMsg");
+  useROSTopicSubscriber<any>(powerMessageCallback, "/provider_power/power", "sonia_common/PowerMsg");
   
   return (
   <div className="PowerModule">

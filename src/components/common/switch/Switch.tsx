@@ -8,6 +8,7 @@ type SwitchProps = {
   vertical?: boolean;
   handler: (value: boolean) => void;
   round?: boolean;
+  testid?: string
 };
 
 const getLabelClassname = (checked: boolean) =>
@@ -30,7 +31,7 @@ const Switch: FunctionComponent<SwitchProps> = (props) => {
             // We dispatch the parent with the switch value
             props.handler(on);
           }}
-          data-testid="test-switch"
+          data-testid={props.testid}
         />
         <span className={`Switch__slider ${props.round ? 'round' : ''}`}></span>
       </label>

@@ -78,5 +78,10 @@ describe('The ModulePicker component', () => {
       const waypointsModuleText = screen.getByText(/Waypoints/i);
       expect(waypointsModuleText).toBeInTheDocument();
     });
+    it('renders the PowerModule module', () => {
+      render(<ModulePicker />)
+      const powerModuleText = screen.getByText(/PowerModule/i)
+      expect(powerModuleText).toBeInTheDocument()
+    })
   });
 });

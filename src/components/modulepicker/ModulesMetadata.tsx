@@ -78,6 +78,13 @@ const WaypointsMeta: ModuleMetadata = {
   thumbnailSource: waypointsModuleBig,
 };
 
+const PowerModuleMeta: ModuleMetadata = {
+  key: 'powermodule',
+  name: 'Powermodule',
+  thumbnailLabel: 'powermodule-thumbnail',
+  thumbnailSource: waypointsModuleBig
+}
+
 const ModulesMetadata: Array<ModuleMetadata> = [
   ImageViewer1Meta,
   ImageViewer2Meta,
@@ -87,6 +94,7 @@ const ModulesMetadata: Array<ModuleMetadata> = [
   PFDMeta,
   VisionUIMeta,
   WaypointsMeta,
+  PowerModuleMeta
 ];
 
 export {
@@ -99,5 +107,6 @@ export {
   PFDMeta,
   VisionUIMeta,
   WaypointsMeta,
+  PowerModuleMeta
 };
 export type { Module, ModuleMetadata, ActiveModules };

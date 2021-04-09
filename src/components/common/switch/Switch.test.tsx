@@ -13,7 +13,7 @@ describe('The Switch component', () => {
   it('can be toggled on and off 💡', () => {
     const onChange = jest.fn();
 
-    render(<Switch value={false} handler={onChange} />);
+    render(<Switch value={false} testid='test-switch' handler={onChange} />);
     const s = screen.getByTestId('test-switch') as HTMLInputElement;
 
     expect(s.checked).toBe(false);

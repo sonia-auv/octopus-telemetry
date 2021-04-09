@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import Switch from '../../components/Switch';
+import Switch from '../../../components/common/switch/Switch'
 import './powersection.css';
 
 const getPowerSectionSwitch = (
   id: string,
-  label: String,
-  value: Boolean,
+  label: string,
+  value: boolean,
   // TODO mark as callback function that takes bool and returns bool
   setValue: any
 ) => (

@@ -18,6 +18,7 @@ import ModulePicker from './components/modulepicker/ModulePicker'
 import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata'
 import { Drawer } from '@material-ui/core'
 import './App.css'
+import PowerModule from "./src/components/powermodule/PowerModule";
 
 
 export const App = () => {
@@ -267,6 +268,12 @@ export const App = () => {
                                     style={{ display: 'flex', ...moduleBorder }}>
                                     <VisionUI />
                                 </div>) : <React.Fragment></React.Fragment>}
+
+                                {context.activeModules.data['powerModule'].active ? (
+                                    <div key="powerModule" data-grid={{ x: 0, y: 37, w: 12, h: 8, maxW: 20, maxH: 20 }} style={{ display: 'flex', ...moduleBorder }}>
+                                        <PowerModule />
+                                    </div>
+                            ) : <React.Fragment></React.Fragment>}
                     </GridLayout>
                         )}
                     </GeneralContext.Consumer>                

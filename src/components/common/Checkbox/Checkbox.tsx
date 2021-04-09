@@ -27,4 +27,4 @@ Checkbox.defaultProps = {
 
 };
 
-export default Checkbox;
+export default Checkbox

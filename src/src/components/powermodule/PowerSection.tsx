@@ -1,45 +1,50 @@
 import { useState } from 'react';
-import Switch from '../../../components/common/switch/Switch'
+import Switch from '../../../components/common/switch/Switch';
+import PowerMetric from './PowerMetric';
 import './powersection.css';
 
 const getPowerSectionSwitch = (
   id: string,
   label: string,
-  value: boolean,
+  value: boolean | null,
   // TODO mark as callback function that takes bool and returns bool
   setValue: any
 ) => (
   <div key={id}>
     <label>
       {label}
-      <Switch
-        testid={id}
-        value={value}
-        handler={(v: Boolean) => setValue(!v)}
-        onLabel="Enabled"
-        offLabel="Disabled"
-      />
+      {value !== null ? (
+        <Switch
+          testid={id}
+          value={value}
+          handler={(v: Boolean) => setValue(!v)}
+          onLabel="Enabled"
+          offLabel="Disabled"
+        />
+      ) : (
+        <pre>No data</pre>
+      )}
     </label>
   </div>
 );
 
 type PowerSectionProps = {
-  temperature: number,
-  current16V1Value: number,
-  current16V2Value: number,
-  current12VValue: number,
-  voltage16V1Value: number,
-  voltage16V2Value: number,
-  voltage12VValue: number,
-  batteryValue: number,
+  temperature: number | null;
+  current16V1Value: number | null;
+  current16V2Value: number | null;
+  current12VValue: number | null;
+  voltage16V1Value: number | null;
+  voltage16V2Value: number | null;
+  voltage12VValue: number | null;
+  batteryValue: number | null;
 
-  output16V1Checked: boolean,
-  output16V2Checked: boolean,
-  output12VChecked: boolean,
-  
-  setOutput16V1Checked: (currentValue: boolean) => boolean,
-  setOutput16V2Checked: (currentValue: boolean) => boolean,
-  setOutput12VChecked: (currentValue: boolean) => boolean
+  output16V1Checked: boolean | null;
+  output16V2Checked: boolean | null;
+  output12VChecked: boolean | null;
+
+  setOutput16V1Checked: (currentValue: boolean) => boolean;
+  setOutput16V2Checked: (currentValue: boolean) => boolean;
+  setOutput12VChecked: (currentValue: boolean) => boolean;
 };
 
 const PowerSection = (props: PowerSectionProps) => {
@@ -111,20 +116,13 @@ const PowerSection = (props: PowerSectionProps) => {
     <div className="PowerSection">
       <form>
         {powerMetrics.map((label, index) => (
-          <div key={index} className="PowerSection__section">
-            <label className="PowerSection__label">
-              <span>{label.label}</span>
-              <input
-                className="PowerSection__input-value"
-                type="number"
-                step="0.01"
-                disabled={true}
-                name={label.id}
-                value={label.value}
-                data-testid={`${label.id}-value`}
-              />
-            </label>
-          </div>
+          <PowerMetric
+            key={index}
+            label={label.label}
+            inputId={label.id}
+            value={label.value}
+            testId={`${label.id}-value`}
+          />
         ))}
       </form>
       <form>

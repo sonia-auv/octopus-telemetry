@@ -51,18 +51,15 @@ const PowerModule = (props: PowerModuleProps) => {
       let data: number = x.data;
       let command: number = x.cmd;
 
-      section = {
+      powerValues[sectionId] = {
         ...section,
         [d[command]]: data,
       };
 
-      let updatedPowerValues = powerValues;
-      updatedPowerValues[sectionId] = section;
-
-      setPowerValues(updatedPowerValues);
-      console.log('updated power values: ', updatedPowerValues);
+      setPowerValues(powerValues);
+      console.log('updated power values: ', powerValues);
     },
-    [powerValues, d]
+    [powerValues]
   );
 
   useROSTopicSubscriber<any>(

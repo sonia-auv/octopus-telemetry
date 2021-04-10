@@ -1,6 +1,8 @@
 .PowerModule {
   overflow: scroll;
   padding: 12px 20px;
+  width: 100%;
+  height: 100%;
 }
 
 .PowerSection__label {
@@ -12,6 +14,14 @@
   /* margin-left: auto; */
 }
 
-.PowerSection__section {
+.PowerSection {
   padding: 12px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.PowerMetric:not(:last-child) {
+  margin-top: 1em;
 }

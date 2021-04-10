@@ -10,7 +10,7 @@ const getPowerSectionSwitch = (
   // TODO mark as callback function that takes bool and returns bool
   setValue: any
 ) => (
-  <div key={id}>
+  <div key={id} className="Powersection__switch">
     <label>
       {label}
       {value !== null ? (

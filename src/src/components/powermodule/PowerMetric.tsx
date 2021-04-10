@@ -9,9 +9,9 @@ type PowerMetricProps = {
 };
 
 const PowerMetric = (props: PowerMetricProps) => (
-  <div className="PowerSection__section">
+  <div className="PowerMetric">
     <TextField
-      value={props.value ? props.value : 'No data'}
+      value={props.value ? props.value.toPrecision(4) : 'No data'}
       handlerChange={(e: any) => null}
       handlerKeyDown={(e: any) => null}
       disabled={true}

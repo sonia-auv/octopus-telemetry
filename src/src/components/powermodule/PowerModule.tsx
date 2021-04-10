@@ -60,6 +60,7 @@ const PowerModule = (props: PowerModuleProps) => {
       updatedPowerValues[sectionId] = section;
 
       setPowerValues(updatedPowerValues);
+      console.log('updated power values: ', updatedPowerValues);
     },
     [powerValues, d]
   );

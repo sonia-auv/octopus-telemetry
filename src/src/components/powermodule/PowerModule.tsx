@@ -44,7 +44,7 @@ const PowerModule = (props: PowerModuleProps) => {
     7: 'batteryValue',
   };
 
-  const powerMessageCallback = useCallback((x: any) => {
+  const powerMessageCallback = useCallback((x: PowerPayload) => {
     let { slave, cmd, data } = x;
 
     powerValues[slave] = {
@@ -74,7 +74,6 @@ const PowerModule = (props: PowerModuleProps) => {
         </TabList>
         {powerValues.map((powerSection, index) => (
           <TabPanel key={index}>
-            <pre>{JSON.stringify(powerSection)}</pre>
             <PowerSection
               key={index}
               temperature={powerSection.temperature}

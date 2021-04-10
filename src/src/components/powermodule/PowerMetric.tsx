@@ -1,3 +1,5 @@
+import TextField from '../../../components/common/textfield/Textfield';
+
 type PowerMetricProps = {
   label: string;
   inputId: string;
@@ -8,22 +10,15 @@ type PowerMetricProps = {
 
 const PowerMetric = (props: PowerMetricProps) => (
   <div className="PowerSection__section">
-    <label className="PowerSection__label">
-      <span>{props.label}</span>
-      {props.value ? (
-        <input
-          className="PowerSection__input-value"
-          type="number"
-          step="0.01"
-          disabled={true}
-          name={props.inputId}
-          value={props.value}
-          data-testid={`${props.testId}`}
-        />
-      ) : (
-        <div>No data</div>
-      )}
-    </label>
+    <TextField
+      value={props.value ? props.value : 'No data'}
+      handlerChange={(e: any) => null}
+      handlerKeyDown={(e: any) => null}
+      disabled={true}
+      name={props.inputId}
+      label={props.label}
+      data-testid={props.testId}
+    />
   </div>
 );
 

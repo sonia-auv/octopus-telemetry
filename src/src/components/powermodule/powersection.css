@@ -1,3 +1,8 @@
+.PowerModule {
+  overflow: scroll;
+  padding: 12px 20px;
+}
+
 .PowerSection__label {
   display: flex;
   flex-direction: row;

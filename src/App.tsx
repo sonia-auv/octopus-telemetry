@@ -4,6 +4,7 @@ import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
 import ImageViewer from "./components/ImageViewer";
+import MissionManager from "./components/MissionManager";
 import Pfd from "./components/Pfd";
 import TestBoardModule from "./components/TestBoardModule";
 import Waypoints from "./components/Waypoints";
@@ -201,7 +202,7 @@ export const App = () => {
                             />
                             <Thruster key={7}
                                       effort={thruster7}
-                                      identification={1}
+                                      identification={7}
                                       minMark={-100}
                                       maxMark={100}
                                       step={25}
@@ -274,6 +275,14 @@ export const App = () => {
                                         <PowerModule />
                                     </div>
                             ) : <React.Fragment></React.Fragment>}
+
+                                {context.activeModules.data['missionManager'].active ? (
+                                    <div key="missionManager"
+                                        data-grid={{ x: 0, y: 20, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
+                                        style={{ display: 'flex', ...moduleBorder }}>
+                                        <MissionManager />
+                                    </div>
+                        ) : <React.Fragment></React.Fragment>}
                     </GridLayout>
                         )}
                     </GeneralContext.Consumer>                

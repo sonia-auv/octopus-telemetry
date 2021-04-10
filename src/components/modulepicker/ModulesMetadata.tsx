@@ -5,6 +5,7 @@ import thrustersModuleBig from '../image/thrusters_module_big.png'
 import actuatorsModuleBig from '../image/actuators_module_big.png'
 import cameraModuleBig from '../image/camera_module_big.png'
 import visionUiModuleBig from '../image/visionui_module_big.png'
+import missionManagerBig from '../image/mission_manager_big.png'
 
 interface ModuleMetadata {
   key: string;
@@ -85,6 +86,13 @@ const PowerModuleMeta: ModuleMetadata = {
   thumbnailSource: waypointsModuleBig
 }
 
+const MissionManagerMeta: ModuleMetadata = {
+  key: 'missionManager',
+  name: 'Mission Manager',
+  thumbnailLabel: 'missionManager-thumbnail',
+  thumbnailSource: missionManagerBig,
+};
+
 const ModulesMetadata: Array<ModuleMetadata> = [
   ImageViewer1Meta,
   ImageViewer2Meta,
@@ -94,7 +102,8 @@ const ModulesMetadata: Array<ModuleMetadata> = [
   PFDMeta,
   VisionUIMeta,
   WaypointsMeta,
-  PowerModuleMeta
+  PowerModuleMeta,
+  MissionManagerMeta,
 ];
 
 export {
@@ -107,6 +116,7 @@ export {
   PFDMeta,
   VisionUIMeta,
   WaypointsMeta,
-  PowerModuleMeta
+  PowerModuleMeta,
+  MissionManagerMeta,
 };
 export type { Module, ModuleMetadata, ActiveModules };

@@ -80,7 +80,7 @@ const WaypointsMeta: ModuleMetadata = {
 };
 
 const PowerModuleMeta: ModuleMetadata = {
-  key: 'powermodule',
+  key: 'powerModule',
   name: 'Powermodule',
   thumbnailLabel: 'powermodule-thumbnail',
   thumbnailSource: waypointsModuleBig

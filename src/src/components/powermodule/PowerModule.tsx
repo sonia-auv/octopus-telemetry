@@ -44,23 +44,20 @@ const PowerModule = (props: PowerModuleProps) => {
     7: 'batteryValue',
   };
 
-  const powerMessageCallback = useCallback(
-    (x: any) => {
-      let sectionId: number = x.slave;
-      let section = powerValues[sectionId];
-      let data: number = x.data;
-      let command: number = x.cmd;
+  const powerMessageCallback = useCallback((x: any) => {
+    let sectionId: number = x.slave;
+    let section = powerValues[sectionId];
+    let data: number = x.data;
+    let command: number = x.cmd;
 
-      powerValues[sectionId] = {
-        ...section,
-        [d[command]]: data,
-      };
+    powerValues[sectionId] = {
+      ...section,
+      [d[command]]: data,
+    };
 
-      setPowerValues(powerValues);
-      console.log('updated power values: ', powerValues);
-    },
-    [powerValues]
-  );
+    setPowerValues(powerValues);
+    console.log('updated power values: ', powerValues);
+  }, []);
 
   useROSTopicSubscriber<any>(
     powerMessageCallback,
@@ -101,7 +98,27 @@ const PowerModule = (props: PowerModuleProps) => {
             />
           </TabPanel>
         ))}
-        <TabPanel>All Data is here!</TabPanel>
+        <TabPanel>
+          {powerValues.map((powerSection, index) => (
+            <PowerSection
+              temperature={powerSection.temperature}
+              current16V1Value={powerSection.current16V1Value}
+              current16V2Value={powerSection.current16V2Value}
+              current12VValue={powerSection.current12VValue}
+              voltage16V1Value={powerSection.voltage16V1Value}
+              voltage16V2Value={powerSection.voltage16V2Value}
+              voltage12VValue={powerSection.voltage12VValue}
+              batteryValue={powerSection.batteryValue}
+              // TODO implement those below
+              output16V1Checked={false}
+              output16V2Checked={true}
+              output12VChecked={true}
+              setOutput16V1Checked={(v: boolean) => !v}
+              setOutput16V2Checked={(v: boolean) => !v}
+              setOutput12VChecked={(v: boolean) => !v}
+            />
+          ))}
+        </TabPanel>
       </Tabs>
     </div>
   );

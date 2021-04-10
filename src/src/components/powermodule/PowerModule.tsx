@@ -36,7 +36,7 @@ const PowerModule = (props: PowerModuleProps) => {
   const d: MetricsMap = {
     0: 'temperature',
     1: 'current16V1Value',
-    2: 'current16V2Value ',
+    2: 'current16V2Value',
     3: 'current12VValue',
     4: 'voltage16V1Value',
     5: 'voltage16V2Value',
@@ -45,9 +45,9 @@ const PowerModule = (props: PowerModuleProps) => {
   };
 
   const powerMessageCallback = useCallback((x: any) => {
-    let sectionId = x.slave;
+    let sectionId: number = x.slave;
     let section = powerValues[sectionId];
-    let data = x.value;
+    let data: number = x.data;
     let command: number = x.cmd;
 
     section = {

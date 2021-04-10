@@ -80,6 +80,7 @@ const PowerModule = (props: PowerModuleProps) => {
           <TabPanel key={index}>
             <pre>{JSON.stringify(powerSection)}</pre>
             <PowerSection
+              key={index}
               temperature={powerSection.temperature}
               current16V1Value={powerSection.current16V1Value}
               current16V2Value={powerSection.current16V2Value}
@@ -101,6 +102,7 @@ const PowerModule = (props: PowerModuleProps) => {
         <TabPanel>
           {powerValues.map((powerSection, index) => (
             <PowerSection
+              key={index}
               temperature={powerSection.temperature}
               current16V1Value={powerSection.current16V1Value}
               current16V2Value={powerSection.current16V2Value}

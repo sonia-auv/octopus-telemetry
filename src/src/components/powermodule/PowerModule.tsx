@@ -5,6 +5,7 @@ import { useROSTopicPublisher } from '../../../hooks/useROSTopicPublisher';
 import PowerSection from './PowerSection';
 import { useROSService } from '../../../hooks/useROSService';
 import { useROSTopicSubscriber } from '../../../hooks/useROSTopicSubscriber';
+import './powermodule.css';
 
 const NUMBER_OF_POWER_SECTIONS = 4;
 

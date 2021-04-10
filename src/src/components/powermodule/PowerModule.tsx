@@ -45,18 +45,14 @@ const PowerModule = (props: PowerModuleProps) => {
   };
 
   const powerMessageCallback = useCallback((x: any) => {
-    let sectionId: number = x.slave;
-    let section = powerValues[sectionId];
-    let data: number = x.data;
-    let command: number = x.cmd;
+    let { slave, cmd, data } = x;
 
-    powerValues[sectionId] = {
-      ...section,
-      [d[command]]: data,
+    powerValues[slave] = {
+      ...powerValues[slave],
+      [d[cmd]]: data,
     };
 
-    setPowerValues(powerValues);
-    console.log('updated power values: ', powerValues);
+    setPowerValues(Object.assign([], powerValues));
   }, []);
 
   useROSTopicSubscriber<any>(

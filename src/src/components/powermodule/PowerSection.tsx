@@ -23,38 +23,42 @@ const getPowerSectionSwitch = (
   </div>
 );
 
-type PowerSectionProps = {};
+type PowerSectionProps = {
+  temperature: number,
+  current16V1Value: number,
+  current16V2Value: number,
+  current12VValue: number,
+  voltage16V1Value: number,
+  voltage16V2Value: number,
+  voltage12VValue: number,
+  batteryValue: number,
+
+  output16V1Checked: boolean,
+  output16V2Checked: boolean,
+  output12VChecked: boolean,
+  
+  setOutput16V1Checked: (currentValue: boolean) => boolean,
+  setOutput16V2Checked: (currentValue: boolean) => boolean,
+  setOutput12VChecked: (currentValue: boolean) => boolean
+};
 
 const PowerSection = (props: PowerSectionProps) => {
-  let [temperature, setTemperature] = useState(15.84);
-  let [current16V1Value, setCurrent16V1Value] = useState(16.73);
-  let [current16V2Value, setCurrent16V2Value] = useState(17.73);
-  let [current12VValue, setCurrent12VValue] = useState(18.73);
-  let [voltage16V1Value, setVoltage16V1Value] = useState(19.73);
-  let [voltage16V2Value, setVoltage16V2Value] = useState(22.63);
-  let [voltage12VValue, setVoltage12VValue] = useState(42.24);
-  let [batteryValue, setBatteryValue] = useState(99.74);
-
-  let [output16V1Checked, setOutput16V1Checked] = useState(false);
-  let [output16V2Checked, setOutput16V2Checked] = useState(false);
-  let [output12VChecked, setOutput12VChecked] = useState(false);
-
   const outputSwitches = [
     {
-      value: output16V1Checked,
-      setValue: setOutput16V1Checked,
+      value: props.output16V1Checked,
+      setValue: props.setOutput16V1Checked,
       label: 'Output 16V-1',
       id: 'output-16v-1',
     },
     {
-      value: output16V2Checked,
-      setValue: setOutput16V2Checked,
+      value: props.output16V2Checked,
+      setValue: props.setOutput16V2Checked,
       label: 'Output 16V-2',
       id: 'output-16v-2',
     },
     {
-      value: output12VChecked,
-      setValue: setOutput12VChecked,
+      value: props.output12VChecked,
+      setValue: props.setOutput12VChecked,
       label: 'Output 12V',
       id: 'output-12v',
     },
@@ -64,50 +68,42 @@ const PowerSection = (props: PowerSectionProps) => {
     {
       id: 'temperature',
       label: 'Temperature',
-      value: temperature,
-      onUpdate: setTemperature,
+      value: props.temperature,
     },
     {
       id: 'current-16v-1',
       label: 'Current 16V-1',
-      value: current16V1Value,
-      onUpdate: setCurrent16V1Value,
+      value: props.current16V1Value,
     },
     {
       id: 'current-16v-2',
       label: 'Current 16V-2',
-      value: current16V2Value,
-      onUpdate: setCurrent16V2Value,
+      value: props.current16V2Value,
     },
     {
       id: 'current-12v',
       label: 'Current 12V',
-      value: current12VValue,
-      onUpdate: setCurrent12VValue,
+      value: props.current12VValue,
     },
     {
       id: 'voltage-16v-1',
       label: 'Voltage 16V-1',
-      value: voltage16V1Value,
-      onUpdate: setVoltage16V1Value,
+      value: props.voltage16V1Value,
     },
     {
       id: 'voltage-16v-2',
       label: 'Voltage 16V-2',
-      value: voltage16V2Value,
-      onUpdate: setVoltage16V2Value,
+      value: props.voltage16V2Value,
     },
     {
       id: 'voltage-12v',
       label: 'Voltage 12V',
-      value: voltage12VValue,
-      onUpdate: setVoltage12VValue,
+      value: props.voltage12VValue,
     },
     {
       id: 'battery',
       label: 'Battery',
-      value: batteryValue,
-      onUpdate: setBatteryValue,
+      value: props.batteryValue,
     },
   ];
 
@@ -125,7 +121,6 @@ const PowerSection = (props: PowerSectionProps) => {
                 disabled={true}
                 name={label.id}
                 value={label.value}
-                onChange={(e) => label.onUpdate(parseFloat(e.target.value))}
                 data-testid={`${label.id}-value`}
               />
             </label>

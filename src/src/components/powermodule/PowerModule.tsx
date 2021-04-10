@@ -44,22 +44,25 @@ const PowerModule = (props: PowerModuleProps) => {
     7: 'batteryValue',
   };
 
-  const powerMessageCallback = useCallback((x: any) => {
-    let sectionId: number = x.slave;
-    let section = powerValues[sectionId];
-    let data: number = x.data;
-    let command: number = x.cmd;
+  const powerMessageCallback = useCallback(
+    (x: any) => {
+      let sectionId: number = x.slave;
+      let section = powerValues[sectionId];
+      let data: number = x.data;
+      let command: number = x.cmd;
 
-    section = {
-      ...section,
-      [d[command]]: data,
-    };
+      section = {
+        ...section,
+        [d[command]]: data,
+      };
 
-    let updatedPowerValues = powerValues;
-    updatedPowerValues[sectionId] = section;
+      let updatedPowerValues = powerValues;
+      updatedPowerValues[sectionId] = section;
 
-    setPowerValues(updatedPowerValues);
-  }, []);
+      setPowerValues(updatedPowerValues);
+    },
+    [powerValues, d]
+  );
 
   useROSTopicSubscriber<any>(
     powerMessageCallback,
@@ -73,13 +76,14 @@ const PowerModule = (props: PowerModuleProps) => {
     <div className="PowerModule">
       <Tabs forceRenderTabPanel={true}>
         <TabList>
-          {new Array(NUMBER_OF_POWER_SECTIONS).fill(null).map((_, index) => (
+          {powerValues.map((_, index) => (
             <Tab key={index}>{`Power ${index + 1}`}</Tab>
           ))}
           <Tab>All Data</Tab>
         </TabList>
         {powerValues.map((powerSection, index) => (
           <TabPanel key={index}>
+            <pre>{JSON.stringify(powerSection)}</pre>
             <PowerSection
               temperature={powerSection.temperature}
               current16V1Value={powerSection.current16V1Value}

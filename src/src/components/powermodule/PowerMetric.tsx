@@ -1,10 +1,10 @@
 import TextField from '../../../components/common/textfield/Textfield';
+import './powermetric.css';
 
 type PowerMetricProps = {
   label: string;
   inputId: string;
   value: number | null;
-
   testId?: string;
 };
 

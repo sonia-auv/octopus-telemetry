@@ -1,8 +1,9 @@
-.PowerModule {
-  overflow: scroll;
-  padding: 12px 20px;
-  width: 100%;
-  height: 100%;
+.PowerSection {
+  padding: 12px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .PowerSection__label {
@@ -12,16 +13,4 @@
 
 .PowerSection__input-value {
   /* margin-left: auto; */
-}
-
-.PowerSection {
-  padding: 12px 0;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.PowerMetric:not(:last-child) {
-  margin-top: 1em;
 }

@@ -1,4 +1,5 @@
 import { FunctionComponent, useState } from 'react';
+import { default as MUISwitch } from '@material-ui/core/Switch';
 import './switch.css';
 
 type SwitchProps = {
@@ -16,24 +17,22 @@ const getLabelClassname = (checked: boolean) =>
 const Switch: FunctionComponent<SwitchProps> = (props) => {
   const [on, setOn] = useState(props.value);
 
+  const handleChange = () => {
+    setOn(!on);
+    props.handler(on);
+  };
+
   return (
     <div className={`Switch__container ${props.vertical ? 'vertical' : ''}`}>
       <p className={getLabelClassname(on)}>{props.onLabel}</p>
-      <label className={`switch ${props.vertical ? 'vertical' : ''}`}>
-        <input
-          type="checkbox"
-          checked={on}
-          onChange={() => {
-            // Allows us to test the component (w/ mock handler)
-            setOn(!on);
-
-            // We dispatch the parent with the switch value
-            props.handler(on);
-          }}
+      <div className="Switch__rotatewrapper">
+        <MUISwitch
           data-testid="test-switch"
+          value="Active"
+          checked={on}
+          onChange={handleChange}
         />
-        <span className={`Switch__slider ${props.round ? 'round' : ''}`}></span>
-      </label>
+      </div>
       <p className={getLabelClassname(!on)}>{props.offLabel}</p>
     </div>
   );

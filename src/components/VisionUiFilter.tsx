@@ -554,9 +554,9 @@ const VisionUIFilterModule = () => {
                 content.push(
                     <Tooltip title={item['desc']}>
                         <ListItem style={style} key={"paramList" + item['paramName']}>
-                            <TextField type={item['type'] === "Integer" ? 'number' : "float"} autoFocus={currentParamFocus === index && currentSubParamFocus === 1} value={item['value']} handlerChange={(event: any) => handleChangeParamValue(event, index, "value")} handlerKeyDown={() => { }} id={"paramvalue_id" + index} label="Value" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                            <TextField disabled={true} value={item['min']} handlerChange={(event: any) => handleChangeParamValue(event, index, "min")} handlerKeyDown={() => { }} id={"parammin_id" + index} label="Min" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
-                            <TextField disabled={true} value={item['max']} handlerChange={(event: any) => handleChangeParamValue(event, index, "max")} handlerKeyDown={() => { }} id={"parammax_id" + index} label="Max" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField type={item['type'] === "Integer" ? 'number' : "float"} autoFocus={currentParamFocus === index && currentSubParamFocus === 1} value={item['value']} handlerChange={(event: any) => handleChangeParamValue(event, index, "value")} handlerKeyDown={() => { }} testId={"paramvalue_id" + index} label="Value" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField disabled={true} value={item['min']} handlerChange={(event: any) => handleChangeParamValue(event, index, "min")} handlerKeyDown={() => { }} testId={"parammin_id" + index} label="Min" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
+                            <TextField disabled={true} value={item['max']} handlerChange={(event: any) => handleChangeParamValue(event, index, "max")} handlerKeyDown={() => { }} testId={"parammax_id" + index} label="Max" style={{ padding: '10px 10px', float: "left", width: "120px" }} />
                         </ListItem>
                     </Tooltip>
                 )
@@ -568,7 +568,7 @@ const VisionUIFilterModule = () => {
                 content.push(
                     <Tooltip title={item['desc']}>
                         <ListItem style={style} key={"paramList" + item['paramName']}>
-                            <TextField autoFocus={currentParamFocus === index} value={item['value']} handlerChange={(event: any) => handleChangeParamValue(event, index, "value")} handlerKeyDown={() => { }} id={"paramvalue_id" + index} label="Value" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
+                            <TextField autoFocus={currentParamFocus === index} value={item['value']} handlerChange={(event: any) => handleChangeParamValue(event, index, "value")} handlerKeyDown={() => { }} testId={"paramvalue_id" + index} label="Value" style={{ padding: '10px 10px', float: "left", width: "300px" }} />
                         </ListItem>
                     </Tooltip>
                 )

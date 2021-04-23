@@ -6,6 +6,7 @@ import actuatorsModuleBig from '../image/actuators_module_big.png'
 import cameraModuleBig from '../image/camera_module_big.png'
 import visionUiModuleBig from '../image/visionui_module_big.png'
 import missionManagerBig from '../image/mission_manager_big.png'
+import powerModuleBig from '../image/powermodule_big.png'
 
 interface ModuleMetadata {
   key: string;
@@ -79,6 +80,13 @@ const WaypointsMeta: ModuleMetadata = {
   thumbnailSource: waypointsModuleBig,
 };
 
+const PowerModuleMeta: ModuleMetadata = {
+  key: 'powerModule',
+  name: 'Powermodule',
+  thumbnailLabel: 'powermodule-thumbnail',
+  thumbnailSource: powerModuleBig
+}
+
 const MissionManagerMeta: ModuleMetadata = {
   key: 'missionManager',
   name: 'Mission Manager',
@@ -95,6 +103,7 @@ const ModulesMetadata: Array<ModuleMetadata> = [
   PFDMeta,
   VisionUIMeta,
   WaypointsMeta,
+  PowerModuleMeta,
   MissionManagerMeta,
 ];
 
@@ -108,6 +117,7 @@ export {
   PFDMeta,
   VisionUIMeta,
   WaypointsMeta,
+  PowerModuleMeta,
   MissionManagerMeta,
 };
 export type { Module, ModuleMetadata, ActiveModules };

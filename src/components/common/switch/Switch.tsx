@@ -9,6 +9,7 @@ type SwitchProps = {
   vertical?: boolean;
   handler: (value: boolean) => void;
   round?: boolean;
+  testid?: string
 };
 
 const getLabelClassname = (checked: boolean) =>
@@ -27,7 +28,7 @@ const Switch: FunctionComponent<SwitchProps> = (props) => {
       <p className={getLabelClassname(on)}>{props.onLabel}</p>
       <div className="Switch__rotatewrapper">
         <MUISwitch
-          data-testid="test-switch"
+          data-testid={props.testid}
           value="Active"
           checked={on}
           onChange={handleChange}

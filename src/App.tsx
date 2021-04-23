@@ -19,6 +19,7 @@ import ModulePicker from './components/modulepicker/ModulePicker'
 import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata'
 import { Drawer } from '@material-ui/core'
 import './App.css'
+import PowerModule from "./components/powermodule/PowerModule";
 
 
 export const App = () => {
@@ -267,7 +268,14 @@ export const App = () => {
                                     data-grid={{ x: 0, y: 27, w: 11, h: 17, minW: 11, maxW: 30, minH: 17, maxH: 30 }}
                                     style={{ display: 'flex', ...moduleBorder }}>
                                     <VisionUI />
-                        </div>) : (<React.Fragment></React.Fragment>)}
+                                </div>) : <React.Fragment></React.Fragment>}
+
+                                {context.activeModules.data['powerModule'].active ? (
+                                    <div key="powerModule" data-grid={{ x: 0, y: 37, w: 12, h: 8, maxW: 20, maxH: 20 }} style={{ display: 'flex', ...moduleBorder }}>
+                                        <PowerModule />
+                                    </div>
+                            ) : <React.Fragment></React.Fragment>}
+
                                 {context.activeModules.data['missionManager'].active ? (
                                     <div key="missionManager"
                                         data-grid={{ x: 0, y: 20, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}

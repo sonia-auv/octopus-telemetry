@@ -6,7 +6,7 @@ type TextFieldProps = {
   value?: unknown
   handlerChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handlerKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => void;
-  id?: string
+  testId?: string
   label?: string | React.ReactNode;
   style?: React.CSSProperties;
   name?: string
@@ -35,7 +35,6 @@ const TextField: FunctionComponent<TextFieldProps> = (props) => (
       ...DEFAULT_TEXTFIELD_STYLE,
       ...props.style,
     }}
-    data-testid="test-textfield"
     onChange={props.handlerChange}
     onKeyDown={props.handlerKeyDown}
     label={props.label}
@@ -46,6 +45,10 @@ const TextField: FunctionComponent<TextFieldProps> = (props) => (
     autoFocus={props.autoFocus} 
     fullWidth={props.fullWidth}
     disabled={props.disabled}
+    data-testid={`${props.testId}-mui-wrapper`}
+    inputProps={{
+      'data-testid': props.testId
+    }}
   >
   </GenericTextField>
 );
@@ -58,7 +61,8 @@ TextField.defaultProps = {
   color: undefined,
   autoFocus: false,
   fullWidth: false,
-  disabled: false
+  disabled: false,
+  testId: 'textfield'
 };
 
 export default TextField;

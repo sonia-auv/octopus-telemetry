@@ -137,7 +137,7 @@ const VisionUIExecutionModule = () => {
 
     return (
         <div>
-            <TextField value={filterChainName} autoFocus={fieldHasFocus} handlerChange={handleFilterChainNameChange} handlerKeyDown={() => { }} id="visionUi_filterChainName_id" label="Name"
+            <TextField value={filterChainName} autoFocus={fieldHasFocus} handlerChange={handleFilterChainNameChange} handlerKeyDown={() => { }} testId="visionUi_filterChainName_id" label="Name"
                 fullWidth={true} style={{ padding: '10px 10px', backgroundColor: 'white' }} />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleAddFilterChain} label="Add" />
             <Button style={{ fontSize: '15px', marginTop: '10px', float: 'left', marginLeft: '10px' }} handler={handleCloneFilterChain} label="Clone" />

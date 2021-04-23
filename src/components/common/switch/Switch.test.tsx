@@ -3,7 +3,7 @@ import Switch from './Switch';
 
 describe('The Switch component', () => {
   it('has default labels (for On and Off) 💬', () => {
-    render(<Switch value={false} handler={(e) => !e} />);
+    render(<Switch testid='test-switch' value={false} handler={(e) => !e} />);
 
     const onText = screen.getByText(/On/i);
     const offLabel = screen.getByText(/Off/i);
@@ -13,7 +13,7 @@ describe('The Switch component', () => {
   it('can be toggled on and off 💡', () => {
     const onChange = jest.fn();
 
-    render(<Switch value={false} handler={onChange} />);
+    render(<Switch testid='test-switch' value={false} handler={onChange} />);
     const s = screen
       .getByTestId('test-switch')
       .querySelector('input[type="checkbox"]') as HTMLInputElement;

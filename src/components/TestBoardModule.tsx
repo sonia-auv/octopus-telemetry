@@ -48,7 +48,7 @@ const TestBoardModule = () => {
             <h1>Test board</h1>
             <form>
                 <div>
-                    <TextField id="outlined-basic-01"
+                    <TextField testId="outlined-basic-01"
                         label="Slave"
                         name="slave"
                         type="number"
@@ -61,7 +61,7 @@ const TestBoardModule = () => {
                     />
                 </div>
                 <div>
-                    <TextField id="outlined-basic-02"
+                    <TextField testId="outlined-basic-02"
                         label="Cmd"
                         name="cmd"
                         value={cmd}
@@ -72,7 +72,7 @@ const TestBoardModule = () => {
                     />
                 </div>
                 <div>
-                    <TextField id="outlined-basic-03"
+                    <TextField testId="outlined-basic-03"
                         label="Data"
                         name="data"
                         style={{ margin: '5px' }}
@@ -83,7 +83,7 @@ const TestBoardModule = () => {
                     />
                 </div>
                 <div>
-                    <TextField id="outlined-basic-04"
+                    <TextField testId="outlined-basic-04"
 
                         label="Rate"
                         name="rate"

@@ -1,11 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { useROSTopicPublisher } from '../../../hooks/useROSTopicPublisher';
+import { useROSTopicPublisher } from '../../hooks/useROSTopicPublisher';
 import PowerSection from './PowerSection';
-import { useROSService } from '../../../hooks/useROSService';
-import { useROSTopicSubscriber } from '../../../hooks/useROSTopicSubscriber';
+import { useROSService } from '../../hooks/useROSService';
+import { useROSTopicSubscriber } from '../../hooks/useROSTopicSubscriber';
 import './powermodule.css';
+
+function areWeTestingWithJest() {
+  return process.env.JEST_WORKER_ID !== undefined;
+}
 
 const NUMBER_OF_POWER_SECTIONS = 4;
 
@@ -56,13 +60,11 @@ const PowerModule = (props: PowerModuleProps) => {
     setPowerValues(Object.assign([], powerValues));
   }, []);
 
-  useROSTopicSubscriber<any>(
-    powerMessageCallback,
-    '/provider_power/power',
-    'sonia_common/PowerMsg'
-  );
-
-  console.log(powerValues);
+  // useROSTopicSubscriber<any>(
+  //   powerMessageCallback,
+  //   '/provider_power/power',
+  //   'sonia_common/PowerMsg'
+  // );
 
   return (
     <div className="PowerModule">

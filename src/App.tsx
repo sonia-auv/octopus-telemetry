@@ -19,7 +19,7 @@ import ModulePicker from './components/modulepicker/ModulePicker'
 import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata'
 import { Drawer } from '@material-ui/core'
 import './App.css'
-import PowerModule from "./src/components/powermodule/PowerModule";
+import PowerModule from "./components/powermodule/PowerModule";
 
 
 export const App = () => {

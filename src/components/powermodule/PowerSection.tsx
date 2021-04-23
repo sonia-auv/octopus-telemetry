@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Switch from '../../../components/common/switch/Switch';
+import Switch from '../common/switch/Switch';
 import PowerMetric from './PowerMetric';
 import './powersection.css';
 

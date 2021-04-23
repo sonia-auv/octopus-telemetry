@@ -1,4 +1,4 @@
-import TextField from '../../../components/common/textfield/Textfield';
+import TextField from '../common/textfield/Textfield';
 import './powermetric.css';
 
 type PowerMetricProps = {

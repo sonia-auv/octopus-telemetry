@@ -6,6 +6,7 @@ import actuatorsModuleBig from '../image/actuators_module_big.png'
 import cameraModuleBig from '../image/camera_module_big.png'
 import visionUiModuleBig from '../image/visionui_module_big.png'
 import missionManagerBig from '../image/mission_manager_big.png'
+import powerModuleBig from '../image/powermodule_big.png'
 
 interface ModuleMetadata {
   key: string;
@@ -83,7 +84,7 @@ const PowerModuleMeta: ModuleMetadata = {
   key: 'powerModule',
   name: 'Powermodule',
   thumbnailLabel: 'powermodule-thumbnail',
-  thumbnailSource: waypointsModuleBig
+  thumbnailSource: powerModuleBig
 }
 
 const MissionManagerMeta: ModuleMetadata = {

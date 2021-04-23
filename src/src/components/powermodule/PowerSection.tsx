@@ -135,3 +135,4 @@ const PowerSection = (props: PowerSectionProps) => {
 };
 
 export default PowerSection;
+export type { PowerSectionProps }

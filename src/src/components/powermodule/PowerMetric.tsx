@@ -17,7 +17,7 @@ const PowerMetric = (props: PowerMetricProps) => (
       disabled={true}
       name={props.inputId}
       label={props.label}
-      data-testid={props.testId}
+      testId={props.testId}
     />
   </div>
 );

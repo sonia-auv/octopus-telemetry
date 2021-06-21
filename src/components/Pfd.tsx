@@ -183,7 +183,7 @@ const ActuatorModule = () => {
         []
     )
 
-    useROSTopicSubscriber<any>(odomCallback, "/proc_navigation/odom", "nav_msgs/Odometry")
+    useROSTopicSubscriber<any>(odomCallback, "/telemetry/auv_states", "nav_msgs/Odometry")
     useROSTopicSubscriber<any>(targetCallback, "/proc_control/current_target", "geometry_msgs/Pose")
     useROSTopicSubscriber<any>(targetVelocityCallback, "/proc_control/current_target_velocity", "geometry_msgs/Twist")
 

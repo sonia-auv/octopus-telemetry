@@ -23,7 +23,7 @@ export const BatterieLevelIndicator = (props: any) => {
                     orientation="horizontal"
                     value={props.value}
                     min={0}
-                    max={28}
+                    max={17}
                     disabled={true}
                 />
             </div>

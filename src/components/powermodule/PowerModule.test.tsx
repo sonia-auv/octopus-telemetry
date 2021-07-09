@@ -45,20 +45,6 @@ describe('The Power module 🔋', () => {
       const noDataTexts = await screen.findAllByDisplayValue(/No data/i)
       expect(noDataTexts.length).toBe(1)
     })
-    it('renders a Temperature label', () => {
-      render(<PowerSection {...testProps} />);
-      const temperatureLabelTexts = screen.getAllByText(/Temperature/i);
-      const temperatureLabelText = temperatureLabelTexts[0]
-      expect(temperatureLabelText).toBeInTheDocument();
-    });
-    it('renders a temperature value', () => {
-      render(<PowerSection {...testProps} />);
-      const temperatureInputs = screen.getAllByTestId('temperature-value')
-      const temperatureInput = temperatureInputs[0] as HTMLInputElement;
-      const temperatureValue = parseFloat(temperatureInput.value);
-      expect(temperatureInput).toHaveAttribute('disabled');
-      isNumberValueValid(temperatureValue);
-    });
     it('renders a Current 16V-1 label', () => {
       render(<PowerSection {...testProps} />);
       const current16v1Texts = screen.getAllByText(/Current 16V-1/i);
@@ -98,7 +84,7 @@ describe('The Power module 🔋', () => {
       const current12VInputs = screen.getAllByTestId('current-12v-value')
       const current12VInput = current12VInputs[0] as HTMLInputElement
       const current12VValue = parseFloat(current12VInput.value);
-
+      
       isNumberValueValid(current12VValue);
       expect(current12VInput.disabled).toBe(true);
     });
@@ -110,11 +96,11 @@ describe('The Power module 🔋', () => {
     });
     it('renders a Voltage 16V-1 value', () => {
       render(<PowerSection {...testProps} />);
-
+      
       const voltage16V1Inputs = screen.getAllByTestId('voltage-16v-1-value');
       const voltage16V1Input = voltage16V1Inputs[0] as HTMLInputElement
       const voltage16V1Value = parseFloat(voltage16V1Input.value);
-
+      
       isNumberValueValid(voltage16V1Value);
       expect(voltage16V1Input.disabled).toBe(true);
     });
@@ -126,11 +112,11 @@ describe('The Power module 🔋', () => {
     });
     it('renders a Voltage 16V-2 value', () => {
       render(<PowerSection {...testProps} />);
-
+      
       const voltage16V2Inputs = screen.getAllByTestId('voltage-16v-2-value')
       const voltage16V2Input = voltage16V2Inputs[0] as HTMLInputElement
       const voltage16V2Value = parseFloat(voltage16V2Input.value);
-
+      
       isNumberValueValid(voltage16V2Value);
       expect(voltage16V2Input.disabled).toBe(true);
     });
@@ -142,13 +128,27 @@ describe('The Power module 🔋', () => {
     });
     it('renders a Voltage 12V value', () => {
       render(<PowerSection {...testProps} />);
-
+      
       const voltage12VInputs = screen.getAllByTestId('voltage-12v-value');
       const voltage12VInput = voltage12VInputs[0] as HTMLInputElement
       const voltage12VValue = parseFloat(voltage12VInput.value);
 
       isNumberValueValid(voltage12VValue);
       expect(voltage12VInput.disabled).toBe(true);
+    });
+    it('renders a Temperature label', () => {
+      render(<PowerSection {...testProps} />);
+      const temperatureLabelTexts = screen.getAllByText(/Temperature/i);
+      const temperatureLabelText = temperatureLabelTexts[0]
+      expect(temperatureLabelText).toBeInTheDocument();
+    });
+    it('renders a temperature value', () => {
+      render(<PowerSection {...testProps} />);
+      const temperatureInputs = screen.getAllByTestId('temperature-value')
+      const temperatureInput = temperatureInputs[0] as HTMLInputElement;
+      const temperatureValue = parseFloat(temperatureInput.value);
+      expect(temperatureInput).toHaveAttribute('disabled');
+      isNumberValueValid(temperatureValue);
     });
     it('renders a Battery label', () => {
       render(<PowerSection {...testProps} />);

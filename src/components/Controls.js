@@ -64,9 +64,9 @@ const Controls = (props) => {
                             value={context.isRelativeUnits}
                             handler={() => context.setIsRelativeUnits(!context.isRelativeUnits)}/> */}
                     
-                    <Button disabled={context.isDryRunMode } style={{ marginLeft: '25%' , width: '100px', fontSize: '9px' }} 
+                    <Button disabled={context.isDryRunMode } style={{ marginLeft: '25%' , width: '100px', fontSize: '11px' }} 
                             handler={callDryTestService} label="Dry Test"/>
-                    <Button disabled={ context.isDryRunMode} style={{ marginLeft: '25%', marginTop: '10px' , width: '100px', fontSize: '9px' }} 
+                    <Button disabled={ context.isDryRunMode} style={{ marginLeft: '25%', marginTop: '10px' , width: '100px', fontSize: '11px' }} 
                             handler={thrusterActivation} label={ !thrusterActive ? "Activate" : "Deactivate" }/>
                 </div>
             )}

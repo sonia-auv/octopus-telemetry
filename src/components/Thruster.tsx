@@ -51,13 +51,14 @@ const marksIndicator = [
 type ThrusterLevel = {
     identification: number
     effort: number,
+    pwm: number,
     minMark: number,
     maxMark: number,
     step: number,
     thumbEnabled: boolean
 }
 
-export const Thruster = ({ identification, effort, minMark, maxMark, step, thumbEnabled }: ThrusterLevel) => {
+export const Thruster = ({ identification, effort, pwm,  minMark, maxMark, step, thumbEnabled }: ThrusterLevel) => {
 
     const thrusterEffortPublisher = useROSTopicPublisher<any>("/provider_thruster/thruster_effort", "std_msgs/String")
 
@@ -111,7 +112,8 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
                             ThumbComponent={ThrusterEffortThumbComponent}
                             handlerChange={() => { }}
                         />
-                        <h1 style={{ fontSize: '20px', marginTop: '-10px', marginLeft: '40px' }}>{effort} N</h1>
+                        <h1 style={{ fontSize: '15px', marginTop: '-25px', marginLeft: '40px' }}>{effort} N</h1>
+                        <h1 style={{ fontSize: '15px', marginTop: '-10px', marginLeft: '15px' }}>PWM: {pwm} </h1>
                     </Grid>
                     {/* <Grid key={1} item>
                         <h1 style={{ fontSize: '20px', marginBottom: '0px', marginLeft: '-104px' }}>T{identification}</h1>

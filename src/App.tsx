@@ -3,6 +3,7 @@ import GridLayout, { contextType } from 'react-grid-layout'
 import { Thruster } from './components/Thruster'
 import ThrustersModule from "./components/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
+import SetPwmModule from "./components/SetPwmModule";
 import ImageViewer from "./components/ImageViewer";
 import MissionManager from "./components/MissionManager";
 import Pfd from "./components/Pfd";
@@ -25,6 +26,7 @@ import PowerModule from "./components/powermodule/PowerModule";
 export const App = () => {
     const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string ) ? 'dark': 'light');
     const [thruster1, setThruster1] = useState(0)
+    const [pwm1, setPwm1] = useState(1500)
     const [thruster2, setThruster2] = useState(0)
     const [thruster3, setThruster3] = useState(0)
     const [thruster4, setThruster4] = useState(0)
@@ -62,42 +64,23 @@ export const App = () => {
 
     const thrusterEffortCallback = useCallback(
         (x: any) => {
-            let id = x.ID
-            let effort = x.effort
-            switch(id){
-                case 1:
-                    setThruster1(effort)
-                    break;
-                case 2:
-                    setThruster2(effort)
-                    break;
-                case 3:
-                    setThruster3(effort)
-                    break;
-                case 4:
-                    setThruster4(effort)
-                    break;
-                case 5:
-                    setThruster5(effort)
-                    break;
-                case 6:
-                    setThruster6(effort)
-                    break;
-                case 7:
-                    setThruster7(effort)
-                    break;
-                case 8:
-                    setThruster8(effort)
-                    break;
-            }
+            let data = x.data
+            setThruster1(data[0]);
+            setThruster2(data[1]);
+            setThruster3(data[2]);
+            setThruster4(data[3]);
+            setThruster5(data[4]);
+            setThruster6(data[5]);
+            setThruster7(data[6]);
+            setThruster8(data[7]);
         },
         []
     )
 
-    useROSTopicSubscriber<any>(thrusterEffortCallback, "/provider_thruster/effort", "sonia_common/ThrusterEffort")
+    useROSTopicSubscriber<any>(thrusterEffortCallback, "/telemetry/thruster_newton", "std_msgs/Int8MultiArray");
 
     const [isDarkMode, setIsDarkMode] = React.useState(theme === 'dark')
-    const [isDryRunMode, setIsDryRunMode] = React.useState(false);
+    const [isDryRunMode, setIsDryRunMode] = React.useState(true);
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
     const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
     const [isWayPointVelocityMode, setIsWayPointVelocityMode] = React.useState(false)
@@ -149,62 +132,66 @@ export const App = () => {
                                 draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch, .MuiSelect-root, .MuiFormControl-root, .MuiTypography-root, .MuiInputBase-root, .MuiList-root"}>
                                 {context.activeModules.data['thrusters'].active ? (
                                           <div key="thrusters"
-                             data-grid={{ x: 0, y: 0, w: 17, h: 6, minW: 17, maxW: 22, minH: 6, maxH: 10 }}
+                             data-grid={{ x: 0, y: 0, w: 17, h: 10, minW: 17, maxW: 30, minH: 10, maxH: 15 }}
                              style={{ display: 'flex', ...moduleBorder}}>
                             <ThrustersModule />
+                            <SetPwmModule />
                             <Thruster key={1}
                                       effort={thruster1}
                                       identification={1}
-                                      minMark={-100}
-                                      maxMark={100}
+                                      minMark={-50}
+                                      maxMark={50}
                                       step={25}
                                       thumbEnabled={!isDryRunMode}
                             />
+                            
+                            
                             <Thruster key={2}
                                       effort={thruster2}
                                       identification={2}
-                                      minMark={-100}
-                                      maxMark={100}
+                                      minMark={-50}
+                                      maxMark={50}
                                       step={25}
                                       thumbEnabled={!isDryRunMode}
                             />
+                           
                             <Thruster key={3}
                                       effort={thruster3}
                                       identification={3}
-                                      minMark={-100}
-                                      maxMark={100}
+                                      minMark={-50}
+                                      maxMark={50}
                                       step={25}
                                       thumbEnabled={!isDryRunMode}
                             />
                             <Thruster key={4}
                                       effort={thruster4}
                                       identification={4}
-                                      minMark={-100}
-                                      maxMark={100}
+                                      minMark={-50}
+                                      maxMark={50}
                                       step={25}
                                       thumbEnabled={!isDryRunMode}
                             />
                             <Thruster key={5}
                                       effort={thruster5}
                                       identification={5}
-                                      minMark={-100}
-                                      maxMark={100}
+                                      minMark={-50}
+                                      maxMark={50}
                                       step={25}
                                       thumbEnabled={!isDryRunMode}
                             />
                             <Thruster key={6}
                                       effort={thruster6}
                                       identification={6}
-                                      minMark={-100}
-                                      maxMark={100}
+                                      minMark={-50}
+                                      maxMark={50}
                                       step={25}
                                       thumbEnabled={!isDryRunMode}
                             />
                             <Thruster key={7}
                                       effort={thruster7}
                                       identification={7}
-                                      minMark={-100}
-                                      maxMark={100}
+                                      minMark={-50}
+                                      maxMark={50}
                                       step={25}
                                       thumbEnabled={!isDryRunMode}
                             />
@@ -212,8 +199,8 @@ export const App = () => {
                             <Thruster key={8}
                                       effort={thruster8}
                                       identification={8}
-                                      minMark={-100}
-                                      maxMark={100}
+                                      minMark={-50}
+                                      maxMark={50}
                                       step={25}
                                       thumbEnabled={!isDryRunMode}
                             />

@@ -51,21 +51,22 @@ const Controls = (props) => {
     return (
         <GeneralContext.Consumer>
             {context => context &&(
-                <div style={{ flexDirection: 'row' }}>
+                <div style={{ flexDirection: 'row', width: '200px'}}>
                     <Switch onLabel="Normal"
                             offLabel="Dry Run"
                             vertical={true}
                             value={context.isDryRunMode}
                             handler={() => context.setIsDryRunMode(!context.isDryRunMode)}/>
 
-                    <Switch onLabel="PWM"
+                    {/* <Switch onLabel="PWM"
                             offLabel="Rel. (%)"
                             vertical={false}
                             value={context.isRelativeUnits}
-                            handler={() => context.setIsRelativeUnits(!context.isRelativeUnits)}/>
+                            handler={() => context.setIsRelativeUnits(!context.isRelativeUnits)}/> */}
                     
-                    <Button disabled={context.isDryRunMode } style={{ marginLeft: '15%' , width: '100px', fontSize: '9px' }} handler={callDryTestService} label="Dry Test"/>
-                    <Button disabled={ context.isDryRunMode} style={{ marginLeft: '15%', marginTop: '10px' , width: '100px', fontSize: '9px' }} 
+                    <Button disabled={context.isDryRunMode } style={{ marginLeft: '25%' , width: '100px', fontSize: '9px' }} 
+                            handler={callDryTestService} label="Dry Test"/>
+                    <Button disabled={ context.isDryRunMode} style={{ marginLeft: '25%', marginTop: '10px' , width: '100px', fontSize: '9px' }} 
                             handler={thrusterActivation} label={ !thrusterActive ? "Activate" : "Deactivate" }/>
                 </div>
             )}

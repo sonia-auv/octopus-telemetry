@@ -3,7 +3,7 @@ import Controls from './Controls';
 const ThrustersModule = (props) => {
   return (
     <div>
-      <Controls />
+      <Controls /> 
     </div>
   );
 };

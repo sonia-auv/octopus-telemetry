@@ -9,42 +9,42 @@ import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublis
 
 const marks = [
     {
-        value: -75,
-        label: '-75%',
+        value: -38,
+        label: '-38 N',
     },
     {
-        value: -25,
-        label: '-25%',
+        value: -12,
+        label: '-12 N',
     },
     {
-        value: 25,
-        label: '25%',
+        value: 12,
+        label: '12 N',
     },
     {
-        value: 75,
-        label: '75%',
+        value: 38,
+        label: '38 N',
     }]
 
 const marksIndicator = [
     {
-        value: -100,
-        label: '-100%',
+        value: -50,
+        label: '-50 N',
     },
     {
-        value: -50,
-        label: '-50%',
+        value: -25,
+        label: '-25 N',
     },
     {
         value: 0,
-        label: '0%',
+        label: '0 N',
+    },
+    {
+        value: 25,
+        label: '25 N',
     },
     {
         value: 50,
-        label: '50%',
-    },
-    {
-        value: 100,
-        label: '100%',
+        label: '50 N',
     }]
 
 
@@ -111,9 +111,9 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
                             ThumbComponent={ThrusterEffortThumbComponent}
                             handlerChange={() => { }}
                         />
-                        <h1 style={{ fontSize: '20px', marginTop: '-10px', marginLeft: '40px' }}>{effort} %</h1>
+                        <h1 style={{ fontSize: '20px', marginTop: '-10px', marginLeft: '40px' }}>{effort} N</h1>
                     </Grid>
-                    <Grid key={1} item>
+                    {/* <Grid key={1} item>
                         <h1 style={{ fontSize: '20px', marginBottom: '0px', marginLeft: '-104px' }}>T{identification}</h1>
                         <ThrusterControlSlider
                             orientation="vertical"
@@ -127,8 +127,8 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
                             defaultValue={0}
                             handlerChange={handleChange}
                         />
-                        <h1 style={{ fontSize: '20px', marginTop: '-10px', marginLeft: '-104px' }}>{effort} %</h1>
-                    </Grid>
+                        <h1 style={{ fontSize: '20px', marginTop: '-10px', marginLeft: '-104px' }}>{effort} N</h1>
+                    </Grid> */}
                 </Grid>
             </Grid>
         </Grid>

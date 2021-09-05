@@ -25,7 +25,7 @@ jobs:
       
       - name: Create Docker Image Tag
         run: |
-          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${TARGET_VERSION}
+          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_VERSION}
 
       - name: Push Image to Github Packages Registry
         run: |
@@ -63,7 +63,7 @@ jobs:
       
       - name: Create Docker Image Tag
         run: |
-          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${TARGET_VERSION}
+          docker tag build-${TARGET_VERSION}-${GITHUB_REF##*/}-${GITHUB_RUN_NUMBER} ${GITHUB_REMOTE_URL}/${IMAGE_NAME}:${ARCH}-${TARGET_VERSION}
 
       - name: Push Image to Github Packages Registry
         run: |

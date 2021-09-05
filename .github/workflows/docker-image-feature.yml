@@ -5,7 +5,7 @@ on:
     branches: [feature/**]
 
 jobs:
-    octopus-telemetry:
+  octopus-telemetry:
     name: Build Octopus-Telemetry
     runs-on: ubuntu-latest
     steps:

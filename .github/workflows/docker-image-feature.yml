@@ -1,0 +1,29 @@
+name: Docker Image CI - Feature Branch
+
+on:
+  push:
+    branches: [feature/**]
+
+jobs:
+    octopus-telemetry:
+    name: Build Octopus-Telemetry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Octopus-Telemetry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          cache-from: type=registry,ref=ghcr.io/sonia-auv/octopus-telemetry:feature
+          cache-to: type=inline
+          tags: |
+            ghcr.io/sonia-auv/octopus-telemetry:feature

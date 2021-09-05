@@ -32,7 +32,7 @@ jobs:
           docker push --all-tags ${GITHUB_REMOTE_URL}/${IMAGE_NAME}
 
   octopus-telemetry-64:
-    name: Build Octopus-Telemetry AMR64
+    name: Build Octopus-Telemetry ARM64
     runs-on: ubuntu-latest
     env:
       ARCH: arm64

@@ -57,12 +57,6 @@ const Controls = (props) => {
                             vertical={true}
                             value={context.isDryRunMode}
                             handler={() => context.setIsDryRunMode(!context.isDryRunMode)}/>
-
-                    {/* <Switch onLabel="PWM"
-                            offLabel="Rel. (%)"
-                            vertical={false}
-                            value={context.isRelativeUnits}
-                            handler={() => context.setIsRelativeUnits(!context.isRelativeUnits)}/> */}
                     
                     <Button disabled={context.isDryRunMode } style={{ marginLeft: '25%' , width: '100px', fontSize: '11px' }} 
                             handler={callDryTestService} label="Dry Test"/>

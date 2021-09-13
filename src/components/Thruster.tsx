@@ -115,22 +115,6 @@ export const Thruster = ({ identification, effort, pwm,  minMark, maxMark, step,
                         <h1 style={{ fontSize: '15px', marginTop: '-25px', marginLeft: '40px' }}>{effort} N</h1>
                         <h1 style={{ fontSize: '15px', marginTop: '-10px', marginLeft: '15px' }}>PWM: {pwm} </h1>
                     </Grid>
-                    {/* <Grid key={1} item>
-                        <h1 style={{ fontSize: '20px', marginBottom: '0px', marginLeft: '-104px' }}>T{identification}</h1>
-                        <ThrusterControlSlider
-                            orientation="vertical"
-                            value={value}
-                            min={minMark}
-                            max={maxMark}
-                            valueLabelDisplay="off"
-                            marks={marks}
-                            disabled={!thumbEnabled}
-                            ThumbComponent={ThrusterControlThumbComponent}
-                            defaultValue={0}
-                            handlerChange={handleChange}
-                        />
-                        <h1 style={{ fontSize: '20px', marginTop: '-10px', marginLeft: '-104px' }}>{effort} N</h1>
-                    </Grid> */}
                 </Grid>
             </Grid>
         </Grid>

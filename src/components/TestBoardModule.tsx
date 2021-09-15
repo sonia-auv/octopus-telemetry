@@ -64,6 +64,7 @@ const TestBoardModule = () => {
                     <TextField testId="outlined-basic-02"
                         label="Cmd"
                         name="cmd"
+                        type="number"
                         value={cmd}
                         style={{ margin: '5px' }}
                         handlerChange={(event) => setCmd(event.target.value)}

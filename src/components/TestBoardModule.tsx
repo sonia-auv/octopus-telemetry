@@ -24,7 +24,7 @@ const TestBoardModule = () => {
             cmd: cmd,
             data: data
         })
-        if (!isSingleSend) {
+        if (!isSingleSend && rate > '0') {
             console.log("Continuous publishing...")
             intervalVar = setInterval(function () {
                 testBoardPublisher(toPublish)

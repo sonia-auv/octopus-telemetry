@@ -42,11 +42,15 @@ const ToolbarModule = (props: any) => {
 
   const batteryLevelCallback = useCallback((x: any) => {
     let data = parseFloat(x.data).toFixed(2);
-    // slave 0 and 1 are PSU connected to battery 1 and slave 2 and 3 are connected to battery 2
-    // the command 7 is the battery data
-    // we assume the data from the slaves connected to the same battery are close enough so we take only one value
-    if (x.slave === 0) {if (x.cmd === 7) setbatteryLevel1(data);}
-    else if (x.slave === 2) {if (x.cmd === 7) setbatteryLevel2(data);}
+    // slave 0 is the voltage from both batteries
+    // the command 0 is the voltage data on motors and batteries
+    // battery 1 is store in data[8] and battery 2 is stored in data[9]
+    if (x.slave === 0) {
+      if (x.cmd === 0) {
+        setbatteryLevel1(data[8]);
+        setbatteryLevel2(data[9]);
+      }
+    }
   }, []);
 
   const AUV7Callback = useCallback((x: any) => {

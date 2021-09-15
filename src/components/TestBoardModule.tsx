@@ -15,13 +15,13 @@ const TestBoardModule = () => {
     const [rate, setRate] = React.useState("")
     const [isSingleSend, setIsSingleSend] = React.useState(true)
     let intervalVar: any
-    let splitData: number[]
+    let splitData: number[] = []
     const testBoardPublisher = useROSTopicPublisher<any>("/interface_rs485/dataRx", "sonia_common/SendRS485Msg")
 
     const handleStart = () => {
 
-        let test = data.split(",")
-        for (var i of test) {
+        let table = data.split(",")
+        for (var i of table) {
             splitData.push(parseInt(i))
         }
 

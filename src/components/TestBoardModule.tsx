@@ -20,7 +20,7 @@ const TestBoardModule = () => {
     const handleStart = () => {
 
         let toPublish = MessageFactory({
-            slave: slave,
+            slave: +slave,
             cmd: +cmd,
             data: data
         })

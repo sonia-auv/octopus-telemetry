@@ -21,7 +21,7 @@ const TestBoardModule = () => {
 
         let toPublish = MessageFactory({
             slave: slave,
-            cmd: cmd,
+            cmd: +cmd,
             data: data
         })
         if (!isSingleSend && rate > '0') {

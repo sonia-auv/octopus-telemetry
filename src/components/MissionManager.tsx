@@ -46,7 +46,6 @@ const MissionManager = () => {
 
     // Selection d une missions dans le select.
     const behaviorSelected = (event: React.ChangeEvent<{ value: unknown }>) => {
-        console.log(event.target.value);
         setCurrentMissionName(event.target.value as string);
     }
 

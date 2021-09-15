@@ -17,13 +17,13 @@ type PowerPayload = {
 
 const PowerModule = (props: PowerModuleProps) => {
   const initialPowerValuesDict = new Array(NUMBER_OF_POWER_SECTIONS).fill({
-    temperature: null,
-    current16V1Value: null,
-    current16V2Value: null,
-    current12VValue: null,
     voltage16V1Value: null,
     voltage16V2Value: null,
     voltage12VValue: null,
+    current16V1Value: null,
+    current16V2Value: null,
+    current12VValue: null,
+    temperature: null,
     batteryValue: null,
   });
 
@@ -33,13 +33,13 @@ const PowerModule = (props: PowerModuleProps) => {
     [index: string]: string;
   }
   const d: MetricsMap = {
-    0: 'temperature',
-    1: 'current16V1Value',
-    2: 'current16V2Value',
-    3: 'current12VValue',
-    4: 'voltage16V1Value',
-    5: 'voltage16V2Value',
-    6: 'voltage12VValue',
+    0: 'voltage16V1Value',
+    1: 'voltage16V2Value',
+    2: 'voltage12VValue',
+    3: 'current16V1Value',
+    4: 'current16V2Value',
+    5: 'current12VValue',
+    6: 'temperature',
     7: 'batteryValue',
   };
 
@@ -73,13 +73,13 @@ const PowerModule = (props: PowerModuleProps) => {
           <TabPanel key={index}>
             <PowerSection
               key={index}
-              temperature={powerSection.temperature}
-              current16V1Value={powerSection.current16V1Value}
-              current16V2Value={powerSection.current16V2Value}
-              current12VValue={powerSection.current12VValue}
               voltage16V1Value={powerSection.voltage16V1Value}
               voltage16V2Value={powerSection.voltage16V2Value}
               voltage12VValue={powerSection.voltage12VValue}
+              current16V1Value={powerSection.current16V1Value}
+              current16V2Value={powerSection.current16V2Value}
+              current12VValue={powerSection.current12VValue}
+              temperature={powerSection.temperature}
               batteryValue={powerSection.batteryValue}
               // TODO implement those below
               output16V1Checked={false}
@@ -95,13 +95,13 @@ const PowerModule = (props: PowerModuleProps) => {
           {powerValues.map((powerSection, index) => (
             <PowerSection
               key={index}
-              temperature={powerSection.temperature}
-              current16V1Value={powerSection.current16V1Value}
-              current16V2Value={powerSection.current16V2Value}
-              current12VValue={powerSection.current12VValue}
               voltage16V1Value={powerSection.voltage16V1Value}
               voltage16V2Value={powerSection.voltage16V2Value}
               voltage12VValue={powerSection.voltage12VValue}
+              current16V1Value={powerSection.current16V1Value}
+              current16V2Value={powerSection.current16V2Value}
+              current12VValue={powerSection.current12VValue}
+              temperature={powerSection.temperature}
               batteryValue={powerSection.batteryValue}
               // TODO implement those below
               output16V1Checked={false}

@@ -29,13 +29,13 @@ const getPowerSectionSwitch = (
 );
 
 type PowerSectionProps = {
-  temperature: number | null;
-  current16V1Value: number | null;
-  current16V2Value: number | null;
-  current12VValue: number | null;
   voltage16V1Value: number | null;
   voltage16V2Value: number | null;
   voltage12VValue: number | null;
+  current16V1Value: number | null;
+  current16V2Value: number | null;
+  current12VValue: number | null;
+  temperature: number | null;
   batteryValue: number | null;
 
   output16V1Checked: boolean | null;
@@ -71,9 +71,19 @@ const PowerSection = (props: PowerSectionProps) => {
 
   const powerMetrics = [
     {
-      id: 'temperature',
-      label: 'Temperature',
-      value: props.temperature,
+      id: 'voltage-16v-1',
+      label: 'Voltage 16V-1',
+      value: props.voltage16V1Value,
+    },
+    {
+      id: 'voltage-16v-2',
+      label: 'Voltage 16V-2',
+      value: props.voltage16V2Value,
+    },
+    {
+      id: 'voltage-12v',
+      label: 'Voltage 12V',
+      value: props.voltage12VValue,
     },
     {
       id: 'current-16v-1',
@@ -91,19 +101,9 @@ const PowerSection = (props: PowerSectionProps) => {
       value: props.current12VValue,
     },
     {
-      id: 'voltage-16v-1',
-      label: 'Voltage 16V-1',
-      value: props.voltage16V1Value,
-    },
-    {
-      id: 'voltage-16v-2',
-      label: 'Voltage 16V-2',
-      value: props.voltage16V2Value,
-    },
-    {
-      id: 'voltage-12v',
-      label: 'Voltage 12V',
-      value: props.voltage12VValue,
+      id: 'temperature',
+      label: 'Temperature',
+      value: props.temperature,
     },
     {
       id: 'battery',

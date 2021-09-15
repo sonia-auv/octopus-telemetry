@@ -6,7 +6,9 @@ RUN yarn install
 
 FROM node:14-alpine
 EXPOSE 3000
+
 WORKDIR /app
 COPY --from=dependencies /app/node_modules node_modules
 COPY . .
 CMD ["npm", "start"]
+

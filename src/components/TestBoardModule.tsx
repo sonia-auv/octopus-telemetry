@@ -5,7 +5,7 @@ import TextField from './common/textfield/Textfield';
 import Checkbox from './common/Checkbox/Checkbox'
 import FormControlLabel from './common/Form/FormControlLabel';
 
-import { useROSTopicPublisher } from "../hooks/useROSTopicPublisher";
+import { useROSTopicPublisher, MessageFactory } from "../hooks/useROSTopicPublisher";
 
 const TestBoardModule = () => {
 
@@ -19,11 +19,11 @@ const TestBoardModule = () => {
 
     const handleStart = () => {
 
-        let toPublish = {
+        let toPublish = MessageFactory({
             slave: slave,
             cmd: cmd,
             data: data
-        }
+        })
         if (!isSingleSend) {
             console.log("Continuous publishing...")
             intervalVar = setInterval(function () {

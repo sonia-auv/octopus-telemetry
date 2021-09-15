@@ -15,14 +15,20 @@ const TestBoardModule = () => {
     const [rate, setRate] = React.useState("")
     const [isSingleSend, setIsSingleSend] = React.useState(true)
     let intervalVar: any
+    var splitData: [number,string]
     const testBoardPublisher = useROSTopicPublisher<any>("/interface_rs485/dataRx", "sonia_common/SendRS485Msg")
 
     const handleStart = () => {
 
+        let test = data.split(",")
+        for (var i of test) {
+            splitData.push(parseInt(i))
+        }
+
         let toPublish = MessageFactory({
             slave: +slave,
             cmd: +cmd,
-            data: data
+            data: splitData
         })
         if (!isSingleSend && rate > '0') {
             console.log("Continuous publishing...")

@@ -1,12 +1,12 @@
-name: Docker Image CI - Fix Branch
+name: Docker Image CI - Master
 
 on:
   push:
-    branches: [fix/**]
+    branches: [ master ]
 
 jobs:
-  build-octopus-telemetry:
-    name: Build Octopus Telemetry
+  octopus-telemetry:
+    name: Build Octopus-Telemetry
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64, linux/arm64
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:fix
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:latest
           cache-to: type=inline
           tags: |
-            ghcr.io/${{ github.repository }}:fix
+            ghcr.io/${{ github.repository }}:latest

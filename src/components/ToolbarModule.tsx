@@ -41,14 +41,15 @@ const ToolbarModule = (props: any) => {
   }, []);
 
   const batteryLevelCallback = useCallback((x: any) => {
-    let data = parseFloat(x.data).toFixed(2);
     // slave 0 is the voltage from both batteries
     // the command 0 is the voltage data on motors and batteries
     // battery 1 is store in data[8] and battery 2 is stored in data[9]
     if (x.slave === 0) {
       if (x.cmd === 0) {
-        setbatteryLevel1(data[8]);
-        setbatteryLevel2(data[9]);
+        let bat1 = parseFloat(x.data[8]).toFixed(2);
+        let bat2 = parseFloat(x.data[9]).toFixed(2);
+        setbatteryLevel1(bat1);
+        setbatteryLevel2(bat2);
       }
     }
   }, []);

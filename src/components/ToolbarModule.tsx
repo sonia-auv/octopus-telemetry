@@ -46,8 +46,8 @@ const ToolbarModule = (props: any) => {
     // battery 1 is store in data[8] and battery 2 is stored in data[9]
     if (x.slave === 0) {
       if (x.cmd === 0) {
-        let bat1 = parseFloat(x.data[8]).toFixed(2);
-        let bat2 = parseFloat(x.data[9]).toFixed(2);
+        let bat1 = parseFloat(x.array.data[8]).toFixed(2);
+        let bat2 = parseFloat(x.array.data[9]).toFixed(2);
         setbatteryLevel1(bat1);
         setbatteryLevel2(bat2);
       }

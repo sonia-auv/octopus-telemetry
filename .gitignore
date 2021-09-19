@@ -24,5 +24,3 @@ yarn-error.log*
 
 .eslintcache
 package-lock.json
-
-./context/rosContext.tsx

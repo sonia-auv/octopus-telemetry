@@ -1,118 +1,144 @@
 import React, { useState, useCallback } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import PowerSection from './PowerSection';
+import VoltageSection from './VoltageSection';
+import CurrentSection from './CurrentSection';
 import { useROSTopicSubscriber } from '../../hooks/useROSTopicSubscriber';
 import './powermodule.css';
 
-const NUMBER_OF_POWER_SECTIONS = 4;
 
 type PowerModuleProps = {};
 
 type PowerPayload = {
   slave: number;
   cmd: number;
-  data: number;
+  array: {layout:string,data:number[]};
 };
 
 const PowerModule = (props: PowerModuleProps) => {
-  const initialPowerValuesDict = new Array(NUMBER_OF_POWER_SECTIONS).fill({
-    voltage16V1Value: null,
-    voltage16V2Value: null,
-    voltage12VValue: null,
-    current16V1Value: null,
-    current16V2Value: null,
-    current12VValue: null,
-    temperature: null,
-    batteryValue: null,
+  const initialVoltageValuesDict = new Array(1).fill({
+    voltage16VM1Value: null,
+    voltage16VM2Value: null,
+    voltage16VM3Value: null,
+    voltage16VM4Value: null,
+    voltage16VM5Value: null,
+    voltage16VM6Value: null,
+    voltage16VM7Value: null,
+    voltage16VM8Value: null,
+    voltage16VACC1Value: null,
+    voltage16VACC2Value: null,
+  });
+  
+  const initialCurrentValuesDict = new Array(1).fill({
+    current16VM1Value: null,
+    current16VM2Value: null,
+    current16VM3Value: null,
+    current16VM4Value: null,
+    current16VM5Value: null,
+    current16VM6Value: null,
+    current16VM7Value: null,
+    current16VM8Value: null,
+    current16VACC1Value: null,
+    current16VACC2Value: null,
   });
 
-  const [powerValues, setPowerValues] = useState(initialPowerValuesDict);
+  var [voltageValues, setVoltageValues] = useState(initialVoltageValuesDict);
+  var [currentValues, setCurrentValues] = useState(initialCurrentValuesDict);
 
   interface MetricsMap {
     [index: string]: string;
   }
-  const d: MetricsMap = {
-    0: 'voltage16V1Value',
-    1: 'voltage16V2Value',
-    2: 'voltage12VValue',
-    3: 'current16V1Value',
-    4: 'current16V2Value',
-    5: 'current12VValue',
-    6: 'temperature',
-    7: 'batteryValue',
+  const voltage: MetricsMap = {
+    0: 'voltage16VM1Value',
+    1: 'voltage16VM2Value',
+    2: 'voltage16VM3Value',
+    3: 'voltage16VM4Value',
+    4: 'voltage16VM5Value',
+    5: 'voltage16VM6Value',
+    6: 'voltage16VM7Value',
+    7: 'voltage16VM8Value',
+    8: 'voltage16VACC1Value',
+    9: 'voltage16VACC2Value',
   };
+  
+  const current: MetricsMap = {
+    0: 'current16VM1Value',
+    1: 'current16VM2Value',
+    2: 'current16VM3Value',
+    3: 'current16VM4Value',
+    4: 'current16VM5Value',
+    5: 'current16VM6Value',
+    6: 'current16VM7Value',
+    7: 'current16VM8Value',
+    8: 'current16VACC1Value',
+    9: 'current16VACC2Value',
+  }
 
   const powerMessageCallback = useCallback((x: PowerPayload) => {
-    let { slave, cmd, data } = x;
-
-    powerValues[slave] = {
-      ...powerValues[slave],
-      [d[cmd]]: data,
-    };
-
-    setPowerValues(Object.assign([], powerValues));
+    let { slave, cmd, array } = x;
+    
+    if (slave === 0 && cmd === 0) {
+      for (var i = 0; i < array.data.length; i++) {
+        voltageValues[slave] = {
+          ...voltageValues[slave],
+          [voltage[i]]: array.data[i],
+        };
+        setVoltageValues(Object.assign([], voltageValues));
+      }
+    }
+    
+    if (slave === 0 && cmd === 1) {
+      for (var i = 0; i < array.data.length; i++) {
+        currentValues[slave] = {
+          ...currentValues[slave],
+          [current[i]]: array.data[i],
+        };
+        setCurrentValues(Object.assign([], currentValues));
+      }
+    }
   }, []);
 
-  useROSTopicSubscriber<any>(
-    powerMessageCallback,
-    '/provider_power/power',
-    'sonia_common/PowerMsg'
-  );
+  useROSTopicSubscriber<any>(powerMessageCallback,'/provider_power/power','sonia_common/PowerMsg');
 
   return (
     <div className="PowerModule">
       <Tabs forceRenderTabPanel={true}>
         <TabList>
-          {powerValues.map((_, index) => (
-            <Tab key={index}>{`Power ${index + 1}`}</Tab>
-          ))}
-          <Tab>All Data</Tab>
+          {voltageValues.map((_) => (<Tab>Voltage</Tab>))}
+          {currentValues.map((_) => (<Tab>Current</Tab>))}
         </TabList>
-        {powerValues.map((powerSection, index) => (
-          <TabPanel key={index}>
-            <PowerSection
-              key={index}
-              voltage16V1Value={powerSection.voltage16V1Value}
-              voltage16V2Value={powerSection.voltage16V2Value}
-              voltage12VValue={powerSection.voltage12VValue}
-              current16V1Value={powerSection.current16V1Value}
-              current16V2Value={powerSection.current16V2Value}
-              current12VValue={powerSection.current12VValue}
-              temperature={powerSection.temperature}
-              batteryValue={powerSection.batteryValue}
-              // TODO implement those below
-              output16V1Checked={false}
-              output16V2Checked={true}
-              output12VChecked={true}
-              setOutput16V1Checked={(v: boolean) => !v}
-              setOutput16V2Checked={(v: boolean) => !v}
-              setOutput12VChecked={(v: boolean) => !v}
+        {voltageValues.map((powerSection) => (
+          <TabPanel>
+            <VoltageSection
+              voltage16VM1Value={powerSection.voltage16VM1Value}
+              voltage16VM2Value={powerSection.voltage16VM2Value}
+              voltage16VM3Value={powerSection.voltage16VM3Value}
+              voltage16VM4Value={powerSection.voltage16VM4Value}
+              voltage16VM5Value={powerSection.voltage16VM5Value}
+              voltage16VM6Value={powerSection.voltage16VM6Value}
+              voltage16VM7Value={powerSection.voltage16VM7Value}
+              voltage16VM8Value={powerSection.voltage16VM8Value}
+              voltage16VACC1Value={powerSection.voltage16VACC1Value}
+              voltage16VACC2Value={powerSection.voltage16VACC2Value}
+              />
+          </TabPanel>
+        ))}
+        {currentValues.map((powerSection) => (
+          <TabPanel>
+            <CurrentSection
+              current16VM1Value={powerSection.current16VM1Value}
+              current16VM2Value={powerSection.current16VM2Value}
+              current16VM3Value={powerSection.current16VM3Value}
+              current16VM4Value={powerSection.current16VM4Value}
+              current16VM5Value={powerSection.current16VM5Value}
+              current16VM6Value={powerSection.current16VM6Value}
+              current16VM7Value={powerSection.current16VM7Value}
+              current16VM8Value={powerSection.current16VM8Value}
+              current16VACC1Value={powerSection.current16VACC1Value}
+              current16VACC2Value={powerSection.current16VACC2Value}
             />
           </TabPanel>
         ))}
-        <TabPanel>
-          {powerValues.map((powerSection, index) => (
-            <PowerSection
-              key={index}
-              voltage16V1Value={powerSection.voltage16V1Value}
-              voltage16V2Value={powerSection.voltage16V2Value}
-              voltage12VValue={powerSection.voltage12VValue}
-              current16V1Value={powerSection.current16V1Value}
-              current16V2Value={powerSection.current16V2Value}
-              current12VValue={powerSection.current12VValue}
-              temperature={powerSection.temperature}
-              batteryValue={powerSection.batteryValue}
-              // TODO implement those below
-              output16V1Checked={false}
-              output16V2Checked={true}
-              output12VChecked={true}
-              setOutput16V1Checked={(v: boolean) => !v}
-              setOutput16V2Checked={(v: boolean) => !v}
-              setOutput12VChecked={(v: boolean) => !v}
-            />
-          ))}
-        </TabPanel>
       </Tabs>
     </div>
   );

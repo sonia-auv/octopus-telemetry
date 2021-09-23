@@ -5,7 +5,7 @@ import TextField from './common/textfield/Textfield';
 import Checkbox from './common/Checkbox/Checkbox'
 import FormControlLabel from './common/Form/FormControlLabel';
 
-import { useROSTopicPublisher } from "../hooks/useROSTopicPublisher";
+import { useROSTopicPublisher, MessageFactory } from "../hooks/useROSTopicPublisher";
 
 const TestBoardModule = () => {
 
@@ -15,16 +15,24 @@ const TestBoardModule = () => {
     const [rate, setRate] = React.useState("")
     const [isSingleSend, setIsSingleSend] = React.useState(true)
     let intervalVar: any
+    let splitData: number[]
     const testBoardPublisher = useROSTopicPublisher<any>("/interface_rs485/dataRx", "sonia_common/SendRS485Msg")
 
     const handleStart = () => {
+        
+        splitData = []
 
-        let toPublish = {
-            slave: slave,
-            cmd: cmd,
-            data: data
+        let table = data.split(",")
+        for (var i of table) {
+            splitData.push(parseInt(i))
         }
-        if (!isSingleSend) {
+
+        let toPublish = MessageFactory({
+            slave: +slave,
+            cmd: +cmd,
+            data: splitData
+        })
+        if (!isSingleSend && rate > '0') {
             console.log("Continuous publishing...")
             intervalVar = setInterval(function () {
                 testBoardPublisher(toPublish)
@@ -64,6 +72,7 @@ const TestBoardModule = () => {
                     <TextField testId="outlined-basic-02"
                         label="Cmd"
                         name="cmd"
+                        type="number"
                         value={cmd}
                         style={{ margin: '5px' }}
                         handlerChange={(event) => setCmd(event.target.value)}

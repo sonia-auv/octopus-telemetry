@@ -42,11 +42,6 @@ const VoltageSection = (props: VoltageSectionProps) => {
       value: props.voltage16VM5Value,
     },
     {
-      id: 'voltage-16v-M5',
-      label: 'Voltage 16V M5',
-      value: props.voltage16VM5Value,
-    },
-    {
       id: 'voltage-16v-M6',
       label: 'Voltage 16V M6',
       value: props.voltage16VM6Value,

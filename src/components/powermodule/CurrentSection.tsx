@@ -32,11 +32,6 @@ const CurrentSection = (props: CurrentSectionProps) => {
       value: props.current16VM3Value,
     },
     {
-      id: 'current-16v-M3',
-      label: 'Current 16V M3',
-      value: props.current16VM3Value,
-    },
-    {
       id: 'current-16v-M4',
       label: 'Current 16V M4',
       value: props.current16VM4Value,
@@ -45,11 +40,6 @@ const CurrentSection = (props: CurrentSectionProps) => {
       id: 'current-16v-M5',
       label: 'Current 16V M5',
       value: props.current16VM5Value,
-    },
-    {
-      id: 'current-16v-M6',
-      label: 'Current 16V M6',
-      value: props.current16VM6Value,
     },
     {
       id: 'current-16v-M6',

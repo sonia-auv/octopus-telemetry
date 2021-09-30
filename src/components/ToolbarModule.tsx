@@ -62,7 +62,7 @@ const ToolbarModule = (props: any) => {
   const AUV8Callback = useCallback((x: any) => {
     let data = x.data;
     let parsed = JSON.parse(data);
-    setAUV8Temp(parsed);
+    setAUV8Temp(parsed.temperature);
   }, []);
 
   const toolbarServicesCall = useROSService<any>(
@@ -98,7 +98,7 @@ const ToolbarModule = (props: any) => {
   useROSTopicSubscriber<any>(
     AUV8Callback,
     '/provider_jetson/system_temperature',
-    'std_msgs/Float32'
+    'sensor_msgs/Temperature'
   );
 
   let handleAllAxisClicked = () => {

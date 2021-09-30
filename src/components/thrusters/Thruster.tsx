@@ -1,11 +1,11 @@
 import React from "react";
 
-import ThrusterControlSlider from "./common/slider/ThrusterControlSlider";
-import ThrusterEffortIndicatorSlider from "./common/slider/ThrusterEffortIndicatorSlider";
-import Grid from './common/grid/Grid';
-import RedButtonImg from './image/redButton.png';
+import ThrusterControlSlider from "../common/slider/ThrusterControlSlider";
+import ThrusterEffortIndicatorSlider from "../common/slider/ThrusterEffortIndicatorSlider";
+import Grid from '../common/grid/Grid';
+import RedButtonImg from '../image/redButton.png';
 
-import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublisher'
+import { useROSTopicPublisher, MessageFactory } from '../../hooks/useROSTopicPublisher'
 
 const marks = [
     {

@@ -1,16 +1,16 @@
 import { useEffect, useCallback } from 'react';
 
-import * as AttitudeIndicatorModule from './PFD/guages/attitude_indicator'
-import * as AltimeterTickerModule from './PFD/guages/altimeter_ticker'
-import * as AltimeterTapeModule from './PFD/guages/altimeter_tape'
-import * as AirspeedTickerModule from './PFD/guages/airspeed_ticker'
-import * as AirspeedTapeModule from './PFD/guages/airspeed_tape'
-import * as VerticalSpeedIndicatorModule from './PFD/guages/vertical_speed'
-import * as HorizontalSituationIndicatorModule from './PFD/guages/horizontal_situation'
-import * as BottomLeftPanelModule from './PFD/guages/bottomleftpanel'
-import * as BottomRightPanelModule from './PFD/guages/bottomrightpanel'
+import * as AttitudeIndicatorModule from './guages/attitude_indicator'
+import * as AltimeterTickerModule from './guages/altimeter_ticker'
+import * as AltimeterTapeModule from './guages/altimeter_tape'
+import * as AirspeedTickerModule from './guages/airspeed_ticker'
+import * as AirspeedTapeModule from './guages/airspeed_tape'
+import * as VerticalSpeedIndicatorModule from './guages/vertical_speed'
+import * as HorizontalSituationIndicatorModule from './guages/horizontal_situation'
+import * as BottomLeftPanelModule from './guages/bottomleftpanel'
+import * as BottomRightPanelModule from './guages/bottomrightpanel'
 
-import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
+import { useROSTopicSubscriber } from "../../hooks/useROSTopicSubscriber";
 
 var attitudeIndicator: AttitudeIndicatorModule.AttitudeIndicator;
 var altimeterTicker: AltimeterTickerModule.AltimeterTicker;

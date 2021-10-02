@@ -63,7 +63,7 @@ const ToolbarModule = (props: any) => {
   const AUV8Callback = useCallback((x: any) => {
     //let data = x.data;
     //let parsed = JSON.parse(data);
-    let AUV8Temp = parseFloat(x.array.temperature).toFixed(2);
+    var AUV8Temp = x.temperature;
     setAUV8Temp(AUV8Temp);
   }, []);
 

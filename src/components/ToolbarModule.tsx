@@ -63,7 +63,8 @@ const ToolbarModule = (props: any) => {
   const AUV8Callback = useCallback((x: any) => {
     //let data = x.data;
     //let parsed = JSON.parse(data);
-    setAUV8Temp(x.data.temperature);
+    let AUV8Temp = parseFloat(x.array.temperature).toFixed(2);
+    setAUV8Temp(AUV8Temp);
   }, []);
 
   const toolbarServicesCall = useROSService<any>(

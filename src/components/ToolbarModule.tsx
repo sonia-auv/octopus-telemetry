@@ -22,7 +22,7 @@ const ToolbarModule = (props: any) => {
 
   const [isMissionSwitchOn, setIsMissionSwitchOn] = React.useState(false);
   const [isKillSwitchOn, setIsKillSwitchOn] = React.useState(false);
-  const [AUV7Temp, setAUV7Temp] = React.useState(0);
+  //const [AUV7Temp, setAUV7Temp] = React.useState(0);
   const [AUV8Temp, setAUV8Temp] = React.useState(0);
 
   const [batteryLevel1, setbatteryLevel1] = React.useState('-');
@@ -54,11 +54,12 @@ const ToolbarModule = (props: any) => {
     }
   }, []);
 
-  const AUV7Callback = useCallback((x: any) => {
-    let data = x.data;
-    let parsed = JSON.parse(data);
-    setAUV7Temp(parsed);
-  }, []);
+  //const AUV7Callback = useCallback((x: any) => {
+    //let data = x.data;
+    //let parsed = JSON.parse(data);
+    //setAUV7Temp(parsed);
+  //  setAUV7Temp(x.data.temperature);
+  //}, []);
   const AUV8Callback = useCallback((x: any) => {
     //let data = x.data;
     //let parsed = JSON.parse(data);
@@ -90,11 +91,11 @@ const ToolbarModule = (props: any) => {
     '/provider_kill_mission/mission_switch_msg',
     'sonia_common/MissionSwitchMsg'
   );
-  useROSTopicSubscriber<any>(
-    AUV7Callback,
-    '/provider_system/system_temperature',
-    'sensor_msgs/Temperature'
-    );
+  //useROSTopicSubscriber<any>(
+  //  AUV7Callback,
+  //  '/provider_system/system_temperature',
+  //  'sensor_msgs/Temperature'
+  //  );
     useROSTopicSubscriber<any>(
       AUV8Callback,
     '/provider_system/system_temperature',
@@ -232,7 +233,6 @@ const ToolbarModule = (props: any) => {
           style={{ margin: '15px', backgroundColor: 'black', color: 'red' }}
           handler={handleStartBottomCameraClicked}
         />
-        <LabelAndValueModule label="AUV7" value={AUV7Temp} unit="C" />
         <LabelAndValueModule label="AUV8" value={AUV8Temp} unit="C" />
         <BatterieLevelIndicator
           value={batteryLevel1}

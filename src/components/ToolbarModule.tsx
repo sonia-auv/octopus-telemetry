@@ -232,7 +232,7 @@ const ToolbarModule = (props: any) => {
           style={{ margin: '15px', backgroundColor: 'black', color: 'red' }}
           handler={handleStartBottomCameraClicked}
         />
-        <LabelAndValueModule label="AUV8" value={AUV8Temp} unit="C" />
+        <LabelAndValueModule label="AUV8" value={AUV8Temp} unit="°C" />
         <BatterieLevelIndicator
           value={batteryLevel1}
           label="Batterie 1"
@@ -262,7 +262,7 @@ const ToolbarModule = (props: any) => {
               backgroundColor: isKillSwitchOn ? 'green' : 'red',
               color: 'white',
             }}
-            label={isKillSwitchOn ? 'Kill switch activated' : 'Kill switch off'}
+            label={isKillSwitchOn ? 'Kill switch on' : 'Kill switch off'}
             handler={() => {}}
             disabled={true}
           />

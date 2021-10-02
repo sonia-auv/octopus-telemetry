@@ -93,11 +93,11 @@ const ToolbarModule = (props: any) => {
   useROSTopicSubscriber<any>(
     AUV7Callback,
     '/provider_system/system_temperature',
-    'std_msgs/Float32'
-  );
-  useROSTopicSubscriber<any>(
-    AUV8Callback,
-    '/provider_jetson/system_temperature',
+    'sensor_msgs/Temperature'
+    );
+    useROSTopicSubscriber<any>(
+      AUV8Callback,
+    '/provider_system/system_temperature',
     'sensor_msgs/Temperature'
   );
 

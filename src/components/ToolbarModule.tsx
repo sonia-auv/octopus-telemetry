@@ -61,9 +61,7 @@ const ToolbarModule = (props: any) => {
   //  setAUV7Temp(x.data.temperature);
   //}, []);
   const AUV8Callback = useCallback((x: any) => {
-    //let data = x.data;
-    //let parsed = JSON.parse(data);
-    var AUV8Temp = x.temperature;
+    var AUV8Temp = x.temperature.toFixed(2);
     setAUV8Temp(AUV8Temp);
   }, []);
 

@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import Switch from './common/switch/Switch';
-import Button from './common/button/Button';
-import {GeneralContext} from "../context/generalContext";
-import { useROSService} from '../hooks/useROSService'
-import { useROSTopicPublisher, MessageFactory } from "../hooks/useROSTopicPublisher";
+import Switch from '../common/switch/Switch';
+import Button from '../common/button/Button';
+import {GeneralContext} from "../../context/generalContext";
+import { useROSService} from '../../hooks/useROSService'
+import { useROSTopicPublisher, MessageFactory } from "../../hooks/useROSTopicPublisher";
 
 
 const Controls = (props) => {

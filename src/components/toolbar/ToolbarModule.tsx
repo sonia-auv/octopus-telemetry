@@ -1,16 +1,16 @@
 import React, { useCallback } from 'react';
 
-import AppBar from './common/AppBar/AppBar';
-import Toolbar from './common/ToolBar/ToolBar';
-import Button from './common/button/Button';
-import IconButton from './common/button/IconButton';
+import AppBar from '../common/AppBar/AppBar';
+import Toolbar from '../common/ToolBar/ToolBar';
+import Button from '../common/button/Button';
+import IconButton from '../common/button/IconButton';
 
 import MenuModule from './MenuModule';
 import BatterieLevelIndicator from './BatteryLevelIndicatorModule';
-import LabelAndValueModule from './LabelAndValueModule';
+import LabelAndValueModule from '../LabelAndValueModule';
 
-import { useROSService, ServiceRequestFactory } from '../hooks/useROSService';
-import { useROSTopicSubscriber } from '../hooks/useROSTopicSubscriber';
+import { useROSService, ServiceRequestFactory } from '../../hooks/useROSService';
+import { useROSTopicSubscriber } from '../../hooks/useROSTopicSubscriber';
 
 const ToolbarModule = (props: any) => {
 

@@ -7,6 +7,7 @@ import TextField from './common/textfield/Textfield';
 
 import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
+import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublisher';
 
 const Waypoints = () => {
 
@@ -17,27 +18,27 @@ const Waypoints = () => {
     //////////////////////////////////////
 
     // Service response
-    const controlModeServiceCallback = useCallback(
-        (x: any) => {
-        }, []
-    )
+    //const controlModeServiceCallback = useCallback(
+    //    (x: any) => {
+    //    }, []
+    //)
 
-    const HandleChangeSwitch = () => {
+    //const HandleChangeSwitch = () => {
 
-        context.setIsWayPointVelocityMode(!context.isWayPointVelocityMode)
-        var mode
-        if (!context.isWayPointVelocityMode)
-            mode = 0
-        if (context.isWayPointVelocityMode)
-            mode = 2
+    //    context.setIsWayPointVelocityMode(!context.isWayPointVelocityMode)
+    //    var mode
+    //    if (!context.isWayPointVelocityMode)
+    //        mode = 0
+    //    if (context.isWayPointVelocityMode)
+    //        mode = 2
 
-        var request = ServiceRequestFactory({
-            mode: mode,
-        });
-        controlModeServiceCall(request)
-    }
+    //    var request = ServiceRequestFactory({
+    //        mode: mode,
+    //    });
+    //    controlModeServiceCall(request)
+    //}
 
-    const controlModeServiceCall = useROSService<any>(controlModeServiceCallback, "/proc_control/set_control_mode", "sonia_common/SetControlMode")
+    //const controlModeServiceCall = useROSService<any>(controlModeServiceCallback, "/proc_control/set_mode", "std_msgs/UInt8")
 
     //////////////////////////////////////
     // CLEAR WAYPOINT
@@ -63,43 +64,57 @@ const Waypoints = () => {
     //////////////////////////////////////
 
     // Service response
-    const setInitialPositionServiceCallback = useCallback(
-        (x: any) => {
-        }, []
-    )
+    //const setInitialPositionServiceCallback = useCallback(
+    //    (x: any) => {
+    //    }, []
+    //)
 
     const handleSetInitialPosition = () => {
 
-        var request = ServiceRequestFactory({
+        var msg = JSON.stringify({
+            position:{
+                x: 0.0,
+                y: 0.0,
+                z: 0.0
+            },
+            orientation:{
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+                w: 1.0
+            }
         });
-        setInitialPositionServiceCall(request)
+        var toPublish = MessageFactory({
+            data: msg
+        });
+        setInitialPositionPublisher(toPublish)
 
         // Send clear waypoint with 500 ms delay
-        setTimeout(handleClearWayPoint, 500)
+        //setTimeout(handleClearWayPoint, 500)
 
     }
 
-    const setInitialPositionServiceCall = useROSService<any>(setInitialPositionServiceCallback, "/proc_navigation/set_world_x_y_offset", "sonia_common/SetWorldXYOffset")
+    const setInitialPositionPublisher = useROSTopicPublisher<any>("/initial_condition", "geometry_msgs/Pose")
 
     //////////////////////////////////////
     // SET DEPTH OFFSET
     //////////////////////////////////////
 
     // Service response
-    const setDepthOffsetServiceCallback = useCallback(
-        (x: any) => {
-        }, []
-    )
+    //const setDepthOffsetServiceCallback = useCallback(
+    //    (x: any) => {
+    //    }, []
+    //)
 
-    const handleSetDepthOffset = (value: any) => {
+    //const handleSetDepthOffset = (value: any) => {
 
-        var request = ServiceRequestFactory({
-        });
-        setDepthOffsetServiceCall(request)
+    //    var request = ServiceRequestFactory({
+    //    });
+    //    setDepthOffsetServiceCall(request)
 
-    }
+    //}
 
-    const setDepthOffsetServiceCall = useROSService<any>(setDepthOffsetServiceCallback, "/proc_navigation/set_depth_offset", "sonia_common/SetDepthOffset")
+    //const setDepthOffsetServiceCall = useROSService<any>(setDepthOffsetServiceCallback, "/proc_navigation/set_depth_offset", "sonia_common/SetDepthOffset")
     const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
 
     const [cmdX, setCmdX] = useState('0.00');
@@ -114,6 +129,13 @@ const Waypoints = () => {
     const [lastValidCmdPitch, setLastValidCmdPitch] = useState('0.00');
     const [cmdYaw, setCmdYaw] = useState('0.00');
     const [lastValidCmdYaw, setLastValidCmdYaw] = useState('0.00');
+    const [cmdFrame, setCmdFrame] = useState('0.00');
+    const [lastValidCmdFrame, setLastValidCmdFrame] = useState('0.00');
+    const [cmdSpeed, setCmdSpeed] = useState('0.00');
+    const [lastValidCmdSpeed, setLastValidCmdSpeed] = useState('0.00');
+    const [cmdFine, setCmdFine] = useState('0.00');
+    const [lastValidCmdFine, setLastValidCmdFine] = useState('0.00');
+    
 
     const handleCmdXChange = (e: any) => {
         if (checkSyntax(e.target.value)) {
@@ -151,17 +173,35 @@ const Waypoints = () => {
         }
     }
 
+    const handleCmdFrameChange = (e: any) => {
+        if (checkSyntax(e.target.value)) {
+            setCmdFrame(e.target.value)
+        }
+    }
+
+    const handleCmdSpeedChange = (e: any) => {
+        if (checkSyntax(e.target.value)) {
+            setCmdSpeed(e.target.value)
+        }
+    }
+
+    const handleCmdFineChange = (e: any) => {
+        if (checkSyntax(e.target.value)) {
+            setCmdFine(e.target.value)
+        }
+    }
+
     //////////////////////////////////////
     // SEND TARGET POSITIONS
     //////////////////////////////////////
 
     // Service response
-    const sendPositionTargetServiceCallback = useCallback(
-        (x: any) => {
-        }, []
-    )
+    //const sendPositionTargetServiceCallback = useCallback(
+    //    (x: any) => {
+    //    }, []
+    //)
 
-    const sendPositionTargetServiceCall = useROSService<any>(sendPositionTargetServiceCallback, "/proc_control/set_global_target", "sonia_common/SetPositionTarget")
+    const sendPositionTargetPublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose")
 
     const handleCmdKeyDown = (e: any) => {
 
@@ -245,16 +285,60 @@ const Waypoints = () => {
                 setLastValidCmdZ('3.0')
                 setCmdZ('3.0')
             }
+            
+            // Handle command Frame
+            var frame = parseFloat(cmdFrame)
+            var finalFrame
+            if (!isNaN(frame)) {
+                //Input is valid
+                setLastValidCmdFrame(cmdFrame)
+                finalFrame = cmdFrame
+            } else {
+                //Use last valid value instead
+                finalFrame = parseFloat(lastValidCmdFrame)
+            }
+            
+            // Handle command Speed
+            var speed = parseFloat(cmdSpeed)
+            var finalSpeed
+            if (!isNaN(speed)) {
+                //Input is valid
+                setLastValidCmdSpeed(cmdSpeed)
+                finalSpeed = cmdSpeed
+            } else {
+                //Use last valid value instead
+                finalSpeed = parseFloat(lastValidCmdSpeed)
+            }
+            
+            // Handle command Fine
+            var fine = parseFloat(cmdFine)
+            var finalFine
+            if (!isNaN(fine)) {
+                //Input is valid
+                setLastValidCmdFine(cmdFine)
+                finalFine = cmdFine
+            } else {
+                //Use last valid value instead
+                finalFine = parseFloat(lastValidCmdFine)
+            }
+
 
             var request = ServiceRequestFactory({
-                X: finalX,
-                Y: finalY,
-                Z: finalZ,
-                ROLL: finalRoll,
-                PICH: finalPitch,
-                YAW: finalYaw
+                position:{
+                    x: finalX,
+                    y: finalY,
+                    z: finalZ,
+                },
+                orientation:{
+                    x: finalRoll,
+                    y: finalPitch,
+                    z: finalYaw,
+                },
+                frame: finalFrame,
+                speed: finalSpeed,
+                fine: finalFine,
             });
-            sendPositionTargetServiceCall(request)
+            sendPositionTargetPublisher(request)
 
         }
     }

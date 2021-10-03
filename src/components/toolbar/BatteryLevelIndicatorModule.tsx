@@ -1,5 +1,5 @@
-import BatterieSlider from "./common/slider/BatterieSlider";
-import LabelAndValueModule from "./LabelAndValueModule";
+import BatterieSlider from "../common/slider/BatterieSlider";
+import LabelAndValueModule from "../LabelAndValueModule";
 
 export const BatterieLevelIndicator = (props: any) => {
 

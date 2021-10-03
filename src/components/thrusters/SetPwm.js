@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import TextField from './common/textfield/Textfield';
-import Button from './common/button/Button';
-import Grid from './common/grid/Grid';
-import {GeneralContext} from "../context/generalContext";
-import { useROSTopicPublisher, MessageFactory } from "../hooks/useROSTopicPublisher";
+import TextField from '../common/textfield/Textfield';
+import Button from '../common/button/Button';
+import Grid from '../common/grid/Grid';
+import {GeneralContext} from "../../context/generalContext";
+import { useROSTopicPublisher, MessageFactory } from "../../hooks/useROSTopicPublisher";
 
 
 

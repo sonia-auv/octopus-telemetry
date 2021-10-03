@@ -1,9 +1,9 @@
 import React from 'react';
-import Button from './common/button/Button';
-import Menu from './common/Menu/Menu';
-import MenuItem from './common/Menu/MenuItem';
-import { MMenuIcon as MenuIcon } from './common/Icons/Icon';
-import { GeneralContext } from "../context/generalContext";
+import Button from '../common/button/Button';
+import Menu from '../common/Menu/Menu';
+import MenuItem from '../common/Menu/MenuItem';
+import { MMenuIcon as MenuIcon } from '../common/Icons/Icon';
+import { GeneralContext } from "../../context/generalContext";
 
 const MenuModule = (props: any) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

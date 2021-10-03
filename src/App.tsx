@@ -1,21 +1,21 @@
 import React, { useState, useCallback } from "react";
 import GridLayout, { contextType } from 'react-grid-layout'
-import { Thruster } from './components/Thruster'
-import ThrustersModule from "./components/ThustersModule";
+import { Thruster } from './components/thrusters/Thruster'
+import ThrustersModule from "./components/thrusters/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
-import SetPwmModule from "./components/SetPwmModule";
+import SetPwmModule from "./components/thrusters/SetPwmModule";
 import ImageViewer from "./components/ImageViewer";
 import MissionManager from "./components/MissionManager";
-import Pfd from "./components/Pfd";
+import Pfd from "./components/PFD/Pfd";
 import TestBoardModule from "./components/TestBoardModule";
 import Waypoints from "./components/Waypoints";
-import VisionUI from "./components/VisionUi";
+import VisionUI from "./components/visionui/VisionUi";
 import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
 import {GeneralContext, defaultModules} from "./context/generalContext";
 import { ThemeProvider } from 'styled-components';
 import {lightTheme, darkTheme} from "./components/Theme"
 import {GlobalStyles} from "./components/global";
-import ToolbarModule from "./components/ToolbarModule";
+import ToolbarModule from "./components/toolbar/ToolbarModule";
 import ModulePicker from './components/modulepicker/ModulePicker'
 import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata'
 import { Drawer } from '@material-ui/core'

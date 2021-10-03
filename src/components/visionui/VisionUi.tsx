@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { GeneralContext } from "../context/generalContext";
+import { GeneralContext } from "../../context/generalContext";
 
-import AppBar from './common/AppBar/AppBar';
-import Tabs from './common/Tabs/Tabs';
-import Box from './common/Box/Box';
-import Typography from './common/Typography/Typography';
+import AppBar from '../common/AppBar/AppBar';
+import Tabs from '../common/Tabs/Tabs';
+import Box from '../common/Box/Box';
+import Typography from '../common/Typography/Typography';
 
 import VisionUIExecutionModule from './VisionUiExecution'
 import VisionUIFilterChainModule from './VisionUiFilterChain'

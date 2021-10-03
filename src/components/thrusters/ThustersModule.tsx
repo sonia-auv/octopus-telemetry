@@ -55,7 +55,7 @@ const ThrustersModule = () => {
   )
   
   useROSTopicSubscriber<any>(thrusterEffortCallback, "/telemetry/thruster_newton", "std_msgs/Int8MultiArray");
-  useROSTopicSubscriber<any>(thrusterPwmCallback, "/provider_thruster/thruster_pwm", "std_msgs/UInt16MultiArray");
+  useROSTopicSubscriber<any>(thrusterPwmCallback, "/telemetry/thruster_pwm", "std_msgs/UInt16MultiArray");
 
   return (
     <GeneralContext.Consumer>

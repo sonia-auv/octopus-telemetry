@@ -16,10 +16,9 @@ import ToolbarModule from "./components/toolbar/ToolbarModule";
 import ModulePicker from './components/modulepicker/ModulePicker'
 import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata'
 import { Drawer } from '@material-ui/core'
-import './App.css'
 import PowerModule from "./components/powermodule/PowerModule";
 import SetPwmModule from "./components/thrusters/SetPwmModule";
-
+import './App.css'
 
 export const App = () => {
     const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string ) ? 'dark': 'light');

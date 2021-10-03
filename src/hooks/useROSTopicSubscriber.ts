@@ -14,6 +14,7 @@ export const useROSTopicSubscriber = <F>(
             ros,
             name,
             messageType,
+            throttle_rate: 1000,
         });
         topic.subscribe((x) => callback(x as F));
 

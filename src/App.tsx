@@ -7,6 +7,7 @@ import SetPwmModule from "./components/thrusters/SetPwmModule";
 import ImageViewer from "./components/ImageViewer";
 import MissionManager from "./components/MissionManager";
 import Pfd from "./components/PFD/Pfd";
+import ControlModule from "./components/ControlModule";
 import TestBoardModule from "./components/TestBoardModule";
 import Waypoints from "./components/Waypoints";
 import VisionUI from "./components/visionui/VisionUi";
@@ -296,6 +297,13 @@ export const App = () => {
                                         data-grid={{ x: 0, y: 20, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
                                         style={{ display: 'flex', ...moduleBorder }}>
                                         <MissionManager />
+                                    </div>
+                        ) : <React.Fragment></React.Fragment>}
+                                {context.activeModules.data['controlModule'].active ? (
+                                    <div key="controlModule"
+                                        data-grid={{ x: 0, y: 20, w: 5, h: 6, minW: 5, maxW: 10, minH: 6, maxH: 10 }}
+                                        style={{ display: 'flex', ...moduleBorder }}>
+                                        <ControlModule />
                                     </div>
                         ) : <React.Fragment></React.Fragment>}
                     </GridLayout>

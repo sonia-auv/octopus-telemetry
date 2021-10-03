@@ -12,6 +12,7 @@ import {
   WaypointsMeta,
   PowerModuleMeta,
   MissionManagerMeta,
+  ControlModuleMeta,
 } from '../components/modulepicker/ModulesMetadata';
 
 const defaultModules: ActiveModules = {
@@ -55,7 +56,11 @@ const defaultModules: ActiveModules = {
     missionManager: {
       active: false,
       meta: MissionManagerMeta
-    }
+    },
+    controlModule: {
+      active: true,
+      meta: ControlModuleMeta
+    },
   },
 };
 

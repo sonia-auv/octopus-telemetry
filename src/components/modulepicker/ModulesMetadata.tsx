@@ -7,6 +7,7 @@ import cameraModuleBig from '../image/camera_module_big.png'
 import visionUiModuleBig from '../image/visionui_module_big.png'
 import missionManagerBig from '../image/mission_manager_big.png'
 import powerModuleBig from '../image/powermodule_big.png'
+import controlModuleBig from '../image/control_module_big.jpg'
 
 interface ModuleMetadata {
   key: string;
@@ -94,6 +95,13 @@ const MissionManagerMeta: ModuleMetadata = {
   thumbnailSource: missionManagerBig,
 };
 
+const ControlModuleMeta: ModuleMetadata = {
+  key: 'controlModule',
+  name: 'Control Module',
+  thumbnailLabel: 'controlModule-thumbnail',
+  thumbnailSource: controlModuleBig,
+};
+
 const ModulesMetadata: Array<ModuleMetadata> = [
   ImageViewer1Meta,
   ImageViewer2Meta,
@@ -105,6 +113,7 @@ const ModulesMetadata: Array<ModuleMetadata> = [
   WaypointsMeta,
   PowerModuleMeta,
   MissionManagerMeta,
+  ControlModuleMeta,
 ];
 
 export {
@@ -119,5 +128,6 @@ export {
   WaypointsMeta,
   PowerModuleMeta,
   MissionManagerMeta,
+  ControlModuleMeta,
 };
 export type { Module, ModuleMetadata, ActiveModules };

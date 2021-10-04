@@ -4,6 +4,11 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
+  /*background-image: url(../image/AUV8_Top_filaire_transparent.png);
+  background-repeat: no-repeat;
+  width: 2733px;
+  height: 1543px;
+  NE FONCTIONNE PAS NEED HELP !!!!!*/
 }
 
 .PowerSection__label {
@@ -11,6 +16,6 @@
   flex-direction: row;
 }
 
-.PowerSection__input-value {
+/*.PowerSection__input-value {*/
   /* margin-left: auto; */
-}
+/*}*/

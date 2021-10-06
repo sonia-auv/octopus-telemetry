@@ -336,7 +336,7 @@ const Waypoints = () => {
                 frame: finalFrame,
                 speed: finalSpeed,
                 fine: finalFine,
-                rotation : GeneralContext.isRotation,
+                rotation : GeneralContext.isRotationMode,
             });
             sendPositionTargetPublisher(request)
 
@@ -448,8 +448,8 @@ const Waypoints = () => {
                     <Switch onLabel="Rotation ON"
                             offLabel="Rotation OFF"
                             vertical={false}
-                            value={context.isRotation}
-                            handler={() => context.setIsRotation(!context.isRotation)}/>
+                            value={context.isRotationMode}
+                            handler={() => context.setIsRotation(!context.isRotationMode)}/>
                 </div>
             )}
         </GeneralContext.Consumer>

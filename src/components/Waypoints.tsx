@@ -443,7 +443,7 @@ const Waypoints = () => {
                             offLabel="Rotation OFF"
                             vertical={false}
                             value={context.isRotationMode}
-                            handler={() => context.setIsRotation(!context.isRotationMode)}/>
+                            handler={() => context.setIsRotationMode(!context.isRotationMode)}/>
                 </div>
             )}
         </GeneralContext.Consumer>

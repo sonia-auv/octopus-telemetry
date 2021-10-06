@@ -322,7 +322,6 @@ const Waypoints = () => {
                 finalFine = parseFloat(lastValidCmdFine)
             }
 
-
             var request = ServiceRequestFactory({
                 position:{
                     x: finalX,
@@ -337,6 +336,7 @@ const Waypoints = () => {
                 frame: finalFrame,
                 speed: finalSpeed,
                 fine: finalFine,
+                rotation : GeneralContext.isRotation,
             });
             sendPositionTargetPublisher(request)
 
@@ -347,75 +347,75 @@ const Waypoints = () => {
     // CONTROL MODE FEEDBACK
     /////////////////////////////////////
 
-    const controlModeCallback = useCallback(
+    //const controlModeCallback = useCallback(
 
-        (x: any) => {
+    //     (x: any) => {
 
-            if (x.data === 0)
-                context.setIsWayPointVelocityMode(false)
+    //         if (x.data === 0)
+    //             context.setIsWayPointVelocityMode(false)
 
-            if (x.data === 2)
-                context.setIsWayPointVelocityMode(true)
+    //         if (x.data === 2)
+    //             context.setIsWayPointVelocityMode(true)
 
-        }, []
-    )
+    //     }, []
+    // )
 
-    useROSTopicSubscriber<any>(controlModeCallback, "/proc_control/control_mode", "std_msgs/UInt8")
+    // useROSTopicSubscriber<any>(controlModeCallback, "/proc_control/control_mode", "std_msgs/UInt8")
 
     /////////////////////////////////////
     // POSITION TARGET FEEDBACK
     /////////////////////////////////////
 
-    const positionTargetFeedBackCallback = useCallback(
-        (x: any) => {
+    // const positionTargetFeedBackCallback = useCallback(
+    //     (x: any) => {
 
-            setCmdX(x.position.x.toFixed(2))
-            setLastValidCmdX(x.position.x.toFixed(2))
+    //         setCmdX(x.position.x.toFixed(2))
+    //         setLastValidCmdX(x.position.x.toFixed(2))
 
-            setCmdY(x.position.y.toFixed(2))
-            setLastValidCmdY(x.position.y.toFixed(2))
+    //         setCmdY(x.position.y.toFixed(2))
+    //         setLastValidCmdY(x.position.y.toFixed(2))
 
-            setCmdZ(x.position.z.toFixed(2))
-            setLastValidCmdZ(x.position.z.toFixed(2))
+    //         setCmdZ(x.position.z.toFixed(2))
+    //         setLastValidCmdZ(x.position.z.toFixed(2))
 
-            setCmdRoll(x.orientation.x.toFixed(2))
-            setLastValidCmdRoll(x.orientation.x.toFixed(2))
+    //         setCmdRoll(x.orientation.x.toFixed(2))
+    //         setLastValidCmdRoll(x.orientation.x.toFixed(2))
 
-            setCmdPitch(x.orientation.y.toFixed(2))
-            setLastValidCmdPitch(x.orientation.y.toFixed(2))
+    //         setCmdPitch(x.orientation.y.toFixed(2))
+    //         setLastValidCmdPitch(x.orientation.y.toFixed(2))
 
-            setCmdYaw(x.orientation.z.toFixed(2))
-            setLastValidCmdYaw(x.orientation.z.toFixed(2))
+    //         setCmdYaw(x.orientation.z.toFixed(2))
+    //         setLastValidCmdYaw(x.orientation.z.toFixed(2))
 
-        }, []
-    )
+    //     }, []
+    // )
 
-    const velocityTargetFeedBackCallback = useCallback(
-        (x: any) => {
+    // const velocityTargetFeedBackCallback = useCallback(
+    //     (x: any) => {
 
-            setCmdX(x.linear.x.toFixed(2))
-            setLastValidCmdX(x.linear.x.toFixed(2))
+    //         setCmdX(x.linear.x.toFixed(2))
+    //         setLastValidCmdX(x.linear.x.toFixed(2))
 
-            setCmdY(x.linear.y.toFixed(2))
-            setLastValidCmdY(x.linear.y.toFixed(2))
+    //         setCmdY(x.linear.y.toFixed(2))
+    //         setLastValidCmdY(x.linear.y.toFixed(2))
 
-            setCmdZ(x.linear.z.toFixed(2))
-            setLastValidCmdZ(x.linear.z.toFixed(2))
+    //         setCmdZ(x.linear.z.toFixed(2))
+    //         setLastValidCmdZ(x.linear.z.toFixed(2))
 
-            setCmdRoll(x.angular.x.toFixed(2))
-            setLastValidCmdRoll(x.angular.x.toFixed(2))
+    //         setCmdRoll(x.angular.x.toFixed(2))
+    //         setLastValidCmdRoll(x.angular.x.toFixed(2))
 
-            setCmdPitch(x.angular.y.toFixed(2))
-            setLastValidCmdPitch(x.angular.y.toFixed(2))
+    //         setCmdPitch(x.angular.y.toFixed(2))
+    //         setLastValidCmdPitch(x.angular.y.toFixed(2))
 
-            setCmdYaw(x.angular.z.toFixed(2))
-            setLastValidCmdYaw(x.angular.z.toFixed(2))
+    //         setCmdYaw(x.angular.z.toFixed(2))
+    //         setLastValidCmdYaw(x.angular.z.toFixed(2))
 
-        }, []
-    )
+    //     }, []
+    // )
 
-    useROSTopicSubscriber<any>(positionTargetFeedBackCallback, "/proc_control/current_target", "geometry_msgs/Pose")
-    useROSTopicSubscriber<any>(velocityTargetFeedBackCallback, "/proc_control/current_target_velocity", "geometry_msgs/Twist")
+    // useROSTopicSubscriber<any>(positionTargetFeedBackCallback, "/proc_control/current_target", "geometry_msgs/Pose")
+    // useROSTopicSubscriber<any>(velocityTargetFeedBackCallback, "/proc_control/current_target_velocity", "geometry_msgs/Twist")
 
     return (
         <GeneralContext.Consumer>
@@ -440,6 +440,16 @@ const Waypoints = () => {
                         <TextField value={cmdPitch} handlerChange={handleCmdPitchChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdpitch_id" label="Pitch" style={{ padding: '10px 10px' }} /><br></br>
                         <TextField value={cmdYaw} handlerChange={handleCmdYawChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdyaw_id" label="Yaw" style={{ padding: '10px 10px' }} />
                     </div>
+                    <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'right' }}>Command<br></br>
+                        <TextField value={cmdFrame} handlerChange={handleCmdFrameChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdframe_id" label="Frame" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdSpeed} handlerChange={handleCmdSpeedChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdspeed_id" label="Speed" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdFine} handlerChange={handleCmdFineChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdfine_id" label="Fine" style={{ padding: '10px 10px' }} />
+                    </div>
+                    <Switch onLabel="Rotation ON"
+                            offLabel="Rotation OFF"
+                            vertical={false}
+                            value={context.isRotation}
+                            handler={() => context.setIsRotation(!context.isRotation)}/>
                 </div>
             )}
         </GeneralContext.Consumer>

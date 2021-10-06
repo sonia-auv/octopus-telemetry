@@ -424,26 +424,26 @@ const Waypoints = () => {
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
                     <Button style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} handler={handleClearWayPoint} label="Clear Waypoint" />
                     <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={handleSetInitialPosition} label="Set initial position" />
-                    <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'left' }}>Command<br></br>
-                        <TextField value={cmdX} handlerChange={handleCmdXChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdx_id" label="X" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdY} handlerChange={handleCmdYChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdy_id" label="Y" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdZ} handlerChange={handleCmdZChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdz_id" label="Z" style={{ padding: '10px 10px' }} />
-                    </div>
-                    <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'right' }}>Command<br></br>
-                        <TextField value={cmdRoll} handlerChange={handleCmdRollChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdroll_id" label="Roll" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdPitch} handlerChange={handleCmdPitchChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdpitch_id" label="Pitch" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdYaw} handlerChange={handleCmdYawChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdyaw_id" label="Yaw" style={{ padding: '10px 10px' }} />
-                    </div>
-                    <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'right' }}>Command<br></br>
-                        <TextField value={cmdFrame} handlerChange={handleCmdFrameChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdframe_id" label="Frame" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdSpeed} handlerChange={handleCmdSpeedChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdspeed_id" label="Speed" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdFine} handlerChange={handleCmdFineChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdfine_id" label="Fine" style={{ padding: '10px 10px' }} />
-                    </div>
                     <Switch onLabel="Rotation ON"
                             offLabel="Rotation OFF"
                             vertical={false}
                             value={context.isRotationMode}
                             handler={() => context.setIsRotationMode(!context.isRotationMode)}/>
+                    <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'left' }}>POSITION<br></br>
+                        <TextField value={cmdX} handlerChange={handleCmdXChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdx_id" label="X" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdY} handlerChange={handleCmdYChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdy_id" label="Y" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdZ} handlerChange={handleCmdZChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdz_id" label="Z" style={{ padding: '10px 10px' }} />
+                    </div>
+                    <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'center' }}>Orientation<br></br>
+                        <TextField value={cmdRoll} handlerChange={handleCmdRollChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdroll_id" label="Roll" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdPitch} handlerChange={handleCmdPitchChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdpitch_id" label="Pitch" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdYaw} handlerChange={handleCmdYawChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdyaw_id" label="Yaw" style={{ padding: '10px 10px' }} />
+                    </div>
+                    <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'right' }}>Reference<br></br>
+                        <TextField value={cmdFrame} handlerChange={handleCmdFrameChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdframe_id" label="Frame" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdSpeed} handlerChange={handleCmdSpeedChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdspeed_id" label="Speed" style={{ padding: '10px 10px' }} /><br></br>
+                        <TextField value={cmdFine} handlerChange={handleCmdFineChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdfine_id" label="Fine" style={{ padding: '10px 10px' }} />
+                    </div>
                 </div>
             )}
         </GeneralContext.Consumer>

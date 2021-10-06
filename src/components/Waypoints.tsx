@@ -424,11 +424,6 @@ const Waypoints = () => {
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
                     <Button style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} handler={handleClearWayPoint} label="Clear Waypoint" />
                     <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={handleSetInitialPosition} label="Set initial position" />
-                    <Switch onLabel="Velocity"
-                        offLabel="Position"
-                        vertical={false}
-                        value={!context.isWayPointVelocityMode}
-                        handler={HandleChangeSwitch} />
                     <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'left' }}>Command<br></br>
                         <TextField value={cmdX} handlerChange={handleCmdXChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdx_id" label="X" style={{ padding: '10px 10px' }} /><br></br>
                         <TextField value={cmdY} handlerChange={handleCmdYChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdy_id" label="Y" style={{ padding: '10px 10px' }} /><br></br>

@@ -322,6 +322,8 @@ const Waypoints = () => {
                 finalFine = parseFloat(lastValidCmdFine)
             }
 
+            console.log(finalX, finalY, finalZ, finalPitch, finalRoll, finalYaw)
+
             var request = ServiceRequestFactory({
                 position:{
                     x: finalX,

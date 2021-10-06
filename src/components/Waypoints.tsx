@@ -424,7 +424,6 @@ const Waypoints = () => {
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
                     <Button style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} handler={handleClearWayPoint} label="Clear Waypoint" />
                     <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={handleSetInitialPosition} label="Set initial position" />
-                    <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={handleSetDepthOffset} label="Set depth offset" />
                     <Switch onLabel="Velocity"
                         offLabel="Position"
                         vertical={false}

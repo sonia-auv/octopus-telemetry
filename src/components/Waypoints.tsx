@@ -336,7 +336,7 @@ const Waypoints = () => {
                 frame: finalFrame,
                 speed: finalSpeed,
                 fine: finalFine,
-                rotation : GeneralContext.isRotationMode,
+                rotation : context.isRotationMode,
             });
             sendPositionTargetPublisher(request)
 

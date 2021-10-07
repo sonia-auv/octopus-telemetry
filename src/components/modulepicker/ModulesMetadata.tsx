@@ -7,6 +7,7 @@ import cameraModuleBig from '../image/camera_module_big.png'
 import visionUiModuleBig from '../image/visionui_module_big.png'
 import missionManagerBig from '../image/mission_manager_big.png'
 import powerModuleBig from '../image/powermodule_big.png'
+import setPwmModuleBig from '../image/set_pwm_module_big.png'
 
 interface ModuleMetadata {
   key: string;
@@ -94,6 +95,13 @@ const MissionManagerMeta: ModuleMetadata = {
   thumbnailSource: missionManagerBig,
 };
 
+const SetPwmModuleMeta: ModuleMetadata = {
+  key: 'setPwmModule',
+  name: 'Set Pwm Module',
+  thumbnailLabel: 'setPwmModule-thumbnail',
+  thumbnailSource: setPwmModuleBig,
+};
+
 const ModulesMetadata: Array<ModuleMetadata> = [
   ImageViewer1Meta,
   ImageViewer2Meta,
@@ -105,6 +113,7 @@ const ModulesMetadata: Array<ModuleMetadata> = [
   WaypointsMeta,
   PowerModuleMeta,
   MissionManagerMeta,
+  SetPwmModuleMeta,
 ];
 
 export {
@@ -119,5 +128,6 @@ export {
   WaypointsMeta,
   PowerModuleMeta,
   MissionManagerMeta,
+  SetPwmModuleMeta,
 };
 export type { Module, ModuleMetadata, ActiveModules };

@@ -1,17 +1,14 @@
-import { useCallback, useContext, useState } from 'react';
-
+import { useCallback, useState } from 'react';
 import Switch from './common/switch/Switch';
 import { GeneralContext } from "../context/generalContext";
 import Button from './common/button/Button';
 import TextField from './common/textfield/Textfield';
 
 import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
-import { useROSTopicSubscriber } from "../hooks/useROSTopicSubscriber";
 import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublisher';
 
 const Waypoints = () => {
-
-    const context = useContext(GeneralContext)
+    const [isRotationMode, setIsRotationMode] = useState(false);
 
     //////////////////////////////////////
     // CONTROL MODE
@@ -338,7 +335,7 @@ const Waypoints = () => {
                 frame: finalFrame,
                 speed: finalSpeed,
                 fine: finalFine,
-                rotation : context.isRotationMode,
+                rotation : isRotationMode,
             });
             sendPositionTargetPublisher(request)
 
@@ -422,29 +419,34 @@ const Waypoints = () => {
     return (
         <GeneralContext.Consumer>
             {context => context && (
-                <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
+                <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center', alignContent: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
                     <Button style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} handler={handleClearWayPoint} label="Clear Waypoint" />
                     <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={handleSetInitialPosition} label="Set initial position" />
-                    <Switch onLabel="Rotation ON"
-                            offLabel="Rotation OFF"
+                    <Switch onLabel="Long Path"
+                            offLabel="Short Path"
                             vertical={false}
-                            value={context.isRotationMode}
-                            handler={() => context.setIsRotationMode(!context.isRotationMode)}/>
-                    <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'inherit' }}>POSITION<br></br>
-                        <TextField value={cmdX} handlerChange={handleCmdXChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdx_id" label="X" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdY} handlerChange={handleCmdYChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdy_id" label="Y" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdZ} handlerChange={handleCmdZChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdz_id" label="Z" style={{ padding: '10px 10px' }} />
+                            value={isRotationMode}
+                            handler={() => setIsRotationMode(!isRotationMode)}/>
+                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                        <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', margin: '10px'}}>Position<br></br>
+                            <TextField value={cmdX} handlerChange={handleCmdXChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdx_id" label="X" style={{ padding: '10px 10px' }} /><br></br>
+                            <TextField value={cmdY} handlerChange={handleCmdYChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdy_id" label="Y" style={{ padding: '10px 10px' }} /><br></br>
+                            <TextField value={cmdZ} handlerChange={handleCmdZChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdz_id" label="Z" style={{ padding: '10px 10px' }} />
+                        </div>
+                        <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', margin: '10px'}}>Orientation<br></br>
+                            <TextField value={cmdRoll} handlerChange={handleCmdRollChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdroll_id" label="Roll" style={{ padding: '10px 10px' }} /><br></br>
+                            <TextField value={cmdPitch} handlerChange={handleCmdPitchChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdpitch_id" label="Pitch" style={{ padding: '10px 10px' }} /><br></br>
+                            <TextField value={cmdYaw} handlerChange={handleCmdYawChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdyaw_id" label="Yaw" style={{ padding: '10px 10px' }} />
+                        </div>
+                        <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', margin: '10px'}}>Reference<br></br>
+                            <TextField value={cmdFrame} handlerChange={handleCmdFrameChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdframe_id" label="Frame" style={{ padding: '10px 10px' }} /><br></br>
+                            <TextField value={cmdSpeed} handlerChange={handleCmdSpeedChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdspeed_id" label="Speed" style={{ padding: '10px 10px' }} /><br></br>
+                            <TextField value={cmdFine} handlerChange={handleCmdFineChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdfine_id" label="Fine" style={{ padding: '10px 10px' }} />
+                        </div>
                     </div>
-                    <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'inherit' }}>Orientation<br></br>
-                        <TextField value={cmdRoll} handlerChange={handleCmdRollChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdroll_id" label="Roll" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdPitch} handlerChange={handleCmdPitchChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdpitch_id" label="Pitch" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdYaw} handlerChange={handleCmdYawChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdyaw_id" label="Yaw" style={{ padding: '10px 10px' }} />
-                    </div>
-                    <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', float: 'inherit' }}>Reference<br></br>
-                        <TextField value={cmdFrame} handlerChange={handleCmdFrameChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdframe_id" label="Frame" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdSpeed} handlerChange={handleCmdSpeedChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdspeed_id" label="Speed" style={{ padding: '10px 10px' }} /><br></br>
-                        <TextField value={cmdFine} handlerChange={handleCmdFineChange} handlerKeyDown={handleCmdKeyDown} testId="waypoint_cmdfine_id" label="Fine" style={{ padding: '10px 10px' }} />
+                    <div>
+                        <Button style={{ fontSize: '20px', alignSelf: 'center', width: '50%'}} handler={()=>{}} label="Add Pose"/>
                     </div>
                 </div>
             )}

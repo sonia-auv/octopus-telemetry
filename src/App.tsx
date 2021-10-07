@@ -105,7 +105,6 @@ export const App = () => {
 
     const [isDarkMode, setIsDarkMode] = React.useState(theme === 'dark');
     const [isDryRunMode, setIsDryRunMode] = React.useState(true);
-    const [isRotationMode, setIsRotationMode] = React.useState(true);
     const [isRelativeUnits, setIsRelativeUnits] = React.useState(false)
     const [isRoboticArmClosed, setIsRoboticArmClosed] = React.useState(false)
     const [isWayPointVelocityMode, setIsWayPointVelocityMode] = React.useState(false)
@@ -134,7 +133,7 @@ export const App = () => {
     return (
 
         <div>
-            <GeneralContext.Provider value={{ isDarkMode, setIsDarkMode, isDryRunMode, setIsDryRunMode, isRotationMode, setIsRotationMode, isRelativeUnits,
+            <GeneralContext.Provider value={{ isDarkMode, setIsDarkMode, isDryRunMode, setIsDryRunMode, isRelativeUnits,
                 setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode, activeModules, setActiveModules, updateActiveModule }}>
                 <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
                     <GlobalStyles />

@@ -78,7 +78,7 @@ const MissionManager = () => {
                         value={currentMissionName ? currentMissionName : "None"}
                         listValue={allMissions}
                         >
-                    </Select>
+                        </Select>
                     </FormControl>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Update List</h1>
                     <Button style={{ fontSize: '20px', alignSelf: 'center' }} handler={updateMissionList} label="Update"/>

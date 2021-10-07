@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import GridLayout, { contextType } from 'react-grid-layout'
+import React, { useState } from "react";
+import GridLayout from 'react-grid-layout'
 import ThrustersModule from "./components/thrusters/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
 import ImageViewer from "./components/ImageViewer";
@@ -21,7 +21,7 @@ import SetPwmModule from "./components/thrusters/SetPwmModule";
 import './App.css'
 
 export const App = () => {
-    const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string ) ? 'dark': 'light');
+    const [theme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string ) ? 'dark': 'light');
     const originalLayout = JSON.parse(localStorage.getItem("layout") as string )|| []
     const [layout, setLayout] = useState(originalLayout)
 
@@ -77,7 +77,6 @@ export const App = () => {
     const [sideBarVisible, setSideBarVisible] = useState(false)
   
     return (
-
         <div>
             <GeneralContext.Provider value={{ isDarkMode, setIsDarkMode, isDryRunMode, setIsDryRunMode, isRelativeUnits,
                 setIsRelativeUnits, isRoboticArmClosed, setIsRoboticArmClosed, isWayPointVelocityMode, setIsWayPointVelocityMode, activeModules, setActiveModules, updateActiveModule }}>
@@ -132,7 +131,7 @@ export const App = () => {
                         </div>) : (<React.Fragment></React.Fragment>)}
                                 {context.activeModules.data['waypoints'].active ? (
                                         <div key="waypoints"
-                                            data-grid={{ x: 50, y: 0, w: 5, h:9 , minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                                            data-grid={{ x: 50, y: 0, w: 7, h:10 , minW: 7, maxW: 7, minH: 10, maxH: 10 }}
                                             style={{ display: 'flex' , ...moduleBorder}}>
                                             <Waypoints />
                         </div>) : (<React.Fragment></React.Fragment>)}
@@ -170,7 +169,7 @@ export const App = () => {
                         )}
                     </GeneralContext.Consumer>                
                     </div>
-   </ThemeProvider>
+                </ThemeProvider>
             </GeneralContext.Provider>
         </div>
     );

@@ -1,16 +1,16 @@
 import React, { useCallback } from 'react';
 
-import AppBar from './common/AppBar/AppBar';
-import Toolbar from './common/ToolBar/ToolBar';
-import Button from './common/button/Button';
-import IconButton from './common/button/IconButton';
+import AppBar from '../common/AppBar/AppBar';
+import Toolbar from '../common/ToolBar/ToolBar';
+import Button from '../common/button/Button';
+import IconButton from '../common/button/IconButton';
 
 import MenuModule from './MenuModule';
 import BatterieLevelIndicator from './BatteryLevelIndicatorModule';
-import LabelAndValueModule from './LabelAndValueModule';
+import LabelAndValueModule from '../LabelAndValueModule';
 
-import { useROSService, ServiceRequestFactory } from '../hooks/useROSService';
-import { useROSTopicSubscriber } from '../hooks/useROSTopicSubscriber';
+import { useROSService, ServiceRequestFactory } from '../../hooks/useROSService';
+import { useROSTopicSubscriber } from '../../hooks/useROSTopicSubscriber';
 
 const ToolbarModule = (props: any) => {
 
@@ -22,7 +22,7 @@ const ToolbarModule = (props: any) => {
 
   const [isMissionSwitchOn, setIsMissionSwitchOn] = React.useState(false);
   const [isKillSwitchOn, setIsKillSwitchOn] = React.useState(false);
-  const [AUV7Temp, setAUV7Temp] = React.useState(0);
+  //const [AUV7Temp, setAUV7Temp] = React.useState(0);
   const [AUV8Temp, setAUV8Temp] = React.useState(0);
 
   const [batteryLevel1, setbatteryLevel1] = React.useState('-');
@@ -41,23 +41,28 @@ const ToolbarModule = (props: any) => {
   }, []);
 
   const batteryLevelCallback = useCallback((x: any) => {
-    let data = parseFloat(x.data).toFixed(2);
-    // slave 0 and 1 are PSU connected to battery 1 and slave 2 and 3 are connected to battery 2
-    // the command 7 is the battery data
-    // we assume the data from the slaves connected to the same battery are close enough so we take only one value
-    if (x.slave === 0) {if (x.cmd === 7) setbatteryLevel1(data);}
-    else if (x.slave === 2) {if (x.cmd === 7) setbatteryLevel2(data);}
+    // slave 0 is the voltage from both batteries
+    // the command 0 is the voltage data on motors and batteries
+    // battery 1 is store in data[8] and battery 2 is stored in data[9]
+    if (x.slave === 0) {
+      if (x.cmd === 0) {
+        let bat1 = parseFloat(x.array.data[8]).toFixed(2);
+        let bat2 = parseFloat(x.array.data[9]).toFixed(2);
+        setbatteryLevel1(bat1);
+        setbatteryLevel2(bat2);
+      }
+    }
   }, []);
 
-  const AUV7Callback = useCallback((x: any) => {
-    let data = x.data;
-    let parsed = JSON.parse(data);
-    setAUV7Temp(parsed);
-  }, []);
+  //const AUV7Callback = useCallback((x: any) => {
+    //let data = x.data;
+    //let parsed = JSON.parse(data);
+    //setAUV7Temp(parsed);
+  //  setAUV7Temp(x.data.temperature);
+  //}, []);
   const AUV8Callback = useCallback((x: any) => {
-    let data = x.data;
-    let parsed = JSON.parse(data);
-    setAUV8Temp(parsed);
+    var AUV8Temp = x.temperature.toFixed(2);
+    setAUV8Temp(AUV8Temp);
   }, []);
 
   const toolbarServicesCall = useROSService<any>(
@@ -85,15 +90,15 @@ const ToolbarModule = (props: any) => {
     '/provider_kill_mission/mission_switch_msg',
     'sonia_common/MissionSwitchMsg'
   );
-  useROSTopicSubscriber<any>(
-    AUV7Callback,
+  //useROSTopicSubscriber<any>(
+  //  AUV7Callback,
+  //  '/provider_system/system_temperature',
+  //  'sensor_msgs/Temperature'
+  //  );
+    useROSTopicSubscriber<any>(
+      AUV8Callback,
     '/provider_system/system_temperature',
-    'std_msgs/Float32'
-  );
-  useROSTopicSubscriber<any>(
-    AUV8Callback,
-    '/provider_jetson/system_temperature',
-    'std_msgs/Float32'
+    'sensor_msgs/Temperature'
   );
 
   let handleAllAxisClicked = () => {
@@ -227,8 +232,7 @@ const ToolbarModule = (props: any) => {
           style={{ margin: '15px', backgroundColor: 'black', color: 'red' }}
           handler={handleStartBottomCameraClicked}
         />
-        <LabelAndValueModule label="AUV7" value={AUV7Temp} unit="C" />
-        <LabelAndValueModule label="AUV8" value={AUV8Temp} unit="C" />
+        <LabelAndValueModule label="AUV8" value={AUV8Temp} unit="°C" />
         <BatterieLevelIndicator
           value={batteryLevel1}
           label="Batterie 1"
@@ -258,7 +262,7 @@ const ToolbarModule = (props: any) => {
               backgroundColor: isKillSwitchOn ? 'green' : 'red',
               color: 'white',
             }}
-            label={isKillSwitchOn ? 'Kill switch activated' : 'Kill switch off'}
+            label={isKillSwitchOn ? 'Kill switch on' : 'Kill switch off'}
             handler={() => {}}
             disabled={true}
           />

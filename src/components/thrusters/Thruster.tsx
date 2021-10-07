@@ -1,63 +1,64 @@
 import React from "react";
 
-import ThrusterControlSlider from "./common/slider/ThrusterControlSlider";
-import ThrusterEffortIndicatorSlider from "./common/slider/ThrusterEffortIndicatorSlider";
-import Grid from './common/grid/Grid';
-import RedButtonImg from './image/redButton.png';
+import ThrusterControlSlider from "../common/slider/ThrusterControlSlider";
+import ThrusterEffortIndicatorSlider from "../common/slider/ThrusterEffortIndicatorSlider";
+import Grid from '../common/grid/Grid';
+import RedButtonImg from '../image/redButton.png';
 
-import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublisher'
+import { useROSTopicPublisher, MessageFactory } from '../../hooks/useROSTopicPublisher'
 
 const marks = [
     {
-        value: -75,
-        label: '-75%',
+        value: -38,
+        label: '-38 N',
     },
     {
-        value: -25,
-        label: '-25%',
+        value: -12,
+        label: '-12 N',
     },
     {
-        value: 25,
-        label: '25%',
+        value: 12,
+        label: '12 N',
     },
     {
-        value: 75,
-        label: '75%',
+        value: 38,
+        label: '38 N',
     }]
 
 const marksIndicator = [
     {
-        value: -100,
-        label: '-100%',
+        value: -50,
+        label: '-50 N',
     },
     {
-        value: -50,
-        label: '-50%',
+        value: -25,
+        label: '-25 N',
     },
     {
         value: 0,
-        label: '0%',
+        label: '0 N',
+    },
+    {
+        value: 25,
+        label: '25 N',
     },
     {
         value: 50,
-        label: '50%',
-    },
-    {
-        value: 100,
-        label: '100%',
+        label: '50 N',
     }]
 
 
 type ThrusterLevel = {
     identification: number
     effort: number,
+    pwm: number,
     minMark: number,
     maxMark: number,
     step: number,
     thumbEnabled: boolean
 }
 
-export const Thruster = ({ identification, effort, minMark, maxMark, step, thumbEnabled }: ThrusterLevel) => {
+export const Thruster = ({ identification, effort, pwm,  minMark, maxMark, step, thumbEnabled }: ThrusterLevel) => {
 
     const thrusterEffortPublisher = useROSTopicPublisher<any>("/provider_thruster/thruster_effort", "std_msgs/String")
 
@@ -111,23 +112,8 @@ export const Thruster = ({ identification, effort, minMark, maxMark, step, thumb
                             ThumbComponent={ThrusterEffortThumbComponent}
                             handlerChange={() => { }}
                         />
-                        <h1 style={{ fontSize: '20px', marginTop: '-10px', marginLeft: '40px' }}>{effort} %</h1>
-                    </Grid>
-                    <Grid key={1} item>
-                        <h1 style={{ fontSize: '20px', marginBottom: '0px', marginLeft: '-104px' }}>T{identification}</h1>
-                        <ThrusterControlSlider
-                            orientation="vertical"
-                            value={value}
-                            min={minMark}
-                            max={maxMark}
-                            valueLabelDisplay="off"
-                            marks={marks}
-                            disabled={!thumbEnabled}
-                            ThumbComponent={ThrusterControlThumbComponent}
-                            defaultValue={0}
-                            handlerChange={handleChange}
-                        />
-                        <h1 style={{ fontSize: '20px', marginTop: '-10px', marginLeft: '-104px' }}>{effort} %</h1>
+                        <h1 style={{ fontSize: '15px', marginTop: '-25px', marginLeft: '40px' }}>{effort} N</h1>
+                        <h1 style={{ fontSize: '15px', marginTop: '-10px', marginLeft: '15px' }}>PWM: {pwm} </h1>
                     </Grid>
                 </Grid>
             </Grid>

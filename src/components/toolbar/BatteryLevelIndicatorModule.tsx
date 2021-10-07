@@ -1,5 +1,5 @@
-import BatterieSlider from "./common/slider/BatterieSlider";
-import LabelAndValueModule from "./LabelAndValueModule";
+import BatterieSlider from "../common/slider/BatterieSlider";
+import LabelAndValueModule from "../LabelAndValueModule";
 
 export const BatterieLevelIndicator = (props: any) => {
 
@@ -22,8 +22,8 @@ export const BatterieLevelIndicator = (props: any) => {
                 <BatterieSlider
                     orientation="horizontal"
                     value={props.value}
-                    min={0}
-                    max={17}
+                    min={15.2}
+                    max={16.8}
                     disabled={true}
                 />
             </div>

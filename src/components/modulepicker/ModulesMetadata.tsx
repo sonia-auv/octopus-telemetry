@@ -7,7 +7,7 @@ import cameraModuleBig from '../image/camera_module_big.png'
 import visionUiModuleBig from '../image/visionui_module_big.png'
 import missionManagerBig from '../image/mission_manager_big.png'
 import powerModuleBig from '../image/powermodule_big.png'
-import controlModuleBig from '../image/control_module_big.jpg'
+import controlModuleBig from '../image/control_module_big.png'
 import setPwmModuleBig from '../image/set_pwm_module_big.png'
 
 interface ModuleMetadata {

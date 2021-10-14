@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import GridLayout, { contextType } from 'react-grid-layout'
+import React, { useState } from "react";
+import GridLayout from 'react-grid-layout'
 import ThrustersModule from "./components/thrusters/ThustersModule";
 import ActuatorModule from "./components/ActuatorModule";
 import ImageViewer from "./components/ImageViewer";
@@ -22,7 +22,7 @@ import SetPwmModule from "./components/thrusters/SetPwmModule";
 import './App.css'
 
 export const App = () => {
-    const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string ) ? 'dark': 'light');
+    const [theme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string ) ? 'dark': 'light');
     const originalLayout = JSON.parse(localStorage.getItem("layout") as string )|| []
     const [layout, setLayout] = useState(originalLayout)
 

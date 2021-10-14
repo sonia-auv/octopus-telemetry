@@ -13,6 +13,7 @@ import {
   PowerModuleMeta,
   MissionManagerMeta,
   ControlModuleMeta,
+  SetPwmModuleMeta,
 } from '../components/modulepicker/ModulesMetadata';
 
 const defaultModules: ActiveModules = {
@@ -60,6 +61,10 @@ const defaultModules: ActiveModules = {
     controlModule: {
       active: true,
       meta: ControlModuleMeta
+    },
+    setPwmModule: {
+      active: true,
+      meta: SetPwmModuleMeta
     },
   },
 };

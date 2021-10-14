@@ -6,18 +6,18 @@ import { useROSService} from '../../hooks/useROSService'
 import { useROSTopicPublisher, MessageFactory } from "../../hooks/useROSTopicPublisher";
 
 
-const Controls = (props) => {
+const Controls = () => {
 
     const [dryTestActive, setdryTestActive] = useState(false);
     const [thrusterActive, setThrusterActive] = useState(false);
 
     const callDryTestService = async () => {
 
-        dryTestServiceCall(); 
+        dryTestServiceCall({}); 
     }
 
     const dryTestCallback = useCallback(
-        () => {
+        (response: ROSLIB.ServiceResponse) => {
             setdryTestActive(false);
           },
           []
@@ -51,16 +51,15 @@ const Controls = (props) => {
     return (
         <GeneralContext.Consumer>
             {context => context &&(
-                <div style={{ flexDirection: 'row', width: '200px'}}>
+                <div style={{flexDirection: 'row', width: '500px', marginRight: '50px', marginLeft: '50px', alignContent: 'center'}}>
                     <Switch onLabel="Normal"
                             offLabel="Dry Run"
                             vertical={true}
                             value={context.isDryRunMode}
-                            handler={() => context.setIsDryRunMode(!context.isDryRunMode)}/>
-                    
-                    <Button disabled={context.isDryRunMode } style={{ marginLeft: '25%' , width: '100px', fontSize: '11px' }} 
+                            handler={() => context.setIsDryRunMode(!context.isDryRunMode)}/>                 
+                    <Button disabled={context.isDryRunMode } style={{width: '100px', fontSize: '11px' }} 
                             handler={callDryTestService} label="Dry Test"/>
-                    <Button disabled={ context.isDryRunMode} style={{ marginLeft: '25%', marginTop: '10px' , width: '100px', fontSize: '11px' }} 
+                    <Button disabled={ context.isDryRunMode} style={{marginTop: '10px' , width: '100px', fontSize: '11px' }} 
                             handler={thrusterActivation} label={ !thrusterActive ? "Activate" : "Deactivate" }/>
                 </div>
             )}

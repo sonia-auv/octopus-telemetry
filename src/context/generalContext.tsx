@@ -14,6 +14,7 @@ import {
   MissionManagerMeta,
   ControlModuleMeta,
   SetPwmModuleMeta,
+  TemplateModuleMeta,
 } from '../components/modulepicker/ModulesMetadata';
 
 const defaultModules: ActiveModules = {
@@ -65,6 +66,10 @@ const defaultModules: ActiveModules = {
     setPwmModule: {
       active: true,
       meta: SetPwmModuleMeta
+    },
+    templateModule: {
+      active: true,
+      meta: TemplateModuleMeta
     },
   },
 };

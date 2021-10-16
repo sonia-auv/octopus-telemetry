@@ -28,7 +28,7 @@ const orangeColor = '#FF7100';
 
 const ControlModule = () => {
 
-    const [mpcStatusBkgColor, setMpcStatusBkgColor] = useState<string>(orangeColor);
+    const [mpcStatusBkgColor, setMpcStatusBkgColor] = useState<string>(redColor);
     const [mpcActiveBkgColor, setMpcActiveBkgColor] = useState<string>(greenColor);
     const [sensorOnBkgColor, setSensorOnBkgColor] = useState<string>(redColor);
 
@@ -41,14 +41,43 @@ const ControlModule = () => {
     const setMode = (id: Number) => {
         setCurrentModeId(id);
         // Send set mode with ROS here.
+        var toPublish = MessageFactory({
+                data: id,
+        })
+        setModePublisher(toPublish);
     }
 
     const startDVL = () => {
 
     }
 
-    // Add subscribers here.
+    const mpcActiveCallback = (x: any) => {
+        let data : boolean = x.data;
+        if( data ){
+            setMpcActiveBkgColor(greenColor);
+        }
+        else{   
+            setMpcActiveBkgColor(redColor);
+        }
+    }
 
+    const mpcStatusCallback = (x: any) => {
+        let data : Number = x.data;
+        if(data === 1 || data === 2){
+            setMpcStatusBkgColor(greenColor);
+        }
+        else if(data === 0){
+            setMpcStatusBkgColor(orangeColor);
+        }
+        else{
+            setMpcStatusBkgColor(redColor);
+        }
+    }
+
+    const setModePublisher = useROSTopicPublisher<any>("/proc_control/set_mode", "std_msgs/UInt8");
+    useROSTopicSubscriber<any>(mpcActiveCallback, "/proc_control/is_mpc_active", "std_msgs/Bool");
+    useROSTopicSubscriber<any>(mpcStatusCallback, "/proc_control/mpc_status", "std_msgs/Int8");
+    
     return (
         <GeneralContext.Consumer>
             {context => context && (
@@ -71,24 +100,24 @@ const ControlModule = () => {
                         handler={() => {}} label="Reached"/>
                 <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Modes</h1>  
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <Button disabled={false} 
+                    <Button disabled={currentModeId === 10} 
                             style={Object.assign({backgroundColor: currentModeId === 10 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
                             handler={() => { setMode(10) }} label="MPC Auto"/>
-                    <Button disabled={false} 
+                    <Button disabled={currentModeId === 19} 
                             style={Object.assign({backgroundColor: currentModeId === 19 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
                             handler={() => { setMode(19) }} label="MPC 3D Mouse"/>
-                    <Button disabled={false} 
+                    <Button disabled={currentModeId === 20} 
                             style={Object.assign({backgroundColor: currentModeId === 20 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
                             handler={() => { setMode(20) }} label="Model 3D Mouse"/>
                 </div> 
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <Button disabled={false} 
+                    <Button disabled={currentModeId === 21} 
                             style={Object.assign({backgroundColor: currentModeId === 21 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
                             handler={() => { setMode(21) }} label="B Matrix 3D Mouse"/>
-                    <Button disabled={false} 
+                    <Button disabled={currentModeId === 0} 
                             style={Object.assign({backgroundColor: currentModeId === 0 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)} 
                             handler={ ()=>{ setMode(0) } } label="Soft Kill"/>
-                    <Button disabled={false} 
+                    <Button disabled={currentModeId === 11} 
                             style={Object.assign({backgroundColor: currentModeId === 11 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
                             handler={() => { setMode(11) }} label="MPC Single Wpts"/>
                 </div>

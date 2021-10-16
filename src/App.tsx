@@ -19,6 +19,7 @@ import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata
 import { Drawer } from '@material-ui/core'
 import PowerModule from "./components/powermodule/PowerModule";
 import SetPwmModule from "./components/thrusters/SetPwmModule";
+// import TemplateModule from "./components/TemplateModule";
 import './App.css'
 
 export const App = () => {
@@ -90,8 +91,7 @@ export const App = () => {
                         <ModulePicker  />
                     </Drawer>
                     <GeneralContext.Consumer>
-                        {context => (
-                    
+                        {context => (                   
                     <GridLayout 
                                 layout={layout}
                                 cols={32}
@@ -173,6 +173,12 @@ export const App = () => {
                                             style={{ display: 'flex', ...moduleBorder }}>
                                             <SetPwmModule />
                         </div>) : <React.Fragment></React.Fragment>}
+                                {/* {context.activeModules.data['templateModule'].active ? (
+                                        <div key="templateModule"
+                                            data-grid={{ x: 0, y: 20, w: 4, h: 9, minW: 4, maxW: 4, minH: 9, maxH: 9 }}
+                                            style={{ display: 'flex', ...moduleBorder }}>
+                                            <TemplateModule />
+                        </div>) : <React.Fragment></React.Fragment>} */}
                     </GridLayout>
                         )}
                     </GeneralContext.Consumer>                

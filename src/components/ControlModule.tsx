@@ -35,6 +35,7 @@ const ControlModule = () => {
     const [targetReachedBkgColor, setTargetReachedBkgColor] = useState<string>(greenColor);
 
     const [dvlStatusBkgColor, setDvlStatusBkgColor] = useState<string>(greenColor);
+    const [dvlStarted, setDvlStarted] = useState<boolean>(true);
 
     const [currentModeId, setCurrentModeId] = useState<Number>(0);
 
@@ -42,13 +43,29 @@ const ControlModule = () => {
         setCurrentModeId(id);
         // Send set mode with ROS here.
         var toPublish = MessageFactory({
-                data: id,
+           data: id,
         })
         setModePublisher(toPublish);
     }
 
-    const startDVL = () => {
+    const setModeCallback = (x:any) => {
+        let data : Number = x.data;
+        setCurrentModeId(data);
+    }
 
+    const startStopDVL = () => {
+        if(dvlStarted){
+            var toPublish = MessageFactory({
+                data: false,
+            })
+            setDVLStartedPublisher(toPublish); 
+        }
+        else{
+            var toPublish = MessageFactory({
+                data: true,
+            })
+            setDVLStartedPublisher(toPublish);
+        }
     }
 
     const mpcActiveCallback = (x: any) => {
@@ -58,6 +75,38 @@ const ControlModule = () => {
         }
         else{   
             setMpcActiveBkgColor(redColor);
+        }
+    }
+
+    const sensorOnCallback = (x: any) => {
+        let data : boolean = x.data;
+        if( data ){
+            setSensorOnBkgColor(greenColor);
+        }
+        else{   
+            setSensorOnBkgColor(redColor);
+        }
+    }
+
+    const targetReachedCallback = (x: any) => {
+        let data : boolean = x.data;
+        if( data ){
+            setTargetReachedBkgColor(greenColor);
+        }
+        else{   
+            setTargetReachedBkgColor(redColor);
+        }
+    }
+
+    const dvlStatusCallback = (x: any) => {
+        let data : boolean = x.data;
+        if( data ){
+            setDvlStatusBkgColor(greenColor);
+            setDvlStarted(true);
+        }
+        else{   
+            setDvlStatusBkgColor(redColor);
+            setDvlStarted(false);
         }
     }
 
@@ -75,7 +124,13 @@ const ControlModule = () => {
     }
 
     const setModePublisher = useROSTopicPublisher<any>("/proc_control/set_mode", "std_msgs/UInt8");
+    const setDVLStartedPublisher = useROSTopicPublisher<any>("/provider_dvl/enable_disable_ping", "std_msgs/Bool");
+
+    useROSTopicSubscriber<any>(setModeCallback, "/proc_control/set_mode", "std_msgs/UInt8");
     useROSTopicSubscriber<any>(mpcActiveCallback, "/proc_control/is_mpc_active", "std_msgs/Bool");
+    useROSTopicSubscriber<any>(sensorOnCallback, "/proc_control/sensor_on", "std_msgs/Bool");
+    useROSTopicSubscriber<any>(targetReachedCallback, "/proc_control/target_reached", "std_msgs/Bool");
+    useROSTopicSubscriber<any>(dvlStatusCallback, "/provider_dvl/enable_disable_ping", "std_msgs/Bool");
     useROSTopicSubscriber<any>(mpcStatusCallback, "/proc_control/mpc_status", "std_msgs/Int8");
     
     return (
@@ -128,7 +183,7 @@ const ControlModule = () => {
                             handler={() => {}} label="DVL Status"/>
                     <Button disabled={false} 
                             style={Object.assign({}, disabledButtonStyle)} 
-                            handler={ startDVL } label="Start DVL"/>
+                            handler={ startStopDVL } label={dvlStarted ? "Stop DVL" : "Start DVL" }/>
                 </div>  
             </div>
             )}

@@ -39,7 +39,6 @@ const SetPwmModule = () => {
 
     const resetPwms = () => {
         // Send the PWMs.
-        // let array = new Uint16Array(pwms);
         let toPublish = MessageFactory({
             data: [1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500]
         });

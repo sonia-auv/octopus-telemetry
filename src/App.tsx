@@ -5,6 +5,7 @@ import ActuatorModule from "./components/ActuatorModule";
 import ImageViewer from "./components/ImageViewer";
 import MissionManager from "./components/MissionManager";
 import Pfd from "./components/PFD/Pfd";
+import ControlModule from "./components/ControlModule";
 import TestBoardModule from "./components/TestBoardModule";
 import Waypoints from "./components/Waypoints";
 import VisionUI from "./components/visionui/VisionUi";
@@ -18,6 +19,7 @@ import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata
 import { Drawer } from '@material-ui/core'
 import PowerModule from "./components/powermodule/PowerModule";
 import SetPwmModule from "./components/thrusters/SetPwmModule";
+// import TemplateModule from "./components/TemplateModule";
 import './App.css'
 
 export const App = () => {
@@ -88,8 +90,7 @@ export const App = () => {
                         <ModulePicker  />
                     </Drawer>
                     <GeneralContext.Consumer>
-                        {context => (
-                    
+                        {context => (                   
                     <GridLayout 
                                 layout={layout}
                                 cols={32}
@@ -153,6 +154,12 @@ export const App = () => {
                                             style={{ display: 'flex', ...moduleBorder }}>
                                             <PowerModule />
                         </div>) : <React.Fragment></React.Fragment>}
+                                {context.activeModules.data['controlModule'].active ? (
+                                        <div key="controlModule"
+                                            data-grid={{ x: 0, y: 20, w: 6, h: 9, minW: 6, maxW: 6, minH: 9, maxH: 9 }}
+                                            style={{ display: 'flex', ...moduleBorder }}>
+                                            <ControlModule />
+                        </div>) : <React.Fragment></React.Fragment>}
                                 {context.activeModules.data['missionManager'].active ? (
                                         <div key="missionManager"
                                             data-grid={{ x: 0, y: 20, w: 5, h: 6, minW: 5, maxW: 5, minH: 6, maxH: 6 }}
@@ -165,6 +172,12 @@ export const App = () => {
                                             style={{ display: 'flex', ...moduleBorder }}>
                                             <SetPwmModule />
                         </div>) : <React.Fragment></React.Fragment>}
+                                {/* {context.activeModules.data['templateModule'].active ? (
+                                        <div key="templateModule"
+                                            data-grid={{ x: 0, y: 20, w: 4, h: 9, minW: 4, maxW: 4, minH: 9, maxH: 9 }}
+                                            style={{ display: 'flex', ...moduleBorder }}>
+                                            <TemplateModule />
+                        </div>) : <React.Fragment></React.Fragment>} */}
                     </GridLayout>
                         )}
                     </GeneralContext.Consumer>                

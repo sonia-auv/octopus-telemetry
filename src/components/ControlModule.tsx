@@ -41,6 +41,7 @@ const ControlModule = () => {
 
     const setMode = (id: Number) => {
         setCurrentModeId(id);
+        console.log(id)
         // Send set mode with ROS here.
         var toPublish = MessageFactory({
            data: id,
@@ -175,6 +176,17 @@ const ControlModule = () => {
                     <Button disabled={currentModeId === 11} 
                             style={Object.assign({backgroundColor: currentModeId === 11 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
                             handler={() => { setMode(11) }} label="MPC Single Wpts"/>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Button disabled={currentModeId === 31} 
+                            style={Object.assign({backgroundColor: currentModeId === 31 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
+                            handler={() => { setMode(31) }} label="MPC NO NAME"/>
+                    <Button disabled={true} 
+                            style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)} 
+                            handler={ ()=>{ setMode(-1) } } label="Empty"/>
+                    <Button disabled={true} 
+                            style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
+                            handler={() => { setMode(-1) }} label="Empty"/>
                 </div>
                 <h1 style={{ fontSize: '20px', textAlign: 'center' }}>DVL</h1> 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>

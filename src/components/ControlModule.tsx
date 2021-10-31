@@ -180,7 +180,7 @@ const ControlModule = () => {
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <Button disabled={currentModeId === 31} 
                             style={Object.assign({backgroundColor: currentModeId === 31 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
-                            handler={() => { setMode(31) }} label="MPC NO NAME"/>
+                            handler={() => { setMode(31) }} label="MPC Debug"/>
                     <Button disabled={true} 
                             style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)} 
                             handler={ ()=>{ setMode(-1) } } label="Empty"/>

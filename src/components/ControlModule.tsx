@@ -178,9 +178,9 @@ const ControlModule = () => {
                             handler={() => { setMode(11) }} label="MPC Single Wpts"/>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <Button disabled={currentModeId === 31} 
-                            style={Object.assign({backgroundColor: currentModeId === 31 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
-                            handler={() => { setMode(31) }} label="MPC Debug"/>
+                    <Button disabled={currentModeId === 32} 
+                            style={Object.assign({backgroundColor: currentModeId === 32 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
+                            handler={() => { setMode(32) }} label="MPC Quat."/>
                     <Button disabled={true} 
                             style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)} 
                             handler={ ()=>{ setMode(-1) } } label="Empty"/>

@@ -41,7 +41,6 @@ const ControlModule = () => {
 
     const setMode = (id: Number) => {
         setCurrentModeId(id);
-        console.log(id)
         // Send set mode with ROS here.
         var toPublish = MessageFactory({
            data: id,

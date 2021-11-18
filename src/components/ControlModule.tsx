@@ -176,6 +176,17 @@ const ControlModule = () => {
                             style={Object.assign({backgroundColor: currentModeId === 11 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
                             handler={() => { setMode(11) }} label="MPC Single Wpts"/>
                 </div>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Button disabled={currentModeId === 32} 
+                            style={Object.assign({backgroundColor: currentModeId === 32 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
+                            handler={() => { setMode(32) }} label="MPC Quat."/>
+                    <Button disabled={true} // Dont forget...
+                            style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)} 
+                            handler={ ()=>{ setMode(-1) } } label="Empty"/>
+                    <Button disabled={true} // Dont forget...
+                            style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
+                            handler={() => { setMode(-1) }} label="Empty"/>
+                </div>
                 <h1 style={{ fontSize: '20px', textAlign: 'center' }}>DVL</h1> 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
                     <Button disabled={true} 

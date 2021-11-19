@@ -145,6 +145,8 @@ const Waypoints = () => {
     //     setCmdFine('0.00');
     // }
 
+
+    
     const setInitialPositionHandler = () => {
         var toPublish = MessageFactory({
             position:{

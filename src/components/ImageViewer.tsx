@@ -102,7 +102,7 @@ const ImageViewer = () => {
         (x: any) => {
 
             //Filtre sur les types de message que le souhaite 
-            const messageFilter = ["sensor_msgs/CompressedImage"]
+            const messageFilter = ["sensor_msgs/Image","sensor_msgs/CompressedImage"]
 
             var tab: any = []
             x.topics.forEach((value: any, index: any) => {

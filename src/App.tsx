@@ -19,6 +19,8 @@ import { Drawer } from '@material-ui/core'
 import PowerModule from "./components/powermodule/PowerModule";
 import SetPwmModule from "./components/thrusters/SetPwmModule";
 import './App.css'
+// import { useROSTopicSubscriber } from "./hooks/useROSTopicSubscriber";
+// import ROSLIB from "roslib";
 
 export const App = () => {
     const [theme] = useState(JSON.parse(localStorage.getItem("isDarkMode") as string ) ? 'dark': 'light');
@@ -73,6 +75,13 @@ export const App = () => {
       setActiveModules(updatedActiveModules);
       saveChosenModulesToStorage(updatedActiveModules);
     };
+
+    // const dryRunModeCallback = (val : any) => {
+    //     console.log(val);
+    //     setIsDryRunMode(!val.data);
+    // };
+
+    // const dryRunModeMsgSubscriber = useROSTopicSubscriber(dryRunModeCallback, "/telemetry/dry_run", "/std_msgs/Bool");
 
     const [sideBarVisible, setSideBarVisible] = useState(false)
   

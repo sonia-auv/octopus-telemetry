@@ -5,14 +5,12 @@ import {GeneralContext} from "../../context/generalContext";
 import { useROSService} from '../../hooks/useROSService'
 import { useROSTopicPublisher, MessageFactory } from "../../hooks/useROSTopicPublisher";
 
-
 const Controls = () => {
 
     const [dryTestActive, setdryTestActive] = useState(false);
     const [thrusterActive, setThrusterActive] = useState(false);
 
     const callDryTestService = async () => {
-
         dryTestServiceCall({}); 
     }
 
@@ -25,8 +23,9 @@ const Controls = () => {
     )
 
     const thrusterActivation = () => {
+        var toPublish;
         if(!thrusterActive){
-            var toPublish = MessageFactory({
+            toPublish = MessageFactory({
                 slave: 49,
                 bus: 0,
                 data: true
@@ -34,7 +33,7 @@ const Controls = () => {
             setThrusterActive(true);
         }   
         else{
-            var toPublish = MessageFactory({
+            toPublish = MessageFactory({
                 slave: 49,
                 bus: 0,
                 data: false
@@ -45,8 +44,17 @@ const Controls = () => {
         providerPowerMsgPublisher(toPublish);
     }
 
+    const dryRunMode = (val : Boolean) =>{
+        var toPublish = MessageFactory({
+            data: val,
+        })
+        console.log(toPublish);
+        dryRunMsgPublisher(toPublish);
+    }
+
     const dryTestServiceCall = useROSService(dryTestCallback, "/provider_thruster/dry_test", "std_srvs/Empty")
     const providerPowerMsgPublisher = useROSTopicPublisher("/provider_power/activate_all_ps", "/sonia_common/ActivateAllPS");
+    const dryRunMsgPublisher = useROSTopicPublisher("/telemetry/dry_run", "/std_msgs/Bool");
 
     return (
         <GeneralContext.Consumer>
@@ -56,7 +64,10 @@ const Controls = () => {
                             offLabel="Dry Run"
                             vertical={true}
                             value={context.isDryRunMode}
-                            handler={() => context.setIsDryRunMode(!context.isDryRunMode)}/>                 
+                            handler={() => { 
+                                             context.setIsDryRunMode(!context.isDryRunMode);
+                                             dryRunMode(context.isDryRunMode);}
+                                            }/>                 
                     <Button disabled={context.isDryRunMode } style={{width: '100px', fontSize: '11px' }} 
                             handler={callDryTestService} label="Dry Test"/>
                     <Button disabled={ context.isDryRunMode} style={{marginTop: '10px' , width: '100px', fontSize: '11px' }} 

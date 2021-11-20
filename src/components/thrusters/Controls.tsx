@@ -23,11 +23,7 @@ const Controls = () => {
     )
 
     const thrusterActivation = () => {
-        var toPublish = MessageFactory({
-            slave: 49,
-            bus: 0,
-            data: false
-        })
+        var toPublish;
         if(!thrusterActive){
             toPublish = MessageFactory({
                 slave: 49,

@@ -110,7 +110,7 @@ const Waypoints = () => {
         var pitchVal = !isNaN(parseFloat(cmdPitch)) ? parseFloat(cmdPitch) : parseFloat('0.0');
         var yawVal = !isNaN(parseFloat(cmdYaw)) ? parseFloat(cmdYaw) : parseFloat('0.0');
         var frameVal = !isNaN(parseInt(cmdFrame)) ? parseInt(cmdFrame) : parseInt('0');
-        var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('1');
+        var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('5');
         var fineVal = !isNaN(parseFloat(cmdFine)) ? parseFloat(cmdFine) : parseFloat('0.0');
         if(z_axis_problem){
             alert("Depth too high.");
@@ -140,7 +140,7 @@ const Waypoints = () => {
          setCmdRoll('0.00');
          setCmdPitch('0.00');
          setCmdYaw('0.00');
-         setCmdSpeed('1');
+         setCmdSpeed('5');
          setCmdFine('0.00');
      }
 

@@ -129,21 +129,20 @@ const Waypoints = () => {
                 rotation: isRotationMode
             });
             sendPositionTargetPublisher(toPublish);
-            //resetCommands();
+            resetCommands();
         }
     }
 
-    // const resetCommands = () => {
-    //     setCmdX('0.00');
-    //     setCmdY('0.00');
-    //     setCmdZ('0.00');
-    //     setCmdRoll('0.00');
-    //     setCmdPitch('0.00');
-    //     setCmdYaw('0.00');
-    //     setCmdFrame('0');
-    //     setCmdSpeed('1');
-    //     setCmdFine('0.00');
-    // }
+     const resetCommands = () => {
+         setCmdX('0.00');
+         setCmdY('0.00');
+         setCmdZ('0.00');
+         setCmdRoll('0.00');
+         setCmdPitch('0.00');
+         setCmdYaw('0.00');
+         setCmdSpeed('1');
+         setCmdFine('0.00');
+     }
 
 
     

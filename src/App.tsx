@@ -156,7 +156,7 @@ export const App = () => {
                         </div>) : <React.Fragment></React.Fragment>}
                                 {context.activeModules.data['controlModule'].active ? (
                                         <div key="controlModule"
-                                            data-grid={{ x: 0, y: 20, w: 6, h: 9, minW: 6, maxW: 6, minH: 9, maxH: 9 }}
+                                            data-grid={{ x: 0, y: 20, w: 6, h: 11, minW: 6, maxW: 6, minH: 11, maxH: 11 }}
                                             style={{ display: 'flex', ...moduleBorder }}>
                                             <ControlModule />
                         </div>) : <React.Fragment></React.Fragment>}

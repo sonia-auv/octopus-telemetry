@@ -110,7 +110,7 @@ const Waypoints = () => {
         var pitchVal = !isNaN(parseFloat(cmdPitch)) ? parseFloat(cmdPitch) : parseFloat('0.0');
         var yawVal = !isNaN(parseFloat(cmdYaw)) ? parseFloat(cmdYaw) : parseFloat('0.0');
         var frameVal = !isNaN(parseInt(cmdFrame)) ? parseInt(cmdFrame) : parseInt('0');
-        var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('1');
+        var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('5');
         var fineVal = !isNaN(parseFloat(cmdFine)) ? parseFloat(cmdFine) : parseFloat('0.0');
         if(z_axis_problem){
             alert("Depth too high.");
@@ -133,18 +133,19 @@ const Waypoints = () => {
         }
     }
 
-    const resetCommands = () => {
-        setCmdX('0.00');
-        setCmdY('0.00');
-        setCmdZ('0.00');
-        setCmdRoll('0.00');
-        setCmdPitch('0.00');
-        setCmdYaw('0.00');
-        setCmdFrame('0');
-        setCmdSpeed('1');
-        setCmdFine('0.00');
-    }
+     const resetCommands = () => {
+         setCmdX('0.00');
+         setCmdY('0.00');
+         setCmdZ('0.00');
+         setCmdRoll('0.00');
+         setCmdPitch('0.00');
+         setCmdYaw('0.00');
+         setCmdSpeed('5');
+         setCmdFine('0.00');
+     }
 
+
+    
     const setInitialPositionHandler = () => {
         var toPublish = MessageFactory({
             position:{

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GeneralContext } from "../context/generalContext";
 import Button from './common/button/Button';
-
+import { useROSService} from '../hooks/useROSService'
 import { useROSTopicPublisher, MessageFactory } from "../hooks/useROSTopicPublisher";
 import { useROSTopicSubscriber } from '../hooks/useROSTopicSubscriber';
 
@@ -54,14 +54,15 @@ const ControlModule = () => {
     }
 
     const startStopDVL = () => {
+        var toPublish;
         if(dvlStarted){
-            var toPublish = MessageFactory({
+            toPublish = MessageFactory({
                 data: false,
             })
             setDVLStartedPublisher(toPublish); 
         }
         else{
-            var toPublish = MessageFactory({
+            toPublish = MessageFactory({
                 data: true,
             })
             setDVLStartedPublisher(toPublish);
@@ -123,8 +124,17 @@ const ControlModule = () => {
         }
     }
 
+    const imuTare = () => {
+        imuTareServiceCall({});
+    }
+
+    const imuTareCallback = (x: any) => {
+        // Do nothing.
+    }
+
     const setModePublisher = useROSTopicPublisher<any>("/proc_control/set_mode", "std_msgs/UInt8");
     const setDVLStartedPublisher = useROSTopicPublisher<any>("/provider_dvl/enable_disable_ping", "std_msgs/Bool");
+    const imuTareServiceCall = useROSService<any>(imuTareCallback, "/provider_imu/tare", "sonia_common/ImuTare")
 
     useROSTopicSubscriber<any>(setModeCallback, "/proc_control/set_mode", "std_msgs/UInt8");
     useROSTopicSubscriber<any>(mpcActiveCallback, "/proc_control/is_mpc_active", "std_msgs/Bool");
@@ -195,6 +205,11 @@ const ControlModule = () => {
                     <Button disabled={false} 
                             style={Object.assign({}, disabledButtonStyle)} 
                             handler={ startStopDVL } label={dvlStarted ? "Stop DVL" : "Start DVL" }/>
+                </div>  
+                <h1 style={{ fontSize: '20px', textAlign: 'center' }}>IMU</h1> 
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                    <Button disabled={false} 
+                            handler={() => {imuTare()}} label="Tare IMU"/>
                 </div>  
             </div>
             )}

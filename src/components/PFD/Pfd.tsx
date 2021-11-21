@@ -150,7 +150,7 @@ const ActuatorModule = () => {
         (x: any) => {
             data.posX = x.pose.pose.position.x.toFixed(2)
             data.posY = x.pose.pose.position.y.toFixed(2)
-            data.altitude = x.pose.pose.position.z.toFixed(2)
+            data.altitude = -x.pose.pose.position.z.toFixed(2)
             data.bankAngle = x.pose.pose.orientation.x.toFixed(2)
             data.pitchAngle = x.pose.pose.orientation.y.toFixed(2)
             data.heading = x.pose.pose.orientation.z.toFixed(2)

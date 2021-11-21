@@ -46,6 +46,12 @@ const SetPwmModule = () => {
         pwmMsgPublisher(toPublish);
     }
 
+    const resetValues = () => {
+        for(let i = 0; i < pwms.length; i++){
+            setPwm(i, 1500);
+        }  
+    }
+
     const pwmMsgPublisher = useROSTopicPublisher("/provider_thruster/thruster_pwm", "/std_msgs/UInt16MultiArray");
 
     return (
@@ -129,6 +135,7 @@ const SetPwmModule = () => {
                         <Grid item xs={12}>
                         <Button disabled={ context.isDryRunMode} style={{ width: '300px', fontSize: '11px' }} label="Set PWM" handler={sendPwms}/>
                         <Button disabled={ context.isDryRunMode} style={{ width: '300px', marginTop: '10px', fontSize: '11px' }} label="Reset PWM" handler={resetPwms}/>
+                        <Button disabled={ context.isDryRunMode} style={{ width: '300px', marginTop: '10px', fontSize: '11px' }} label="Reset Entries" handler={resetValues}/>
                         </Grid>
                     </Grid>                    
                 </div>

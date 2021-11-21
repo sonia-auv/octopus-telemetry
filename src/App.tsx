@@ -177,7 +177,7 @@ export const App = () => {
                         </div>) : <React.Fragment></React.Fragment>}
                                 {context.activeModules.data['setPwmModule'].active ? (
                                         <div key="setPwmModule"
-                                            data-grid={{ x: 0, y: 20, w: 4, h: 9, minW: 4, maxW: 4, minH: 9, maxH: 9 }}
+                                            data-grid={{ x: 0, y: 20, w: 4, h: 10, minW: 4, maxW: 4, minH: 10, maxH: 10 }}
                                             style={{ display: 'flex', ...moduleBorder }}>
                                             <SetPwmModule />
                         </div>) : <React.Fragment></React.Fragment>}

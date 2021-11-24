@@ -141,6 +141,12 @@ const PowerModule = (props: PowerModuleProps) => {
         ))}
       </Tabs>
     </div>
+
+          <!-- J'ajoute un nouveau div pour mon image-->
+          <div>
+            <img src="AUV8_Top.JPG" alt="Image du sub vue d'en haut"></img>
+          </div>
+
   );
 };
 

@@ -146,7 +146,6 @@ const PowerModule = (props: PowerModuleProps) => {
       <p>Ceci est un paragraphe que j'ajoute, ensuite j'ajoute une image</p>
     
         <img src="https://raw.githubusercontent.com/sonia-auv/octopus-telemetry/feature/powermodule/src/components/powermodule/AUV8_Top.JPG" alt="Image du sub vue du dessus"/>
-      
     </div>
     </div>
   );

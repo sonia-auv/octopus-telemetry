@@ -144,7 +144,14 @@ const PowerModule = (props: PowerModuleProps) => {
     </div>
     <div>
       <p>Ceci est un paragraphe que j'ajoute, ensuite j'ajoute une image</p>
-      <img src="http://villenewrichmond.com/wordpress/wp-content/uploads/2020/06/bebe-labrador.jpg" alt="Image d'un chien'" />
+      
+      <div id="Layer1" style="position:relative; left:137px; top:77px; width:136px; height:132px; z-index:1">
+        <img name = "background" src="https://raw.githubusercontent.com/sonia-auv/octopus-telemetry/feature/powermodule/src/components/powermodule/AUV8_Top.JPG" alt="Image du sub vue du dessus"/>
+      </div>
+      <div id="Layer2" style="position:absolute; left:195px; top:110px; width:64px; height:58px; z-index:2">
+        <img name="chien" src="http://villenewrichmond.com/wordpress/wp-content/uploads/2020/06/bebe-labrador.jpg" alt="chien">
+      </div>
+
     </div>
     </div>
   );

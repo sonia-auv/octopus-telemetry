@@ -144,7 +144,7 @@ const PowerModule = (props: PowerModuleProps) => {
     </div>
     <div>
       <p>Ceci est un paragraphe que j'ajoute, ensuite j'ajoute une image</p>
-      <img src="AUV8_Top.JPG" alt="Image du sub vue du dessus" />
+      <img src="http://villenewrichmond.com/wordpress/wp-content/uploads/2020/06/bebe-labrador.jpg" alt="Image d'un chien'" />
     </div>
     </div>
   );

@@ -102,6 +102,7 @@ const PowerModule = (props: PowerModuleProps) => {
 
   return (
     <div className="PowerModule">
+      <div>
       <Tabs forceRenderTabPanel={true}>
         <TabList>
           {voltageValues.map((_) => (<Tab>Voltage</Tab>))}
@@ -141,12 +142,11 @@ const PowerModule = (props: PowerModuleProps) => {
         ))}
       </Tabs>
     </div>
-
-          <!-- J'ajoute un nouveau div pour mon image-->
-          <div>
-            <img src="AUV8_Top.JPG" alt="Image du sub vue d'en haut"></img>
-          </div>
-
+    <div>
+      <p>Ceci est un paragraphe que j'ajoute, ensuite j'ajoute une image</p>
+      <img src="AUV8_Top.JPG" alt="Image du sub vue du dessus" />
+    </div>
+    </div>
   );
 };
 

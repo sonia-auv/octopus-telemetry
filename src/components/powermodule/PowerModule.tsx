@@ -9,10 +9,12 @@ import './powermodule.css';
 
 type PowerModuleProps = {};
 
+
+//Définition du format du message reçu de ROS
 type PowerPayload = {
   slave: number;
   cmd: number;
-  array: {layout:string,data:number[]};
+  array: { layout: string, data: number[] };
 };
 
 const PowerModule = (props: PowerModuleProps) => {
@@ -28,7 +30,7 @@ const PowerModule = (props: PowerModuleProps) => {
     voltage16VACC1Value: null,
     voltage16VACC2Value: null,
   });
-  
+
   const initialCurrentValuesDict = new Array(1).fill({
     current16VM1Value: null,
     current16VM2Value: null,
@@ -60,7 +62,7 @@ const PowerModule = (props: PowerModuleProps) => {
     8: 'voltage16VACC1Value',
     9: 'voltage16VACC2Value',
   };
-  
+
   const current: MetricsMap = {
     0: 'current16VM1Value',
     1: 'current16VM2Value',
@@ -76,7 +78,7 @@ const PowerModule = (props: PowerModuleProps) => {
 
   const powerMessageCallback = useCallback((x: PowerPayload) => {
     let { slave, cmd, array } = x;
-    
+
     if (slave === 0 && cmd === 0) {
       for (var i = 0; i < array.data.length; i++) {
         voltageValues[slave] = {
@@ -86,7 +88,7 @@ const PowerModule = (props: PowerModuleProps) => {
         setVoltageValues(Object.assign([], voltageValues));
       }
     }
-    
+
     if (slave === 0 && cmd === 1) {
       for (var i = 0; i < array.data.length; i++) {
         currentValues[slave] = {
@@ -98,15 +100,15 @@ const PowerModule = (props: PowerModuleProps) => {
     }
   }, []);
 
-  useROSTopicSubscriber<any>(powerMessageCallback,'/provider_power/power','sonia_common/PowerMsg');
+  useROSTopicSubscriber<any>(powerMessageCallback, '/provider_power/power', 'sonia_common/PowerMsg');
 
   return (
     <div className="PowerModule">
-      <div>
       <Tabs forceRenderTabPanel={true}>
         <TabList>
           {voltageValues.map((_) => (<Tab>Voltage</Tab>))}
           {currentValues.map((_) => (<Tab>Current</Tab>))}
+          {<Tab>Image</Tab>}
         </TabList>
         {voltageValues.map((powerSection) => (
           <TabPanel>
@@ -121,7 +123,7 @@ const PowerModule = (props: PowerModuleProps) => {
               voltage16VM8Value={powerSection.voltage16VM8Value}
               voltage16VACC1Value={powerSection.voltage16VACC1Value}
               voltage16VACC2Value={powerSection.voltage16VACC2Value}
-              />
+            />
           </TabPanel>
         ))}
         {currentValues.map((powerSection) => (
@@ -140,13 +142,70 @@ const PowerModule = (props: PowerModuleProps) => {
             />
           </TabPanel>
         ))}
+        {
+          <TabPanel>
+
+            <div className="new_overlay">
+
+              <div className="images">
+                <div className="background">
+                  <img src="https://raw.githubusercontent.com/sonia-auv/octopus-telemetry/feature/powermodule/src/components/powermodule/AUV8_Top.JPG"
+                    alt="Image du sub vue du dessus" />
+                </div>
+                <div className="propeller side right" id="f1">
+                  <div className="box">
+                    <p className="voltage">10</p>
+                    <p className="current">12</p>
+                  </div>
+                </div>
+                <div className="propeller side right" id="f2">
+                  <div className="box">
+                    <p className="voltage">10</p>
+                    <p className="current">25</p>
+                  </div>
+                </div>
+                <div className="propeller side left" id="f3">
+                  <div className="box">
+                    <p className="voltage">10</p>
+                    <p className="current">25</p>
+                  </div>
+                </div>
+                <div className="propeller side left" id="f4">
+                  <div className="box">
+                    <p className="voltage">10</p>
+                    <p className="current">25</p>
+                  </div>
+                </div>
+                <div className="propeller up right" id="f5">
+                  <div className="box">
+                    <p className="voltage">10</p>
+                    <p className="current">25</p>
+                  </div>
+                </div>
+                <div className="propeller up right" id="f6">
+                  <div className="box">
+                    <p className="voltage">10</p>
+                    <p className="current">25</p>
+                  </div>
+                </div>
+                <div className="propeller up left" id="f7">
+                  <div className="box">
+                    <p className="voltage">10</p>
+                    <p className="current">25</p>
+                  </div>
+                </div>
+                <div className="propeller up left" id="f8">
+                  <div className="box">
+                    <p className="voltage">10</p>
+                    <p className="current">25</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </TabPanel>
+        }
       </Tabs>
-    </div>
-    <div>
-      <p>Ceci est un paragraphe que j'ajoute, ensuite j'ajoute une image</p>
-    
-        <img src="https://raw.githubusercontent.com/sonia-auv/octopus-telemetry/feature/powermodule/src/components/powermodule/AUV8_Top.JPG" alt="Image du sub vue du dessus"/>
-    </div>
     </div>
   );
 };

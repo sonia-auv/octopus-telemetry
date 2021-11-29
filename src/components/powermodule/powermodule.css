@@ -4,3 +4,125 @@
   width: 100%;
   height: 100%;
 }
+
+
+.new_overlay{
+  position: relative;
+  /* Permet l'overflow */
+}
+
+.images{
+  position:absolute;
+  /* Position absolute indispensable pour que le placement de la suite se passe bien*/
+  background-color: black;
+  left: 100px;
+}
+
+.background{
+  width:300px;
+  height: 400px;
+  /* background-color: yellow; */
+}
+
+.background>img{
+  width:100%;
+  height:100%;
+  /* Comme ça mon image prend tout du supérieur */
+}
+
+.propeller{
+  position:absolute;
+  /* ça veut dire que ma position est absolue par rapport au dernier absolute parent
+  vu que .images est absolu, ma position absolue ici est par rapport à celle là */
+  /* opacity: 0.5; */
+}
+
+
+.box{
+  color:black;
+  position: absolute;
+  font-size: 120%; /* Ici je ne suis pas sûr que ça 
+  soit vraiment responsive mais je ne trouve pas d'autres solutions */
+  height: 100%;
+  background: rgb(135, 178, 224);
+  top:-1%;
+  width: 150%;
+  border:solid thin gray;
+  border-radius: 5%;
+}
+.propeller:hover>.box{
+  background-color: chartreuse;
+} 
+
+.right .box{
+  left: 100%;
+}
+.left .box{
+  right: 100%;
+}
+
+.box>p{
+  margin:0;
+}
+.box .voltage::before{
+  content:"V = "
+}
+.box .voltage::after{
+  content:"V"
+}
+
+.box .current::before{
+  content:"I = "
+}
+.box .current::after{
+  content:"A"
+}
+
+.side{
+  /* background-color: red; */
+  width: 22%;
+  height: 13%;
+}
+.up{
+  /* background-color: blue; */
+  width: 20%;
+  height: 13%;
+}
+
+
+
+/* Position de chaque propulseur */
+
+#f1{
+  top:6%;
+  left:75%;
+}
+#f2{
+  top:80%;
+  left:75%;
+}
+#f3{
+  top:80%;
+  left:2%;
+}
+#f4{
+  top:6%;
+  left:2%;
+}
+
+#f5{
+  top:20%;
+  left:75%;
+}
+#f6{
+  top:66%;
+  left:75%;
+}
+#f7{
+  top:66%;
+  left:5%;
+}
+#f8{
+  top:20%;
+  left:5%;
+}

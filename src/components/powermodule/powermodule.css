@@ -19,9 +19,11 @@
 }
 
 .background{
+  /* Taille de l'image */
   width:300px;
-  height: 400px;
-  /* background-color: yellow; */
+  /* height: 640px; */
+  aspect-ratio: calc(372/640); 
+  /* L'image initiale est de 372 par 640 */
 }
 
 .background>img{
@@ -30,29 +32,39 @@
   /* Comme ça mon image prend tout du supérieur */
 }
 
-.propeller{
+.propeller,.acc{
   position:absolute;
   /* ça veut dire que ma position est absolue par rapport au dernier absolute parent
   vu que .images est absolu, ma position absolue ici est par rapport à celle là */
-  /* opacity: 0.5; */
 }
 
 
 .box{
   color:black;
   position: absolute;
-  font-size: 120%; /* Ici je ne suis pas sûr que ça 
-  soit vraiment responsive mais je ne trouve pas d'autres solutions */
-  height: 100%;
+  font-size: 120%; /* Je n'arrive pas à avoir une taille de texte comparable à la taille de l'image */
   background: rgb(135, 178, 224);
-  top:-1%;
   width: 150%;
   border:solid thin gray;
   border-radius: 5%;
 }
-.propeller:hover>.box{
+
+.propeller>.box{
+  height: 100%;
+  top:-1%;
+}
+
+.acc>.box{
+  height: 60%;
+  top: 20%;
+}
+
+
+
+.propeller:hover>.box, .acc:hover>.box{
   background-color: chartreuse;
 } 
+
 
 .right .box{
   left: 100%;
@@ -76,6 +88,13 @@
 }
 .box .current::after{
   content:"A"
+}
+
+.acc{
+  /* background-color: blueviolet; */
+  /* opacity:0.5; */
+  width: 22%;
+  height: 23%;
 }
 
 .side{
@@ -126,3 +145,14 @@
   top:20%;
   left:5%;
 }
+
+#acc1{
+  top:38%;
+  left:7%;
+}
+#acc2{
+  top:38%;
+  left:70%;
+}
+
+

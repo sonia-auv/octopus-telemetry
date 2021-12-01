@@ -212,13 +212,13 @@ const PowerModule = (props: PowerModuleProps) => {
                     <p className="current">{propA[7]}</p>
                   </div>
                 </div>
-                <div className="propeller acc left" id="acc1">
+                <div className="acc left" id="acc1">
                   <div className="box">
                     <p className="voltage">{propV[8]}</p>
                     <p className="current">{propA[8]}</p>
                   </div>
                 </div>
-                <div className="propeller acc left" id="acc2">
+                <div className="acc right" id="acc2">
                   <div className="box">
                     <p className="voltage">{propV[9]}</p>
                     <p className="current">{propA[9]}</p>
@@ -235,3 +235,7 @@ const PowerModule = (props: PowerModuleProps) => {
 };
 
 export default PowerModule;
+
+
+// Amélioration: Lorsque je clique sur un moteur, j'ai une fenêtre qui s'ouvre avec des informations supplémentaires comme 
+//Des graphes de l'historique du courant et de la tension

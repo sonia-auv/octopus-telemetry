@@ -7,6 +7,13 @@ import { useROSTopicSubscriber } from '../../hooks/useROSTopicSubscriber';
 import './powermodule.css';
 
 
+// Test William d'ajout de variables
+//const propV1:number = 5.0;
+var propV:number[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+var propA:number[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+
+
+
 type PowerModuleProps = {};
 
 
@@ -86,6 +93,9 @@ const PowerModule = (props: PowerModuleProps) => {
           [voltage[i]]: array.data[i],
         };
         setVoltageValues(Object.assign([], voltageValues));
+
+        // Solution alternative pour test
+        propV[i] = array.data[i];
       }
     }
 
@@ -96,6 +106,9 @@ const PowerModule = (props: PowerModuleProps) => {
           [current[i]]: array.data[i],
         };
         setCurrentValues(Object.assign([], currentValues));
+
+        // Solution alternative pour test
+        propA[i] = array.data[i];
       }
     }
   }, []);
@@ -154,50 +167,62 @@ const PowerModule = (props: PowerModuleProps) => {
                 </div>
                 <div className="propeller side right" id="f1">
                   <div className="box">
-                    <p className="voltage">10</p>
-                    <p className="current">12</p>
+                    <p className="voltage">{propV[0]}</p>
+                    <p className="current">{propA[0]}</p>
                   </div>
                 </div>
                 <div className="propeller side right" id="f2">
                   <div className="box">
-                    <p className="voltage">10</p>
-                    <p className="current">25</p>
+                    <p className="voltage">{propV[1]}</p>
+                    <p className="current">{propA[1]}</p>
                   </div>
                 </div>
                 <div className="propeller side left" id="f3">
                   <div className="box">
-                    <p className="voltage">10</p>
-                    <p className="current">25</p>
+                    <p className="voltage">{propV[2]}</p>
+                    <p className="current">{propA[2]}</p>
                   </div>
                 </div>
                 <div className="propeller side left" id="f4">
                   <div className="box">
-                    <p className="voltage">10</p>
-                    <p className="current">25</p>
+                    <p className="voltage">{propV[3]}</p>
+                    <p className="current">{propA[3]}</p>
                   </div>
                 </div>
                 <div className="propeller up right" id="f5">
                   <div className="box">
-                    <p className="voltage">10</p>
-                    <p className="current">25</p>
+                    <p className="voltage">{propV[4]}</p>
+                    <p className="current">{propA[4]}</p>
                   </div>
                 </div>
                 <div className="propeller up right" id="f6">
                   <div className="box">
-                    <p className="voltage">10</p>
-                    <p className="current">25</p>
+                    <p className="voltage">{propV[5]}</p>
+                    <p className="current">{propA[5]}</p>
                   </div>
                 </div>
                 <div className="propeller up left" id="f7">
                   <div className="box">
-                    <p className="voltage">10</p>
-                    <p className="current">25</p>
+                    <p className="voltage">{propV[6]}</p>
+                    <p className="current">{propA[6]}</p>
                   </div>
                 </div>
                 <div className="propeller up left" id="f8">
                   <div className="box">
-                    <p className="voltage">10</p>
-                    <p className="current">25</p>
+                    <p className="voltage">{propV[7]}</p>
+                    <p className="current">{propA[7]}</p>
+                  </div>
+                </div>
+                <div className="propeller acc left" id="acc1">
+                  <div className="box">
+                    <p className="voltage">{propV[8]}</p>
+                    <p className="current">{propA[8]}</p>
+                  </div>
+                </div>
+                <div className="propeller acc left" id="acc2">
+                  <div className="box">
+                    <p className="voltage">{propV[9]}</p>
+                    <p className="current">{propA[9]}</p>
                   </div>
                 </div>
               </div>

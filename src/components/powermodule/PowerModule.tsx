@@ -7,10 +7,10 @@ import { useROSTopicSubscriber } from '../../hooks/useROSTopicSubscriber';
 import './powermodule.css';
 
 
-// Test William d'ajout de variables
+// Nouvelles variables pour gérer les valeurs de tension et courant
 //const propV1:number = 5.0;
-var propV:number[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-var propA:number[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+var propV: number[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+var propA: number[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 
 
 type PowerModuleProps = {};
@@ -36,7 +36,7 @@ const PowerModule = (props: PowerModuleProps) => {
     voltage16VACC1Value: null,
     voltage16VACC2Value: null,
   });
-
+ 
   const initialCurrentValuesDict = new Array(1).fill({
     current16VM1Value: null,
     current16VM2Value: null,
@@ -118,47 +118,13 @@ const PowerModule = (props: PowerModuleProps) => {
     <div className="PowerModule">
       <Tabs forceRenderTabPanel={true}>
         <TabList>
+          {<Tab>Image</Tab>}
           {voltageValues.map((_) => (<Tab>Voltage</Tab>))}
           {currentValues.map((_) => (<Tab>Current</Tab>))}
-          {<Tab>Image</Tab>}
         </TabList>
-        {voltageValues.map((powerSection) => (
-          <TabPanel>
-            <VoltageSection
-              voltage16VM1Value={powerSection.voltage16VM1Value}
-              voltage16VM2Value={powerSection.voltage16VM2Value}
-              voltage16VM3Value={powerSection.voltage16VM3Value}
-              voltage16VM4Value={powerSection.voltage16VM4Value}
-              voltage16VM5Value={powerSection.voltage16VM5Value}
-              voltage16VM6Value={powerSection.voltage16VM6Value}
-              voltage16VM7Value={powerSection.voltage16VM7Value}
-              voltage16VM8Value={powerSection.voltage16VM8Value}
-              voltage16VACC1Value={powerSection.voltage16VACC1Value}
-              voltage16VACC2Value={powerSection.voltage16VACC2Value}
-            />
-          </TabPanel>
-        ))}
-        {currentValues.map((powerSection) => (
-          <TabPanel>
-            <CurrentSection
-              current16VM1Value={powerSection.current16VM1Value}
-              current16VM2Value={powerSection.current16VM2Value}
-              current16VM3Value={powerSection.current16VM3Value}
-              current16VM4Value={powerSection.current16VM4Value}
-              current16VM5Value={powerSection.current16VM5Value}
-              current16VM6Value={powerSection.current16VM6Value}
-              current16VM7Value={powerSection.current16VM7Value}
-              current16VM8Value={powerSection.current16VM8Value}
-              current16VACC1Value={powerSection.current16VACC1Value}
-              current16VACC2Value={powerSection.current16VACC2Value}
-            />
-          </TabPanel>
-        ))}
         {
           <TabPanel>
-
             <div className="new_overlay">
-
               <div className="images">
                 <div className="background">
                   <img src="https://raw.githubusercontent.com/sonia-auv/octopus-telemetry/feature/powermodule/src/components/powermodule/AUV8_Top.JPG"
@@ -229,6 +195,39 @@ const PowerModule = (props: PowerModuleProps) => {
             </div>
           </TabPanel>
         }
+        {voltageValues.map((powerSection) => (
+          <TabPanel>
+            <VoltageSection
+              voltage16VM1Value={powerSection.voltage16VM1Value}
+              voltage16VM2Value={powerSection.voltage16VM2Value}
+              voltage16VM3Value={powerSection.voltage16VM3Value}
+              voltage16VM4Value={powerSection.voltage16VM4Value}
+              voltage16VM5Value={powerSection.voltage16VM5Value}
+              voltage16VM6Value={powerSection.voltage16VM6Value}
+              voltage16VM7Value={powerSection.voltage16VM7Value}
+              voltage16VM8Value={powerSection.voltage16VM8Value}
+              voltage16VACC1Value={powerSection.voltage16VACC1Value}
+              voltage16VACC2Value={powerSection.voltage16VACC2Value}
+            />
+          </TabPanel>
+        ))}
+        {currentValues.map((powerSection) => (
+          <TabPanel>
+            <CurrentSection
+              current16VM1Value={powerSection.current16VM1Value}
+              current16VM2Value={powerSection.current16VM2Value}
+              current16VM3Value={powerSection.current16VM3Value}
+              current16VM4Value={powerSection.current16VM4Value}
+              current16VM5Value={powerSection.current16VM5Value}
+              current16VM6Value={powerSection.current16VM6Value}
+              current16VM7Value={powerSection.current16VM7Value}
+              current16VM8Value={powerSection.current16VM8Value}
+              current16VACC1Value={powerSection.current16VACC1Value}
+              current16VACC2Value={powerSection.current16VACC2Value}
+            />
+          </TabPanel>
+        ))}
+
       </Tabs>
     </div>
   );

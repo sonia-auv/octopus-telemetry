@@ -11,7 +11,8 @@ import './powermodule.css';
 //const propV1:number = 5.0;
 var propV: number[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 var propA: number[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-
+var histV: number[] = [0.0];
+var histA: number[] = [0.0];
 
 type PowerModuleProps = {};
 
@@ -93,8 +94,9 @@ const PowerModule = (props: PowerModuleProps) => {
         };
         setVoltageValues(Object.assign([], voltageValues));
 
-        // Solution alternative pour test
+        // Solution alternative pour l'image
         propV[i] = array.data[i];
+        histV.push(array.data[i]);
       }
     }
 
@@ -106,8 +108,9 @@ const PowerModule = (props: PowerModuleProps) => {
         };
         setCurrentValues(Object.assign([], currentValues));
 
-        // Solution alternative pour test
+        // Solution alternative pour l'image
         propA[i] = array.data[i];
+        histA.push(array.data[i]);
       }
     }
   }, []);
@@ -189,6 +192,10 @@ const PowerModule = (props: PowerModuleProps) => {
                     <p className="voltage">{propV[9]}</p>
                     <p className="current">{propA[9]}</p>
                   </div>
+                </div>
+                <div>
+                  <p className="voltage">{histV}</p>
+                  <p className="current">{histA}</p>
                 </div>
               </div>
 

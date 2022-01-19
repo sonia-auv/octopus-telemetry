@@ -1,7 +1,9 @@
 blank_issues_enabled: false
-"""
+
 contact_links:
+  - name: SONIA AUV official documentation
+    url: https://wiki.sonia.etsmtl.ca/
+    about: Visit our documentation for more information.
   - name: SONIA AUV website
     url: https://sonia.etsmtl.ca/
     about: Visit our website and feel free to ask any questions.
-"""

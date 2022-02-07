@@ -33,4 +33,4 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:fix
           cache-to: type=inline
           tags: |
-            ghcr.io/${{ github.repository }}:fix
+            ghcr.io/${{ github.repository }}:${GITHUB_REF##*/}

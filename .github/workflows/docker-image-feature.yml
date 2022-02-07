@@ -10,7 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
+      - name : what
+        run : echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       
@@ -30,7 +33,8 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64, linux/arm64
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:feature
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:feature-${{ env.BRANCH}}
           cache-to: type=inline
-          tags: |
-            ghcr.io/${{ github.repository }}:feature
+          tags: ghcr.io/${{ github.repository }}:feature-${{ env.BRANCH }}
+          build-args: |
+            BRANCH=${{ env.BRANCH }}

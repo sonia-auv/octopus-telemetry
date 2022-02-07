@@ -37,4 +37,4 @@ jobs:
           cache-to: type=inline
           tags: ghcr.io/${{ github.repository }}:${{ env.BRANCH }}
           build-args: |
-            BRANCH=${{ env.BRANCH }
+            BRANCH=${{ env.BRANCH }}

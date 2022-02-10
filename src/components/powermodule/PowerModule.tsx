@@ -15,27 +15,42 @@ var histV: number[] = [0.0];
 var histA: number[] = [0.0];
 
 
+
 const PowerModule = () => {
+
+
+
+  // Permet aux valeurs de se mettre à jour (William ne comprend pas pourquoi)
+  const initBlanc = new Array(1).fill({
+    a : null
+  })
+  var [,setVoltageValues] = useState(initBlanc);
+  
 
   // Nouveaux topics, moins de messages
 
-  const powerVoltageCallback = useCallback((array: number[]) => {
+  const powerVoltageCallback = useCallback((x: any) => {
+    let array = x.data
+    //propV[0] = 4;
     for (var i = 0; i < array.length; i++) {
-      propV[i] = array[i];
+      propV[i] = array[i].toFixed(2); // Limite le nombre de decimales
+      setVoltageValues(Object.assign([], 0));// Même chose que initBlanc
       //histV.push(array[i]); // Permettrait plus tard de faire un tracé de l'évolution des courants et tensions
     }
   }, []);
 
-  const powerCurrentCallback = useCallback((array: number[]) => {
+  const powerCurrentCallback = useCallback((x: any) => {
+    let array = x.data
     for (var i = 0; i < array.length; i++) {
-      propA[i] = array[i];
+      propA[i] = array[i].toFixed(2);
+      
       //histA.push(array[i]);
     }
   }, []);
 
-  useROSTopicSubscriber<any>(powerVoltageCallback, '/provider_power/voltage', 'std_msgs::Float64MultiArray');
-  useROSTopicSubscriber<any>(powerCurrentCallback, '/provider_power/current', 'std_msgs::Float64MultiArray');
-
+  useROSTopicSubscriber<any>(powerVoltageCallback, '/provider_power/voltage', 'std_msgs/Float64MultiArray');
+  useROSTopicSubscriber<any>(powerCurrentCallback, '/provider_power/current', 'std_msgs/Float64MultiArray');
+  
   return (
 
     <div className="PowerModule">
@@ -106,10 +121,10 @@ const PowerModule = () => {
               <p className="current">{propA[9]}</p>
             </div>
           </div>
-          <div>
+          {/* <div>
             <p className="voltage">{histV}</p>
             <p className="current">{histA}</p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@
 .images{
   position:absolute;
   /* Position absolute indispensable pour que le placement de la suite se passe bien*/
-  background-color: black;
+  background-color: red;
   left: 100px;
 }
 
@@ -76,16 +76,10 @@
 .box>p{
   margin:0;
 }
-.box .voltage::before{
-  content:"V = "
-}
 .box .voltage::after{
   content:"V"
 }
 
-.box .current::before{
-  content:"I = "
-}
 .box .current::after{
   content:"A"
 }

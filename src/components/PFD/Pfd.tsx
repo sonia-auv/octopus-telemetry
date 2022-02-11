@@ -148,7 +148,6 @@ const ActuatorModule = () => {
 
     const odomCallback = useCallback(
         (x: any) => {
-            x.pose.pose.position.x = null;
             try{ data.posX = x.pose.pose.position.x.toFixed(2); } catch(error){ data.posX = "0.00" }
             try{ data.posY = x.pose.pose.position.y.toFixed(2); } catch(error){ data.posY = "0.00" }
             try{ data.altitude = (-x.pose.pose.position.z).toFixed(2); } catch(error){ data.altitude = "0.00" }

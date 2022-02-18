@@ -46,10 +46,10 @@ const ControlModule = () => {
     const [dvlStarted, setDvlStarted] = useState<boolean>(true);
 
     const [currentModeId, setCurrentModeId] = useState<Number>(0);
-
-    const [ovGains, setOvGains] = useState<Array<Number>>([0,0,0,0,0,0,0,0]);
-    const [mvGains, setMvGains] = useState<Array<Number>>([0,0,0,0,0,0,0,0,0,0,0,0,0]);
-    const [mvrGains, setMvrGains] = useState<Array<Number>>([0,0,0,0,0,0,0,0,0,0,0,0,0]);
+    
+    const [ovGains, setOvGains] = useState<Array<Number>>([0,0,0,0,0,0,0,0,0,0,0,0,0]);
+    const [mvGains, setMvGains] = useState<Array<Number>>([0,0,0,0,0,0,0,0]);
+    const [mvrGains, setMvrGains] = useState<Array<Number>>([0,0,0,0,0,0,0,0]);
     const [minThrust, setMinThrust] = useState<Number>(0.0);
     const [maxThrust, setMaxThrust] = useState<Number>(0.0);
     const [thrusterStatus, setThrusterStatus] = useState<Array<Boolean>>([true,true,true,true,true,true,true,true]);
@@ -209,18 +209,18 @@ const ControlModule = () => {
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
                             <Button disabled={currentModeId === 10} 
                                     style={Object.assign({backgroundColor: currentModeId === 10 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
-                                    handler={() => { setMode(10) }} label="MPC Auto"/>
-                            <Button disabled={currentModeId === 19} 
-                                    style={Object.assign({backgroundColor: currentModeId === 19 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
-                                    handler={() => { setMode(19) }} label="MPC 3D Mouse"/>
-                            <Button disabled={currentModeId === 20} 
-                                    style={Object.assign({backgroundColor: currentModeId === 20 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
-                                    handler={() => { setMode(20) }} label="Model 3D Mouse"/>
+                                    handler={() => { setMode(10) }} label="MPC Planner"/>
+                            <Button disabled={true} //  Disable
+                                    style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
+                                    handler={() => { setMode(19) }} label="Empty"/>
+                            <Button disabled={true} //  Disable
+                                    style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
+                                    handler={() => { setMode(20) }} label="Empty"/>
                         </div> 
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-                            <Button disabled={currentModeId === 21} 
-                                    style={Object.assign({backgroundColor: currentModeId === 21 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
-                                    handler={() => { setMode(21) }} label="B Matrix 3D Mouse"/>
+                            <Button disabled={true}  // Disable
+                                    style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
+                                    handler={() => { setMode(21) }} label="Empty"/>
                             <Button disabled={currentModeId === 0} 
                                     style={Object.assign({backgroundColor: currentModeId === 0 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)} 
                                     handler={ ()=>{ setMode(0) } } label="Soft Kill"/>
@@ -229,9 +229,9 @@ const ControlModule = () => {
                                     handler={() => { setMode(11) }} label="MPC Single Wpts"/>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
-                            <Button disabled={currentModeId === 32} 
-                                    style={Object.assign({backgroundColor: currentModeId === 32 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
-                                    handler={() => { setMode(32) }} label="MPC Quat."/>
+                            <Button disabled={true} 
+                                    style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)}
+                                    handler={() => { setMode(32) }} label="Empty"/>
                             <Button disabled={true} // Dont forget...
                                     style={Object.assign({backgroundColor: currentModeId === -1 ? modeSelectedColor : modeDefaultColor}, modeButtonStyle)} 
                                     handler={ ()=>{ setMode(-1) } } label="Empty"/>

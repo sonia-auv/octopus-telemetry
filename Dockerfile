@@ -1,8 +1,10 @@
 FROM node:14-alpine as dependencies
 RUN apk add git
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --network-timeout=300000
+# COPY package.json yarn.lock ./
+COPY package.json ./
+# RUN yarn install --network-timeout=300000
+RUN npm install
 
 FROM node:14-alpine
 EXPOSE 3000

@@ -30,7 +30,7 @@ const Waypoints = () => {
     const [cmdSpeed, setCmdSpeed] = useState('1');
     const [cmdFine, setCmdFine] = useState('0.00');
 
-    const setInitialPositionPublisher = useROSTopicPublisher<any>("/initial_condition", "geometry_msgs/Pose")
+    const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose")
     const sendPositionTargetPublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose")
 
     const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));

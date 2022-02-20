@@ -23,24 +23,24 @@ var bottomLeftPanel: BottomLeftPanelModule.BottomLeftPanel;
 var bottomRightPanel: BottomRightPanelModule.BottomRightPanel;
 
 var data = {
-    "pitchAngle": 0,
-    "bankAngle": 0,
-    "turnCoordinationAngle": 0,
-    "altitude": 0,
-    "altitudeBug": 0,
-    "verticalSpeed": 0,
-    "verticalSpeedBug": 0,
-    "airspeed": 0,
-    "airspeedBug": 0,
-    "heading": 0,
-    "trueCourse": 0,
-    "headingBug": 0,
-    "velY": 0,
-    "posX": 0,
-    "posY": 0,
-    "velRoll": 0,
-    "velPitch": 0,
-    "velYaw": 0,
+    "pitchAngle": "0.00",
+    "bankAngle": "0.00",
+    "turnCoordinationAngle": "0.00",
+    "altitude": "0.00",
+    "altitudeBug": "0.00",
+    "verticalSpeed": "0.00",
+    "verticalSpeedBug": "0.00",
+    "airspeed": "0.00",
+    "airspeedBug": "0.00",
+    "heading": "0.00",
+    "trueCourse": "0.00",
+    "headingBug": "0.00",
+    "velY": "0.00",
+    "posX": "0.00",
+    "posY": "0.00",
+    "velRoll": "0.00",
+    "velPitch": "0.00",
+    "velYaw": "0.00",
 }
 
 const ActuatorModule = () => {
@@ -148,18 +148,18 @@ const ActuatorModule = () => {
 
     const odomCallback = useCallback(
         (x: any) => {
-            data.posX = x.pose.pose.position.x.toFixed(2)
-            data.posY = x.pose.pose.position.y.toFixed(2)
-            data.altitude = -x.pose.pose.position.z.toFixed(2)
-            data.bankAngle = x.pose.pose.orientation.x.toFixed(2)
-            data.pitchAngle = x.pose.pose.orientation.y.toFixed(2)
-            data.heading = x.pose.pose.orientation.z.toFixed(2)
-            data.airspeed = x.twist.twist.linear.x.toFixed(2)
-            data.velY = x.twist.twist.linear.y.toFixed(2)
-            data.verticalSpeed = x.twist.twist.linear.z.toFixed(2)
-            data.velRoll = x.twist.twist.angular.x.toFixed(2)
-            data.velPitch = x.twist.twist.angular.y.toFixed(2)
-            data.velYaw = x.twist.twist.angular.z.toFixed(2)
+            try{ data.posX = x.pose.pose.position.x.toFixed(2); } catch(error){ data.posX = "0.00" }
+            try{ data.posY = x.pose.pose.position.y.toFixed(2); } catch(error){ data.posY = "0.00" }
+            try{ data.altitude = (-x.pose.pose.position.z).toFixed(2); } catch(error){ data.altitude = "0.00" }
+            try{ data.bankAngle = x.pose.pose.orientation.x.toFixed(2); } catch(error){ data.bankAngle = "0.00" }
+            try{ data.pitchAngle = x.pose.pose.orientation.y.toFixed(2); } catch(error){ data.pitchAngle = "0.00" }
+            try{ data.heading = x.pose.pose.orientation.z.toFixed(2); } catch(error){ data.heading = "0.00" }
+            try{ data.airspeed = x.twist.twist.linear.x.toFixed(2); } catch(error){ data.airspeed = "0.00" }
+            try{ data.velY = x.twist.twist.linear.y.toFixed(2); } catch(error){ data.velY = "0.00" }
+            try{ data.verticalSpeed = x.twist.twist.linear.z.toFixed(2); } catch(error){ data.verticalSpeed = "0.00" }
+            try{ data.velRoll = x.twist.twist.angular.x.toFixed(2); } catch(error){ data.velRoll = "0.00" }
+            try{ data.velPitch = x.twist.twist.angular.y.toFixed(2); } catch(error){ data.velPitch = "0.00" }
+            try{ data.velYaw = x.twist.twist.angular.z.toFixed(2); } catch(error){ data.velYaw = "0.00" }
             draw();
         },
         []
@@ -167,8 +167,8 @@ const ActuatorModule = () => {
 
     const targetCallback = useCallback(
         (x: any) => {
-            data.altitudeBug = x.position.z.toFixed(2)
-            data.headingBug = x.orientation.z.toFixed(2)
+            try{ data.altitudeBug = x.position.z.toFixed(2); } catch(error){ data.altitudeBug = "0.00" }
+            try{ data.headingBug = x.orientation.z.toFixed(2); } catch(error){ data.headingBug = "0.00" }
             draw();
         },
         []
@@ -176,8 +176,8 @@ const ActuatorModule = () => {
 
     const targetVelocityCallback = useCallback(
         (x: any) => {
-            data.verticalSpeedBug = x.linear.z.toFixed(2)
-            data.airspeedBug = x.linear.x.toFixed(2)
+            try{ data.verticalSpeedBug = x.linear.z.toFixed(2); } catch(error){ data.verticalSpeedBug = "0.00" }
+            try{ data.airspeedBug = x.linear.x.toFixed(2); } catch(error){ data.airspeedBug = "0.00" }
             draw();
         },
         []

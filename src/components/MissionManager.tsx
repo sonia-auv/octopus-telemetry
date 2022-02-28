@@ -19,7 +19,7 @@ const MissionManager = () => {
             var missionsList: any = []
             missionsList = []
             var tempList = JSON.parse(JSON.stringify(response));
-            tempList = tempList["missions"];
+            tempList = tempList["message"];
             tempList = tempList.split(";");
             tempList.sort(function (a: string, b: string) {
               if ( a.toLowerCase() < b.toLowerCase() ) {
@@ -41,8 +41,8 @@ const MissionManager = () => {
           []
     )
 
-    const missionNameMsgPublisher = useROSTopicPublisher<any>("/mission_manager/mission_name_msg", "/mission_manager/MissionNameMsg");
-    const missionManagerServiceCall = useROSService<any>(missionListCallback, "/mission_executor/list_missions", "ListMissions")
+    const missionNameMsgPublisher = useROSTopicPublisher<any>("/sonia_flexbe/mission_name_msg", "/std_msgs/String");
+    const missionManagerServiceCall = useROSService<any>(missionListCallback, "/sonia_flexbe/list_missions", "Trigger")
 
     // Selection d une missions dans le select.
     const behaviorSelected = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -52,7 +52,7 @@ const MissionManager = () => {
     // Publish du nom de la mission.
     const loadMission = () => {
         var toPublish = MessageFactory({
-            name : currentMissionName
+            data : currentMissionName
         })
         missionNameMsgPublisher(toPublish);
     }
@@ -66,7 +66,7 @@ const MissionManager = () => {
         <GeneralContext.Consumer>
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Mission Manager</h1>            
+                    <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Sonia Flexbe</h1>            
                     <FormControl>
                         <InputLabel id="select-outlined-label">Mission</InputLabel>
                         <Select
@@ -78,12 +78,12 @@ const MissionManager = () => {
                         value={currentMissionName ? currentMissionName : "None"}
                         listValue={allMissions}
                         >
-                    </Select>
+                        </Select>
                     </FormControl>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Update List</h1>
                     <Button style={{ fontSize: '20px', alignSelf: 'center' }} handler={updateMissionList} label="Update"/>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Load Mission</h1>
-                    <Button disabled={allMissions.length === 0} style={{ fontSize: '20px', alignSelf: 'center' }} handler={loadMission} label="Send"/>
+                    <Button disabled={allMissions.length === 0} style={{ fontSize: '20px', alignSelf: 'center' }} handler={loadMission} label="Start"/>
                 </div>
             )}
         </GeneralContext.Consumer>

@@ -12,7 +12,9 @@ import {
   WaypointsMeta,
   PowerModuleMeta,
   MissionManagerMeta,
+  ControlModuleMeta,
   SetPwmModuleMeta,
+  TemplateModuleMeta,
 } from '../components/modulepicker/ModulesMetadata';
 
 const defaultModules: ActiveModules = {
@@ -57,9 +59,17 @@ const defaultModules: ActiveModules = {
       active: false,
       meta: MissionManagerMeta
     },
+    controlModule: {
+      active: true,
+      meta: ControlModuleMeta
+    },
     setPwmModule: {
       active: true,
       meta: SetPwmModuleMeta
+    },
+    templateModule: {
+      active: true,
+      meta: TemplateModuleMeta
     },
   },
 };
@@ -91,8 +101,8 @@ export const GeneralContext = createContext<GeneralContextType>({
   isWayPointVelocityMode: false,
   activeModules: defaultModules,
   setIsDarkMode: (units) => {},
-  setIsRelativeUnits: (units) => {},
   setIsDryRunMode: (mode) => {},
+  setIsRelativeUnits: (units) => {},
   setIsRoboticArmClosed: (value) => {},
   setIsWayPointVelocityMode: (value) => {},
   setActiveModules: (modules) => {},

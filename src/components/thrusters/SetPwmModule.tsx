@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useState } from 'react';
 import TextField from '../common/textfield/Textfield';
 import Button from '../common/button/Button';
 import Grid from '../common/grid/Grid';
@@ -11,7 +11,6 @@ const SetPwmModule = () => {
     // Set new value for the PWM.
     const setPwm = (index:any, value:any) => {
         if(!isNaN(value)){
-
             pwms[index] = Number(value);
         }
         setPwms([pwms[0], pwms[1], pwms[2], pwms[3], pwms[4], pwms[5], pwms[6], pwms[7]]);
@@ -31,23 +30,26 @@ const SetPwmModule = () => {
         }
         else{
             // Send the PWMs.
-            let array = new Uint16Array(pwms);
             let toPublish = MessageFactory({
                 data: [pwms[0], pwms[1], pwms[2], pwms[3], pwms[4], pwms[5], pwms[6], pwms[7]]
             });
-            console.log(toPublish);
             pwmMsgPublisher(toPublish);
         }
     }
 
     const resetPwms = () => {
         // Send the PWMs.
-        let array = new Uint16Array(pwms);
         let toPublish = MessageFactory({
             data: [1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500]
         });
         console.log(toPublish);
         pwmMsgPublisher(toPublish);
+    }
+
+    const resetValues = () => {
+        for(let i = 0; i < pwms.length; i++){
+            setPwm(i, 1500);
+        }  
     }
 
     const pwmMsgPublisher = useROSTopicPublisher("/provider_thruster/thruster_pwm", "/std_msgs/UInt16MultiArray");
@@ -133,6 +135,7 @@ const SetPwmModule = () => {
                         <Grid item xs={12}>
                         <Button disabled={ context.isDryRunMode} style={{ width: '300px', fontSize: '11px' }} label="Set PWM" handler={sendPwms}/>
                         <Button disabled={ context.isDryRunMode} style={{ width: '300px', marginTop: '10px', fontSize: '11px' }} label="Reset PWM" handler={resetPwms}/>
+                        <Button disabled={ context.isDryRunMode} style={{ width: '300px', marginTop: '10px', fontSize: '11px' }} label="Reset Entries" handler={resetValues}/>
                         </Grid>
                     </Grid>                    
                 </div>

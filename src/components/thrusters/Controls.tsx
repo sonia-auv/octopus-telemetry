@@ -26,16 +26,12 @@ const Controls = () => {
         var toPublish;
         if(!thrusterActive){
             toPublish = MessageFactory({
-                slave: 49,
-                bus: 0,
                 data: true
             })
             setThrusterActive(true);
         }   
         else{
             toPublish = MessageFactory({
-                slave: 49,
-                bus: 0,
                 data: false
             })
             setThrusterActive(false);
@@ -53,7 +49,7 @@ const Controls = () => {
     }
 
     const dryTestServiceCall = useROSService(dryTestCallback, "/provider_thruster/dry_test", "std_srvs/Empty")
-    const providerPowerMsgPublisher = useROSTopicPublisher("/provider_power/activate_all_ps", "/sonia_common/ActivateAllPS");
+    const providerPowerMsgPublisher = useROSTopicPublisher("/provider_power/activate_all_motor", "/std_msgs/Bool");
     const dryRunMsgPublisher = useROSTopicPublisher("/telemetry/dry_run", "/std_msgs/Bool");
 
     return (

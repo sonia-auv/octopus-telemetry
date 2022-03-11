@@ -19,6 +19,8 @@ npm install --legacy-peer-deps
 ## Starting the UI
 
 ```bash
+# REACT_APP_BRIDGE_IP=localhost : set the ip for connection to rosbridge
+export  REACT_APP_BRIDGE_IP=localhost
 npm run start
 ```
 
@@ -30,7 +32,8 @@ docker build . -t octopus-ui:latest
 # Run from docker
 # -it : interactive mode
 # -p HOST:CONTAINER : exposes the port of the container to the host's port
-docker run -it -p 3001:3000 octopus-ui:latest
+# -e REACT_APP_BRIDGE_IP=localhost : set the ip for connection to rosbridge
+docker run -it -e REACT_APP_BRIDGE_IP=localhost -p 3001:3000 octopus-ui:latest
 ```
 
 You should see the app at [http://localhost:3001](http://localhost:3001)

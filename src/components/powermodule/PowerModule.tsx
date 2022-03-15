@@ -8,48 +8,21 @@ import './powermodule.css';
 import image from '../../components/image/AUV8_Top.jpeg';
 
 
-// Nouvelles variables pour gérer les valeurs de tension et courant
-//const propV1:number = 5.0;
-// var propV: number[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-// var propA: number[] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-// var histV: number[] = [0.0];
-// var histA: number[] = [0.0];
-
-
-
 const PowerModule = () => {
 
   // States
   const [ propV, setPropV ] = useState<Array<Number>>([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
   const [ propA, setPropA ] = useState<Array<Number>>([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
 
-  // Permet aux valeurs de se mettre à jour (William ne comprend pas pourquoi)
-  // const initBlanc = new Array(1).fill({
-  //   a : null
-  // })
-  // var [,setVoltageValues] = useState(initBlanc);
-  
-
   // Nouveaux topics, moins de messages
 
   const powerVoltageCallback = useCallback((x: any) => {
     let array = x.data
-    //propV[0] = 4;
-    // for (var i = 0; i < array.length; i++) {
-    //   setPropV() = array[i].toFixed(2); // Limite le nombre de decimales
-    //   //setVoltageValues(Object.assign([], 0));// Même chose que initBlanc
-    //   //histV.push(array[i]); // Permettrait plus tard de faire un tracé de l'évolution des courants et tensions
-    // }
     setPropV(array);
   }, []);
 
   const powerCurrentCallback = useCallback((x: any) => {
     let array = x.data
-    // for (var i = 0; i < array.length; i++) {
-    //   propA[i] = array[i].toFixed(2);
-      
-    //   //histA.push(array[i]);
-    // }
     setPropA(array);
   }, []);
 

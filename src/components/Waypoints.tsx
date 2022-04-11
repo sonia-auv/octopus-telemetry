@@ -8,6 +8,7 @@ import FormControl from './common/Form/FormControl';
 import TextField from './common/textfield/Textfield';
 
 import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublisher';
+import { useROSTopicSubscriber } from '../hooks/useROSTopicSubscriber';
 
 const Waypoints = () => {
 
@@ -20,6 +21,8 @@ const Waypoints = () => {
     const [allFrames] = useState([frame0, frame1, frame2, frame3]);
     const [currentFrameSelected, setCurrentMissionName] = useState("");
 
+    const [currentModeId, setCurrentModeId] = useState<Number>(0);
+
     const [cmdX, setCmdX] = useState('0.00');
     const [cmdY, setCmdY] = useState('0.00');
     const [cmdZ, setCmdZ] = useState('0.00');
@@ -31,7 +34,18 @@ const Waypoints = () => {
     const [cmdFine, setCmdFine] = useState('0.00');
 
     const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose")
-    const sendPositionTargetPublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose")
+    const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose")
+    const sendMultipleAddPosePublisher = useROSTopicPublisher<any>("/proc_planner/send_multi_addpose", "sonia_common/MultiAddPose")
+
+    const setMpcMode = (data: Number) => {
+        setCurrentModeId(data);
+    }
+
+    const setMpcInfo = (x: any) => {
+        setMpcMode(x.mpc_mode);
+    }
+
+    useROSTopicSubscriber<any>(setMpcInfo, "/proc_control/mpc_info", "sonia_common/MpcInfo");
 
     const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
 
@@ -116,20 +130,43 @@ const Waypoints = () => {
             alert("Depth too high.");
         }
         else{
-            let toPublish = MessageFactory({
-                position: {
-                    x: xVal, y: yVal, z: zVal,
-                },
-                orientation:{
-                    x: rollVal, y: pitchVal, z: yawVal,
-                },
-                frame: frameVal,
-                speed: speedVal,
-                fine: fineVal,
-                rotation: isRotationMode
-            });
-            sendPositionTargetPublisher(toPublish);
-            resetCommands();
+            if(currentModeId === 11){
+                // Single waypoint trajectory.
+                let toPublish = MessageFactory({
+                    position: {
+                        x: xVal, y: yVal, z: zVal,
+                    },
+                    orientation:{
+                        x: rollVal, y: pitchVal, z: yawVal,
+                    },
+                    frame: frameVal,
+                    speed: speedVal,
+                    fine: fineVal,
+                    rotation: isRotationMode
+                });
+                console.log(toPublish);
+                sendSingleAddPosePublisher(toPublish);
+                resetCommands();
+            }
+            else if (currentModeId === 10){
+                // Multi waypoints trajectory.
+                let toPublish = MessageFactory({
+                    pose: [
+                        {position: {
+                            x: xVal, y: yVal, z: zVal,
+                        },
+                        orientation:{
+                            x: rollVal, y: pitchVal, z: yawVal,
+                        },
+                        frame: frameVal,
+                        speed: speedVal,
+                        fine: fineVal,
+                        rotation: isRotationMode},
+                    ]
+                });
+                sendMultipleAddPosePublisher(toPublish);
+                resetCommands();
+            }
         }
     }
 
@@ -178,18 +215,18 @@ const Waypoints = () => {
                             handler={() => setIsRotationMode(!isRotationMode)}/>
                     <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
                         <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', margin: '10px'}}>Position<br></br>
-                            <TextField value={cmdX} handlerChange={handleCmdXChange} handlerKeyDown={()=>{}} testId="waypoint_cmdx_id" label="X" style={{ padding: '10px 10px ', marginTop: '10px'}} /><br></br>
-                            <TextField value={cmdY} handlerChange={handleCmdYChange} handlerKeyDown={()=>{}} testId="waypoint_cmdy_id" label="Y" style={{ padding: '10px 10px' }} /><br></br>
-                            <TextField value={cmdZ} handlerChange={handleCmdZChange} handlerKeyDown={()=>{}} testId="waypoint_cmdz_id" label="Z" style={{ padding: '10px 10px' }} />
+                            <TextField type="number" value={cmdX} handlerChange={handleCmdXChange} handlerKeyDown={()=>{}} testId="waypoint_cmdx_id" label="X" style={{ padding: '10px 10px ', marginTop: '10px'}} /><br></br>
+                            <TextField type="number" value={cmdY} handlerChange={handleCmdYChange} handlerKeyDown={()=>{}} testId="waypoint_cmdy_id" label="Y" style={{ padding: '10px 10px' }} /><br></br>
+                            <TextField type="number" value={cmdZ} handlerChange={handleCmdZChange} handlerKeyDown={()=>{}} testId="waypoint_cmdz_id" label="Z" style={{ padding: '10px 10px' }} />
                         </div>
                         <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', margin: '10px'}}>Orientation<br></br>
-                            <TextField value={cmdRoll} handlerChange={handleCmdRollChange} handlerKeyDown={()=>{}} testId="waypoint_cmdroll_id" label="Roll" style={{ padding: '10px 10px', marginTop: '10px' }} /><br></br>
-                            <TextField value={cmdPitch} handlerChange={handleCmdPitchChange} handlerKeyDown={()=>{}} testId="waypoint_cmdpitch_id" label="Pitch" style={{ padding: '10px 10px' }} /><br></br>
-                            <TextField value={cmdYaw} handlerChange={handleCmdYawChange} handlerKeyDown={()=>{}} testId="waypoint_cmdyaw_id" label="Yaw" style={{ padding: '10px 10px' }} />
+                            <TextField type="number" value={cmdRoll} handlerChange={handleCmdRollChange} handlerKeyDown={()=>{}} testId="waypoint_cmdroll_id" label="Roll" style={{ padding: '10px 10px', marginTop: '10px' }} /><br></br>
+                            <TextField type="number" value={cmdPitch} handlerChange={handleCmdPitchChange} handlerKeyDown={()=>{}} testId="waypoint_cmdpitch_id" label="Pitch" style={{ padding: '10px 10px' }} /><br></br>
+                            <TextField type="number" value={cmdYaw} handlerChange={handleCmdYawChange} handlerKeyDown={()=>{}} testId="waypoint_cmdyaw_id" label="Yaw" style={{ padding: '10px 10px' }} />
                         </div>
                         <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', margin: '10px'}}>Reference<br></br>
-                            <TextField value={cmdSpeed} handlerChange={handleCmdSpeedChange} handlerKeyDown={()=>{}} testId="waypoint_cmdspeed_id" label="Speed" style={{ padding: '10px 10px', marginTop: '10px' }} /><br></br>
-                            <TextField value={cmdFine} handlerChange={handleCmdFineChange} handlerKeyDown={()=>{}} testId="waypoint_cmdfine_id" label="Fine" style={{ padding: '10px 10px' }} />
+                            <TextField type="number" value={cmdSpeed} handlerChange={handleCmdSpeedChange} handlerKeyDown={()=>{}} testId="waypoint_cmdspeed_id" label="Speed" style={{ padding: '10px 10px', marginTop: '10px' }} /><br></br>
+                            <TextField type="number" value={cmdFine} handlerChange={handleCmdFineChange} handlerKeyDown={()=>{}} testId="waypoint_cmdfine_id" label="Fine" style={{ padding: '10px 10px' }} />
                         </div>
                     </div>
                     <FormControl>
@@ -205,7 +242,9 @@ const Waypoints = () => {
                         </Select>
                     </FormControl>
                     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', marginTop: '10px'}}>
-                        <Button style={{ fontSize: '20px', alignSelf: 'center', width: '50%'}} handler={addPoseHandler} label="Add Pose"/>
+                        <Button style={{ fontSize: '20px', alignSelf: 'center', width: '50%'}} handler={addPoseHandler} 
+                                label={currentModeId === 0 ? "Select a mode" : "Add Pose"}
+                                disabled={currentModeId === 0 ? true : false}/>
                     </div>
                 </div>
             )}

@@ -33,9 +33,10 @@ const Waypoints = () => {
     const [cmdSpeed, setCmdSpeed] = useState('1');
     const [cmdFine, setCmdFine] = useState('0.00');
 
-    const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose")
-    const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose")
-    const sendMultipleAddPosePublisher = useROSTopicPublisher<any>("/proc_planner/send_multi_addpose", "sonia_common/MultiAddPose")
+    const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose");
+    const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose");
+    const sendMultipleAddPosePublisher = useROSTopicPublisher<any>("/proc_planner/send_multi_addpose", "sonia_common/MultiAddPose");
+    const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_traj", "std_msgs/Bool");
 
     const setMpcMode = (data: Number) => {
         setCurrentModeId(data);
@@ -181,7 +182,12 @@ const Waypoints = () => {
          setCmdFine('0.00');
      }
 
-
+    const resetTrajectory = () => {
+        var toPublish = MessageFactory({
+            data: true
+        })
+        resetTrajectoryPublisher(toPublish);
+    }
     
     const setInitialPositionHandler = () => {
         var toPublish = MessageFactory({
@@ -205,8 +211,7 @@ const Waypoints = () => {
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center', alignContent: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
-                    {/* Remove disabled to make the button usable. */}
-                    <Button style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} disabled={true} handler={()=>{}} label="Clear Waypoint" /> 
+                    <Button style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} handler={resetTrajectory} label="Reset Trajectory" /> 
                     <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={setInitialPositionHandler} label="Set initial position" />
                     <Switch onLabel="Long Path"
                             offLabel="Short Path"

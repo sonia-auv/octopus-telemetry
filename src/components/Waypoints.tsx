@@ -17,9 +17,9 @@ const Waypoints = () => {
     let frame2 = {value: "Rel. position & Abs. angle"};
     let frame3 = {value: "Abs. position & Rel. angle"};
 
-    let method0 = {value: "Lamarre la doc c important 1"};
-    let method1 = {value: "Lamarre la doc c important 2"};
-    let method2 = {value: "Lamarre la doc c important 3"};
+    let method0 = {value: "Hermite"};
+    let method1 = {value: "v5cubic"};
+    let method2 = {value: "Spline"};
 
     const [isRotationMode, setIsRotationMode] = useState(false);
     const [allFrames] = useState([frame0, frame1, frame2, frame3]);
@@ -36,7 +36,7 @@ const Waypoints = () => {
     const [cmdPitch, setCmdPitch] = useState('0.00');
     const [cmdYaw, setCmdYaw] = useState('0.00');
     const [cmdFrame, setCmdFrame] = useState('0');
-    const [cmdSpeed, setCmdSpeed] = useState('1');
+    const [cmdSpeed, setCmdSpeed] = useState('0');
     const [cmdFine, setCmdFine] = useState('0.00');
     const [cmdMethod, setCmdMethod] = useState('0');
 
@@ -44,16 +44,16 @@ const Waypoints = () => {
     const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose");
     const sendMultipleAddPosePublisher = useROSTopicPublisher<any>("/proc_planner/send_multi_addpose", "sonia_common/MultiAddPose");
     const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_traj", "std_msgs/Bool");
-
+    
     const setMpcMode = (data: Number) => {
         setCurrentModeId(data);
     }
-
+    
     const setMpcInfo = (x: any) => {
         setMpcMode(x.mpc_mode);
     }
-
-    useROSTopicSubscriber<any>(setMpcInfo, "/proc_control/mpc_info", "sonia_common/MpcInfo");
+    
+    useROSTopicSubscriber<any>(setMpcInfo, "/proc_control/controller_info", "sonia_common/MpcInfo");
 
     const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
 
@@ -145,7 +145,7 @@ const Waypoints = () => {
         var pitchVal = !isNaN(parseFloat(cmdPitch)) ? parseFloat(cmdPitch) : parseFloat('0.0');
         var yawVal = !isNaN(parseFloat(cmdYaw)) ? parseFloat(cmdYaw) : parseFloat('0.0');
         var frameVal = !isNaN(parseInt(cmdFrame)) ? parseInt(cmdFrame) : parseInt('0');
-        var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('5');
+        var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('0');
         var fineVal = !isNaN(parseFloat(cmdFine)) ? parseFloat(cmdFine) : parseFloat('0.0');
         var methodVal = !isNaN(parseInt(cmdMethod)) ? parseInt(cmdMethod) : parseInt('0');
         if(z_axis_problem){
@@ -153,29 +153,13 @@ const Waypoints = () => {
         }
         else{
             if(currentModeId === 11){
-                // Single waypoint trajectory.
-                let toPublish = MessageFactory({
-                    position: {
-                        x: xVal, y: yVal, z: zVal,
-                    },
-                    orientation:{
-                        x: rollVal, y: pitchVal, z: yawVal,
-                    },
-                    frame: frameVal,
-                    speed: speedVal,
-                    fine: fineVal,
-                    rotation: isRotationMode
-                });
-                console.log(toPublish);
-                sendSingleAddPosePublisher(toPublish);
-                resetCommands();
-            }
-            else if (currentModeId === 10){
-                // Multi waypoints trajectory.
-                let toPublish = MessageFactory({
-                    interpolation_method: methodVal,
-                    pose: [
-                        {position: {
+                if(speedVal <= 0) {
+                    alert("Speed incorrect")
+                }
+                else {
+                    // Single waypoint trajectory.
+                    let toPublish = MessageFactory({
+                        position: {
                             x: xVal, y: yVal, z: zVal,
                         },
                         orientation:{
@@ -184,11 +168,37 @@ const Waypoints = () => {
                         frame: frameVal,
                         speed: speedVal,
                         fine: fineVal,
-                        rotation: isRotationMode},
-                    ]
-                });
-                sendMultipleAddPosePublisher(toPublish);
-                resetCommands();
+                        rotation: isRotationMode
+                    });
+                    console.log(toPublish);
+                    sendSingleAddPosePublisher(toPublish);
+                    resetCommands();
+                }
+            }
+            else if (currentModeId === 10){
+                if(speedVal < 0 || speedVal > 2) {
+                    alert("Speed profile incorrect")
+                }
+                else {
+                    // Multi waypoints trajectory.
+                    let toPublish = MessageFactory({
+                        interpolation_method: methodVal,
+                        pose: [
+                            {position: {
+                                x: xVal, y: yVal, z: zVal,
+                            },
+                            orientation:{
+                                x: rollVal, y: pitchVal, z: yawVal,
+                            },
+                            frame: frameVal,
+                            speed: speedVal,
+                            fine: fineVal,
+                            rotation: isRotationMode},
+                        ]
+                    });
+                    sendMultipleAddPosePublisher(toPublish);
+                    resetCommands();
+                }
             }
         }
     }
@@ -200,7 +210,7 @@ const Waypoints = () => {
          setCmdRoll('0.00');
          setCmdPitch('0.00');
          setCmdYaw('0.00');
-         setCmdSpeed('5');
+         setCmdSpeed('0');
          setCmdFine('0.00');
      }
 
@@ -268,7 +278,7 @@ const Waypoints = () => {
                             listValue={allFrames} >
                         </Select>
                     </FormControl><br></br>
-                    <FormControl>
+                    <FormControl disabled={currentModeId === 10 ? false : true} >
                         <InputLabel id="select-outlined-label">Method</InputLabel>
                         <Select
                             labelId="select-outlined-label"

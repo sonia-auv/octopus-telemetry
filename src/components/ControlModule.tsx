@@ -165,6 +165,14 @@ const ControlModule = () => {
     const imuTareCallback = (x: any) => {
         // Do nothing.
     }
+    
+    const depthTare = () => {
+        depthTareServiceCall({});
+    }
+
+    const depthTareCallback = (x: any) => {
+        // Do nothing
+    }
 
     const renderNumArray = (array : Array<Number>) => {
         let str = '';
@@ -179,6 +187,7 @@ const ControlModule = () => {
     const setModePublisher = useROSTopicPublisher<any>("/proc_control/set_mode", "std_msgs/UInt8");
     const setDVLStartedPublisher = useROSTopicPublisher<any>("/provider_dvl/enable_disable_ping", "std_msgs/Bool");
     const imuTareServiceCall = useROSService<any>(imuTareCallback, "/provider_imu/tare", "std_srvs/Empty")
+    const depthTareServiceCall = useROSService<any>(depthTareCallback, "/provider_depth/tare", "std_srvs/Empty")
 
     useROSTopicSubscriber<any>(sensorOnCallback, "/proc_control/sensor_on", "std_msgs/Bool");
     useROSTopicSubscriber<any>(dvlStatusCallback, "/provider_dvl/enable_disable_ping", "std_msgs/Bool");
@@ -259,10 +268,14 @@ const ControlModule = () => {
                                     style={Object.assign({}, disabledButtonStyle)} 
                                     handler={ startStopDVL } label={dvlStarted ? "Stop DVL" : "Start DVL" }/>
                         </div>  
-                        <h1 style={{ fontSize: '15px', textAlign: 'center' }}>IMU</h1> 
+                        <h1 style={{ fontSize: '15px', textAlign: 'center' }}>Tare</h1> 
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
                             <Button disabled={false} 
-                                    handler={() => {imuTare()}} label="Tare IMU"/>
+                                    style={Object.assign({}, disabledButtonStyle)} 
+                                    handler={() => {imuTare()}} label="IMU"/>
+                            <Button disabled={false} 
+                                    style={Object.assign({}, disabledButtonStyle)} 
+                                    handler={() => {depthTare()}} label="Depth"/>
                         </div> 
                     </span>
                 </div> 
@@ -272,8 +285,7 @@ const ControlModule = () => {
                         <p>OV:  {renderNumArray(ovGains)}</p>
                         <p>MV:  {renderNumArray(mvGains)}</p>
                         <p>MVR: {renderNumArray(mvrGains)}</p>
-                    </div>
-                        
+                    </div>                   
                 </div>
                 <div style={{ marginLeft: '10px', marginRight: '10px', border: '1px solid lightgray', justifyContent: 'center' }}>
                     <h1 style={{ fontSize: '15px', textAlign: 'center' }}>Thrusters status</h1> 

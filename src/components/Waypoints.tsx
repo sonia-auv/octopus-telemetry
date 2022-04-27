@@ -8,6 +8,7 @@ import FormControl from './common/Form/FormControl';
 import TextField from './common/textfield/Textfield';
 
 import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublisher';
+import { useROSTopicSubscriber } from '../hooks/useROSTopicSubscriber';
 
 const Waypoints = () => {
 
@@ -16,9 +17,17 @@ const Waypoints = () => {
     let frame2 = {value: "Rel. position & Abs. angle"};
     let frame3 = {value: "Abs. position & Rel. angle"};
 
+    let method0 = {value: "Hermite"};
+    let method1 = {value: "v5cubic"};
+    let method2 = {value: "Spline"};
+
     const [isRotationMode, setIsRotationMode] = useState(false);
     const [allFrames] = useState([frame0, frame1, frame2, frame3]);
+    const [allMethods] = useState([method0, method1, method2]);
     const [currentFrameSelected, setCurrentMissionName] = useState("");
+    const [currentMethodSelected, setCurrentMethodName] = useState("");
+
+    const [currentModeId, setCurrentModeId] = useState<Number>(0);
 
     const [cmdX, setCmdX] = useState('0.00');
     const [cmdY, setCmdY] = useState('0.00');
@@ -27,11 +36,24 @@ const Waypoints = () => {
     const [cmdPitch, setCmdPitch] = useState('0.00');
     const [cmdYaw, setCmdYaw] = useState('0.00');
     const [cmdFrame, setCmdFrame] = useState('0');
-    const [cmdSpeed, setCmdSpeed] = useState('1');
+    const [cmdSpeed, setCmdSpeed] = useState('0');
     const [cmdFine, setCmdFine] = useState('0.00');
+    const [cmdMethod, setCmdMethod] = useState('0');
 
-    const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose")
-    const sendPositionTargetPublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose")
+    const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose");
+    const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose");
+    const sendMultipleAddPosePublisher = useROSTopicPublisher<any>("/proc_planner/send_multi_addpose", "sonia_common/MultiAddPose");
+    const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_traj", "std_msgs/Bool");
+    
+    const setMpcMode = (data: Number) => {
+        setCurrentModeId(data);
+    }
+    
+    const setMpcInfo = (x: any) => {
+        setMpcMode(x.mpc_mode);
+    }
+    
+    useROSTopicSubscriber<any>(setMpcInfo, "/proc_control/controller_info", "sonia_common/MpcInfo");
 
     const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
 
@@ -99,6 +121,19 @@ const Waypoints = () => {
         }
     }
 
+    const handleCmdMethodChange = (e: any) => {
+        setCurrentMethodName(e.target.value as string);
+        if(e.target.value === method0.value || e.target.value === "None"){
+            setCmdMethod('0')
+        }
+        else if(e.target.value === method1.value){
+            setCmdMethod('1')
+        }
+        else if(e.target.value === method2.value){
+            setCmdMethod('2')
+        }
+    }
+
     const addPoseHandler = () => 
     {
         let z_axis_problem = false;
@@ -110,26 +145,61 @@ const Waypoints = () => {
         var pitchVal = !isNaN(parseFloat(cmdPitch)) ? parseFloat(cmdPitch) : parseFloat('0.0');
         var yawVal = !isNaN(parseFloat(cmdYaw)) ? parseFloat(cmdYaw) : parseFloat('0.0');
         var frameVal = !isNaN(parseInt(cmdFrame)) ? parseInt(cmdFrame) : parseInt('0');
-        var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('5');
+        var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('0');
         var fineVal = !isNaN(parseFloat(cmdFine)) ? parseFloat(cmdFine) : parseFloat('0.0');
+        var methodVal = !isNaN(parseInt(cmdMethod)) ? parseInt(cmdMethod) : parseInt('0');
         if(z_axis_problem){
             alert("Depth too high.");
         }
         else{
-            let toPublish = MessageFactory({
-                position: {
-                    x: xVal, y: yVal, z: zVal,
-                },
-                orientation:{
-                    x: rollVal, y: pitchVal, z: yawVal,
-                },
-                frame: frameVal,
-                speed: speedVal,
-                fine: fineVal,
-                rotation: isRotationMode
-            });
-            sendPositionTargetPublisher(toPublish);
-            resetCommands();
+            if(currentModeId === 11){
+                if(speedVal <= 0) {
+                    alert("Speed incorrect")
+                }
+                else {
+                    // Single waypoint trajectory.
+                    let toPublish = MessageFactory({
+                        position: {
+                            x: xVal, y: yVal, z: zVal,
+                        },
+                        orientation:{
+                            x: rollVal, y: pitchVal, z: yawVal,
+                        },
+                        frame: frameVal,
+                        speed: speedVal,
+                        fine: fineVal,
+                        rotation: isRotationMode
+                    });
+                    console.log(toPublish);
+                    sendSingleAddPosePublisher(toPublish);
+                    resetCommands();
+                }
+            }
+            else if (currentModeId === 10){
+                if(speedVal < 0 || speedVal > 2) {
+                    alert("Speed profile incorrect")
+                }
+                else {
+                    // Multi waypoints trajectory.
+                    let toPublish = MessageFactory({
+                        interpolation_method: methodVal,
+                        pose: [
+                            {position: {
+                                x: xVal, y: yVal, z: zVal,
+                            },
+                            orientation:{
+                                x: rollVal, y: pitchVal, z: yawVal,
+                            },
+                            frame: frameVal,
+                            speed: speedVal,
+                            fine: fineVal,
+                            rotation: isRotationMode},
+                        ]
+                    });
+                    sendMultipleAddPosePublisher(toPublish);
+                    resetCommands();
+                }
+            }
         }
     }
 
@@ -140,11 +210,16 @@ const Waypoints = () => {
          setCmdRoll('0.00');
          setCmdPitch('0.00');
          setCmdYaw('0.00');
-         setCmdSpeed('5');
+         setCmdSpeed('0');
          setCmdFine('0.00');
      }
 
-
+    const resetTrajectory = () => {
+        var toPublish = MessageFactory({
+            data: true
+        })
+        resetTrajectoryPublisher(toPublish);
+    }
     
     const setInitialPositionHandler = () => {
         var toPublish = MessageFactory({
@@ -168,8 +243,7 @@ const Waypoints = () => {
             {context => context && (
                 <div style={{ width: '100%', height: '100%', flexDirection: 'row', textAlign: 'center', alignContent: 'center' }}>
                     <h1 style={{ fontSize: '20px', textAlign: 'center' }}>Waypoints</h1>
-                    {/* Remove disabled to make the button usable. */}
-                    <Button style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} disabled={true} handler={()=>{}} label="Clear Waypoint" /> 
+                    <Button style={{ width: '150px', marginBottom: '10px', fontSize: '10px', alignSelf: 'center' }} handler={resetTrajectory} label="Reset Trajectory" /> 
                     <Button style={{ marginLeft: '10px', marginBottom: '10px', width: '150px', fontSize: '10px', alignSelf: 'center' }} handler={setInitialPositionHandler} label="Set initial position" />
                     <Switch onLabel="Long Path"
                             offLabel="Short Path"
@@ -178,18 +252,18 @@ const Waypoints = () => {
                             handler={() => setIsRotationMode(!isRotationMode)}/>
                     <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
                         <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', margin: '10px'}}>Position<br></br>
-                            <TextField value={cmdX} handlerChange={handleCmdXChange} handlerKeyDown={()=>{}} testId="waypoint_cmdx_id" label="X" style={{ padding: '10px 10px ', marginTop: '10px'}} /><br></br>
-                            <TextField value={cmdY} handlerChange={handleCmdYChange} handlerKeyDown={()=>{}} testId="waypoint_cmdy_id" label="Y" style={{ padding: '10px 10px' }} /><br></br>
-                            <TextField value={cmdZ} handlerChange={handleCmdZChange} handlerKeyDown={()=>{}} testId="waypoint_cmdz_id" label="Z" style={{ padding: '10px 10px' }} />
+                            <TextField type="number" value={cmdX} handlerChange={handleCmdXChange} handlerKeyDown={()=>{}} testId="waypoint_cmdx_id" label="X" style={{ padding: '10px 10px ', marginTop: '10px'}} /><br></br>
+                            <TextField type="number" value={cmdY} handlerChange={handleCmdYChange} handlerKeyDown={()=>{}} testId="waypoint_cmdy_id" label="Y" style={{ padding: '10px 10px' }} /><br></br>
+                            <TextField type="number" value={cmdZ} handlerChange={handleCmdZChange} handlerKeyDown={()=>{}} testId="waypoint_cmdz_id" label="Z" style={{ padding: '10px 10px' }} />
                         </div>
                         <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', margin: '10px'}}>Orientation<br></br>
-                            <TextField value={cmdRoll} handlerChange={handleCmdRollChange} handlerKeyDown={()=>{}} testId="waypoint_cmdroll_id" label="Roll" style={{ padding: '10px 10px', marginTop: '10px' }} /><br></br>
-                            <TextField value={cmdPitch} handlerChange={handleCmdPitchChange} handlerKeyDown={()=>{}} testId="waypoint_cmdpitch_id" label="Pitch" style={{ padding: '10px 10px' }} /><br></br>
-                            <TextField value={cmdYaw} handlerChange={handleCmdYawChange} handlerKeyDown={()=>{}} testId="waypoint_cmdyaw_id" label="Yaw" style={{ padding: '10px 10px' }} />
+                            <TextField type="number" value={cmdRoll} handlerChange={handleCmdRollChange} handlerKeyDown={()=>{}} testId="waypoint_cmdroll_id" label="Roll" style={{ padding: '10px 10px', marginTop: '10px' }} /><br></br>
+                            <TextField type="number" value={cmdPitch} handlerChange={handleCmdPitchChange} handlerKeyDown={()=>{}} testId="waypoint_cmdpitch_id" label="Pitch" style={{ padding: '10px 10px' }} /><br></br>
+                            <TextField type="number" value={cmdYaw} handlerChange={handleCmdYawChange} handlerKeyDown={()=>{}} testId="waypoint_cmdyaw_id" label="Yaw" style={{ padding: '10px 10px' }} />
                         </div>
                         <div style={{ padding: '10px 10px', border: '1px solid lightgray', width: '150px', margin: '10px'}}>Reference<br></br>
-                            <TextField value={cmdSpeed} handlerChange={handleCmdSpeedChange} handlerKeyDown={()=>{}} testId="waypoint_cmdspeed_id" label="Speed" style={{ padding: '10px 10px', marginTop: '10px' }} /><br></br>
-                            <TextField value={cmdFine} handlerChange={handleCmdFineChange} handlerKeyDown={()=>{}} testId="waypoint_cmdfine_id" label="Fine" style={{ padding: '10px 10px' }} />
+                            <TextField type="number" value={cmdSpeed} handlerChange={handleCmdSpeedChange} handlerKeyDown={()=>{}} testId="waypoint_cmdspeed_id" label="Speed" style={{ padding: '10px 10px', marginTop: '10px' }} /><br></br>
+                            <TextField type="number" value={cmdFine} handlerChange={handleCmdFineChange} handlerKeyDown={()=>{}} testId="waypoint_cmdfine_id" label="Fine" style={{ padding: '10px 10px' }} />
                         </div>
                     </div>
                     <FormControl>
@@ -203,9 +277,23 @@ const Waypoints = () => {
                             value={currentFrameSelected}
                             listValue={allFrames} >
                         </Select>
+                    </FormControl><br></br>
+                    <FormControl disabled={currentModeId === 10 ? false : true} >
+                        <InputLabel id="select-outlined-label">Method</InputLabel>
+                        <Select
+                            labelId="select-outlined-label"
+                            id="select-outlined"
+                            label="Method"
+                            style={{ backgroundColor: 'white', width: '150%', alignSelf: 'center', textAlign: 'left'}}
+                            handlerChange={handleCmdMethodChange}
+                            value={currentMethodSelected}
+                            listValue={allMethods} >
+                        </Select>
                     </FormControl>
                     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', marginTop: '10px'}}>
-                        <Button style={{ fontSize: '20px', alignSelf: 'center', width: '50%'}} handler={addPoseHandler} label="Add Pose"/>
+                        <Button style={{ fontSize: '20px', alignSelf: 'center', width: '50%'}} handler={addPoseHandler} 
+                                label={currentModeId === 0 ? "Select a mode" : "Add Pose"}
+                                disabled={currentModeId === 0 ? true : false}/>
                     </div>
                 </div>
             )}

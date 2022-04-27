@@ -129,7 +129,7 @@ export const App = () => {
                         </div>) : (<React.Fragment></React.Fragment>)}
                                 {context.activeModules.data['pfd'].active ? (
                                         <div key="pfd"
-                                            data-grid={{ x: 11, y: 7, w: 22, h:12, minW: 8, maxW: 30, minH: 8, maxH: 30 }}
+                                            data-grid={{ x: 11, y: 7, w: 13, h:12, minW: 13, maxW: 13, minH: 12, maxH: 12 }}
                                             style={{ display: 'flex' , ...moduleBorder}}>
                                             <Pfd />
                         </div>) : (<React.Fragment></React.Fragment>)}
@@ -141,7 +141,7 @@ export const App = () => {
                         </div>) : (<React.Fragment></React.Fragment>)}
                                 {context.activeModules.data['waypoints'].active ? (
                                         <div key="waypoints"
-                                            data-grid={{ x: 50, y: 0, w: 7, h:10 , minW: 7, maxW: 7, minH: 10, maxH: 10 }}
+                                            data-grid={{ x: 50, y: 0, w: 7, h:12 , minW: 7, maxW: 7, minH: 12, maxH: 12 }}
                                             style={{ display: 'flex' , ...moduleBorder}}>
                                             <Waypoints />
                         </div>) : (<React.Fragment></React.Fragment>)}

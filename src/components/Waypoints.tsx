@@ -17,9 +17,15 @@ const Waypoints = () => {
     let frame2 = {value: "Rel. position & Abs. angle"};
     let frame3 = {value: "Abs. position & Rel. angle"};
 
+    let method0 = {value: "Lamarre la doc c important 1"};
+    let method1 = {value: "Lamarre la doc c important 2"};
+    let method2 = {value: "Lamarre la doc c important 3"};
+
     const [isRotationMode, setIsRotationMode] = useState(false);
     const [allFrames] = useState([frame0, frame1, frame2, frame3]);
+    const [allMethods] = useState([method0, method1, method2]);
     const [currentFrameSelected, setCurrentMissionName] = useState("");
+    const [currentMethodSelected, setCurrentMethodName] = useState("");
 
     const [currentModeId, setCurrentModeId] = useState<Number>(0);
 
@@ -32,6 +38,7 @@ const Waypoints = () => {
     const [cmdFrame, setCmdFrame] = useState('0');
     const [cmdSpeed, setCmdSpeed] = useState('1');
     const [cmdFine, setCmdFine] = useState('0.00');
+    const [cmdMethod, setCmdMethod] = useState('0');
 
     const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose");
     const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose");
@@ -114,6 +121,19 @@ const Waypoints = () => {
         }
     }
 
+    const handleCmdMethodChange = (e: any) => {
+        setCurrentMethodName(e.target.value as string);
+        if(e.target.value === method0.value || e.target.value === "None"){
+            setCmdMethod('0')
+        }
+        else if(e.target.value === method1.value){
+            setCmdMethod('1')
+        }
+        else if(e.target.value === method2.value){
+            setCmdMethod('2')
+        }
+    }
+
     const addPoseHandler = () => 
     {
         let z_axis_problem = false;
@@ -127,6 +147,7 @@ const Waypoints = () => {
         var frameVal = !isNaN(parseInt(cmdFrame)) ? parseInt(cmdFrame) : parseInt('0');
         var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('5');
         var fineVal = !isNaN(parseFloat(cmdFine)) ? parseFloat(cmdFine) : parseFloat('0.0');
+        var methodVal = !isNaN(parseInt(cmdMethod)) ? parseInt(cmdMethod) : parseInt('0');
         if(z_axis_problem){
             alert("Depth too high.");
         }
@@ -152,6 +173,7 @@ const Waypoints = () => {
             else if (currentModeId === 10){
                 // Multi waypoints trajectory.
                 let toPublish = MessageFactory({
+                    interpolation_method: methodVal,
                     pose: [
                         {position: {
                             x: xVal, y: yVal, z: zVal,
@@ -244,6 +266,18 @@ const Waypoints = () => {
                             handlerChange={handleCmdFrameChange}
                             value={currentFrameSelected}
                             listValue={allFrames} >
+                        </Select>
+                    </FormControl><br></br>
+                    <FormControl>
+                        <InputLabel id="select-outlined-label">Method</InputLabel>
+                        <Select
+                            labelId="select-outlined-label"
+                            id="select-outlined"
+                            label="Method"
+                            style={{ backgroundColor: 'white', width: '150%', alignSelf: 'center', textAlign: 'left'}}
+                            handlerChange={handleCmdMethodChange}
+                            value={currentMethodSelected}
+                            listValue={allMethods} >
                         </Select>
                     </FormControl>
                     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', marginTop: '10px'}}>

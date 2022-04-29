@@ -3,6 +3,8 @@ name: Docker Image CI - Master
 on:
   push:
     branches: [ master ]
+  schedule:
+    - cron: "0 0 * * 1"
 
 jobs:
   octopus-telemetry:

@@ -3,6 +3,8 @@ name: Docker Image CI - Feature Branch
 on:
   push:
     branches: [feature/**]
+  schedule:
+    - cron: "0 0 * * 1"
 
 jobs:
   build-octopus-telemetry:

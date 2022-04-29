@@ -3,6 +3,8 @@ name: Docker Image CI - Fix Branch
 on:
   push:
     branches: [fix/**]
+  schedule:
+    - cron: "0 0 * * 1"
 
 jobs:
   build-octopus-telemetry:

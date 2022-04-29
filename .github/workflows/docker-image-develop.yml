@@ -3,6 +3,8 @@ name: Docker Image CI - Develop
 on:
   push:
     branches: [ develop ]
+  schedule:
+    - cron: "0 0 * * 1"
 
 jobs:
   octopus-telemetry:

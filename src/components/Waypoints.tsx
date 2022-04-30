@@ -170,7 +170,6 @@ const Waypoints = () => {
         var yVal = !isNaN(parseFloat(cmdY)) ? parseFloat(cmdY) : parseFloat('0.0');
         var zVal = !isNaN(parseFloat(cmdZ)) ? parseFloat(cmdZ) : parseFloat('0.0');
         var zPose = !isNaN(parseFloat(positionZ)) ? parseFloat(positionZ) : parseFloat('0.0');
-        if(zVal + zPose > 5.0){ z_axis_problem = true; }
         var rollVal = !isNaN(parseFloat(cmdRoll)) ? parseFloat(cmdRoll) : parseFloat('0.0');
         var pitchVal = !isNaN(parseFloat(cmdPitch)) ? parseFloat(cmdPitch) : parseFloat('0.0');
         var yawVal = !isNaN(parseFloat(cmdYaw)) ? parseFloat(cmdYaw) : parseFloat('0.0');
@@ -178,6 +177,15 @@ const Waypoints = () => {
         var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('0');
         var fineVal = !isNaN(parseFloat(cmdFine)) ? parseFloat(cmdFine) : parseFloat('0.0');
         var methodVal = !isNaN(parseInt(cmdMethod)) ? parseInt(cmdMethod) : parseInt('0');
+        if(methodVal === 0 || methodVal === 2)
+        {
+            if(zVal > 4){ z_axis_problem = true; }
+        }
+        else
+        {
+            if(zVal + zPose > 4.0){ z_axis_problem = true; }
+        }
+
         if(z_axis_problem){
             alert("Depth too low");
         }
@@ -240,7 +248,14 @@ const Waypoints = () => {
         setCmdRoll('0.00');
         setCmdPitch('0.00');
         setCmdYaw('0.00');
-        setCmdSpeed('0');
+        if(currentModeId === 10)
+        {
+            setCmdSpeed('0');
+        }
+        else
+        {
+            setCmdSpeed('5')
+        }
         setCmdFine('0.00');
     }
     

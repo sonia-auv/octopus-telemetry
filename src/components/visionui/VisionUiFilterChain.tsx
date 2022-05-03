@@ -36,7 +36,7 @@ const VisionUIExecutionModule = () => {
 
             var tab: any = []
             receivedList.split(';').forEach((v: String, index: number) => {
-                tab.push({ value: v })
+                tab.push({ value: v, id: index })
             });
 
             // Sort values

@@ -1,4 +1,3 @@
-import { Fragment, useState } from 'react';
 import './modulepicker.css';
 import Module from './Module';
 import { GeneralContext } from '../../context/generalContext';

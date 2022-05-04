@@ -48,7 +48,6 @@ const Waypoints = () => {
     const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_traj", "std_msgs/Bool");
     
     const getPoseCallback = (pose: any) => {
-        console.log(pose)
         var toPublish = MessageFactory({
             position:{
                 x: pose.object_pose.position.x,

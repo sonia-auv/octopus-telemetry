@@ -87,6 +87,11 @@ describe('The ModulePicker component', () => {
       render(<ModulePicker />);
       const missionManagerModuleText = screen.getByText(/Mission Manager/i);
       expect(missionManagerModuleText).toBeInTheDocument();
+    })
+    it('renders the Target module', () => {
+      render(<ModulePicker />);
+      const targetModuleText = screen.getByText(/Target/i);
+      expect(targetModuleText).toBeInTheDocument();
     });
   });
 });

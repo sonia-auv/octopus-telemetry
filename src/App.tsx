@@ -18,6 +18,7 @@ import ModulePicker from './components/modulepicker/ModulePicker'
 import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata'
 import { Drawer } from '@material-ui/core'
 import PowerModule from "./components/powermodule/PowerModule";
+import Target from "./components/Target";
 import SetPwmModule from "./components/thrusters/SetPwmModule";
 // import TemplateModule from "./components/TemplateModule";
 import './App.css'
@@ -180,6 +181,12 @@ export const App = () => {
                                             data-grid={{ x: 0, y: 20, w: 4, h: 10, minW: 4, maxW: 4, minH: 10, maxH: 10 }}
                                             style={{ display: 'flex', ...moduleBorder }}>
                                             <SetPwmModule />
+                        </div>) : <React.Fragment></React.Fragment>}
+                                {context.activeModules.data['target'].active ? (
+                                        <div key="target"
+                                            data-grid={{ x: 50, y: 0, w: 7, h:12 , minW: 7, maxW: 7, minH: 12, maxH: 12 }}
+                                            style={{ display: 'flex', ...moduleBorder }}>
+                                            <Target />
                         </div>) : <React.Fragment></React.Fragment>}
                                 {/* {context.activeModules.data['templateModule'].active ? (
                                         <div key="templateModule"

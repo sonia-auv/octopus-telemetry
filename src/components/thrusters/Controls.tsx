@@ -49,8 +49,8 @@ const Controls = () => {
     }
 
     const dryTestServiceCall = useROSService(dryTestCallback, "/provider_thruster/dry_test", "std_srvs/Empty")
-    const providerPowerMsgPublisher = useROSTopicPublisher("/provider_power/activate_all_motor", "/std_msgs/Bool");
-    const dryRunMsgPublisher = useROSTopicPublisher("/telemetry/dry_run", "/std_msgs/Bool");
+    const providerPowerMsgPublisher = useROSTopicPublisher("/provider_power/activate_all_motor", "/std_msgs/Bool", false);
+    const dryRunMsgPublisher = useROSTopicPublisher("/telemetry/dry_run", "/std_msgs/Bool", false);
 
     return (
         <GeneralContext.Consumer>

@@ -52,7 +52,7 @@ const SetPwmModule = () => {
         }  
     }
 
-    const pwmMsgPublisher = useROSTopicPublisher("/provider_thruster/thruster_pwm", "/std_msgs/UInt16MultiArray");
+    const pwmMsgPublisher = useROSTopicPublisher("/provider_thruster/thruster_pwm", "/std_msgs/UInt16MultiArray", false);
 
     return (
         <GeneralContext.Consumer>

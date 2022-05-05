@@ -60,7 +60,7 @@ type ThrusterLevel = {
 
 export const Thruster = ({ identification, effort, pwm,  minMark, maxMark, step, thumbEnabled }: ThrusterLevel) => {
 
-    const thrusterEffortPublisher = useROSTopicPublisher<any>("/provider_thruster/thruster_effort", "std_msgs/String")
+    const thrusterEffortPublisher = useROSTopicPublisher<any>("/provider_thruster/thruster_effort", "std_msgs/String", false)
 
     function ThrusterControlThumbComponent(props: any) {
         return (

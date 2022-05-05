@@ -41,7 +41,7 @@ const MissionManager = () => {
           []
     )
 
-    const missionNameMsgPublisher = useROSTopicPublisher<any>("/sonia_flexbe/mission_name_msg", "/std_msgs/String");
+    const missionNameMsgPublisher = useROSTopicPublisher<any>("/sonia_flexbe/mission_name_msg", "/std_msgs/String", false);
     const missionManagerServiceCall = useROSService<any>(missionListCallback, "/sonia_flexbe/list_missions", "Trigger")
 
     // Selection d une missions dans le select.

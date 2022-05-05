@@ -184,8 +184,8 @@ const ControlModule = () => {
         return str;
     }
 
-    const setModePublisher = useROSTopicPublisher<any>("/proc_control/set_mode", "std_msgs/UInt8");
-    const setDVLStartedPublisher = useROSTopicPublisher<any>("/provider_dvl/enable_disable_ping", "std_msgs/Bool");
+    const setModePublisher = useROSTopicPublisher<any>("/proc_control/set_mode", "std_msgs/UInt8", false);
+    const setDVLStartedPublisher = useROSTopicPublisher<any>("/provider_dvl/enable_disable_ping", "std_msgs/Bool", true);
     const imuTareServiceCall = useROSService<any>(imuTareCallback, "/provider_imu/tare", "std_srvs/Empty")
     const depthTareServiceCall = useROSService<any>(depthTareCallback, "/provider_depth/tare", "std_srvs/Empty")
 

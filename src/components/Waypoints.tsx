@@ -45,7 +45,7 @@ const Waypoints = () => {
     const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose");
     const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose");
     const sendMultipleAddPosePublisher = useROSTopicPublisher<any>("/proc_planner/send_multi_addpose", "sonia_common/MultiAddPose");
-    const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_traj", "std_msgs/Bool");
+    const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_trajectory", "std_msgs/Bool");
     
     const getPoseCallback = (pose: any) => {
         var toPublish = MessageFactory({
@@ -207,7 +207,6 @@ const Waypoints = () => {
                         fine: fineVal,
                         rotation: isRotationMode
                     });
-                    console.log(toPublish);
                     sendSingleAddPosePublisher(toPublish);
                     resetCommands();
                 }
@@ -313,7 +312,7 @@ const Waypoints = () => {
                             listValue={allFrames} >
                         </Select>
                     </FormControl><br></br>
-                    <FormControl disabled={currentModeId === 10 ? false : true} >
+                    <FormControl disabled={currentModeId === 10} >
                         <InputLabel id="select-outlined-label">Method</InputLabel>
                         <Select
                             labelId="select-outlined-label"

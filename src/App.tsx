@@ -100,7 +100,7 @@ export const App = () => {
                         <ModulePicker  />
                     </Drawer>
                     <GeneralContext.Consumer>
-                        {context => (                   
+                        {(context: { activeModules: { data: { [x: string]: { active: any; }; }; }; }) => (                   
                     <GridLayout 
                                 layout={layout}
                                 cols={32}
@@ -108,7 +108,7 @@ export const App = () => {
                                 width={2800}
                                 verticalCompact={false}
                                 preventCollision={true}
-                                onLayoutChange={(e) => onLayoutChange(e)}
+                                onLayoutChange={(e: any) => onLayoutChange(e)}
                                 draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch, .MuiSelect-root, .MuiFormControl-root, .MuiTypography-root, .MuiInputBase-root, .MuiList-root"}>
                                 {context.activeModules.data['thrusters'].active ? (
                                         <div key="thrusters"
@@ -182,9 +182,9 @@ export const App = () => {
                                             style={{ display: 'flex', ...moduleBorder }}>
                                             <SetPwmModule />
                         </div>) : <React.Fragment></React.Fragment>}
-                                {context.activeModules.data['target'].active ? (
+                                {context.activeModules.data['targetModule'].active ? (
                                         <div key="target"
-                                            data-grid={{ x: 50, y: 0, w: 7, h:12 , minW: 7, maxW: 7, minH: 12, maxH: 12 }}
+                                            data-grid={{ x: 50, y: 0, w: 4, h:12 , minW: 4, maxW: 7, minH: 6, maxH: 12 }}
                                             style={{ display: 'flex', ...moduleBorder }}>
                                             <Target />
                         </div>) : <React.Fragment></React.Fragment>}

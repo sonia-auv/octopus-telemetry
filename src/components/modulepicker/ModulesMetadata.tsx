@@ -112,7 +112,7 @@ const SetPwmModuleMeta: ModuleMetadata = {
   thumbnailSource: setPwmModuleBig,
 };
 
-const TargetMeta: ModuleMetadata = {
+const TargetModuleMeta: ModuleMetadata = {
   key: 'target',
   name: 'Target',
   thumbnailLabel: 'target-thumbnail',
@@ -139,7 +139,7 @@ const ModulesMetadata: Array<ModuleMetadata> = [
   MissionManagerMeta,
   ControlModuleMeta,
   SetPwmModuleMeta,
-  TargetMeta,
+  TargetModuleMeta,
   TemplateModuleMeta,
 ];
 
@@ -157,7 +157,7 @@ export {
   MissionManagerMeta,
   ControlModuleMeta,
   SetPwmModuleMeta,
-  TargetMeta,
+  TargetModuleMeta,
   TemplateModuleMeta,
 };
 

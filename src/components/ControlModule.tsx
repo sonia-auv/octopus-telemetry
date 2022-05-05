@@ -193,7 +193,7 @@ const ControlModule = () => {
     useROSTopicSubscriber<any>(dvlStatusCallback, "/provider_dvl/enable_disable_ping", "std_msgs/Bool");
 
     // New mpc info message.
-    useROSTopicSubscriber<any>(setMpcInfo, "/proc_control/mpc_info", "sonia_common/MpcInfo");
+    useROSTopicSubscriber<any>(setMpcInfo, "/proc_control/controller_info", "sonia_common/MpcInfo");
     
     return (
         <GeneralContext.Consumer>

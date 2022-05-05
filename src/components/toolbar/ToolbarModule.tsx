@@ -84,78 +84,6 @@ const ToolbarModule = (props: any) => {
     'sensor_msgs/Temperature'
   );
 
-  let handleAllAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: 1,
-      Y: 1,
-      Z: 1,
-      PITCH: 1,
-      ROLL: 1,
-      YAW: 1,
-    });
-    toolbarServicesCall(request);
-  };
-
-  let handleXYAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: 1,
-      Y: 1,
-      Z: -1,
-      PITCH: -1,
-      ROLL: -1,
-      YAW: -1,
-    });
-    toolbarServicesCall(request);
-  };
-
-  let handleDepthAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: -1,
-      Y: -1,
-      Z: 1,
-      PITCH: -1,
-      ROLL: -1,
-      YAW: -1,
-    });
-    toolbarServicesCall(request);
-  };
-
-  let handleRollAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: -1,
-      Y: -1,
-      Z: -1,
-      PITCH: -1,
-      ROLL: 1,
-      YAW: -1,
-    });
-    toolbarServicesCall(request);
-  };
-
-  let handleYawAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: -1,
-      Y: -1,
-      Z: -1,
-      PITCH: -1,
-      ROLL: -1,
-      YAW: 1,
-    });
-    toolbarServicesCall(request);
-  };
-
-  let handlePitchAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: -1,
-      Y: -1,
-      Z: -1,
-      PITCH: 1,
-      ROLL: -1,
-      YAW: -1,
-    });
-    toolbarServicesCall(request);
-  };
-
   let handleStartFrontCameraClicked = () => {
     const request = ServiceRequestFactory({
       Bottom_GigE: 2,
@@ -179,32 +107,6 @@ const ToolbarModule = (props: any) => {
           <MenuModule />
         </IconButton>
         <Button label="Open modules" handler={props.handleShowSidebar} />
-        <Button label="All" handler={handleAllAxisClicked} />
-        <Button
-          label="XY"
-          style={{ margin: '15px' }}
-          handler={handleXYAxisClicked}
-        />
-        <Button
-          label="Depth"
-          style={{ margin: '15px' }}
-          handler={handleDepthAxisClicked}
-        />
-        <Button
-          label="Roll"
-          style={{ margin: '15px' }}
-          handler={handleRollAxisClicked}
-        />
-        <Button
-          label="Pitch"
-          style={{ margin: '15px' }}
-          handler={handlePitchAxisClicked}
-        />
-        <Button
-          label="Yaw"
-          style={{ margin: '15px' }}
-          handler={handleYawAxisClicked}
-        />
         <Button
           label="Start front"
           style={{ margin: '15px', backgroundColor: 'black', color: 'red' }}

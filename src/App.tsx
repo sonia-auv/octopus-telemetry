@@ -184,7 +184,7 @@ export const App = () => {
                         </div>) : <React.Fragment></React.Fragment>}
                                 {context.activeModules.data['targetModule'].active ? (
                                         <div key="target"
-                                            data-grid={{ x: 50, y: 0, w: 4, h:12 , minW: 4, maxW: 7, minH: 6, maxH: 12 }}
+                                            data-grid={{ x: 50, y: 0, w: 4, h:6 , minW: 4, maxW: 4, minH: 6, maxH: 6 }}
                                             style={{ display: 'flex', ...moduleBorder }}>
                                             <Target />
                         </div>) : <React.Fragment></React.Fragment>}

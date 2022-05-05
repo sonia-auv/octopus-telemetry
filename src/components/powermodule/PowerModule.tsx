@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+//import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import VoltageSection from './VoltageSection';
-import CurrentSection from './CurrentSection';
+//import VoltageSection from './VoltageSection';
+//import CurrentSection from './CurrentSection';
 import { useROSTopicSubscriber } from '../../hooks/useROSTopicSubscriber';
 import './powermodule.css';
 import image from '../../components/image/AUV8_Top.jpeg';

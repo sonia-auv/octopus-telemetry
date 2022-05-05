@@ -18,6 +18,7 @@ import ModulePicker from './components/modulepicker/ModulePicker'
 import { Module, ActiveModules } from './components/modulepicker/ModulesMetadata'
 import { Drawer } from '@material-ui/core'
 import PowerModule from "./components/powermodule/PowerModule";
+import Target from "./components/Target";
 import SetPwmModule from "./components/thrusters/SetPwmModule";
 // import TemplateModule from "./components/TemplateModule";
 import './App.css'
@@ -99,7 +100,7 @@ export const App = () => {
                         <ModulePicker  />
                     </Drawer>
                     <GeneralContext.Consumer>
-                        {context => (                   
+                        {(context: { activeModules: { data: { [x: string]: { active: any; }; }; }; }) => (                   
                     <GridLayout 
                                 layout={layout}
                                 cols={32}
@@ -107,7 +108,7 @@ export const App = () => {
                                 width={2800}
                                 verticalCompact={false}
                                 preventCollision={true}
-                                onLayoutChange={(e) => onLayoutChange(e)}
+                                onLayoutChange={(e: any) => onLayoutChange(e)}
                                 draggableCancel={".MuiSlider-valueLabel, .MuiSlider-thumb, .MuiButton-label, .switch, .MuiSelect-root, .MuiFormControl-root, .MuiTypography-root, .MuiInputBase-root, .MuiList-root"}>
                                 {context.activeModules.data['thrusters'].active ? (
                                         <div key="thrusters"
@@ -180,6 +181,12 @@ export const App = () => {
                                             data-grid={{ x: 0, y: 20, w: 4, h: 10, minW: 4, maxW: 4, minH: 10, maxH: 10 }}
                                             style={{ display: 'flex', ...moduleBorder }}>
                                             <SetPwmModule />
+                        </div>) : <React.Fragment></React.Fragment>}
+                                {context.activeModules.data['targetModule'].active ? (
+                                        <div key="target"
+                                            data-grid={{ x: 50, y: 0, w: 4, h:6 , minW: 4, maxW: 4, minH: 6, maxH: 6 }}
+                                            style={{ display: 'flex', ...moduleBorder }}>
+                                            <Target />
                         </div>) : <React.Fragment></React.Fragment>}
                                 {/* {context.activeModules.data['templateModule'].active ? (
                                         <div key="templateModule"

@@ -23,24 +23,14 @@ const Target = () => {
     }
 
     
-    const getPositionCallback = (x: any) => {
+    const targetCallback = (x: any) => {
         setPositionX(x.position.x.toFixed(2));
         setPositionY(x.position.y.toFixed(2));
-        setPositionZ((-x.position.z).toFixed(2));
+        setPositionZ(x.position.z.toFixed(2));
         setOrientationX(x.orientation.x.toFixed(2));
         setOrientationY(x.orientation.y.toFixed(2));
         setOrientationZ(x.orientation.z.toFixed(2));
     }
-
-    const getMultiPositionCallback = (x: any) => {
-        setPositionX(x.pose.position.x.toFixed(2));
-        setPositionY(x.pose.position.y.toFixed(2));
-        setPositionZ((-x.pose.position.z).toFixed(2));
-        setOrientationZ(x.pose.orientation.z.toFixed(2));
-        setOrientationZ(x.pose.orientation.rotation.z.toFixed(2));
-        setOrientationZ(x.pose.orientation.rotation.z.toFixed(2));
-    }
-    
     
     const resetTrajectoryCallback = () => {
         setPositionX(data.posX)
@@ -60,8 +50,7 @@ const Target = () => {
         try{ data.heading = x.pose.pose.orientation.z.toFixed(2); } catch(error){ data.heading = "0.00" }
     }
 
-    useROSTopicSubscriber<any>(getPositionCallback, "/proc_control/add_pose", "sonia_common/AddPose");
-    useROSTopicSubscriber<any>(getMultiPositionCallback, "/proc_control/send_multi_addpose", "sonia_common/MultiAddPose");
+    useROSTopicSubscriber<any>(targetCallback, "/proc_control/current_target", "geometry_msgs/Pose");
     useROSTopicSubscriber<any>(resetTrajectoryCallback, "/proc_control/reset_trajectory", "std_msgs/Bool");
     useROSTopicSubscriber<any>(odomCallback, "/telemetry/auv_states", "nav_msgs/Odometry");
 

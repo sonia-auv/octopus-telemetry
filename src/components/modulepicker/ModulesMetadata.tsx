@@ -9,6 +9,7 @@ import missionManagerBig from '../image/mission_manager_big.png'
 import powerModuleBig from '../image/powermodule_big.png'
 import controlModuleBig from '../image/control_module_big.png'
 import setPwmModuleBig from '../image/set_pwm_module_big.png'
+import targetModuleBig from '../image/target_module_big.png'
 import setTemplateModuleBig from '../image/set_pwm_module_big.png'
 
 interface ModuleMetadata {
@@ -111,6 +112,13 @@ const SetPwmModuleMeta: ModuleMetadata = {
   thumbnailSource: setPwmModuleBig,
 };
 
+const TargetModuleMeta: ModuleMetadata = {
+  key: 'target',
+  name: 'Target',
+  thumbnailLabel: 'target-thumbnail',
+  thumbnailSource: targetModuleBig,
+};
+
 const TemplateModuleMeta: ModuleMetadata = {
   key: 'templateModule',
   name: 'Template Module',
@@ -131,6 +139,7 @@ const ModulesMetadata: Array<ModuleMetadata> = [
   MissionManagerMeta,
   ControlModuleMeta,
   SetPwmModuleMeta,
+  TargetModuleMeta,
   TemplateModuleMeta,
 ];
 
@@ -148,6 +157,7 @@ export {
   MissionManagerMeta,
   ControlModuleMeta,
   SetPwmModuleMeta,
+  TargetModuleMeta,
   TemplateModuleMeta,
 };
 

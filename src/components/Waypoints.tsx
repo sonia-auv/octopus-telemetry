@@ -9,6 +9,7 @@ import TextField from './common/textfield/Textfield';
 
 import { useROSTopicPublisher, MessageFactory } from '../hooks/useROSTopicPublisher';
 import { useROSTopicSubscriber } from '../hooks/useROSTopicSubscriber';
+import { useROSService, ServiceRequestFactory } from '../hooks/useROSService'
 
 const Waypoints = () => {
 
@@ -44,6 +45,28 @@ const Waypoints = () => {
     const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose", true);
     const sendMultipleAddPosePublisher = useROSTopicPublisher<any>("/proc_planner/send_multi_addpose", "sonia_common/MultiAddPose", true);
     const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_traj", "std_msgs/Bool", false);
+    const [positionZ, setPositionZ] = useState('0.00');
+    
+    const getPoseCallback = (pose: any) => {
+        var toPublish = MessageFactory({
+            position:{
+                x: pose.object_pose.position.x,
+                y: pose.object_pose.position.y,
+                z: pose.object_pose.position.z
+            },
+            orientation:{
+                x: pose.object_pose.orientation.x,
+                y: pose.object_pose.orientation.y,
+                z: pose.object_pose.orientation.z,
+                w: pose.object_pose.orientation.w
+            }
+        });
+        setInitialPositionPublisher(toPublish)
+    }
+    
+    const topicServiceCall = useROSService<any>(getPoseCallback, "obj_pose_srv", "sonia_common/ObjectPoseService")
+    
+    const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
     
     const setMpcMode = (data: Number) => {
         setCurrentModeId(data);
@@ -55,44 +78,49 @@ const Waypoints = () => {
     
     useROSTopicSubscriber<any>(setMpcInfo, "/proc_control/controller_info", "sonia_common/MpcInfo");
 
-    const checkSyntax = (v: any) => [...v].every(c => '0123456789.-'.includes(c));
+    const auvPositionCallback = (x:any) => {
+        setPositionZ(x.pose.pose.position.z.toFixed(2));
+    }
 
+
+    useROSTopicSubscriber<any>(auvPositionCallback, "/telemetry/auv_states", "nav_msgs/Odometry");
+    
     const handleCmdXChange = (e: any) => {
         if (checkSyntax(e.target.value)) {
             setCmdX(e.target.value)
         }
     }
-
+    
     const handleCmdYChange = (e: any) => {
         if (checkSyntax(e.target.value)) {
             setCmdY(e.target.value)
         }
     }
-
+    
     const handleCmdZChange = (e: any) => {
         if (checkSyntax(e.target.value)) {
             setCmdZ(e.target.value)
         }
     }
-
+    
     const handleCmdRollChange = (e: any) => {
         if (checkSyntax(e.target.value)) {
             setCmdRoll(e.target.value)
         }
     }
-
+    
     const handleCmdPitchChange = (e: any) => {
         if (checkSyntax(e.target.value)) {
             setCmdPitch(e.target.value)
         }
     }
-
+    
     const handleCmdYawChange = (e: any) => {
         if (checkSyntax(e.target.value)) {
             setCmdYaw(e.target.value)
         }
     }
-
+    
     const handleCmdFrameChange = (e: any) => {
         setCurrentMissionName(e.target.value as string);
         if(e.target.value === frame0.value || e.target.value === "None"){
@@ -108,19 +136,19 @@ const Waypoints = () => {
             setCmdFrame('3')
         } 
     }
-
+    
     const handleCmdSpeedChange = (e: any) => {
         if (checkSyntax(e.target.value)) {
             setCmdSpeed(e.target.value)
         }
     }
-
+    
     const handleCmdFineChange = (e: any) => {
         if (checkSyntax(e.target.value)) {
             setCmdFine(e.target.value)
         }
     }
-
+    
     const handleCmdMethodChange = (e: any) => {
         setCurrentMethodName(e.target.value as string);
         if(e.target.value === method0.value || e.target.value === "None"){
@@ -140,7 +168,7 @@ const Waypoints = () => {
         var xVal = !isNaN(parseFloat(cmdX)) ? parseFloat(cmdX) : parseFloat('0.0');
         var yVal = !isNaN(parseFloat(cmdY)) ? parseFloat(cmdY) : parseFloat('0.0');
         var zVal = !isNaN(parseFloat(cmdZ)) ? parseFloat(cmdZ) : parseFloat('0.0');
-        if(zVal > 3.0){ z_axis_problem = true; }
+        var zPose = !isNaN(parseFloat(positionZ)) ? parseFloat(positionZ) : parseFloat('0.0');
         var rollVal = !isNaN(parseFloat(cmdRoll)) ? parseFloat(cmdRoll) : parseFloat('0.0');
         var pitchVal = !isNaN(parseFloat(cmdPitch)) ? parseFloat(cmdPitch) : parseFloat('0.0');
         var yawVal = !isNaN(parseFloat(cmdYaw)) ? parseFloat(cmdYaw) : parseFloat('0.0');
@@ -148,8 +176,17 @@ const Waypoints = () => {
         var speedVal = !isNaN(parseInt(cmdSpeed)) ? parseInt(cmdSpeed) : parseInt('0');
         var fineVal = !isNaN(parseFloat(cmdFine)) ? parseFloat(cmdFine) : parseFloat('0.0');
         var methodVal = !isNaN(parseInt(cmdMethod)) ? parseInt(cmdMethod) : parseInt('0');
+        if(methodVal === 0 || methodVal === 2)
+        {
+            if(zVal > 4){ z_axis_problem = true; }
+        }
+        else
+        {
+            if(zVal + zPose > 4.0){ z_axis_problem = true; }
+        }
+
         if(z_axis_problem){
-            alert("Depth too high.");
+            alert("Depth too low");
         }
         else{
             if(currentModeId === 11){
@@ -170,7 +207,6 @@ const Waypoints = () => {
                         fine: fineVal,
                         rotation: isRotationMode
                     });
-                    console.log(toPublish);
                     sendSingleAddPosePublisher(toPublish);
                     resetCommands();
                 }
@@ -202,41 +238,39 @@ const Waypoints = () => {
             }
         }
     }
-
-     const resetCommands = () => {
-         setCmdX('0.00');
-         setCmdY('0.00');
-         setCmdZ('0.00');
-         setCmdRoll('0.00');
-         setCmdPitch('0.00');
-         setCmdYaw('0.00');
-         setCmdSpeed('0');
-         setCmdFine('0.00');
-     }
-
+    
+    const resetCommands = () => {
+        setCmdX('0.00');
+        setCmdY('0.00');
+        setCmdZ('0.00');
+        setCmdRoll('0.00');
+        setCmdPitch('0.00');
+        setCmdYaw('0.00');
+        if(currentModeId === 10)
+        {
+            setCmdSpeed('0');
+        }
+        else
+        {
+            setCmdSpeed('5')
+        }
+        setCmdFine('0.00');
+    }
+    
     const resetTrajectory = () => {
         var toPublish = MessageFactory({
             data: true
         })
         resetTrajectoryPublisher(toPublish);
     }
-    
+        
     const setInitialPositionHandler = () => {
-        var toPublish = MessageFactory({
-            position:{
-                x: 0.0,
-                y: 0.0,
-                z: 0.0
-            },
-            orientation:{
-                x: 0.0,
-                y: 0.0,
-                z: 0.0,
-                w: 1.0
-            }
-        });
-        setInitialPositionPublisher(toPublish)
+        // TODO: process.env.REACT_APP_LOCAL_AUV
+        var request = ServiceRequestFactory({ object_name: 'AUV8' });
+        topicServiceCall(request)
     }
+    
+
 
     return (
         <GeneralContext.Consumer>
@@ -278,7 +312,7 @@ const Waypoints = () => {
                             listValue={allFrames} >
                         </Select>
                     </FormControl><br></br>
-                    <FormControl disabled={currentModeId === 10 ? false : true} >
+                    <FormControl disabled={currentModeId === 10} >
                         <InputLabel id="select-outlined-label">Method</InputLabel>
                         <Select
                             labelId="select-outlined-label"

@@ -424,7 +424,7 @@ const VisionUIFilterModule = () => {
         setExecutionFilterSelected(value);
 
         // When selection changed send information about what filter currently observed and get parameters for this filter
-        var request = ServiceRequestFactory({ execution: executionSelected, filterchain: executionFilterChain, filter: value });
+        var request = ServiceRequestFactory({ exec_name: executionSelected, filterchain: executionFilterChain, filter: value });
         filterChainFilterObserverServiceCall(request)
 
         setTimeout(() => {

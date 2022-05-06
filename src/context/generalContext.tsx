@@ -76,14 +76,12 @@ const defaultModules: ActiveModules = {
 
 export type GeneralContextType = {
   isDarkMode: boolean;
-  isDryRunMode: boolean;
   isRelativeUnits: boolean;
   isRoboticArmClosed: boolean;
   isWayPointVelocityMode: boolean;
   activeModules: ActiveModules;
 
   setIsDarkMode: (units: boolean) => void;
-  setIsDryRunMode: (mode: boolean) => void;
   setIsRelativeUnits: (units: boolean) => void;
   setIsRoboticArmClosed: (units: boolean) => void;
   setIsWayPointVelocityMode: (units: boolean) => void;
@@ -95,13 +93,11 @@ export type GeneralContextType = {
 
 export const GeneralContext = createContext<GeneralContextType>({
   isDarkMode: true,
-  isDryRunMode: false,
   isRelativeUnits: false,
   isRoboticArmClosed: false,
   isWayPointVelocityMode: false,
   activeModules: defaultModules,
   setIsDarkMode: (units) => {},
-  setIsDryRunMode: (mode) => {},
   setIsRelativeUnits: (units) => {},
   setIsRoboticArmClosed: (value) => {},
   setIsWayPointVelocityMode: (value) => {},

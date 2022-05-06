@@ -39,6 +39,9 @@ const ToolbarModule = (props: any) => {
     // battery 1 is store in data[8] and battery 2 is stored in data[9]
     let bat1 = parseFloat(x.data[8]).toFixed(2);
     let bat2 = parseFloat(x.data[9]).toFixed(2);
+    if(parseFloat(bat1) < 14.8 || parseFloat(bat2) < 14.8){
+      alert("Battery low.");
+    }
     setbatteryLevel1(bat1);
     setbatteryLevel2(bat2);
   }, []);
@@ -48,41 +51,24 @@ const ToolbarModule = (props: any) => {
     setTemp(temp);
   }, []);
 
-  const toolbarServicesCall = useROSService<any>(
-    toolbarServiceCallback,
-    '/proc_control/EnableControl',
-    'sonia_common/EnableControl'
-  );
-  const startStopCameraCall = useROSService<any>(
-    toolbarServiceCallback,
-    '/provider_vision/StarStopCamera',
-    'sonia_common/StartStopMedia'
-  );
-  useROSTopicSubscriber<any>(
-    batteryLevelCallback,
-    '/provider_power/voltage',
-    'std_msgs/Float64MultiArray'
-  );
-  useROSTopicSubscriber<any>(
-    killSwitchCallback,
-    '/provider_kill_mission/kill_switch_msg',
-    'std_msgs/Bool'
-  );
-  useROSTopicSubscriber<any>(
-    missionSwitchCallback,
-    '/provider_kill_mission/mission_switch_msg',
-    'std_msgs/Bool'
-  );
+  const leakSensorCallback = (x: any) => {
+    if(x.data){
+      alert("Leak detected.");
+    }
+  }
+
+  const toolbarServicesCall = useROSService<any>(toolbarServiceCallback, '/proc_control/EnableControl', 'sonia_common/EnableControl');
+  const startStopCameraCall = useROSService<any>(toolbarServiceCallback, '/provider_vision/StarStopCamera', 'sonia_common/StartStopMedia');
+  useROSTopicSubscriber<any>(batteryLevelCallback, '/provider_power/voltage', 'std_msgs/Float64MultiArray');
+  useROSTopicSubscriber<any>(killSwitchCallback, '/provider_kill_mission/kill_switch_msg', 'std_msgs/Bool');
+  useROSTopicSubscriber<any>(missionSwitchCallback,'/provider_kill_mission/mission_switch_msg','std_msgs/Bool');
   //useROSTopicSubscriber<any>(
   //  AUV7Callback,
   //  '/provider_system/system_temperature',
   //  'sensor_msgs/Temperature'
   //  );
-    useROSTopicSubscriber<any>(
-      tempCallback,
-    '/provider_system/system_temperature',
-    'sensor_msgs/Temperature'
-  );
+  useROSTopicSubscriber<any>(tempCallback, '/provider_system/system_temperature', 'sensor_msgs/Temperature');
+  useROSTopicSubscriber<any>(leakSensorCallback, '/provider_dvl/dvl_leak_sensor', 'std_msgs/Bool');
 
   let handleStartFrontCameraClicked = () => {
     const request = ServiceRequestFactory({

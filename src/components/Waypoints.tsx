@@ -45,7 +45,7 @@ const Waypoints = () => {
     const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose", false);
     const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose", true);
     const sendMultipleAddPosePublisher = useROSTopicPublisher<any>("/proc_planner/send_multi_addpose", "sonia_common/MultiAddPose", true);
-    const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_traj", "std_msgs/Bool", false);
+    const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_trajectory", "std_msgs/Bool", false);
     
     const getPoseCallback = (pose: any) => {
         var toPublish = MessageFactory({

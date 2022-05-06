@@ -39,6 +39,9 @@ const ToolbarModule = (props: any) => {
     // battery 1 is store in data[8] and battery 2 is stored in data[9]
     let bat1 = parseFloat(x.data[8]).toFixed(2);
     let bat2 = parseFloat(x.data[9]).toFixed(2);
+    if(parseFloat(bat1) < 14.8 || parseFloat(bat2) < 14.8){
+      alert("Battery low.");
+    }
     setbatteryLevel1(bat1);
     setbatteryLevel2(bat2);
   }, []);
@@ -48,113 +51,24 @@ const ToolbarModule = (props: any) => {
     setTemp(temp);
   }, []);
 
-  const toolbarServicesCall = useROSService<any>(
-    toolbarServiceCallback,
-    '/proc_control/EnableControl',
-    'sonia_common/EnableControl'
-  );
-  const startStopCameraCall = useROSService<any>(
-    toolbarServiceCallback,
-    '/provider_vision/StarStopCamera',
-    'sonia_common/StartStopMedia'
-  );
-  useROSTopicSubscriber<any>(
-    batteryLevelCallback,
-    '/provider_power/voltage',
-    'std_msgs/Float64MultiArray'
-  );
-  useROSTopicSubscriber<any>(
-    killSwitchCallback,
-    '/provider_kill_mission/kill_switch_msg',
-    'std_msgs/Bool'
-  );
-  useROSTopicSubscriber<any>(
-    missionSwitchCallback,
-    '/provider_kill_mission/mission_switch_msg',
-    'std_msgs/Bool'
-  );
+  const leakSensorCallback = (x: any) => {
+    if(x.data){
+      alert("Leak detected.");
+    }
+  }
+
+  const toolbarServicesCall = useROSService<any>(toolbarServiceCallback, '/proc_control/EnableControl', 'sonia_common/EnableControl');
+  const startStopCameraCall = useROSService<any>(toolbarServiceCallback, '/provider_vision/StarStopCamera', 'sonia_common/StartStopMedia');
+  useROSTopicSubscriber<any>(batteryLevelCallback, '/provider_power/voltage', 'std_msgs/Float64MultiArray');
+  useROSTopicSubscriber<any>(killSwitchCallback, '/provider_kill_mission/kill_switch_msg', 'std_msgs/Bool');
+  useROSTopicSubscriber<any>(missionSwitchCallback,'/provider_kill_mission/mission_switch_msg','std_msgs/Bool');
   //useROSTopicSubscriber<any>(
   //  AUV7Callback,
   //  '/provider_system/system_temperature',
   //  'sensor_msgs/Temperature'
   //  );
-    useROSTopicSubscriber<any>(
-      tempCallback,
-    '/provider_system/system_temperature',
-    'sensor_msgs/Temperature'
-  );
-
-  let handleAllAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: 1,
-      Y: 1,
-      Z: 1,
-      PITCH: 1,
-      ROLL: 1,
-      YAW: 1,
-    });
-    toolbarServicesCall(request);
-  };
-
-  let handleXYAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: 1,
-      Y: 1,
-      Z: -1,
-      PITCH: -1,
-      ROLL: -1,
-      YAW: -1,
-    });
-    toolbarServicesCall(request);
-  };
-
-  let handleDepthAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: -1,
-      Y: -1,
-      Z: 1,
-      PITCH: -1,
-      ROLL: -1,
-      YAW: -1,
-    });
-    toolbarServicesCall(request);
-  };
-
-  let handleRollAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: -1,
-      Y: -1,
-      Z: -1,
-      PITCH: -1,
-      ROLL: 1,
-      YAW: -1,
-    });
-    toolbarServicesCall(request);
-  };
-
-  let handleYawAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: -1,
-      Y: -1,
-      Z: -1,
-      PITCH: -1,
-      ROLL: -1,
-      YAW: 1,
-    });
-    toolbarServicesCall(request);
-  };
-
-  let handlePitchAxisClicked = () => {
-    const request = ServiceRequestFactory({
-      X: -1,
-      Y: -1,
-      Z: -1,
-      PITCH: 1,
-      ROLL: -1,
-      YAW: -1,
-    });
-    toolbarServicesCall(request);
-  };
+  useROSTopicSubscriber<any>(tempCallback, '/provider_system/system_temperature', 'sensor_msgs/Temperature');
+  useROSTopicSubscriber<any>(leakSensorCallback, '/provider_dvl/dvl_leak_sensor', 'std_msgs/Bool');
 
   let handleStartFrontCameraClicked = () => {
     const request = ServiceRequestFactory({
@@ -179,32 +93,6 @@ const ToolbarModule = (props: any) => {
           <MenuModule />
         </IconButton>
         <Button label="Open modules" handler={props.handleShowSidebar} />
-        <Button label="All" handler={handleAllAxisClicked} />
-        <Button
-          label="XY"
-          style={{ margin: '15px' }}
-          handler={handleXYAxisClicked}
-        />
-        <Button
-          label="Depth"
-          style={{ margin: '15px' }}
-          handler={handleDepthAxisClicked}
-        />
-        <Button
-          label="Roll"
-          style={{ margin: '15px' }}
-          handler={handleRollAxisClicked}
-        />
-        <Button
-          label="Pitch"
-          style={{ margin: '15px' }}
-          handler={handlePitchAxisClicked}
-        />
-        <Button
-          label="Yaw"
-          style={{ margin: '15px' }}
-          handler={handleYawAxisClicked}
-        />
         <Button
           label="Start front"
           style={{ margin: '15px', backgroundColor: 'black', color: 'red' }}

@@ -4,7 +4,8 @@ import { RosContext } from "../context/rosContext";
 
 export const useROSTopicPublisher = <F>(
   name: string,
-  messageType: string
+  messageType: string,
+  latch: boolean,
 ) => {
   const ros = useContext(RosContext);
   const [topic, setTopic] = useState<ROSLIB.Topic | null>(null);
@@ -16,6 +17,7 @@ export const useROSTopicPublisher = <F>(
         name,
         messageType,
         throttle_rate: 1000,
+        latch: latch,
       })
     );
   }, [ros]);

@@ -4,9 +4,11 @@ import Button from '../common/button/Button';
 import Grid from '../common/grid/Grid';
 import {GeneralContext} from "../../context/generalContext";
 import { useROSTopicPublisher, MessageFactory } from "../../hooks/useROSTopicPublisher";
+import { useROSTopicSubscriber } from '../../hooks/useROSTopicSubscriber';
 
 const SetPwmModule = () => {
     const [pwms, setPwms] = useState([1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500]);
+    const [isDryRunMode, setIsDryRunMode] = useState(true);
     
     // Set new value for the PWM.
     const setPwm = (index:any, value:any) => {
@@ -52,7 +54,13 @@ const SetPwmModule = () => {
         }  
     }
 
-    const pwmMsgPublisher = useROSTopicPublisher("/provider_thruster/thruster_pwm", "/std_msgs/UInt16MultiArray");
+    const dryRunCallback = (x: any) => {
+        setIsDryRunMode(x.data);
+    }
+
+    const pwmMsgPublisher = useROSTopicPublisher("/provider_thruster/thruster_pwm", "/std_msgs/UInt16MultiArray", false);
+
+    useROSTopicSubscriber(dryRunCallback, "/telemetry/dry_run", "/std_msgs/Bool");
 
     return (
         <GeneralContext.Consumer>
@@ -65,7 +73,7 @@ const SetPwmModule = () => {
                             <TextField label=""
                                     style={{ fontSize: '8px' }}
                                     value= {pwms[0]} 
-                                    disabled={ context.isDryRunMode} 
+                                    disabled={!isDryRunMode} 
                                     handlerChange={(event) => {setPwm(0, event.target.value)}}
                                     handlerKeyDown={()=>{}}/>
                         </Grid>
@@ -74,7 +82,7 @@ const SetPwmModule = () => {
                             <TextField label="" 
                                     style={{ fontSize: '8px' }}
                                     value={pwms[4]} 
-                                    disabled={ context.isDryRunMode}
+                                    disabled={!isDryRunMode}
                                     handlerChange={(event) => {setPwm(4, event.target.value)}}
                                     handlerKeyDown={()=>{}}/>
                         </Grid>
@@ -83,7 +91,7 @@ const SetPwmModule = () => {
                             <TextField label=""  
                                     style={{ fontSize: '8px' }}
                                     value={pwms[1]} 
-                                    disabled={ context.isDryRunMode}
+                                    disabled={!isDryRunMode}
                                     handlerChange={(event) => {setPwm(1, event.target.value)}}
                                     handlerKeyDown={()=>{}}/>
                         </Grid>
@@ -92,7 +100,7 @@ const SetPwmModule = () => {
                             <TextField label="" 
                                     style={{ fontSize: '8px' }}
                                     value={pwms[5]} 
-                                    disabled={ context.isDryRunMode}
+                                    disabled={!isDryRunMode}
                                     handlerChange={(event) => {setPwm(5, event.target.value)}}
                                     handlerKeyDown={()=>{}}/>
                         </Grid>
@@ -101,7 +109,7 @@ const SetPwmModule = () => {
                             <TextField label=""  
                                     style={{ fontSize: '8px' }}
                                     value={pwms[2]} 
-                                    disabled={ context.isDryRunMode}
+                                    disabled={!isDryRunMode}
                                     handlerChange={(event) => {setPwm(2, event.target.value)}}
                                     handlerKeyDown={()=>{}}/>
                         </Grid>
@@ -110,7 +118,7 @@ const SetPwmModule = () => {
                             <TextField label=""  
                                     style={{ fontSize: '8px' }}
                                     value={pwms[6]} 
-                                    disabled={ context.isDryRunMode}
+                                    disabled={!isDryRunMode}
                                     handlerChange={(event) => {setPwm(6, event.target.value)}}
                                     handlerKeyDown={()=>{}}/>
                         </Grid>
@@ -119,7 +127,7 @@ const SetPwmModule = () => {
                             <TextField label="" 
                                     style={{ fontSize: '8px' }}
                                     value={pwms[3]} 
-                                    disabled={ context.isDryRunMode}
+                                    disabled={!isDryRunMode}
                                     handlerChange={(event) => {setPwm(3, event.target.value)}}
                                     handlerKeyDown={()=>{}}/>
                         </Grid>
@@ -128,14 +136,14 @@ const SetPwmModule = () => {
                             <TextField label="" 
                                     style={{ fontSize: '8px' }}
                                     value={pwms[7]} 
-                                    disabled={ context.isDryRunMode}
+                                    disabled={!isDryRunMode}
                                     handlerChange={(event) => {setPwm(7, event.target.value)}}
                                     handlerKeyDown={()=>{}}/>
                         </Grid>
                         <Grid item xs={12}>
-                        <Button disabled={ context.isDryRunMode} style={{ width: '300px', fontSize: '11px' }} label="Set PWM" handler={sendPwms}/>
-                        <Button disabled={ context.isDryRunMode} style={{ width: '300px', marginTop: '10px', fontSize: '11px' }} label="Reset PWM" handler={resetPwms}/>
-                        <Button disabled={ context.isDryRunMode} style={{ width: '300px', marginTop: '10px', fontSize: '11px' }} label="Reset Entries" handler={resetValues}/>
+                        <Button disabled={!isDryRunMode} style={{ width: '300px', fontSize: '11px' }} label="Set PWM" handler={sendPwms}/>
+                        <Button disabled={!isDryRunMode} style={{ width: '300px', marginTop: '10px', fontSize: '11px' }} label="Reset PWM" handler={resetPwms}/>
+                        <Button disabled={!isDryRunMode} style={{ width: '300px', marginTop: '10px', fontSize: '11px' }} label="Reset Entries" handler={resetValues}/>
                         </Grid>
                     </Grid>                    
                 </div>

@@ -69,7 +69,7 @@ const ThrustersModule = () => {
                               minMark={-50}
                               maxMark={50}
                               step={25}
-                              thumbEnabled={!context.isDryRunMode}
+                              thumbEnabled={false}
                     />                           
                     <Thruster key={2}
                               effort={thruster2}
@@ -78,7 +78,7 @@ const ThrustersModule = () => {
                               minMark={-50}
                               maxMark={50}
                               step={25}
-                              thumbEnabled={!context.isDryRunMode}
+                              thumbEnabled={false}
                     />    
                     <Thruster key={3}
                               effort={thruster3}
@@ -87,7 +87,7 @@ const ThrustersModule = () => {
                               minMark={-50}
                               maxMark={50}
                               step={25}
-                              thumbEnabled={!context.isDryRunMode}
+                              thumbEnabled={false}
                     />
                     <Thruster key={4}
                               effort={thruster4}
@@ -96,7 +96,7 @@ const ThrustersModule = () => {
                               minMark={-50}
                               maxMark={50}
                               step={25}
-                              thumbEnabled={!context.isDryRunMode}
+                              thumbEnabled={false}
                     />
                     <Thruster key={5}
                               effort={thruster5}
@@ -105,7 +105,7 @@ const ThrustersModule = () => {
                               minMark={-50}
                               maxMark={50}
                               step={25}
-                              thumbEnabled={!context.isDryRunMode}
+                              thumbEnabled={false}
                     />
                     <Thruster key={6}
                               effort={thruster6}
@@ -114,7 +114,7 @@ const ThrustersModule = () => {
                               minMark={-50}
                               maxMark={50}
                               step={25}
-                              thumbEnabled={!context.isDryRunMode}
+                              thumbEnabled={false}
                     />
                     <Thruster key={7}
                               effort={thruster7}
@@ -123,7 +123,7 @@ const ThrustersModule = () => {
                               minMark={-50}
                               maxMark={50}
                               step={25}
-                              thumbEnabled={!context.isDryRunMode}
+                              thumbEnabled={false}
                     />
                     <Thruster key={8}
                               effort={thruster8}
@@ -132,7 +132,7 @@ const ThrustersModule = () => {
                               minMark={-50}
                               maxMark={50}
                               step={25}
-                              thumbEnabled={!context.isDryRunMode}
+                              thumbEnabled={false}
                     />
                     </div>
             )}

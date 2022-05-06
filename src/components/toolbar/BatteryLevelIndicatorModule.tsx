@@ -22,7 +22,7 @@ export const BatterieLevelIndicator = (props: any) => {
                 <BatterieSlider
                     orientation="horizontal"
                     value={props.value}
-                    min={15.2}
+                    min={14.2}
                     max={16.8}
                     disabled={true}
                 />

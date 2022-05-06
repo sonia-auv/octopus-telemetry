@@ -41,11 +41,11 @@ const Waypoints = () => {
     const [cmdFine, setCmdFine] = useState('0.00');
     const [cmdMethod, setCmdMethod] = useState('0');
     const [positionZ, setPositionZ] = useState('0.00');
-    
-    const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose");
-    const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose");
-    const sendMultipleAddPosePublisher = useROSTopicPublisher<any>("/proc_planner/send_multi_addpose", "sonia_common/MultiAddPose");
-    const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_trajectory", "std_msgs/Bool");
+
+    const setInitialPositionPublisher = useROSTopicPublisher<any>("/proc_simulation/start_simulation", "geometry_msgs/Pose", false);
+    const sendSingleAddPosePublisher = useROSTopicPublisher<any>("/proc_control/add_pose", "sonia_common/AddPose", true);
+    const sendMultipleAddPosePublisher = useROSTopicPublisher<any>("/proc_planner/send_multi_addpose", "sonia_common/MultiAddPose", true);
+    const resetTrajectoryPublisher = useROSTopicPublisher<any>("/proc_control/reset_trajectory", "std_msgs/Bool", false);
     
     const getPoseCallback = (pose: any) => {
         var toPublish = MessageFactory({
@@ -81,7 +81,6 @@ const Waypoints = () => {
     const auvPositionCallback = (x:any) => {
         setPositionZ(x.pose.pose.position.z.toFixed(2));
     }
-
 
     useROSTopicSubscriber<any>(auvPositionCallback, "/telemetry/auv_states", "nav_msgs/Odometry");
     

@@ -34,7 +34,7 @@ docker build . -t octopus-ui:latest
 # -it : interactive mode
 # -p HOST:CONTAINER : exposes the port of the container to the host's port
 # -e REACT_APP_BRIDGE_IP=localhost : set the ip for connection to rosbridge
-docker run -it -e REACT_APP_BRIDGE_IP=localhost -p 3001:3000 octopus-ui:latest
+docker run -it -e REACT_APP_BRIDGE_IP=localhost -e REACT_APP_AUV=LOCAL -p 3001:3000 octopus-ui:latest
 ```
 
 You should see the app at [http://localhost:3001](http://localhost:3001)

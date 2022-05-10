@@ -167,7 +167,19 @@ const ControlModule = () => {
     }
     
     const depthTare = () => {
-        depthTareServiceCall({});
+        if (process.env.REACT_APP_AUV === 'AUV7'){
+            var toPublish;
+            toPublish = MessageFactory({
+                data: true,
+            })
+            console.log(process.env.REACT_APP_AUV);
+            auv7TarePublisher(toPublish); 
+        }
+        else if(process.env.REACT_APP_AUV === 'AUV8'){
+            depthTareServiceCall({});
+            console.log(process.env.REACT_APP_AUV);
+        }
+        
     }
 
     const depthTareCallback = (x: any) => {
@@ -184,6 +196,7 @@ const ControlModule = () => {
         return str;
     }
 
+    const auv7TarePublisher = useROSTopicPublisher<any>("/provider_dvl/setDepthOffset", "std_msgs/Bool", false);
     const setModePublisher = useROSTopicPublisher<any>("/proc_control/set_mode", "std_msgs/UInt8", false);
     const setDVLStartedPublisher = useROSTopicPublisher<any>("/provider_dvl/enable_disable_ping", "std_msgs/Bool", true);
     const imuTareServiceCall = useROSService<any>(imuTareCallback, "/provider_imu/tare", "std_srvs/Empty")

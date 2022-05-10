@@ -20,7 +20,8 @@ npm install --legacy-peer-deps
 
 ```bash
 # REACT_APP_BRIDGE_IP=localhost : set the ip for connection to rosbridge
-export  REACT_APP_BRIDGE_IP=localhost
+export REACT_APP_AUV=LOCAL
+export REACT_APP_BRIDGE_IP=localhost
 npm run start
 ```
 

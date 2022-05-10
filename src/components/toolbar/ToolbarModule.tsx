@@ -103,7 +103,7 @@ const ToolbarModule = (props: any) => {
           style={{ margin: '15px', backgroundColor: 'black', color: 'red' }}
           handler={handleStartBottomCameraClicked}
         />
-        <LabelAndValueModule label="AUV8" value={temp} unit="°C" />
+        <LabelAndValueModule label={process.env.REACT_APP_AUV} value={temp} unit="°C" />
         <BatterieLevelIndicator
           value={batteryLevel1}
           label="Batterie 1"

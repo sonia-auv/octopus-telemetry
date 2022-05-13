@@ -29,9 +29,9 @@ const modeButtonStyle = {
 
 const modeSelectedColor = 'gray';
 const modeDefaultColor = 'white';
-const redColor = '#FF0000';
-const greenColor = '#00DB00';
-const orangeColor = '#FF7100';
+const redColor = '#F21D12';
+const greenColor = '#17C40E';
+const orangeColor = '#F28712';
 
 const ControlModule = () => {
 

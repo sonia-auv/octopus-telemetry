@@ -29,9 +29,9 @@ const modeButtonStyle = {
 
 const modeSelectedColor = 'gray';
 const modeDefaultColor = 'white';
-const redColor = '#FF0000';
-const greenColor = '#00DB00';
-const orangeColor = '#FF7100';
+const redColor = '#F21D12';
+const greenColor = '#17C40E';
+const orangeColor = '#F28712';
 
 const ControlModule = () => {
 
@@ -44,6 +44,9 @@ const ControlModule = () => {
 
     const [dvlStatusBkgColor, setDvlStatusBkgColor] = useState<string>(greenColor);
     const [dvlStarted, setDvlStarted] = useState<boolean>(true);
+
+    const [sonarStatusBkgColor, setSonarStatusBkgColor] = useState<string>(greenColor);
+    const [sonarStarted, setSonarStarted] = useState<boolean>(true);
 
     const [currentModeId, setCurrentModeId] = useState<Number>(0);
     
@@ -80,6 +83,22 @@ const ControlModule = () => {
                 data: true,
             })
             setDVLStartedPublisher(toPublish);
+        }
+    }
+
+    const startStopSonar = () => {
+        var toPublish
+        if(sonarStarted){
+            toPublish = MessageFactory({
+                data: false,
+            })
+            setSonarStartedPublisher(toPublish); 
+        }
+        else{
+            toPublish = MessageFactory({
+                data: true,
+            })
+            setSonarStartedPublisher(toPublish);
         }
     }
 
@@ -129,6 +148,18 @@ const ControlModule = () => {
         else{   
             setDvlStatusBkgColor(redColor);
             setDvlStarted(false);
+        }
+    }
+
+    const sonarStatusCallback = (x: any) => {
+        let data : boolean = x.data;
+        if( data ){
+            setSonarStatusBkgColor(greenColor);
+            setSonarStarted(true);
+        }
+        else{   
+            setSonarStarted(false);
+            setSonarStatusBkgColor(redColor);
         }
     }
 
@@ -199,11 +230,13 @@ const ControlModule = () => {
     const auv7TarePublisher = useROSTopicPublisher<any>("/provider_dvl/setDepthOffset", "std_msgs/Bool", false);
     const setModePublisher = useROSTopicPublisher<any>("/proc_control/set_mode", "std_msgs/UInt8", false);
     const setDVLStartedPublisher = useROSTopicPublisher<any>("/provider_dvl/enable_disable_ping", "std_msgs/Bool", true);
+    const setSonarStartedPublisher = useROSTopicPublisher<any>("/provider_sonar/enable_disable_ping", "std_msgs/Bool", true);
     const imuTareServiceCall = useROSService<any>(imuTareCallback, "/provider_imu/tare", "std_srvs/Empty")
     const depthTareServiceCall = useROSService<any>(depthTareCallback, "/provider_depth/tare", "std_srvs/Empty")
 
     useROSTopicSubscriber<any>(sensorOnCallback, "/proc_control/sensor_on", "std_msgs/Bool");
     useROSTopicSubscriber<any>(dvlStatusCallback, "/provider_dvl/enable_disable_ping", "std_msgs/Bool");
+    useROSTopicSubscriber<any>(sonarStatusCallback, "/provider_sonar/enable_disable_ping", "std_msgs/Bool");
 
     // New mpc info message.
     useROSTopicSubscriber<any>(setMpcInfo, "/proc_control/controller_info", "sonia_common/MpcInfo");
@@ -290,6 +323,15 @@ const ControlModule = () => {
                                     style={Object.assign({}, disabledButtonStyle)} 
                                     handler={() => {depthTare()}} label="Depth"/>
                         </div> 
+                        <h1 style={{ fontSize: '15px', textAlign: 'center' }}>Sonar</h1> 
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginBottom: '15px'}}>
+                            <Button disabled={true} 
+                                    style={Object.assign({backgroundColor: sonarStatusBkgColor}, disabledButtonStyle)}
+                                    handler={() => {}} label="Sonar Status"/>
+                            <Button disabled={false} 
+                                    style={Object.assign({}, disabledButtonStyle)} 
+                                    handler={ startStopSonar } label={sonarStarted ? "Stop SONAR" : "Start SONAR" }/>
+                        </div>
                     </span>
                 </div> 
                 <div style={{ marginLeft: '10px', marginRight: '10px', border: '1px solid lightgray' }}>
